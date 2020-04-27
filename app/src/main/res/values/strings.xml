@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">At Home</string>
+    <string name="bill">관리비</string>
+    <string name="parking">주차장</string>
+    <string name="community">커뮤니티</string>
+    <string name="notice">공지사항</string>
+    <string name="menu">메뉴</string>
+    <string name="search">검색</string>
+
+    <string name="text_sign_up">회원가입</string>
+    <string name="hint_sign_id">아이디를 입력해주세요</string>
+    <string name="hint_sign_pass">비밀번호를 입력해주세요</string>
+    <string name="hint_sign_name">이름(실명)을 입력해주세요</string>
+    <string name="hint_sign_email">E-mail</string>
+    <string name="hint_sign_phone">휴대폰 번호를 입력해주세요</string>
+
+    <string name="hint_id">아이디를 입력하세요</string>
+    <string name="hint_password">비밀번호를 입력하세요</string>
+    <string name="hint_name">성명을 입력하세요</string>
+    <string name="hint_mobileNO">휴대폰번호를 입력하세요</string>
+    <string name="hint_email">이메일을 입력하세요</string>
+    <string name="btn_login">로그인</string>
+    <string name="btn_register">회원가입</string>
+    <string name="btn_logout">로그아웃</string>
+    <string name="btn_check">확인</string>
+    <string name="btn_findID">아이디 찾기</string>
+    <string name="btn_findpw">비밀번호 찾기</string>
+    <string name="separator">|</string>
+    <string name="title_activity_register">register</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+
+</resources>
