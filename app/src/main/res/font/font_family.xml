@@ -3,6 +3,11 @@
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/dreamgothic" />
+        android:font="@font/dreamgothic7" />
+
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="400"
+        android:font="@font/dreamgothic3" />
 
 </font-family>

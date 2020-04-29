@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
                     String loginResult = user.login(); //로그인이 일어나는 부분임
                     if (loginResult.equals("success")) {
                         Toast.makeText(getApplicationContext(), userId + "로 로그인 성공", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), com.example.athome.main.MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         startActivity(intent);
                     }

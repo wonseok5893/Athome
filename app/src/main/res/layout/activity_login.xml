@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/edit_border"
-            android:fontFamily="@font/dreamgothic"
+            android:fontFamily="@font/dreamgothic7"
             android:hint="@string/hint_id"
             android:inputType="textCapWords"
             android:padding="10dp"
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/edit_border"
-            android:fontFamily="@font/dreamgothic"
+            android:fontFamily="@font/dreamgothic7"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
             android:padding="10dp"
@@ -88,7 +88,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/edit_border2"
-            android:fontFamily="@font/dreamgothic"
+            android:fontFamily="@font/dreamgothic7"
             android:text="@string/btn_login"
             android:textColor="@color/white" />
 
@@ -109,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#00ff0000"
-            android:fontFamily="@font/dreamgothic"
+            android:fontFamily="@font/dreamgothic7"
             android:text="@string/btn_findID"
             android:textColor="@color/input_register_hint"
             android:textSize="10sp" />
@@ -120,7 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#00ff0000"
-            android:fontFamily="@font/dreamgothic"
+            android:fontFamily="@font/dreamgothic7"
             android:text="@string/separator"
             android:textColor="@color/input_register_hint"
             android:textSize="10sp" />
@@ -131,7 +131,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#00ff0000"
-            android:fontFamily="@font/dreamgothic"
+            android:fontFamily="@font/dreamgothic7"
             android:text="@string/btn_findpw"
             android:textColor="@color/input_register_hint"
             android:textSize="10sp" />
@@ -142,7 +142,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#00ff0000"
-            android:fontFamily="@font/dreamgothic"
+            android:fontFamily="@font/dreamgothic7"
             android:text="@string/separator"
             android:textColor="@color/input_register_hint"
             android:textSize="10sp" />
@@ -153,7 +153,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#00ff0000"
-            android:fontFamily="@font/dreamgothic"
+            android:fontFamily="@font/dreamgothic7"
             android:text="@string/btn_register"
             android:textColor="@color/input_register_hint"
             android:textSize="10sp" />

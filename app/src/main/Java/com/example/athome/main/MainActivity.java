@@ -1,4 +1,4 @@
-package com.example.athome;
+package com.example.athome.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,13 +15,20 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.athome.LoginActivity;
+import com.example.athome.R;
+import com.example.athome.LoginActivity;
+import com.example.athome.notice.NoticeActivity;
+import com.example.athome.reservation_list.ReservListActivity;
 import com.google.android.material.navigation.NavigationView;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+
 
     private DrawerLayout mDrawerLayout;
     private Context context = this;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        //상단바 설정
         Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(tb);
         ActionBar actionBar = getSupportActionBar();
@@ -36,32 +44,16 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setHomeAsUpIndicator(R.drawable.menu);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        //전체화면 설정
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        //네비게이션화면설정
         NavigationView navigationView = (NavigationView) findViewById(R.id.navi_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                menuItem.setChecked(true);
-                mDrawerLayout.closeDrawers();
+        navigationView.setNavigationItemSelectedListener(this);//리스너설정
 
-                int id = menuItem.getItemId();
-                String title = menuItem.getTitle().toString();
-                if (id == R.id.notice) {
-                    Toast.makeText(getApplicationContext(), "공지사항", Toast.LENGTH_LONG).show(); //Intent 처리부분
-                } else if (id == R.id.reserinfo) {
-                    Toast.makeText(getApplicationContext(), "예약내역", Toast.LENGTH_LONG).show();
-                } else if (id == R.id.payment) {
-                    Toast.makeText(getApplicationContext(), "결제,충전,적립", Toast.LENGTH_LONG).show();
-                } else if (id == R.id.account) {
-                    Toast.makeText(getApplicationContext(), "계정관리", Toast.LENGTH_LONG).show();
-                } else if (id == R.id.setting) {
-                    Toast.makeText(getApplicationContext(), "환경설정", Toast.LENGTH_LONG).show();
-                }
-                return true;
-            }
 
-        });
     }
+
 
     @Override
     public  boolean onCreateOptionsMenu(Menu menu){
@@ -87,6 +79,39 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        menuItem.setChecked(true);
+
+        int id = menuItem.getItemId();
+        String title = menuItem.getTitle().toString();
+        if (id == R.id.notice) {
+            Intent intent = new Intent(getApplicationContext(), NoticeActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);//화면전환시효과
+        }
+        else if (id == R.id.reserinfo) {
+            Intent intent = new Intent(getApplicationContext(), ReservListActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
+        }
+        else if (id == R.id.payment) {
+            Toast.makeText(getApplicationContext(), "결제,충전,적립", Toast.LENGTH_LONG).show();
+        }
+        else if (id == R.id.account) {
+            Toast.makeText(getApplicationContext(), "계정관리", Toast.LENGTH_LONG).show();
+        }
+        else if (id == R.id.setting) {
+            Toast.makeText(getApplicationContext(), "환경설정", Toast.LENGTH_LONG).show();
+        }
+        mDrawerLayout.closeDrawers();
+        return true;
+    }
+
+
+
 
     public void loginButtonClicked(View v){
         Intent intent=new Intent(getApplicationContext(), LoginActivity.class);

@@ -13,7 +13,7 @@
         android:background="@drawable/login_button"
         android:onClick="loginButtonClicked"
         android:text="로그인하기"
-        android:fontFamily="@font/dreamgothic"
+        android:fontFamily="@font/dreamgothic7"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

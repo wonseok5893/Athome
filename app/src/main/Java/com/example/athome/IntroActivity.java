@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.example.athome.main.MainActivity;
+
 public class IntroActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {

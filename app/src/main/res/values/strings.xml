@@ -6,6 +6,9 @@
     <string name="notice">공지사항</string>
     <string name="menu">메뉴</string>
     <string name="search">검색</string>
+    <string name="reserv_list">예약내역</string>
+    <string name="now_reserv">현재내역</string>
+    <string name="past_reserv">지난내역</string>
 
     <string name="text_sign_up">회원가입</string>
     <string name="hint_sign_id">아이디를 입력해주세요</string>

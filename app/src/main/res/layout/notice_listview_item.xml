@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="75"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/notice_title"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="제목"
+            android:fontFamily="@font/dreamgothic3"
+            android:layout_weight="60"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:textStyle="bold"
+            android:textColor="#212121"
+            />
+        <TextView
+            android:id="@+id/notice_date"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="날짜"
+            android:fontFamily="@font/dreamgothic3"
+            android:layout_weight="40"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_next_notice"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:drawableRight="@drawable/next"
+        android:gravity="center"
+        android:text=""
+        android:layout_weight="20"
+        android:background="#00ff0000"
+        />
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        />
+</LinearLayout>
+

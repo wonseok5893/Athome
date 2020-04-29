@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/notice_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fce4ec"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" >
+
+        <Button
+            android:id="@+id/btn_back_notice"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_margin="3dp"
+            android:background="#00ff0000"
+            android:drawableTop="@drawable/back"
+            android:gravity="center"
+            android:text=""
+            app:layout_constraintBottom_toBottomOf="@+id/notice_toolbar"
+            app:layout_constraintEnd_toEndOf="@+id/notice_toolbar"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/notice_toolbar"
+            app:layout_constraintTop_toTopOf="@+id/notice_toolbar"
+            app:layout_constraintVertical_bias="0.615" />
+
+        <TextView
+            android:id="@+id/notce_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dreamgothic7"
+            android:text="@string/notice"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            tools:layout_editor_absoluteX="212dp"
+            tools:layout_editor_absoluteY="15dp" />
+
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="408dp"
+        android:layout_height="679dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notice_toolbar">
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
