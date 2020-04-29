@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.UiThread;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -21,9 +23,13 @@ import com.example.athome.LoginActivity;
 import com.example.athome.notice.NoticeActivity;
 import com.example.athome.reservation_list.ReservListActivity;
 import com.google.android.material.navigation.NavigationView;
+import com.naver.maps.map.MapFragment;
+import com.naver.maps.map.NaverMap;
+import com.naver.maps.map.OnMapReadyCallback;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,
+        NavigationView.OnNavigationItemSelectedListener{
 
 
     private DrawerLayout mDrawerLayout;
@@ -51,7 +57,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.navi_view);
         navigationView.setNavigationItemSelectedListener(this);//리스너설정
 
+        // 맵 동기화
+        MapFragment mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.map_view);
+        if (mapFragment == null) {
+            mapFragment = MapFragment.newInstance();
+            getSupportFragmentManager().beginTransaction().add(R.id.map_view, mapFragment).commit();
+        }
 
+        mapFragment.getMapAsync(this);
+
+    }
+
+    // 맵 준비되면 onMapReady에서 naverMap객체를 받아옴
+    @UiThread
+    @Override
+    public void onMapReady(@NonNull NaverMap naverMap) {
+
+        // 지도종류 Navi로 변경
+        naverMap.setMapType(NaverMap.MapType.Navi);
+
+        // Test용 마커 생성 후 지도상에 set
+        SharePlace test = new SharePlace(37.763695,126.9783740);
+        test.getMyMarker().setMap(naverMap);
     }
 
 

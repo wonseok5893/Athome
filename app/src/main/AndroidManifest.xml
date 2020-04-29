@@ -17,7 +17,6 @@
         android:theme="@style/AppTheme">
         <activity android:name="com.example.athome.LoginActivity" />
         <activity android:name="com.example.athome.RegisterActivity" />
-        <activity android:name="com.example.athome.NmapsActivity" />
         <activity android:name=".notice.NoticeActivity"/>
         <activity android:name=".reservation_list.ReservListActivity"/>
 
