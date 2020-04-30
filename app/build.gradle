@@ -23,6 +23,11 @@ android {
     }
 
 }
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+}
 
 dependencies {
     implementation 'com.jakewharton:butterknife:8.6.0'
@@ -39,6 +44,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.naver.maps:map-sdk:3.7.1'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    implementation 'com.github.pedroSG94:AutoPermissions:1.0.3'
 
 
 }

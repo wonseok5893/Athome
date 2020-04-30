@@ -8,6 +8,12 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- WIFI 상태활용시 추가 -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
+    <!-- camera, gallery -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,22 +21,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.athome.LoginActivity" />
-        <activity android:name="com.example.athome.RegisterActivity" />
-        <activity android:name="com.example.athome.NmapsActivity" />
+        <activity android:name=".enrollActivity"/>
+        <activity android:name=".enroll_ImgActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".NmapsActivity" />
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="25z9e189v0" />
 
-        <activity android:name="com.example.athome.MainActivity" />
-        <activity android:name="com.example.athome.IntroActivity">
+        <activity android:name=".MainActivity" />
+
+        <activity android:name=".IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.athome.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/extermal"/>
+
+        </provider>
+
+
     </application>
+
 
 </manifest>
