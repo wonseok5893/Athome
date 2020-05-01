@@ -2,7 +2,9 @@ package com.example.athome.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,12 +22,21 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.athome.LoginActivity;
 import com.example.athome.R;
 import com.example.athome.LoginActivity;
+import com.example.athome.RestRequestHelper;
+import com.example.athome.User;
 import com.example.athome.notice.NoticeActivity;
 import com.example.athome.reservation_list.ReservListActivity;
+import com.example.athome.retrofit.ApiService;
+import com.example.athome.retrofit.AuthResult;
+import com.example.athome.retrofit.LoginResult;
 import com.google.android.material.navigation.NavigationView;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
+
+import java.io.IOException;
+
+import retrofit2.Call;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,
@@ -35,13 +46,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private DrawerLayout mDrawerLayout;
     private Context context = this;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
+        //저장된 토큰 가져오기
+        SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
+//      SharedPreferences.Editor editor = sf.edit(); //토큰 업데이트 삭제에서 쓸거
+        String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
+        System.out.println(sharedToken);
+        if(sharedToken!="") {
+            User user = new User();
+            //검증
+            if (user.authenticate(sharedToken)) {
+                Toast.makeText(getApplicationContext(), user.getUserId() + " 님 어서오세요!", Toast.LENGTH_SHORT).show();
+            }
+        }
         //상단바 설정
         Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(tb);

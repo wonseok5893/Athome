@@ -25,6 +25,8 @@
             android:value="25z9e189v0" />
 
         <activity android:name=".main.MainActivity" />
+
+        //IntroActivity가 제일먼저 실행
         <activity android:name="com.example.athome.IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
