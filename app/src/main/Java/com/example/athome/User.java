@@ -14,8 +14,10 @@ import retrofit2.Call;
 public class User {
     private String userId;
     private String userPassword;
+    private String userName;
     private String userEmail;
     private String userPhone;
+    private String userCarNumber;
 
     String registerRes;
     String loginRes;
@@ -27,17 +29,18 @@ public class User {
         this.userPassword = userPassword;
     }
     //회우너가입시 사용
-    public User(String userId, String userPassword, String userEmail, String userPhone) {
+    public User(String userId, String userPassword, String userName, String userEmail, String userPhone,String userCarNumber) {
         this.userId = userId;
         this.userPassword = userPassword;
+        this.userName=userName;
         this.userEmail = userEmail;
         this.userPhone = userPhone;
+        this.userCarNumber=userCarNumber;
     }
 
     public String getUserId() {
         return userId;
     }
-
     public void setUserId(String userId) {
         this.userId = userId;
     }
@@ -45,15 +48,16 @@ public class User {
     public String getUserPassword() {
         return userPassword;
     }
-
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
     }
 
+    public String getUserName(){return userName;}
+    public void setUserName(String userName) {this.userName=userName;}
+
     public String getUserEmail() {
         return userEmail;
     }
-
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
     }
@@ -61,10 +65,18 @@ public class User {
     public String getUserPhone() {
         return userPhone;
     }
-
     public void setUserPhone(String userPhone) {
         this.userPhone = userPhone;
     }
+
+    public String getUserCarNumber() {
+        return userCarNumber;
+    }
+    public void setUserCarNumber(String userCarNumber) {
+        this.userCarNumber = userCarNumber;
+    }
+
+
 
     public String register() {
         ApiService serviceApi = new RestRequestHelper().getApiService();

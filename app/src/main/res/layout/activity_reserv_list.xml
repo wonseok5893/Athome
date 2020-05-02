@@ -66,22 +66,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#00ff0000"
+            android:background="@color/babypink"
             android:fontFamily="@font/dreamgothic3"
-            android:onClick="clickHandler"
-            android:text="@string/now_reserv"
-            />
+            android:text="@string/now_reserv" />
 
         <Button
             android:id="@+id/btn_past_reserv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#00ff0000"
+            android:background="@color/white"
             android:fontFamily="@font/dreamgothic3"
-            android:onClick="clickHandler"
-            android:text="@string/past_reserv"
-             />
+            android:text="@string/past_reserv" />
     </LinearLayout>
 
     <FrameLayout

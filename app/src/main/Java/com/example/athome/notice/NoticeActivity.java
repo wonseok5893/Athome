@@ -32,9 +32,9 @@ public class NoticeActivity extends AppCompatActivity {
         String[] noticeDate = {"2017-01-03", "1965-02-23", "2016-04-13", "2010-01-01", "2017-06-20",
                 "2012-07-08", "1980-04-14", "2016-09-26", "2014-10-11", "2010-12-24"};
         int nDatCnt = 0;
-        ArrayList<ItemData> oData = new ArrayList<>();
+        ArrayList<ItemNoticeData> oData = new ArrayList<>();
         for (int i = 0; i < 1000; ++i) {
-            ItemData oItem = new ItemData();
+            ItemNoticeData oItem = new ItemNoticeData();
             oItem.noticeTitle = "데이터 " + (i + 1);
             oItem.noticeDate = noticeDate[nDatCnt++];
             oData.add(oItem);
@@ -42,7 +42,7 @@ public class NoticeActivity extends AppCompatActivity {
         }
 
 // ListView, Adapter 생성 및 연결 ------------------------
-        m_oListView = (ListView) findViewById(R.id.listView);
+        m_oListView = (ListView) findViewById(R.id.notice_listView);
         ListAdapter oAdapter = new ListAdapter(oData);
         m_oListView.setAdapter(oAdapter);
     }

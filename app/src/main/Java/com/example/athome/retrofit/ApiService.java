@@ -23,7 +23,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("api/auth")
     Call<AuthResult> authenticate(@Header("x-access-token") String token
-    ,@Field("authKey") String key);
+            ,@Field("authKey") String key);
 
 //    Call<JsonArray> getUserRepositories(@Path("user") String userName);
 }

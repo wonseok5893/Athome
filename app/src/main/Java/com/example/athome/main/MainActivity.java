@@ -24,6 +24,7 @@ import com.example.athome.R;
 import com.example.athome.LoginActivity;
 import com.example.athome.RestRequestHelper;
 import com.example.athome.User;
+import com.example.athome.account.AccountActivity;
 import com.example.athome.notice.NoticeActivity;
 import com.example.athome.reservation_list.ReservListActivity;
 import com.example.athome.retrofit.ApiService;
@@ -41,7 +42,6 @@ import retrofit2.Call;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,
         NavigationView.OnNavigationItemSelectedListener{
-
 
     private DrawerLayout mDrawerLayout;
     private Context context = this;
@@ -134,23 +134,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         int id = menuItem.getItemId();
         String title = menuItem.getTitle().toString();
-        if (id == R.id.notice) {
+        if (id == R.id.notice) {//공지사항
             Intent intent = new Intent(getApplicationContext(), NoticeActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);//화면전환시효과
         }
-        else if (id == R.id.reserinfo) {
+        else if (id == R.id.reserinfo) {//예약내역
             Intent intent = new Intent(getApplicationContext(), ReservListActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
         }
-        else if (id == R.id.payment) {
+        else if (id == R.id.payment) {//결제충전적립
             Toast.makeText(getApplicationContext(), "결제,충전,적립", Toast.LENGTH_LONG).show();
         }
-        else if (id == R.id.account) {
-            Toast.makeText(getApplicationContext(), "계정관리", Toast.LENGTH_LONG).show();
+        else if (id == R.id.account) {//계정관리
+            Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
         }
-        else if (id == R.id.setting) {
+        else if (id == R.id.setting) {//환경설정
             Toast.makeText(getApplicationContext(), "환경설정", Toast.LENGTH_LONG).show();
         }
         mDrawerLayout.closeDrawers();
@@ -160,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-    public void loginButtonClicked(View v){
+    public void loginButtonClicked(View v){//로그인하기버튼
         Intent intent=new Intent(getApplicationContext(), LoginActivity.class);
         //인텐트 실행
         startActivity(intent);

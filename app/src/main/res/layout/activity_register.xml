@@ -37,7 +37,7 @@
             android:padding="10dp"
             android:textColor="@color/input_register"
             android:textColorHint="@color/input_register_hint"
-            android:fontFamily="@font/dreamgothic7"
+            android:fontFamily="@font/dreamgothic3"
             android:textSize="15sp"/>
 
         <EditText
@@ -51,7 +51,35 @@
             android:padding="10dp"
             android:textColor="@color/input_register"
             android:textColorHint="@color/input_register_hint"
-            android:fontFamily="@font/dreamgothic7"
+            android:fontFamily="@font/dreamgothic3"
+            android:textSize="15sp"/>
+
+        <EditText
+            android:id="@+id/sign_check_pw"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/edit_border"
+            android:hint="@string/hint_sign_check_pass"
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:textColor="@color/input_register"
+            android:textColorHint="@color/input_register_hint"
+            android:fontFamily="@font/dreamgothic3"
+            android:textSize="15sp"/>
+
+        <EditText
+            android:id="@+id/sign_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/edit_border"
+            android:hint="@string/hint_sign_name"
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:textColor="@color/input_register"
+            android:textColorHint="@color/input_register_hint"
+            android:fontFamily="@font/dreamgothic3"
             android:textSize="15sp"/>
 
         <EditText
@@ -65,7 +93,7 @@
             android:padding="10dp"
             android:textColor="@color/input_register"
             android:textColorHint="@color/input_register_hint"
-            android:fontFamily="@font/dreamgothic7"
+            android:fontFamily="@font/dreamgothic3"
             android:textSize="15sp"/>
 
         <EditText
@@ -79,21 +107,52 @@
             android:padding="10dp"
             android:textColor="@color/input_register"
             android:textColorHint="@color/input_register_hint"
-            android:fontFamily="@font/dreamgothic7"
+            android:fontFamily="@font/dreamgothic3"
             android:textSize="15sp"/>
 
-
-
-        <Button
-            android:id="@+id/signUpButton"
+        <EditText
+            android:id="@+id/sign_carnumber"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
-            android:background="@drawable/edit_border2"
-            android:text="@string/btn_check"
-            android:textColor="@color/white"
-            android:fontFamily="@font/dreamgothic7"/>
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/edit_border"
+            android:hint="@string/hint_sign_carnumber"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColor="@color/input_register"
+            android:textColorHint="@color/input_register_hint"
+            android:fontFamily="@font/dreamgothic3"
+            android:textSize="15sp"/>
 
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/signUpCancelButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/edit_border2"
+                android:text="@string/btn_cancel"
+                android:textColor="@color/white"
+                android:fontFamily="@font/dreamgothic7"/>
+
+            <Button
+                android:id="@+id/signUpButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/edit_border2"
+                android:text="@string/btn_check"
+                android:textColor="@color/white"
+                android:fontFamily="@font/dreamgothic7"/>
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

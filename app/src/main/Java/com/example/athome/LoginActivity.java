@@ -77,13 +77,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        btn_back = (Button) findViewById(R.id.btn_back);
+        btn_back = (Button) findViewById(R.id.btn_login_cancel);
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
-        });
+        }
+        );
 
 
     }

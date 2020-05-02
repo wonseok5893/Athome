@@ -19,6 +19,7 @@
         <activity android:name="com.example.athome.RegisterActivity" />
         <activity android:name=".notice.NoticeActivity"/>
         <activity android:name=".reservation_list.ReservListActivity"/>
+        <activity android:name=".account.AccountActivity"/>
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"

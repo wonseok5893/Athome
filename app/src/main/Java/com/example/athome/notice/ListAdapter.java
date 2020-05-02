@@ -14,11 +14,11 @@ import java.util.ArrayList;
 
 public class ListAdapter extends BaseAdapter {
     LayoutInflater inflater = null;
-    private ArrayList<ItemData> m_oData = null;
+    private ArrayList<ItemNoticeData> m_oData = null;
     private int nListCnt = 0;
 
     //생성자
-    public ListAdapter(ArrayList<ItemData> _oData)
+    public ListAdapter(ArrayList<ItemNoticeData> _oData)
     {
         m_oData = _oData;
         nListCnt = m_oData.size();

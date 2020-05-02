@@ -9,6 +9,10 @@
     <string name="reserv_list">예약내역</string>
     <string name="now_reserv">현재내역</string>
     <string name="past_reserv">지난내역</string>
+    <string name="account">계정관리</string>
+
+    <string name="card_register">카드등록</string>
+    <string name="point_charge">충전금</string>
 
     <string name="text_sign_up">회원가입</string>
     <string name="hint_sign_id">아이디를 입력해주세요</string>
@@ -16,18 +20,19 @@
     <string name="hint_sign_name">이름(실명)을 입력해주세요</string>
     <string name="hint_sign_email">E-mail</string>
     <string name="hint_sign_phone">휴대폰 번호를 입력해주세요</string>
+    <string name="hint_sign_check_pass">비밀번호 확인</string>
+    <string name="hint_sign_carnumber">차량번호를 입력해주세요</string>
 
     <string name="hint_id">아이디를 입력하세요</string>
     <string name="hint_password">비밀번호를 입력하세요</string>
-    <string name="hint_name">성명을 입력하세요</string>
-    <string name="hint_mobileNO">휴대폰번호를 입력하세요</string>
-    <string name="hint_email">이메일을 입력하세요</string>
+
     <string name="btn_login">로그인</string>
     <string name="btn_register">회원가입</string>
     <string name="btn_logout">로그아웃</string>
     <string name="btn_check">확인</string>
     <string name="btn_findID">아이디 찾기</string>
     <string name="btn_findpw">비밀번호 찾기</string>
+    <string name="btn_cancel">취소</string>
     <string name="separator">|</string>
     <string name="title_activity_register">register</string>
     <!-- Strings used for fragments for navigation -->
