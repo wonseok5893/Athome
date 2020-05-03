@@ -42,7 +42,8 @@ public class enroll_ImgActivity extends AppCompatActivity {
     private static final int REQUEST_CODE = 0;
     private ImageView imageView;
     File file;
-
+    Button nextBtn = (Button)findViewById(R.id.btn_next);
+    Button backBtn = (Button)findViewById(R.id.btn_back);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +54,21 @@ public class enroll_ImgActivity extends AppCompatActivity {
 
         Button cameraBtn = (Button)findViewById(R.id.camera);
         Button albumBtn = (Button)findViewById(R.id.album);
+
+        /*nextBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),enrollActivity.class);
+                startActivity(intent);
+            }
+        });*/
+        backBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
 
         albumBtn.setOnClickListener(new View.OnClickListener(){
             @Override

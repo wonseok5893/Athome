@@ -1,15 +1,18 @@
 package com.example.athome;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PointF;
+import android.location.GpsStatus;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,10 +26,14 @@ import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
+import com.naver.maps.map.overlay.InfoWindow;
 import com.naver.maps.map.overlay.Marker;
+import com.naver.maps.map.overlay.Overlay;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    private GpsTracker gpsTracker;
 
     private DrawerLayout mDrawerLayout;
     private Context context = this;
@@ -45,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setHomeAsUpIndicator(R.drawable.menu);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
 
         enrollBtn = (Button) findViewById(R.id.enroll_button);
         enrollBtn.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         mapFragment.getMapAsync(this);
+
     }
 
 
@@ -98,18 +107,47 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
         nm = naverMap;
+
         naverMap.setMapType(NaverMap.MapType.Navi);
-        Marker marker[] = new Marker[2];
-        for(int i=0;i<2;i++) {
+        final Marker marker[] = new Marker[2];
+
+        InfoWindow infoWindow = new InfoWindow();
+        infoWindow.setAdapter(new InfoWindow.DefaultTextAdapter(context) {
+            @NonNull
+            @Override
+            public CharSequence getText(@NonNull InfoWindow infoWindow) {
+                return "정보 창 내용";
+            }
+        });
+
+
+        for (int i = 0; i < 2; i++) {
             marker[i] = new Marker();
+            marker[i].setWidth(50);  //마커 사이즈 수정 가능
+            marker[i].setHeight(80);
+
         }
+        marker[0].setCaptionText("여길..해보지");
+        marker[0].setCaptionRequestedWidth(200);
         marker[0].setPosition(new LatLng(37.5670135, 126.9783740));
+        infoWindow.setPosition(new LatLng(37.5670135, 126.9783740));
         marker[1].setPosition(new LatLng(40.5670135, 126.9783740));
+
+
         marker[0].setMap(naverMap);
         marker[1].setMap(nm);
 
+        nm.setOnMapClickListener(new NaverMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
+                Intent intent = new Intent(getApplicationContext(),DetailsActivity.class);
+                startActivity(intent);
+            }
+        }); //마커클릭시 세부사항 나오게 바꿔야함. . .  .
 
     }
+
+
 
     @Override
     public  boolean onCreateOptionsMenu(Menu menu){
