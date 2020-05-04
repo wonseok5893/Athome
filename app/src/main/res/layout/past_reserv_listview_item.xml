@@ -3,16 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="130dp">
+    android:layout_height="150dp">
 
     <TextView
         android:id="@+id/past_reserv_date"
         android:layout_width="370dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:fontFamily="@font/dreamgothic3"
         android:paddingLeft="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
+        android:paddingTop="12dp"
         android:text="날짜"
         android:textColor="#212121"
         android:textSize="18dp"
@@ -25,25 +24,32 @@
         android:id="@+id/past_reserv_delete"
         android:layout_width="32dp"
         android:layout_height="30dp"
+        android:layout_marginTop="8dp"
         android:background="#00ff0000"
+
         android:drawableRight="@drawable/delete"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/past_reserv_date"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="95dp"
+        android:layout_height="105dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/past_reserv_date">
+        app:layout_constraintTop_toBottomOf="@+id/past_reserv_date"
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
-            android:layout_width="78dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:orientation="vertical">
 
             <TextView
@@ -83,10 +89,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/past_reserv_place2"
+                android:id="@+id/past_reserv_place_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/dreamgothic3"
@@ -97,7 +104,7 @@
                 android:textSize="15dp" />
 
             <TextView
-                android:id="@+id/past_reserv_time2"
+                android:id="@+id/past_reserv_time_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/dreamgothic3"
@@ -108,7 +115,7 @@
                 android:textSize="15dp" />
 
             <TextView
-                android:id="@+id/past_reserv_price2"
+                android:id="@+id/past_reserv_price_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/dreamgothic3"

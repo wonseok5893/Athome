@@ -14,14 +14,15 @@ import java.util.ArrayList;
 
 public class ListAdapter extends BaseAdapter {
     LayoutInflater inflater = null;
-    private ArrayList<ItemNoticeData> m_oData = null;
-    private int nListCnt = 0;
+    private ArrayList<ItemNoticeData> data = null;
+    private int layout;
 
     //생성자
-    public ListAdapter(ArrayList<ItemNoticeData> _oData)
+    public ListAdapter(Context context, int layout, ArrayList<ItemNoticeData> data)
     {
-        m_oData = _oData;
-        nListCnt = m_oData.size();
+        this.inflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.data = data;
+        this.layout=layout;
     }
 
     //화면 갱신되기전 호출
@@ -29,20 +30,19 @@ public class ListAdapter extends BaseAdapter {
     @Override
     public int getCount()
     {
-        Log.i("TAG", "getCount");
-        return nListCnt;
+        return data.size();
     }
 
     @Override
-    public Object getItem(int position)
+    public String getItem(int position)
     {
-        return null;
+        return data.get(position).getNoticeTitle();
     }
 
     @Override
     public long getItemId(int position)
     {
-        return 0;
+        return position;
     }
 
     //리턴할때 각 아이템레이아웃을 넘겨주면 화면에 표시
@@ -52,19 +52,19 @@ public class ListAdapter extends BaseAdapter {
     {
         if (convertView == null)
         {
-            final Context context = parent.getContext();
-            if (inflater == null)
-            {
-                inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            }
             convertView = inflater.inflate(R.layout.notice_listview_item, parent, false);
         }
 
-        TextView oTextTitle = (TextView) convertView.findViewById(R.id.notice_title);
-        TextView oTextDate = (TextView) convertView.findViewById(R.id.notice_date);
+        ItemNoticeData itemNoticeData=data.get(position);
 
-        oTextTitle.setText(m_oData.get(position).noticeTitle);
-        oTextDate.setText(m_oData.get(position).noticeDate);
+        TextView textTitle = (TextView) convertView.findViewById(R.id.notice_title);
+        TextView textDate = (TextView) convertView.findViewById(R.id.notice_date);
+
+
+        textTitle.setText(itemNoticeData.getNoticeTitle());
+        textDate.setText(itemNoticeData.getNoticeDate());
+
+
         return convertView;
     }
 

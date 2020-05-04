@@ -3,18 +3,25 @@ package com.example.athome.notice;
 public class ItemNoticeData {
     public String noticeTitle;
     public String noticeDate;
+    public String noticeContext;
 
-    public void setNoticeTitle(String noticeTitle){
-        this.noticeTitle=noticeTitle;
-    }
+
     public String getNoticeTitle(){
         return noticeTitle;
     }
 
-    public void setNoticeDate(String noticeDate){
-        this.noticeDate=noticeDate;
-    }
-    public String getNoticeDate(String noticeDate){
+    public String getNoticeDate(){
         return noticeDate;
     }
+
+    public String getNoticeContext(){
+        return noticeContext;
+    }
+
+    public ItemNoticeData(String noticeTitle, String noticeDate, String noticeContext){
+        this.noticeTitle=noticeTitle;
+        this.noticeDate=noticeDate;
+        this.noticeContext=noticeContext;
+    }
+
 }
