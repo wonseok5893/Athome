@@ -21,6 +21,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name="com.example.athome.LoginActivity" />
         <activity android:name="com.example.athome.RegisterActivity" />
         <activity android:name=".notice.NoticeActivity"/>
@@ -41,12 +42,11 @@
 
         <activity android:name=".main.MainActivity" />
 
-        //IntroActivity가 제일먼저 실행
         <activity android:name="com.example.athome.IntroActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 

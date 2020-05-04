@@ -139,8 +139,8 @@
                     android:id="@+id/userpw_emo"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    app:srcCompat="@drawable/password" />
+                    android:layout_gravity="center_vertical"/>
+<!--                    app:srcCompat="@drawable/password" />-->
 
                 <LinearLayout
                     android:layout_width="362dp"
@@ -172,8 +172,8 @@
                         android:id="@+id/pw_change_emo"
                         android:layout_width="20dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        app:srcCompat="@drawable/more" />
+                        android:layout_gravity="center_vertical"/>
+<!--                        app:srcCompat="@drawable/more" />-->
                 </LinearLayout>
 
             </LinearLayout>
@@ -188,8 +188,8 @@
                     android:id="@+id/userphone_emo"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    app:srcCompat="@drawable/phone" />
+                    android:layout_gravity="center_vertical"/>
+<!--                    app:srcCompat="@drawable/phone" />-->
 
                 <LinearLayout
                     android:layout_width="362dp"
@@ -221,8 +221,8 @@
                         android:id="@+id/phone_change_emo"
                         android:layout_width="20dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        app:srcCompat="@drawable/more" />
+                        android:layout_gravity="center_vertical"/>
+<!--                        app:srcCompat="@drawable/more" />-->
                 </LinearLayout>
 
             </LinearLayout>
@@ -238,8 +238,8 @@
                     android:id="@+id/usercar_emo"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    app:srcCompat="@drawable/car" />
+                    android:layout_gravity="center_vertical"/>
+<!--                    app:srcCompat="@drawable/car" />-->
 
                 <LinearLayout
                     android:layout_width="362dp"
@@ -271,8 +271,8 @@
                         android:id="@+id/car_change_emo"
                         android:layout_width="20dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        app:srcCompat="@drawable/more" />
+                        android:layout_gravity="center_vertical"/>
+<!--                        app:srcCompat="@drawable/more" />-->
                 </LinearLayout>
 
             </LinearLayout>
@@ -320,8 +320,8 @@
                         android:id="@+id/card_change_emo"
                         android:layout_width="20dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        app:srcCompat="@drawable/more" />
+                        android:layout_gravity="center_vertical"/>
+<!--                        app:srcCompat="@drawable/more" />-->
                 </LinearLayout>
 
             </LinearLayout>
@@ -336,8 +336,8 @@
                     android:id="@+id/useremail_emo"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    app:srcCompat="@drawable/email" />
+                    android:layout_gravity="center_vertical"/>
+<!--                    app:srcCompat="@drawable/email" />-->
 
                 <LinearLayout
                     android:layout_width="362dp"
@@ -369,8 +369,8 @@
                         android:id="@+id/email_change_emo"
                         android:layout_width="20dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        app:srcCompat="@drawable/more" />
+                        android:layout_gravity="center_vertical"/>
+<!--                        app:srcCompat="@drawable/more" />-->
                 </LinearLayout>
 
             </LinearLayout>

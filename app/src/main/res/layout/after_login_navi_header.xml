@@ -29,8 +29,8 @@
                 android:id="@+id/nave_user_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                app:srcCompat="@drawable/basic_profile" />
+                android:layout_gravity="center_vertical"/>
+<!--                app:srcCompat="@drawable/basic_profile" />-->
         </androidx.cardview.widget.CardView>
 
         <LinearLayout

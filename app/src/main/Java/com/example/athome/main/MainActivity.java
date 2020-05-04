@@ -63,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static NaverMap nm = null;
     private Button enrollBtn;
 
+    private User user;
+
     NaviResult naviResult; //naver api driving 응답 파싱 값 가지는 객체 (윤지원 05-04)
     Handler han = new Handler(){ // MainActivity 핸들러 메세지 -> 객체 넘겨 받음 (윤지원 05-04)
         @Override
@@ -84,6 +86,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // ****** 아래 토큰 확인하는 if문에서 user = new User() 해주면 오류남 조건이 거짓일 경우 user가 new되지 않기 때문인 것으로 보임.
+        // oncreate될때 빈 user객체 생성하고 토큰확인하면 유저정보 set해주고, 토큰 없으면 그냥 빈 상태로 놔뒀다고 로그인시 유저정보 set해주는 방향으로 해주는게 좋지 않을까 함
+        user = new User();
 
         //저장된 토큰 가져오기
         SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
@@ -91,12 +96,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
         System.out.println(sharedToken);
         if(sharedToken!="") {
-            User user = new User();
+//            user = new User();
             //검증
             if (user.authenticate(sharedToken)) {
                 Toast.makeText(getApplicationContext(), user.getUserId() + " 님 어서오세요!", Toast.LENGTH_SHORT).show();
             }
         }
+
         //상단바 설정
         Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(tb);
@@ -112,6 +118,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //네비게이션화면설정
         NavigationView navigationView = (NavigationView) findViewById(R.id.navi_view);
         navigationView.setNavigationItemSelectedListener(this);//리스너설정
+
+        if(user.getUserId()==null) { // 로그인 된 경우
+            navigationView.inflateHeaderView(R.layout.before_login_navi_header);
+            navigationView.inflateMenu(R.menu.navi_menu_before);
+        } else { // 로그인 되지 않은 경우
+            navigationView.inflateHeaderView(R.layout.after_login_navi_header);
+            navigationView.inflateMenu(R.menu.navi_menu);
+        }
 
 
         //공유AP 버튼
@@ -132,6 +146,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         mapFragment.getMapAsync(this);
+
+
 
     }
 
@@ -279,3 +295,4 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         startActivity(intent);
     }
 }
+
