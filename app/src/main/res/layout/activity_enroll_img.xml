@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#fce4ec"
+    android:layout_gravity="center"
+    android:padding="10dp">
+
+
+    <TextView
+        android:id="@+id/en_img"
+        android:layout_width="fill_parent"
+        android:layout_height="98dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/dreamgothic3"
+        android:gravity="center_horizontal"
+        android:padding="15dp"
+        android:text="주차장 상세이미지 등록"
+        android:textColor="#e41653"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/enImg"
+        android:layout_width="300dp"
+        android:layout_height="258dp"
+        android:layout_gravity="center"
+        tools:srcCompat="@drawable/img"
+        tools:visibility="visible" />
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="128dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <Button
+            android:id="@+id/camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="20dip"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:fontFamily="@font/dreamgothic3"
+            android:padding="15dp"
+            android:text="카메라"
+            android:textColor="@color/input_register" />
+
+        <Button
+            android:id="@+id/album"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="20dip"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:fontFamily="@font/dreamgothic3"
+            android:padding="15dp"
+            android:text="갤러리"
+            android:textColor="@color/input_register" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="207dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="20dip"
+            android:layout_weight="1"
+            android:background="@drawable/edit_border2"
+            android:fontFamily="@font/dreamgothic3"
+            android:padding="15dp"
+            android:text="취소"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="20dip"
+            android:layout_weight="1"
+            android:background="@drawable/edit_border2"
+            android:fontFamily="@font/dreamgothic3"
+            android:padding="15dp"
+            android:text="확인"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+</LinearLayout>
