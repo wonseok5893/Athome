@@ -33,6 +33,21 @@
             android:name="com.naver.maps.map.MapFragment"
         />
 
+        <Button
+            android:id="@+id/enrollBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_border2"
+            android:fontFamily="@font/dreamgothic"
+            android:textColor="@color/white"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="71dp"
+            android:layout_marginEnd="9dp"
+            android:layout_marginRight="9dp"
+            android:text="공유AP" />
+
     </RelativeLayout>
     <!--navigation drawer-->
     <com.google.android.material.navigation.NavigationView

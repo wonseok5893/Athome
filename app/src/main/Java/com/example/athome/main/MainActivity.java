@@ -3,6 +3,7 @@ package com.example.athome.main;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,12 +23,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.athome.DetailsActivity;
+import com.example.athome.GpsTracker;
 import com.example.athome.LoginActivity;
 import com.example.athome.R;
 import com.example.athome.LoginActivity;
 import com.example.athome.RestRequestHelper;
 import com.example.athome.User;
 import com.example.athome.account.AccountActivity;
+import com.example.athome.enrollActivity;
 import com.example.athome.notice.NoticeActivity;
 import com.example.athome.reservation_list.ReservListActivity;
 import com.example.athome.retrofit.ApiService;
@@ -35,9 +40,12 @@ import com.example.athome.retrofit.LoginResult;
 import com.example.athome.retrofit.NaviResult;
 import com.example.athome.thread.NaviThread;
 import com.google.android.material.navigation.NavigationView;
+import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
+import com.naver.maps.map.overlay.InfoWindow;
+import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
 
 import java.io.IOException;
@@ -50,6 +58,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private DrawerLayout mDrawerLayout;
     private Context context = this;
+
+    private GpsTracker gpsTracker;
+    private static NaverMap nm = null;
+    private Button enrollBtn;
 
     NaviResult naviResult; //naver api driving 응답 파싱 값 가지는 객체 (윤지원 05-04)
     Handler han = new Handler(){ // MainActivity 핸들러 메세지 -> 객체 넘겨 받음 (윤지원 05-04)
@@ -71,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         //저장된 토큰 가져오기
         SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
 //      SharedPreferences.Editor editor = sf.edit(); //토큰 업데이트 삭제에서 쓸거
@@ -91,12 +105,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         actionBar.setHomeAsUpIndicator(R.drawable.menu);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+
         //전체화면 설정
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         //네비게이션화면설정
         NavigationView navigationView = (NavigationView) findViewById(R.id.navi_view);
         navigationView.setNavigationItemSelectedListener(this);//리스너설정
+
+
+        //공유AP 버튼
+        enrollBtn = (Button) findViewById(R.id.enrollBtn);
+        enrollBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), enrollActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // 맵 동기화
         MapFragment mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.map_view);
@@ -120,7 +146,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Test용 마커 생성 후 지도상에 set
         SharePlace test = new SharePlace(37.763695,126.9783740);
         test.getMyMarker().setMap(naverMap);
-
+        final Marker marker[] = new Marker[2];
+        InfoWindow infoWindow = new InfoWindow();
         // test : maker onclick 시 네비게이션 (윤지원 04-30)
         test.getMyMarker().setOnClickListener(new Overlay.OnClickListener() {
             @Override
@@ -138,7 +165,51 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 return false;
             }
+    });
+
+
+        infoWindow.setAdapter(new InfoWindow.DefaultTextAdapter(context) {
+            @NonNull
+            @Override
+            public CharSequence getText(@NonNull InfoWindow infoWindow) {
+                return "정보 창 내용";
+            }
         });
+
+
+        for (int i = 0; i < 2; i++) {
+            marker[i] = new Marker();
+            marker[i].setWidth(50);  //마커 사이즈 수정 가능
+            marker[i].setHeight(80);
+
+        }
+        marker[0].setCaptionText("여길..해보지");
+        marker[0].setCaptionRequestedWidth(200);
+        marker[0].setPosition(new LatLng(37.5670135, 126.9783740));
+        infoWindow.setPosition(new LatLng(37.5670135, 126.9783740));
+        marker[1].setPosition(new LatLng(40.5670135, 126.9783740));
+
+
+        marker[0].setMap(naverMap);
+        marker[1].setMap(nm);
+
+
+        marker[0].setOnClickListener(new Overlay.OnClickListener() {
+            @Override
+            public boolean onClick(@NonNull Overlay overlay) {
+                Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+//
+//        nm.setOnMapClickListener(new NaverMap.OnMapClickListener() {
+//            @Override
+//            public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
+//                Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
+//                startActivity(intent);
+//            }
+//        }); //마커클릭시 세부사항 나오게 바꿔야함. . .  .
     }
 
 
