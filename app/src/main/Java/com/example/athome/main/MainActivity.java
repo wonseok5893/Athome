@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,10 +32,13 @@ import com.example.athome.reservation_list.ReservListActivity;
 import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.AuthResult;
 import com.example.athome.retrofit.LoginResult;
+import com.example.athome.retrofit.NaviResult;
+import com.example.athome.thread.NaviThread;
 import com.google.android.material.navigation.NavigationView;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
+import com.naver.maps.map.overlay.Overlay;
 
 import java.io.IOException;
 
@@ -45,6 +50,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private DrawerLayout mDrawerLayout;
     private Context context = this;
+
+    NaviResult naviResult; //naver api driving 응답 파싱 값 가지는 객체 (윤지원 05-04)
+    Handler han = new Handler(){ // MainActivity 핸들러 메세지 -> 객체 넘겨 받음 (윤지원 05-04)
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            if(msg.what == 0){
+                Bundle bundle = msg.getData();
+                naviResult = bundle.getParcelable("NaviResult");
+                Log.i("MyCode",naviResult.getCode().toString());
+                Log.i("path",naviResult.getRoute().getTraoptimal().get(0).getPath().get(0).get(0).toString()
+                        .concat(",").concat(naviResult.getRoute().getTraoptimal().get(0).getPath().get(0).get(1).toString()));
+
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +120,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Test용 마커 생성 후 지도상에 set
         SharePlace test = new SharePlace(37.763695,126.9783740);
         test.getMyMarker().setMap(naverMap);
+
+        // test : maker onclick 시 네비게이션 (윤지원 04-30)
+        test.getMyMarker().setOnClickListener(new Overlay.OnClickListener() {
+            @Override
+            public boolean onClick(@NonNull Overlay overlay) {
+                String s_lat = "126.890430";
+                String s_lon = "37.446651";
+                String g_lat= "127.035876";
+                String g_lon= "37.301031"; //좌표 값 일단 하드 코딩 해놓음 (윤지원 05-04)
+
+                //핸들러 컨텍스트 시작 위도 경도, 끝 위도 경도 생성자 넘김 (윤지원 05-04)
+                Thread NaviTh = new NaviThread(han,context,s_lat,s_lon,g_lat,g_lon);
+                NaviTh.setDaemon(true);
+                NaviTh.start(); //쓰레드 생성 시작 (윤지원 05-04)
+
+
+                return false;
+            }
+        });
     }
 
 
