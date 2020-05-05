@@ -11,17 +11,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.athome.R;
 
 public class AccountActivity extends AppCompatActivity {
-    //필독바람!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    //더 추가해야할 부분
-    //각 linearlayout에 해당하는 텍스트뷰 아이디들
-    //userid_value
-    //userphone_value
-    //usercar_value
-    //usercard_value
-    //useremail_vale
-    //에 데이터 값을 받아와야함
-    //그리고 데이터 값이 존재한다면 기존에 있는 텍스트는 받아온 데이터로 변경된 후 데이터의 색은 파란색으로 지정
-    //데이터 값이 존재하지 않는다면 기존 텍스트는 "없음"으로 변경된 후 색은 빨간색으로 지정
+    /*
+    필독바람!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    더 추가해야할 부분
+    각 linearlayout에 해당하는 텍스트뷰 아이디들
+    userid_value
+    userphone_value
+    usercar_value
+    usercard_value
+    useremail_vale
+    에 데이터 값을 받아와야함
+    그리고 데이터 값이 존재한다면 기존에 있는 텍스트는 받아온 데이터로 변경된 후 데이터의 색은 파란색으로 지정
+    데이터 값이 존재하지 않는다면 기존 텍스트는 "없음"으로 변경된 후 색은 빨간색으로 지정
+
+    */
 
     private LinearLayout userIdLinear;
     private LinearLayout userPasswordLinear;

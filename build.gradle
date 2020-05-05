@@ -22,6 +22,9 @@ allprojects {
         jcenter()
         maven {
             url 'https://navercorp.bintray.com/maps'
+    }
+        maven {
+            url 'https://devrepo.kakao.com/nexus/content/groups/public/'
         }
     }
 }
@@ -29,3 +32,6 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+
+

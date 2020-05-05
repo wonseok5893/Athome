@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 반드시 추가 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.athome">
-    <!-- 반드시 추가 -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 위치정보활용시 추가 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 위치정보활용시 추가 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- WIFI 상태활용시 추가 -->
@@ -38,7 +38,13 @@
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
-            android:value="25z9e189v0" />
+            android:value="25z9e189v0"
+            />
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="9231d5559afddc59ed2a21844af07676"
+            />
+
 
         <activity android:name=".main.MainActivity" />
 

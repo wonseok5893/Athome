@@ -3,11 +3,7 @@ package com.example.athome.main;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.PointF;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,23 +18,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import com.example.athome.DetailsActivity;
 import com.example.athome.GpsTracker;
 import com.example.athome.LoginActivity;
 import com.example.athome.R;
-import com.example.athome.LoginActivity;
-import com.example.athome.RestRequestHelper;
 import com.example.athome.User;
 import com.example.athome.account.AccountActivity;
 import com.example.athome.enrollActivity;
 import com.example.athome.notice.NoticeActivity;
 import com.example.athome.reservation_list.ReservListActivity;
-import com.example.athome.retrofit.ApiService;
-import com.example.athome.retrofit.AuthResult;
-import com.example.athome.retrofit.LoginResult;
-import com.example.athome.retrofit.NaviResult;
-import com.example.athome.thread.NaviThread;
 import com.google.android.material.navigation.NavigationView;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.MapFragment;
@@ -47,10 +35,6 @@ import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.overlay.InfoWindow;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
-
-import java.io.IOException;
-
-import retrofit2.Call;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,
@@ -65,32 +49,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private User user;
 
-    NaviResult naviResult; //naver api driving 응답 파싱 값 가지는 객체 (윤지원 05-04)
-    Handler han = new Handler(){ // MainActivity 핸들러 메세지 -> 객체 넘겨 받음 (윤지원 05-04)
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            super.handleMessage(msg);
-            if(msg.what == 0){
-                Bundle bundle = msg.getData();
-                naviResult = bundle.getParcelable("NaviResult");
-                Log.i("MyCode",naviResult.getCode().toString());
-                Log.i("path",naviResult.getRoute().getTraoptimal().get(0).getPath().get(0).get(0).toString()
-                        .concat(",").concat(naviResult.getRoute().getTraoptimal().get(0).getPath().get(0).get(1).toString()));
-
-            }
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // ****** 아래 토큰 확인하는 if문에서 user = new User() 해주면 오류남 조건이 거짓일 경우 user가 new되지 않기 때문인 것으로 보임.
-        // oncreate될때 빈 user객체 생성하고 토큰확인하면 유저정보 set해주고, 토큰 없으면 그냥 빈 상태로 놔뒀다고 로그인시 유저정보 set해주는 방향으로 해주는게 좋지 않을까 함
+        /* ****** 아래 토큰 확인하는 if문에서 user = new User() 해주면 오류남 조건이 거짓일 경우 user가 new되지 않기 때문인 것으로 보임.
+           oncreate될때 빈 user객체 생성하고 토큰확인하면 유저정보 set해주고, 토큰 없으면 그냥 빈 상태로 놔뒀다고 로그인시 유저정보 set해주는 방향으로 해주는게 좋지 않을까 함*/
         user = new User();
 
-        //저장된 토큰 가져오기
+        /*저장된 토큰 가져오기*/
         SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
 //      SharedPreferences.Editor editor = sf.edit(); //토큰 업데이트 삭제에서 쓸거
         String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
@@ -162,27 +130,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Test용 마커 생성 후 지도상에 set
         SharePlace test = new SharePlace(37.763695,126.9783740);
         test.getMyMarker().setMap(naverMap);
-        final Marker marker[] = new Marker[2];
-        InfoWindow infoWindow = new InfoWindow();
-        // test : maker onclick 시 네비게이션 (윤지원 04-30)
         test.getMyMarker().setOnClickListener(new Overlay.OnClickListener() {
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
-                String s_lat = "126.890430";
-                String s_lon = "37.446651";
-                String g_lat= "127.035876";
-                String g_lon= "37.301031"; //좌표 값 일단 하드 코딩 해놓음 (윤지원 05-04)
-
-                //핸들러 컨텍스트 시작 위도 경도, 끝 위도 경도 생성자 넘김 (윤지원 05-04)
-                Thread NaviTh = new NaviThread(han,context,s_lat,s_lon,g_lat,g_lon);
-                NaviTh.setDaemon(true);
-                NaviTh.start(); //쓰레드 생성 시작 (윤지원 05-04)
-
-
+                Toast.makeText(context, "test", Toast.LENGTH_SHORT).show();
                 return false;
             }
-    });
-
+        });
+        final Marker marker[] = new Marker[2];
+        InfoWindow infoWindow = new InfoWindow();
+        // test : maker onclick 시 네비게이션 (윤지원 04-30)
 
         infoWindow.setAdapter(new InfoWindow.DefaultTextAdapter(context) {
             @NonNull
@@ -209,11 +166,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         marker[0].setMap(naverMap);
         marker[1].setMap(nm);
 
-
+        //kakao navi 연동 부분
+        //클릭시 marker[0] 위치 DetailActivity intent로 전달 (윤지원)
         marker[0].setOnClickListener(new Overlay.OnClickListener() {
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
+                LatLng position = marker[0].getPosition();
                 Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
+                intent.putExtra("position",position);
                 startActivity(intent);
                 return true;
             }
