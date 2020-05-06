@@ -19,6 +19,8 @@ public class User {
     private String userPhone;
     private String userCarNumber;
 
+
+    String registerMessage;
     String registerRes;
     String loginRes;
     String token;
@@ -37,7 +39,9 @@ public class User {
         this.userPhone = userPhone;
         this.userCarNumber=userCarNumber;
     }
-
+    public String getRegisterMessage() {
+        return registerMessage;
+    }
     public String getUserId() {
         return userId;
     }
@@ -81,7 +85,7 @@ public class User {
     public String register() {
         ApiService serviceApi = new RestRequestHelper().getApiService();
 
-        final Call<RegisterResult> res = serviceApi.signUp(userId, userPassword, userEmail, userPhone); // register (실제 통신이 이루어지는 곳)
+        final Call<RegisterResult> res = serviceApi.signUp(userId, userPassword,userName, userEmail,userPhone,userCarNumber); // register (실제 통신이 이루어지는 곳)
 
 
         //받아온거 뽑아내기 (동기처리)
@@ -91,6 +95,7 @@ public class User {
                 try {
                     RegisterResult registerResult = res.execute().body();
                     registerRes = registerResult.getRegisterResult();
+                    registerMessage = registerResult.getRegisterResultMessage();
                     // test log
                     if (registerRes == null) {
                         Log.d("TEST", "Register 통신 실패....");

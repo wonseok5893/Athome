@@ -6,6 +6,13 @@ public class RegisterResult {
     @SerializedName("result")
     String registerResult;
 
+    @SerializedName("message")
+    String registerResultMessage;
+
+    public String getRegisterResultMessage() {
+        return registerResultMessage;
+    }
+
     public String getRegisterResult() {
         return registerResult;
     }

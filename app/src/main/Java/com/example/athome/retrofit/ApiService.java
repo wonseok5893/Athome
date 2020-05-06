@@ -2,22 +2,20 @@ package com.example.athome.retrofit;
 
 
 import retrofit2.Call;
-
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 public interface ApiService {
     @FormUrlEncoded
     @POST("user/join")
-    Call<RegisterResult> signUp(@Field("userId") String userName,
+    Call<RegisterResult> signUp(@Field("userId") String userId,
                                 @Field("userPassword") String userPassword,
+                                @Field("userName") String userName,
                                 @Field("userEmail") String userEmail,
-                                @Field("userPhone") String userPhone);
+                                @Field("userPhone") String userPhone,
+                                @Field("userCarNumber") String userCarNumber);
 
     @FormUrlEncoded
     @POST("user/login")
