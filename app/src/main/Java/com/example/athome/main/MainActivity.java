@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.example.athome.DetailsActivity;
 import com.example.athome.GpsTracker;
 import com.example.athome.LoginActivity;
@@ -38,7 +40,7 @@ import com.naver.maps.map.overlay.Overlay;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,
-        NavigationView.OnNavigationItemSelectedListener{
+        NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout mDrawerLayout;
     private Context context = this;
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GpsTracker gpsTracker;
     private static NaverMap nm = null;
     private Button enrollBtn;
-
+    private TextView name, id, point, profile;
     private User user;
 
     @Override
@@ -63,11 +65,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //      SharedPreferences.Editor editor = sf.edit(); //토큰 업데이트 삭제에서 쓸거
         String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
         System.out.println(sharedToken);
-        if(sharedToken!="") {
+        if (sharedToken != "") {
 //            user = new User();
             //검증
             if (user.authenticate(sharedToken)) {
                 Toast.makeText(getApplicationContext(), user.getUserId() + " 님 어서오세요!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), user.getAuthMessage() + "", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -87,11 +91,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         NavigationView navigationView = (NavigationView) findViewById(R.id.navi_view);
         navigationView.setNavigationItemSelectedListener(this);//리스너설정
 
-        if(user.getUserId()==null) { // 로그인 된 경우
+        if (user.getUserId() == null) { // 로그인 되지 않은 경우
+
             navigationView.inflateHeaderView(R.layout.before_login_navi_header);
             navigationView.inflateMenu(R.menu.navi_menu_before);
-        } else { // 로그인 되지 않은 경우
+        } else { // 로그인 된 경우
+
             navigationView.inflateHeaderView(R.layout.after_login_navi_header);
+            View header = navigationView.getHeaderView(0);
+            name = (TextView) header.findViewById(R.id.navi_user_name);
+            id = (TextView) header.findViewById(R.id.navi_user_id);
+            point = (TextView) header.findViewById(R.id.navi_user_point);
+
+            name.setText(user.getUserName());
+            id.setText(user.getUserId());
+            point.setText(user.getUserPoint() + "");
             navigationView.inflateMenu(R.menu.navi_menu);
         }
 
@@ -99,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //공유AP 버튼
         enrollBtn = (Button) findViewById(R.id.enrollBtn);
         enrollBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
+            @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), enrollActivity.class);
                 startActivity(intent);
@@ -116,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
 
 
-
     }
 
     // 맵 준비되면 onMapReady에서 naverMap객체를 받아옴
@@ -128,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         naverMap.setMapType(NaverMap.MapType.Navi);
 
         // Test용 마커 생성 후 지도상에 set
-        SharePlace test = new SharePlace(37.763695,126.9783740);
+        SharePlace test = new SharePlace(37.763695, 126.9783740);
         test.getMyMarker().setMap(naverMap);
         test.getMyMarker().setOnClickListener(new Overlay.OnClickListener() {
             @Override
@@ -173,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public boolean onClick(@NonNull Overlay overlay) {
                 LatLng position = marker[0].getPosition();
                 Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
-                intent.putExtra("position",position);
+                intent.putExtra("position", position);
                 startActivity(intent);
                 return true;
             }
@@ -190,8 +203,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     @Override
-    public  boolean onCreateOptionsMenu(Menu menu){
-        MenuInflater menuInflater=getMenuInflater();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.toolbar, menu);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         return true;
@@ -205,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return true;
             }
             case R.id.search: {
-                Toast.makeText(getApplicationContext(),"검색",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "검색", Toast.LENGTH_LONG).show();
                 return true;
             }
 
@@ -225,21 +238,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Intent intent = new Intent(getApplicationContext(), NoticeActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);//화면전환시효과
-        }
-        else if (id == R.id.reserinfo) {//예약내역
+        } else if (id == R.id.reserinfo) {//예약내역
             Intent intent = new Intent(getApplicationContext(), ReservListActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
-        }
-        else if (id == R.id.payment) {//결제충전적립
+        } else if (id == R.id.payment) {//결제충전적립
             Toast.makeText(getApplicationContext(), "결제,충전,적립", Toast.LENGTH_LONG).show();
-        }
-        else if (id == R.id.account) {//계정관리
+        } else if (id == R.id.account) {//계정관리
             Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
-        }
-        else if (id == R.id.setting) {//환경설정
+        } else if (id == R.id.setting) {//환경설정
             Toast.makeText(getApplicationContext(), "환경설정", Toast.LENGTH_LONG).show();
         }
         mDrawerLayout.closeDrawers();
@@ -247,10 +256,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-
-
-    public void loginButtonClicked(View v){//로그인하기버튼
-        Intent intent=new Intent(getApplicationContext(), LoginActivity.class);
+    public void loginButtonClicked(View v) {//로그인하기버튼
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         //인텐트 실행
         startActivity(intent);
     }

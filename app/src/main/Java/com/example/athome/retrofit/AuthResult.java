@@ -1,41 +1,40 @@
 package com.example.athome.retrofit;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class AuthResult {
+
+
     //User에 담을 정보들
-    @SerializedName("userId")
-    String userId;
-    @SerializedName("userEmail")
-    String userEmail;
-    @SerializedName("userPhone")
-    String userPhone;
+    @SerializedName("result")
+    @Expose
+    private String result;
+    @SerializedName("user")
+    @Expose
+    private AuthUser authUser;
+    @SerializedName("message")
+    @Expose
+    private String authMessage;
 
-
-
-    public String getUserId() {
-        return userId;
+    public String getAuthMessage() {
+        return authMessage;
+    }
+    public String getResult() {
+        return result;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setResult(String result) {
+        this.result = result;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public AuthUser getAuthUser() {
+        return authUser;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setAuthUser(AuthUser authUser) {
+        this.authUser = authUser;
     }
-
-    public String getUserPhone() {
-        return userPhone;
-    }
-
-    public void setUserPhone(String userPhone) {
-        this.userPhone = userPhone;
-    }
-
 
 }
+
