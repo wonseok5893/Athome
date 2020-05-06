@@ -34,16 +34,23 @@ import com.pedro.library.AutoPermissions;
 import com.pedro.library.AutoPermissionsListener;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class enroll_ImgActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 0;
+    private static final int REQUEST_TAKE_PHOTO=1;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageView imageView;
     File file;
     Button nextBtn;
     Button backBtn;
+    Button cameraBtn;
+    Button albumBtn;
+    String currentPhotoPath;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,18 +59,18 @@ public class enroll_ImgActivity extends AppCompatActivity {
         imageView = findViewById(R.id.enImg);
         imageView.setImageResource(R.drawable.img);
 
-        Button cameraBtn = (Button)findViewById(R.id.camera);
-        Button albumBtn = (Button)findViewById(R.id.album);
+        cameraBtn = (Button)findViewById(R.id.camera);
+        albumBtn = (Button)findViewById(R.id.album);
         nextBtn  = (Button)findViewById(R.id.btn_next);
         backBtn= (Button)findViewById(R.id.btn_back);
 
-        /*nextBtn.setOnClickListener(new View.OnClickListener(){
+        nextBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),enrollActivity.class);
+                Intent intent = new Intent(getApplicationContext(),enrollCheckActivity.class);
                 startActivity(intent);
             }
-        });*/
+        });
         backBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -84,36 +91,89 @@ public class enroll_ImgActivity extends AppCompatActivity {
         cameraBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                takePicture();
-            }
+                    dispatchTakePictureIntent();
+                }
+
         });
         AutoPermissions.Companion.loadAllPermissions(this, 101);
 
     }
 
-    public void takePicture(){
-        if(file==null){
-            file = createFile();
-        }
-
-        Uri fileUri = FileProvider.getUriForFile(this,"com.example.athome.fileprovider",file);//file 파일로부터 uri 객체만들기
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,fileUri);
-        if(intent.resolveActivity(getPackageManager())!=null){
-            startActivityForResult(intent,101);
-        }
 
 
 
+
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
     }
-    private File createFile(){
-        String filename = "capture.jpg"; //찍은 사진이름을 선정해 줘야함
-        File storageDir = Environment.getExternalStorageDirectory();
-        File outFile = new File(storageDir, filename);
 
-        return outFile;
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.athome.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
+        }
     }
+
+    private void galleryAddPic() {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(currentPhotoPath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
+    }
+
+    private void setPic() {
+        // Get the dimensions of the View
+        int targetW = imageView.getWidth();
+        int targetH = imageView.getHeight();
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
+        imageView.setImageBitmap(bitmap);
+    }
+
 
 
     @Override
@@ -125,7 +185,7 @@ public class enroll_ImgActivity extends AppCompatActivity {
             options.inSampleSize = 8;
             Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
 
-            imageView.setImageBitmap(bitmap);
+            imageView.setImageBitmap(bitmap); //이미지뷰에 비트맵 설정
         }
         else if (requestCode==REQUEST_CODE ){
             if(resultCode==RESULT_OK) {
@@ -144,25 +204,7 @@ public class enroll_ImgActivity extends AppCompatActivity {
         else if(resultCode == RESULT_CANCELED)
         {
             Toast.makeText(this, "사진 선택 취소", Toast.LENGTH_LONG).show();
-
-
         }
     }
-    /*@Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        AutoPermissions.Companion.parsePermissions(this, requestCode, permissions, this);
-    }
-
-    @Override
-    public void onDenied(int requestCode, String[] permissions) {
-        Toast.makeText(this, "permissions denied : " + permissions.length,
-                Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onGranted(int requestCode, String[] permissions) {
-        Toast.makeText(this, "permissions granted : " + permissions.length, Toast.LENGTH_LONG).show();
-    }*/
 
 }

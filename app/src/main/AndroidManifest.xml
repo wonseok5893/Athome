@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 반드시 추가 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.athome">
+
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 위치정보활용시 추가 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 위치정보활용시 추가 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- WIFI 상태활용시 추가 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- WIFI 상태활용시 추가 -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /><!--카메라 권한-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 카메라 권한 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-feature
@@ -21,38 +21,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name="com.example.athome.LoginActivity" />
-        <activity android:name="com.example.athome.RegisterActivity" />
-        <activity android:name=".notice.NoticeActivity"/>
-        <activity android:name=".notice.NoticeClicked"/>
-        <activity android:name=".reservation_list.ReservListActivity"/>
-        <activity android:name=".account.AccountActivity"/>
-        <activity android:name=".ReserveActivity"/>
-
+        <activity android:name=".enrollCheckActivity"/>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".notice.NoticeActivity" />
+        <activity android:name=".notice.NoticeClicked" />
+        <activity android:name=".reservation_list.ReservListActivity" />
+        <activity android:name=".account.AccountActivity" />
+        <activity android:name=".ReserveActivity" />
         <activity android:name=".ReserveConfirm" />
         <activity android:name=".DetailsActivity" />
         <activity android:name=".enrollActivity" />
         <activity android:name=".enroll_ImgActivity" />
 
-
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
-            android:value="25z9e189v0"
-            />
+            android:value="25z9e189v0" />
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="9231d5559afddc59ed2a21844af07676"
-            />
-
+            android:value="9231d5559afddc59ed2a21844af07676" />
 
         <activity android:name=".main.MainActivity" />
-
-        <activity android:name="com.example.athome.IntroActivity">
+        <activity android:name=".IntroActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
