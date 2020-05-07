@@ -3,16 +3,22 @@ package com.example.athome.main;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,13 +50,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private DrawerLayout mDrawerLayout;
     private Context context = this;
-
+    private SearchView searchView;
     private GpsTracker gpsTracker;
     private static NaverMap nm = null;
     private Button enrollBtn;
     private TextView name, id, point, profile;
     private User user;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,9 +101,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (user.getUserId() == null) { // 로그인 되지 않은 경우
 
             navigationView.inflateHeaderView(R.layout.before_login_navi_header);
-            navigationView.inflateMenu(R.menu.navi_menu_before);
-        } else { // 로그인 된 경우
-
+            navigationView.inflateMenu(R.menu.navi_menu);
+        } else { // 로그인 되지 않은 경우
             navigationView.inflateHeaderView(R.layout.after_login_navi_header);
             View header = navigationView.getHeaderView(0);
             name = (TextView) header.findViewById(R.id.navi_user_name);
@@ -130,6 +136,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
 
 
+        //서치뷰 설정
+        searchView=(SearchView)findViewById(R.id.searchView);
+        Typeface typeface = getResources().getFont(R.font.dreamgothic3);
+
+        if(searchView!=null){
+            int searchTextId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+            TextView searchText = (TextView) searchView.findViewById(searchTextId);
+            if (searchText != null) {
+                searchText.setTextColor(Color.WHITE);
+                searchText.setHintTextColor(Color.WHITE);
+                searchText.setTypeface(typeface);
+                searchText.setTextSize(TypedValue.COMPLEX_UNIT_DIP,16);
+            }
+        }
+
     }
 
     // 맵 준비되면 onMapReady에서 naverMap객체를 받아옴
@@ -137,8 +158,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
 
-        // 지도종류 Navi로 변경
-        naverMap.setMapType(NaverMap.MapType.Navi);
+        // 지도종류 Basic
+        naverMap.setMapType(NaverMap.MapType.Basic);
 
         // Test용 마커 생성 후 지도상에 set
         SharePlace test = new SharePlace(37.763695, 126.9783740);
@@ -217,11 +238,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
             }
-            case R.id.search: {
-                Toast.makeText(getApplicationContext(), "검색", Toast.LENGTH_LONG).show();
-                return true;
-            }
-
 
         }
         return false;
@@ -255,6 +271,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return true;
     }
 
+    @Override //뒤로가기 버튼 제어(로그인 후 뒤로가기 버튼 누르면 로그인하기 페이지로 이동 제어)해야함
+   public void onBackPressed() {
+
+    }
 
     public void loginButtonClicked(View v) {//로그인하기버튼
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);

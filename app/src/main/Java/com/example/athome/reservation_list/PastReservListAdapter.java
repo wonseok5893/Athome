@@ -59,12 +59,10 @@ public class PastReservListAdapter extends BaseAdapter {
         TextView textTime = (TextView) convertView.findViewById(R.id.past_reserv_time_value);
         TextView textPrice = (TextView) convertView.findViewById(R.id.past_reserv_price_value);
 
-
         textDate.setText(itemPastReservData.getPastReservDate());
         textPlace.setText(itemPastReservData.getPastReservPlace());
         textTime.setText(itemPastReservData.getPastReservTime());
         textPrice.setText(itemPastReservData.getPastReservPrice());
-
 
         return convertView;
     }

@@ -10,4 +10,9 @@
         android:fontWeight="400"
         android:font="@font/dreamgothic3" />
 
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="400"
+        android:font="@font/bareun1"/>
+
 </font-family>
