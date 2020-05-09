@@ -1,158 +1,236 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#fce4ec"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical"
-    android:padding="10dp" >
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/reserv_list_toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+        android:background="#fce4ec"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:contentInsetStart="0dp"
+        tools:ignore="MissingConstraints">
+
+        <Button
+            android:id="@+id/btn_back_register"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:background="#00ff0000"
+            android:drawableRight="@drawable/back"
+            android:gravity="center"
+            android:text=""
+            app:layout_constraintBottom_toBottomOf="@+id/reserv_list_toolbar"
+            app:layout_constraintEnd_toEndOf="@+id/reserv_list_toolbar"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/reserv_list_toolbar"
+            app:layout_constraintTop_toTopOf="@+id/reserv_list_toolbar"
+            app:layout_constraintVertical_bias="0.615" />
 
         <TextView
-            android:id="@+id/text_sign_up"
-            android:layout_width="fill_parent"
+            android:id="@+id/register_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:fontFamily="@font/dreamgothic7"
-            android:gravity="center_horizontal"
-            android:padding="15dp"
             android:text="@string/text_sign_up"
-            android:textColor="#e41653"
-            android:textSize="20sp" />
+            android:textColor="#000000"
+            android:textSize="16sp"
+            tools:layout_editor_absoluteX="212dp"
+            tools:layout_editor_absoluteY="15dp" />
 
-        <EditText
-            android:id="@+id/sign_id"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_border"
-            android:hint="@string/hint_sign_id"
-            android:inputType="textCapWords"
-            android:padding="10dp"
-            android:textColor="@color/input_register"
-            android:textColorHint="@color/input_register_hint"
-            android:fontFamily="@font/dreamgothic3"
-            android:textSize="15sp"/>
 
-        <EditText
-            android:id="@+id/sign_pw"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_border"
-            android:hint="@string/hint_sign_pass"
-            android:inputType="textPassword"
-            android:padding="10dp"
-            android:textColor="@color/input_register"
-            android:textColorHint="@color/input_register_hint"
-            android:fontFamily="@font/dreamgothic3"
-            android:textSize="15sp"/>
+    </androidx.appcompat.widget.Toolbar>
 
-        <EditText
-            android:id="@+id/sign_check_pw"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_border"
-            android:hint="@string/hint_sign_check_pass"
-            android:inputType="textPassword"
-            android:padding="10dp"
-            android:textColor="@color/input_register"
-            android:textColorHint="@color/input_register_hint"
-            android:fontFamily="@font/dreamgothic3"
-            android:textSize="15sp"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/sign_name"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_border"
-            android:hint="@string/hint_sign_name"
-            android:inputType="textPassword"
-            android:padding="10dp"
-            android:textColor="@color/input_register"
-            android:textColorHint="@color/input_register_hint"
-            android:fontFamily="@font/dreamgothic3"
-            android:textSize="15sp"/>
-
-        <EditText
-            android:id="@+id/sign_email"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_border"
-            android:hint="@string/hint_sign_email"
-            android:inputType="textEmailAddress"
-            android:padding="10dp"
-            android:textColor="@color/input_register"
-            android:textColorHint="@color/input_register_hint"
-            android:fontFamily="@font/dreamgothic3"
-            android:textSize="15sp"/>
-
-        <EditText
-            android:id="@+id/sign_phone"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_border"
-            android:hint="@string/hint_sign_phone"
-            android:inputType="phone"
-            android:padding="10dp"
-            android:textColor="@color/input_register"
-            android:textColorHint="@color/input_register_hint"
-            android:fontFamily="@font/dreamgothic3"
-            android:textSize="15sp"/>
-
-        <EditText
-            android:id="@+id/sign_carnumber"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_border"
-            android:hint="@string/hint_sign_carnumber"
-            android:inputType="text"
-            android:padding="10dp"
-            android:textColor="@color/input_register"
-            android:textColorHint="@color/input_register_hint"
-            android:fontFamily="@font/dreamgothic3"
-            android:textSize="15sp"/>
 
         <LinearLayout
-            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal" >
+            android:layout_height="1000dp"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
 
-            <Button
-                android:id="@+id/signUpCancelButton"
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="아이디" />
+
+            <EditText
+                android:id="@+id/sign_id"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/edit_border2"
-                android:text="@string/btn_cancel"
-                android:textColor="@color/white"
-                android:fontFamily="@font/dreamgothic7"/>
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edit_border"
+                android:fontFamily="@font/dreamgothic3"
+                android:hint="@string/hint_sign_id"
+                android:inputType="textCapWords"
+                android:padding="10dp"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint"
+                android:textSize="15sp" />
 
-            <Button
-                android:id="@+id/signUpButton"
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="비밀번호" />
+
+            <EditText
+                android:id="@+id/sign_pw"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/edit_border2"
-                android:text="@string/btn_check"
-                android:textColor="@color/white"
-                android:fontFamily="@font/dreamgothic7"/>
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edit_border"
+                android:fontFamily="@font/dreamgothic3"
+                android:hint="@string/hint_sign_pass"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint"
+                android:textSize="15sp" />
 
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="비밀번호 확인" />
+
+            <EditText
+                android:id="@+id/sign_check_pw"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edit_border"
+                android:fontFamily="@font/dreamgothic3"
+                android:hint="@string/hint_sign_check_pass"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="이름" />
+
+            <EditText
+                android:id="@+id/sign_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edit_border"
+                android:fontFamily="@font/dreamgothic3"
+                android:hint="@string/hint_sign_name"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="이메일" />
+
+            <EditText
+                android:id="@+id/sign_email"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edit_border"
+                android:fontFamily="@font/dreamgothic3"
+                android:hint="@string/hint_sign_email"
+                android:inputType="textEmailAddress"
+                android:padding="10dp"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/sign_carnumber"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edit_border"
+                android:fontFamily="@font/dreamgothic3"
+                android:hint="@string/hint_sign_carnumber"
+                android:inputType="text"
+                android:padding="10dp"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="전화번호" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/sign_phone"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/edit_border"
+                    android:fontFamily="@font/dreamgothic3"
+                    android:hint="@string/hint_sign_phone"
+                    android:inputType="phone"
+                    android:padding="10dp"
+                    android:textColor="@color/input_register"
+                    android:textColorHint="@color/input_register_hint"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/signUpCancelButton"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_border2"
+                    android:fontFamily="@font/dreamgothic7"
+                    android:text="@string/btn_cancel"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/signUpButton"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_border2"
+                    android:fontFamily="@font/dreamgothic7"
+                    android:text="@string/btn_check"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

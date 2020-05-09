@@ -1,5 +1,6 @@
 package com.example.athome.account;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.athome.R;
+import com.example.athome.notice.NoticeActivity;
 
 public class AccountActivity extends AppCompatActivity {
     /*
@@ -33,6 +35,7 @@ public class AccountActivity extends AppCompatActivity {
     private LinearLayout userCardLinear;
     private LinearLayout userEmailLinear;
     private Button btn_back_account;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +72,9 @@ public class AccountActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "로그아웃", Toast.LENGTH_LONG).show();
                         break;
                     case R.id.userpw_linear://클릭시 비밀번호 변경하는 레이아웃으로 이동
-                        Toast.makeText(getApplicationContext(), "비밀번호 변경", Toast.LENGTH_LONG).show();
+                        intent = new Intent(getApplicationContext(), AccountChangePassword.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);//화면전환시효과
                         break;
                     case R.id.userphone_linear://클릭시 핸드폰번호 변경하는 레이아웃으로 이동
                         Toast.makeText(getApplicationContext(), "핸드폰번호", Toast.LENGTH_LONG).show();
@@ -78,7 +83,9 @@ public class AccountActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "차량번호", Toast.LENGTH_LONG).show();
                         break;
                     case R.id.usercard_linear://클릭시 카드 추가, 삭제하는 레이아웃으로 이동
-                        Toast.makeText(getApplicationContext(), "카드", Toast.LENGTH_LONG).show();
+                        intent = new Intent(getApplicationContext(), AccountCardList.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
                         break;
                     case R.id.useremail_linear://클릭시 이메일 변경하는 레이아웃으로 이동
                         Toast.makeText(getApplicationContext(), "이메일", Toast.LENGTH_LONG).show();

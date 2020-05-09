@@ -33,6 +33,9 @@
         <activity android:name=".DetailsActivity" />
         <activity android:name=".enrollActivity" />
         <activity android:name=".enroll_ImgActivity" />
+        <activity android:name=".account.AccountChangePassword"/>
+        <activity android:name=".account.AccountCardList"/>
+        <activity android:name=".account.AccountCardRegister"/>
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
