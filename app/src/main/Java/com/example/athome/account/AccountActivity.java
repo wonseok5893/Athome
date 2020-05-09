@@ -32,6 +32,9 @@ public class AccountActivity extends AppCompatActivity {
     */
     private User user;
     private TextView textUserId;
+    private TextView textUserPhoneNumber;
+    private TextView textUserCarNumber;
+    private TextView textUserEmail;
     private LinearLayout userIdLinear;
     private LinearLayout userPasswordLinear;
     private LinearLayout userPhoneLinear;
@@ -48,7 +51,14 @@ public class AccountActivity extends AppCompatActivity {
         user = getIntent().getParcelableExtra("user");
 
         textUserId = findViewById(R.id.userid_value);
+        textUserPhoneNumber = findViewById(R.id.userphone_value);
+        textUserCarNumber = findViewById(R.id.usercar_value);
+        textUserEmail = findViewById(R.id.useremail_value);
         textUserId.setText(user.getUserId());
+        textUserPhoneNumber.setText(user.getUserPhone());
+        textUserCarNumber.setText(user.getUserCarNumber());
+        textUserEmail.setText(user.getUserEmail());
+
         this.InitializeView();
         this.SetListner();
     }
@@ -84,7 +94,8 @@ public class AccountActivity extends AppCompatActivity {
 
                         Toast.makeText(AccountActivity.this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
                         startActivity(intent);
                         break;
                     case R.id.userpw_linear://클릭시 비밀번호 변경하는 레이아웃으로 이동

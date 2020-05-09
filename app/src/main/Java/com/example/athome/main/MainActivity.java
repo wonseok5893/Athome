@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             navigationView.inflateHeaderView(R.layout.before_login_navi_header);
             navigationView.inflateMenu(R.menu.navi_menu);
-        } else { // 로그인 되지 않은 경우
+        } else { // 로그인 된경우
             navigationView.inflateHeaderView(R.layout.after_login_navi_header);
             View header = navigationView.getHeaderView(0);
             name = (TextView) header.findViewById(R.id.navi_user_name);

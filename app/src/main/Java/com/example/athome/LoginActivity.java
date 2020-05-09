@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                     Intent intent = new Intent(getApplicationContext(), com.example.athome.main.MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
                     startActivity(intent);
                 }
                     else{

@@ -24,7 +24,7 @@ public class RegisterActivity extends AppCompatActivity {
         sign_name = findViewById(R.id.sign_name);
         sign_email = findViewById(R.id.sign_email);
         sign_phone = findViewById(R.id.sign_phone);
-        sign_car_number = findViewById(R.id.sign_carnumber);
+
         signUpButton = findViewById(R.id.signUpButton);
         signUpCancelButton = findViewById(R.id.signUpCancelButton);
 

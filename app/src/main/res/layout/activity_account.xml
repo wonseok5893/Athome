@@ -211,7 +211,7 @@
                         android:layout_gravity="center_vertical"
                         android:fontFamily="@font/dreamgothic3"
                         android:gravity="right"
-                        android:text="01037944084"
+                        android:text="없음"
                         android:textSize="15dp" />
 
                     <ImageView
@@ -261,7 +261,7 @@
                         android:layout_gravity="center_vertical"
                         android:fontFamily="@font/dreamgothic3"
                         android:gravity="right"
-                        android:text="11가1111"
+                        android:text="없음"
                         android:textSize="15dp" />
 
                     <ImageView
@@ -359,7 +359,7 @@
                         android:layout_gravity="center_vertical"
                         android:fontFamily="@font/dreamgothic3"
                         android:gravity="right"
-                        android:text="010_cm@naver.com"
+                        android:text="없음"
                         android:textSize="15dp" />
 
                     <ImageView

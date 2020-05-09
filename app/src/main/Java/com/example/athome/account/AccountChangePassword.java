@@ -65,22 +65,27 @@ public class AccountChangePassword extends Activity {
                         newPwCheck = newPasswordCheck.getText().toString();
                         pw = currentPassword.getText().toString();
                         //검증
-                        Log.d("TESTSSSS",pw+"  "+newPw+" "+newPwCheck+" ");
-                        if (!newPw.equals(newPwCheck)) {
-                            Toast.makeText(AccountChangePassword.this, "새 비밀번호가 같지 않습니다", Toast.LENGTH_SHORT).show();
+                        Log.d("비밀번호 변경 시도", pw + "->" + newPw);
+                        if (newPw.isEmpty() || newPwCheck.isEmpty() || pw.isEmpty()) {
+                            Toast.makeText(AccountChangePassword.this, "입력하지 않은 정보가 있습니다", Toast.LENGTH_SHORT).show();
                         } else {
-                            try {
-                                user.editPassword(user.getToken(), pw, newPw);
-                                if (user.getEditPasswordRes().equals("success")) {
-                                    Toast.makeText(AccountChangePassword.this, "비밀번호 변경 완료", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                    startActivity(intent);
-                                } else {
-                                    Toast.makeText(AccountChangePassword.this, user.getEditPasswordMessage(), Toast.LENGTH_SHORT).show();
+                            if (!newPw.equals(newPwCheck)) {
+                                Toast.makeText(AccountChangePassword.this, "새 비밀번호가 같지 않습니다", Toast.LENGTH_SHORT).show();
+                            } else {
+                                try {
+                                    user.editPassword(user.getToken(), pw, newPw);
+                                    if (user.getEditPasswordRes().equals("success")) {
+                                        Toast.makeText(AccountChangePassword.this, "비밀번호 변경 완료", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                                        startActivity(intent);
+                                    } else {
+                                        Toast.makeText(AccountChangePassword.this, user.getEditPasswordMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (Exception e) {
+                                    Toast.makeText(AccountChangePassword.this, "비밀번호를 수정하는 과정에서 오류", Toast.LENGTH_SHORT).show();
                                 }
-                            } catch (Exception e) {
-                                Toast.makeText(AccountChangePassword.this, "비밀번호를 수정하는 과정에서 오류", Toast.LENGTH_SHORT).show();
                             }
                         }
 
