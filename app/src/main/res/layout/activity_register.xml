@@ -159,6 +159,7 @@
                 android:textColorHint="@color/input_register_hint"
                 android:textSize="15sp" />
 
+
             <TextView
                 android:id="@+id/textView10"
                 android:layout_width="match_parent"

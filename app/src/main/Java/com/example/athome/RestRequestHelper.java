@@ -33,7 +33,5 @@ public class RestRequestHelper {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
-
-
 }
 

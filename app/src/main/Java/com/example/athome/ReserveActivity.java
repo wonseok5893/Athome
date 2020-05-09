@@ -1,7 +1,6 @@
 package com.example.athome;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,18 +10,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
+import com.example.athome.retrofit.ApiService;
+import java.util.Calendar;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ReserveActivity extends AppCompatActivity {
     private Button nextBtn;
     private DatePicker datePicker;
     private TimePicker startTime;
     private TimePicker endTime;
-
     private EditText en_phnum;
     private TextView or_phnum;
-
     private EditText en_carnum;
     private TextView or_carnum;
 
@@ -43,11 +44,15 @@ public class ReserveActivity extends AppCompatActivity {
         en_phnum = (EditText)findViewById(R.id.new_num);
         en_carnum = (EditText)findViewById(R.id.new_num); //기존 차량 정보를 찾아서 출력해야함.
         or_carnum = (TextView)findViewById(R.id.origin_num);
+        //편의상 ap,pm 없애고 24시간으로 설정
+        startTime.setIs24HourView(true);
+        endTime.setIs24HourView(true);
 
 
 
 
         nextBtn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 String enPhone = en_phnum.getText().toString();
@@ -59,9 +64,44 @@ public class ReserveActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "모든 항목을 기입하십시오.", Toast.LENGTH_SHORT).show();
                 }else if (enCar.isEmpty()&&orCar.isEmpty()){Toast.makeText(getApplicationContext(), "모든 항목을 기입하십시오.", Toast.LENGTH_SHORT).show();
                 }else {
+                    //서버에 밀리세컨드로 예약 시작 시간, 종료 시간 전송
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(Calendar.HOUR_OF_DAY, startTime.getHour());
+                    cal.set(Calendar.MINUTE, startTime.getMinute());
+                    cal.set(Calendar.DAY_OF_MONTH, day);
+                    cal.set(Calendar.MONTH, month);
+                    cal.set(Calendar.YEAR, year);
+
+                    long stime = cal.getTimeInMillis();
+                    cal.set(Calendar.HOUR_OF_DAY, endTime.getHour());
+                    cal.set(Calendar.MINUTE, endTime.getMinute());
+                    long etime = cal.getTimeInMillis();
+                    //date, time -> ms 끝
+
+                    //서버와 http 통신 하는 부분
+                    ApiService serviceApi = new RestRequestHelper().getApiService();
+                    Call<ResponseBody> call = serviceApi.sendReserve(orCar,orPhone,stime,etime);
+                    call.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if(response.isSuccessful() && response.body() !=null) {
+                                Toast.makeText(ReserveActivity.this, "저장성공했습니다.", Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                Toast.makeText(ReserveActivity.this, "실패.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Toast.makeText(ReserveActivity.this,"저장실패.",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    //통신 끝 + 오류 수정해야 할 것 : 전송속도가 느리면 다음 코드 실행되서 화면이 넘어감. sleep 쓰면 될 듯
                     Intent intent = new Intent(getApplicationContext(),ReserveConfirm.class);
                     startActivity(intent);
                 }
+
 
 
             }
@@ -73,13 +113,10 @@ public class ReserveActivity extends AppCompatActivity {
                 year = sel_year;
                 month = monthOfYear;
                 day = dayOfMonth; // 예약날짜 리턴
-
             }
         });
 
     }
-
-
 
 
 }

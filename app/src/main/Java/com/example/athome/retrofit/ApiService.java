@@ -1,6 +1,7 @@
 package com.example.athome.retrofit;
 
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -32,6 +33,13 @@ public interface ApiService {
     Call<EditResult> editPassword(@Header("x-access-token") String token
             ,@Field("userPassword") String userPassword,
                                   @Field("newUserPassword") String newUserPassword);
+
+    @FormUrlEncoded
+    @POST("api/reservation/enroll")
+    Call<ResponseBody> sendReserve(@Field("carNum") String carNum,
+                                   @Field("phNum") String phNum,
+                                   @Field("startTime") Long startTime,
+                                   @Field("endTime") Long endTime);
 
 
 

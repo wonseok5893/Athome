@@ -3,23 +3,15 @@ package com.example.athome;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
-import com.example.athome.main.MainActivity;
 import com.kakao.kakaonavi.KakaoNaviParams;
 import com.kakao.kakaonavi.KakaoNaviService;
 import com.kakao.kakaonavi.Location;
 import com.kakao.kakaonavi.NaviOptions;
 import com.kakao.kakaonavi.options.CoordType;
 import com.naver.maps.geometry.LatLng;
-
-import java.util.List;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -31,7 +23,7 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
 
         // Intent 에서 marker[0] 위치 받아와 가공 (윤지원)
-        Intent detail_intent = getIntent();
+        final Intent detail_intent = getIntent();
         LatLng position = detail_intent.getParcelableExtra("position");
         final double longtitude = position.longitude;
         final double latitude = position.latitude;
