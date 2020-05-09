@@ -44,20 +44,20 @@ public class RegisterActivity extends AppCompatActivity {
                 String userName = sign_name.getText().toString();
                 String userEmail = sign_email.getText().toString();
                 String userPhone = sign_phone.getText().toString();
-                String userCarNumber = sign_car_number.getText().toString();
+
 
                 //회원가입 Client 검증
                 if (userId.isEmpty() || userPassword.isEmpty() || userCheckPassword.isEmpty() || userName.isEmpty() || userEmail.isEmpty() ||
                         userPhone.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "모든 항목을 기입하십시오.", Toast.LENGTH_SHORT).show();
-                }else if(userPassword.length()>=8&userPassword.equals(userCheckPassword)){
+                }else if(userPassword.length()<8||!userPassword.equals(userCheckPassword)){
                     Toast.makeText(getApplicationContext(), "비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
                 }
                 else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()
                 ) {
                     Toast.makeText(getApplicationContext(), "이메일 형식이 맞지 않습니다.", Toast.LENGTH_SHORT).show();
                 } else {
-                    User user = new User(userId, userPassword, userName, userEmail, userPhone, userCarNumber);
+                    User user = new User(userId, userPassword, userName, userEmail, userPhone);
                     // 1. register (w/ created token(init))
                     try {
 

@@ -56,7 +56,9 @@ public class AccountActivity extends AppCompatActivity {
         textUserEmail = findViewById(R.id.useremail_value);
         textUserId.setText(user.getUserId());
         textUserPhoneNumber.setText(user.getUserPhone());
-        textUserCarNumber.setText(user.getUserCarNumber());
+        if(user.getUserCarNumber()!=null){
+            textUserCarNumber.setText(user.getUserCarNumber());
+        }
         textUserEmail.setText(user.getUserEmail());
 
         this.InitializeView();

@@ -14,8 +14,8 @@ public interface ApiService {
                                 @Field("userPassword") String userPassword,
                                 @Field("userName") String userName,
                                 @Field("userEmail") String userEmail,
-                                @Field("userPhone") String userPhone,
-                                @Field("userCarNumber") String userCarNumber);
+                                @Field("userPhone") String userPhone
+                                );
 
     @FormUrlEncoded
     @POST("user/login")

@@ -45,13 +45,13 @@ public class User implements Parcelable {
     }
 
     //회원가입시 사용
-    public User(String userId, String userPassword, String userName, String userEmail, String userPhone, String userCarNumber) {
+    public User(String userId, String userPassword, String userName, String userEmail, String userPhone) {
         this.userId = userId;
         this.userPassword = userPassword;
         this.userName = userName;
         this.userEmail = userEmail;
         this.userPhone = userPhone;
-        this.userCarNumber = userCarNumber;
+
     }
 
     protected User(Parcel in) {
@@ -163,7 +163,7 @@ public class User implements Parcelable {
     public String register() {
         ApiService serviceApi = new RestRequestHelper().getApiService();
 
-        final Call<RegisterResult> res = serviceApi.signUp(userId, userPassword, userName, userEmail, userPhone, userCarNumber); // register (실제 통신이 이루어지는 곳)
+        final Call<RegisterResult> res = serviceApi.signUp(userId, userPassword, userName, userEmail, userPhone); // register (실제 통신이 이루어지는 곳)
 
 
         //받아온거 뽑아내기 (동기처리)
