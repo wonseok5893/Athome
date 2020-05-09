@@ -1,6 +1,7 @@
 package com.example.athome.account;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.athome.R;
 import com.example.athome.User;
+import com.example.athome.main.MainActivity;
 
 public class AccountChangePassword extends Activity {
     private Button btn_back_change_password;
@@ -71,6 +73,9 @@ public class AccountChangePassword extends Activity {
                                 user.editPassword(user.getToken(), pw, newPw);
                                 if (user.getEditPasswordRes().equals("success")) {
                                     Toast.makeText(AccountChangePassword.this, "비밀번호 변경 완료", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                    startActivity(intent);
                                 } else {
                                     Toast.makeText(AccountChangePassword.this, user.getEditPasswordMessage(), Toast.LENGTH_SHORT).show();
                                 }

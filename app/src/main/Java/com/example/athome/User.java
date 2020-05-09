@@ -262,7 +262,7 @@ public class User implements Parcelable {
             return false;
         }
     }
-    public void editPassword(String token,String currentPassword,String newPassword) {
+    public void editPassword(String token, String currentPassword, final String newPassword) {
 
         ApiService serviceApi = new RestRequestHelper().getApiService();
         final Call<EditResult> res = serviceApi.editPassword(token,currentPassword,newPassword);
@@ -277,6 +277,7 @@ public class User implements Parcelable {
                     if (editPasswordRes == null) {
                         Log.d("TEST", "비밀번호 변경 오류");
                     } else if (editPasswordRes.equals("success")) {
+                        userPassword = newPassword;
                         Log.d("TEST", "비밀번호 변경 성공");
                     } else if (editPasswordRes.equals("fail")) {
                         Log.d("TEST", "비밀번호 변경 실패.. ");
