@@ -162,16 +162,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         naverMap.setMapType(NaverMap.MapType.Basic);
 
         // Test용 마커 생성 후 지도상에 set
-        SharePlace test = new SharePlace(37.763695, 126.9783740);
+        SharePlace test = new SharePlace();
+        test.readSharePlace("fails12", "junggyu","01031125927",200,37.3595704,127.105399, this);
         test.getMyMarker().setMap(naverMap);
-        test.getMyMarker().setOnClickListener(new Overlay.OnClickListener() {
-            @Override
-            public boolean onClick(@NonNull Overlay overlay) {
-                Toast.makeText(context, "test", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
-        final Marker marker[] = new Marker[2];
+
         InfoWindow infoWindow = new InfoWindow();
         // test : maker onclick 시 네비게이션 (윤지원 04-30)
 
@@ -182,44 +176,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return "정보 창 내용";
             }
         });
-
-
-        for (int i = 0; i < 2; i++) {
-            marker[i] = new Marker();
-            marker[i].setWidth(50);  //마커 사이즈 수정 가능
-            marker[i].setHeight(80);
-
-        }
-        marker[0].setCaptionText("여길..해보지");
-        marker[0].setCaptionRequestedWidth(200);
-        marker[0].setPosition(new LatLng(37.5670135, 126.9783740));
-        infoWindow.setPosition(new LatLng(37.5670135, 126.9783740));
-        marker[1].setPosition(new LatLng(40.5670135, 126.9783740));
-
-
-        marker[0].setMap(naverMap);
-        marker[1].setMap(nm);
-
-        //kakao navi 연동 부분
-        //클릭시 marker[0] 위치 DetailActivity intent로 전달 (윤지원)
-        marker[0].setOnClickListener(new Overlay.OnClickListener() {
-            @Override
-            public boolean onClick(@NonNull Overlay overlay) {
-                LatLng position = marker[0].getPosition();
-                Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
-                intent.putExtra("position", position);
-                startActivity(intent);
-                return true;
-            }
-        });
-//
-//        nm.setOnMapClickListener(new NaverMap.OnMapClickListener() {
-//            @Override
-//            public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
-//                Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
-//                startActivity(intent);
-//            }
-//        }); //마커클릭시 세부사항 나오게 바꿔야함. . .  .
     }
 
 
