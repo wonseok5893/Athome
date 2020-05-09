@@ -262,6 +262,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Toast.makeText(getApplicationContext(), "결제,충전,적립", Toast.LENGTH_LONG).show();
         } else if (id == R.id.account) {//계정관리
             Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
+            intent.putExtra("user",user);
             startActivity(intent);
             overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
         } else if (id == R.id.setting) {//환경설정

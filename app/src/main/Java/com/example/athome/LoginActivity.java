@@ -41,12 +41,12 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (loginResult.equals("success")) {
                         if(sharedToken=="") {//저장된 토큰 값 없을시 새로 생성 후 저장
-                            editor.putString("token", user.token);
+                            editor.putString("token", user.getToken());
                             editor.commit();
                         }
                         else{//저장된 토큰값이 있을시 지우고 새로 생성후 저장
                             editor.remove("token");
-                            editor.putString("token", user.token);
+                            editor.putString("token", user.getToken());
                             editor.commit();
                         }
 

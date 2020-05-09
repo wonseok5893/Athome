@@ -29,6 +29,15 @@ public class AuthUser {
     @SerializedName("point")
     @Expose
     private Integer point;
+    @SerializedName("sharingParkingLot")
+    @Expose
+    AuthSharedLocation authSharedLocation;
+
+
+    public AuthSharedLocation getAuthSharedLocation() {
+        return authSharedLocation;
+    }
+
 
     public Integer getPoint() {
         return point;

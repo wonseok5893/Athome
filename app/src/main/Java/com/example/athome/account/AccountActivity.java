@@ -5,12 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.athome.R;
-import com.example.athome.notice.NoticeActivity;
+import com.example.athome.User;
 
 public class AccountActivity extends AppCompatActivity {
     /*
@@ -27,7 +28,8 @@ public class AccountActivity extends AppCompatActivity {
     데이터 값이 존재하지 않는다면 기존 텍스트는 "없음"으로 변경된 후 색은 빨간색으로 지정
 
     */
-
+    private User user;
+    private TextView textUserId;
     private LinearLayout userIdLinear;
     private LinearLayout userPasswordLinear;
     private LinearLayout userPhoneLinear;
@@ -41,7 +43,10 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
+        user = getIntent().getParcelableExtra("user");
 
+        textUserId = findViewById(R.id.userid_value);
+        textUserId.setText(user.getUserId());
         this.InitializeView();
         this.SetListner();
     }
@@ -73,6 +78,7 @@ public class AccountActivity extends AppCompatActivity {
                         break;
                     case R.id.userpw_linear://클릭시 비밀번호 변경하는 레이아웃으로 이동
                         intent = new Intent(getApplicationContext(), AccountChangePassword.class);
+                        intent.putExtra("user",user);
                         startActivity(intent);
                         overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);//화면전환시효과
                         break;

@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.AuthResult;
+import com.example.athome.retrofit.AuthSharedLocation;
+import com.example.athome.retrofit.EditResult;
 import com.example.athome.retrofit.LoginResult;
 import com.example.athome.retrofit.RegisterResult;
 
@@ -22,17 +24,19 @@ public class User implements Parcelable {
     private String userPhone;
     private String userCarNumber;
     private Integer userPoint;
+    private AuthSharedLocation authSharedLocation;
     String authMessage;
     String authRes;
     String registerMessage;
     String registerRes;
     String loginRes;
-    String token;
+    private String token;
+    String editPasswordRes;
+    String editPasswordMessage;
 
     public User() {
-    }
 
-    ;
+    };
 
     //로그인시 사용
     public User(String userId, String userPassword) {
@@ -40,7 +44,7 @@ public class User implements Parcelable {
         this.userPassword = userPassword;
     }
 
-    //회우너가입시 사용
+    //회원가입시 사용
     public User(String userId, String userPassword, String userName, String userEmail, String userPhone, String userCarNumber) {
         this.userId = userId;
         this.userPassword = userPassword;
@@ -75,6 +79,18 @@ public class User implements Parcelable {
         }
     };
 
+    public String getEditPasswordRes() {
+        return editPasswordRes;
+    }
+
+    public String getEditPasswordMessage() {
+        return editPasswordMessage;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
     public String getRegisterMessage() {
         return registerMessage;
     }
@@ -105,6 +121,14 @@ public class User implements Parcelable {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public AuthSharedLocation getAuthSharedLocation() {
+        return authSharedLocation;
+    }
+
+    public void setAuthSharedLocation(AuthSharedLocation authSharedLocation) {
+        this.authSharedLocation = authSharedLocation;
     }
 
     public String getUserEmail() {
@@ -202,6 +226,7 @@ public class User implements Parcelable {
 
     //토큰 인증
     public boolean authenticate(String sharedToken) {
+        this.token = sharedToken;
         ApiService serviceApi = new RestRequestHelper().getApiService();
         final Call<AuthResult> res = serviceApi.authenticate(sharedToken, "wonseok");
         new Thread(new Runnable() {
@@ -213,12 +238,12 @@ public class User implements Parcelable {
                     authRes = authResult.getResult();
                     authMessage = authResult.getAuthMessage();
                     userPoint = authResult.getAuthUser().getPoint();
-                    System.out.println(userPoint);
                     userId = authResult.getAuthUser().getUserId();
                     userEmail = authResult.getAuthUser().getUserEmail();
                     userPhone = authResult.getAuthUser().getUserPhone();
                     userName = authResult.getAuthUser().getUserName();
                     userCarNumber = authResult.getAuthUser().getUserCarNumber();
+                    authSharedLocation = authResult.getAuthUser().getAuthSharedLocation();
                 } catch (IOException ie) {
                     ie.printStackTrace();
                 }
@@ -237,7 +262,37 @@ public class User implements Parcelable {
             return false;
         }
     }
+    public void editPassword(String token,String currentPassword,String newPassword) {
 
+        ApiService serviceApi = new RestRequestHelper().getApiService();
+        final Call<EditResult> res = serviceApi.editPassword(token,currentPassword,newPassword);
+        Log.i("TEST",currentPassword+" "+newPassword);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    final EditResult editResult = res.execute().body();
+                    editPasswordRes = editResult.getResult();
+                    editPasswordMessage = editResult.getMessage();
+                    if (editPasswordRes == null) {
+                        Log.d("TEST", "비밀번호 변경 오류");
+                    } else if (editPasswordRes.equals("success")) {
+                        Log.d("TEST", "비밀번호 변경 성공");
+                    } else if (editPasswordRes.equals("fail")) {
+                        Log.d("TEST", "비밀번호 변경 실패.. ");
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+        try {
+            Thread.sleep(100);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public String getAuthMessage() {
         return authMessage;
     }

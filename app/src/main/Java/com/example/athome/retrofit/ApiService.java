@@ -21,10 +21,17 @@ public interface ApiService {
     @POST("user/login")
     Call<LoginResult> login(@Field("userId") String userId,
                             @Field("userPassword") String userPassword);
+
     @FormUrlEncoded
     @POST("api/auth")
     Call<AuthResult> authenticate(@Header("x-access-token") String token
-            ,@Field("authKey") String key);
+            , @Field("authKey") String key);
+
+    @FormUrlEncoded
+    @POST("user/editPassword")
+    Call<EditResult> editPassword(@Header("x-access-token") String token
+            ,@Field("userPassword") String userPassword,
+                                  @Field("newUserPassword") String newUserPassword);
 
 
 
