@@ -1,6 +1,7 @@
 package com.example.athome.account;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.athome.R;
 import com.example.athome.User;
+import com.example.athome.main.MainActivity;
 
 public class AccountActivity extends AppCompatActivity {
     /*
@@ -74,7 +76,16 @@ public class AccountActivity extends AppCompatActivity {
                         overridePendingTransition(R.anim.not_move_activity,R.anim.rightout_activity);
                         break;
                     case R.id.userid_linear: //클릭시 로그아웃
-                        Toast.makeText(getApplicationContext(), "로그아웃", Toast.LENGTH_LONG).show();
+                        //토큰 삭제
+                        SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sf.edit(); //토큰 업데이트 삭제에서 쓸거
+                        editor.remove("token");
+                        editor.commit();
+
+                        Toast.makeText(AccountActivity.this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        startActivity(intent);
                         break;
                     case R.id.userpw_linear://클릭시 비밀번호 변경하는 레이아웃으로 이동
                         intent = new Intent(getApplicationContext(), AccountChangePassword.class);
