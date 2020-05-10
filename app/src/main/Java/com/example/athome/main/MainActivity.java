@@ -26,7 +26,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.example.athome.DetailsActivity;
 import com.example.athome.GpsTracker;
 import com.example.athome.LoginActivity;
 import com.example.athome.R;
@@ -36,13 +35,10 @@ import com.example.athome.enrollActivity;
 import com.example.athome.notice.NoticeActivity;
 import com.example.athome.reservation_list.ReservListActivity;
 import com.google.android.material.navigation.NavigationView;
-import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.overlay.InfoWindow;
-import com.naver.maps.map.overlay.Marker;
-import com.naver.maps.map.overlay.Overlay;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,
@@ -69,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         /*저장된 토큰 가져오기*/
         SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
-//      SharedPreferences.Editor editor = sf.edit(); //토큰 업데이트 삭제에서 쓸거
+      SharedPreferences.Editor editor = sf.edit(); //토큰 업데이트 삭제에서 쓸거
         String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
         System.out.println(sharedToken);
         if (sharedToken != "") {
@@ -78,6 +74,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             if (user.authenticate(sharedToken)) {
                 Toast.makeText(getApplicationContext(), user.getUserId() + " 님 어서오세요!", Toast.LENGTH_SHORT).show();
             } else {
+                // 토큰 오류시 User 초기화
+                editor.remove("token");
+                editor.putString("token", user.getToken());
+                editor.commit();
                 Toast.makeText(getApplicationContext(), user.getAuthMessage() + "", Toast.LENGTH_SHORT).show();
             }
         }

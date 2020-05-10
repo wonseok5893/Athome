@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import com.example.athome.retrofit.ApiService;
+import com.example.athome.retrofit.AuthReservation;
 import com.example.athome.retrofit.AuthResult;
 import com.example.athome.retrofit.AuthSharedLocation;
 import com.example.athome.retrofit.EditResult;
@@ -12,6 +13,7 @@ import com.example.athome.retrofit.LoginResult;
 import com.example.athome.retrofit.RegisterResult;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import retrofit2.Call;
 
@@ -25,6 +27,7 @@ public class User implements Parcelable {
     private String userCarNumber;
     private Integer userPoint;
     private AuthSharedLocation authSharedLocation;
+    private ArrayList<AuthReservation> authReservation;
     String authMessage;
     String authRes;
     String registerMessage;
@@ -78,6 +81,7 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
+
 
     public String getEditPasswordRes() {
         return editPasswordRes;
@@ -237,13 +241,16 @@ public class User implements Parcelable {
                     //User에 담는다 받은 결과를
                     authRes = authResult.getResult();
                     authMessage = authResult.getAuthMessage();
-                    userPoint = authResult.getAuthUser().getPoint();
-                    userId = authResult.getAuthUser().getUserId();
-                    userEmail = authResult.getAuthUser().getUserEmail();
-                    userPhone = authResult.getAuthUser().getUserPhone();
-                    userName = authResult.getAuthUser().getUserName();
-                    userCarNumber = authResult.getAuthUser().getUserCarNumber();
-                    authSharedLocation = authResult.getAuthUser().getAuthSharedLocation();
+                    if(authRes.equals("success")) {
+                        userPoint = authResult.getAuthUser().getPoint();
+                        userId = authResult.getAuthUser().getUserId();
+                        userEmail = authResult.getAuthUser().getUserEmail();
+                        userPhone = authResult.getAuthUser().getUserPhone();
+                        userName = authResult.getAuthUser().getUserName();
+                        userCarNumber = authResult.getAuthUser().getUserCarNumber();
+                        authSharedLocation = authResult.getAuthUser().getAuthSharedLocation();
+                        authReservation.add(authResult.getAuthUser().getAuthReservation());
+                    }
                 } catch (IOException ie) {
                     ie.printStackTrace();
                 }

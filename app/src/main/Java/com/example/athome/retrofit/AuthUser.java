@@ -32,12 +32,18 @@ public class AuthUser {
     @SerializedName("sharingParkingLot")
     @Expose
     AuthSharedLocation authSharedLocation;
+    @SerializedName("reservation")
+    @Expose
+    AuthReservation authReservation;
 
 
     public AuthSharedLocation getAuthSharedLocation() {
         return authSharedLocation;
     }
 
+    public AuthReservation getAuthReservation() {
+        return authReservation;
+    }
 
     public Integer getPoint() {
         return point;
