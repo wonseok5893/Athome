@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@drawable/bottom_border">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/car_number_text"
+            android:layout_width="350dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/bareun1"
+            android:text="11가1111"
+            android:textColor="#1b1b1b"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/car_number_cancel"
+            android:layout_width="40dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center"
+            android:background="@drawable/car_number_cancel"
+            android:fontFamily="@font/bareun1"
+            android:gravity="center"
+            android:text="삭제"
+            android:textColor="@color/white"
+            android:textSize="15dp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

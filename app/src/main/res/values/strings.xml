@@ -30,8 +30,10 @@
     <string name="new_password_check">새 비밀번호 확인</string>
 
     <string name="car_list">차량목록</string>
-
     <string name="card_list">카드목록</string>
+
+    <string name="enroll_parking">주차장 공유하기</string>
+    <string name="sharedparking">공유주차장</string>
 
     <string name="hint_id">아이디를 입력하세요</string>
     <string name="hint_password">비밀번호를 입력하세요</string>

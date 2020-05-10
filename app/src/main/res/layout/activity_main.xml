@@ -13,39 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#AA89F1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:contentInsetStart="0dp"
-        tools:ignore="MissingConstraints" >
-
-        <SearchView
-            android:id="@+id/searchView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="33dp"
-            android:layout_marginRight="45dp"
-            android:iconifiedByDefault="false"
-            android:searchIcon="@drawable/search"
-            android:queryHint="어디에 주차하세요?"
-            android:queryBackground="@null"
-
-            />
-    </androidx.appcompat.widget.Toolbar>
-
         <fragment
             android:id="@+id/map_view"
-            android:layout_width="match_parent"
-            android:layout_height="652dp"
-            android:layout_below="@+id/toolbar"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="0dp"
             android:name="com.naver.maps.map.MapFragment"
-        />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <Button
             android:id="@+id/enrollBtn"
@@ -60,7 +32,36 @@
             android:layout_marginTop="71dp"
             android:layout_marginEnd="9dp"
             android:layout_marginRight="9dp"
-            android:text="공유AP" />
+            android:text="@string/sharedparking" />
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/toolbar_border"
+            android:focusableInTouchMode="true"
+            app:contentInsetStart="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints">
+
+            <SearchView
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="33dp"
+                android:layout_marginRight="45dp"
+                android:iconifiedByDefault="false"
+                android:queryBackground="@null"
+                android:queryHint="어디에 주차하세요?" />
+        </androidx.appcompat.widget.Toolbar>
 
     </RelativeLayout>
     <!--navigation drawer-->

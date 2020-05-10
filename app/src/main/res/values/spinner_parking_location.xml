@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="parking_location">
+        <item>경기도 수원시</item>
+        <item>경기도 용인시</item>
+    </string-array>
+</resources>

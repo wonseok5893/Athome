@@ -3,7 +3,6 @@ package com.example.athome.main;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,9 +30,9 @@ import com.example.athome.LoginActivity;
 import com.example.athome.R;
 import com.example.athome.User;
 import com.example.athome.account.AccountActivity;
-import com.example.athome.enrollActivity;
 import com.example.athome.notice.NoticeActivity;
 import com.example.athome.reservation_list.ReservListActivity;
+import com.example.athome.shared_parking.MySharedParkingActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
@@ -50,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GpsTracker gpsTracker;
     private static NaverMap nm = null;
     private Button enrollBtn;
+    private Button btn_back_enroll;
     private TextView name, id, point, profile;
     private User user;
 
@@ -116,15 +116,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
 
-        //공유AP 버튼
+        //공유주차장버튼 클릭
         enrollBtn = (Button) findViewById(R.id.enrollBtn);
         enrollBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), enrollActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MySharedParkingActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);//화면전환시효과
             }
         });
+
 
         // 맵 동기화
         MapFragment mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.map_view);
@@ -139,13 +141,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //서치뷰 설정
         searchView=(SearchView)findViewById(R.id.searchView);
         Typeface typeface = getResources().getFont(R.font.dreamgothic3);
+        searchView.setIconifiedByDefault(false);
 
         if(searchView!=null){
             int searchTextId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
             TextView searchText = (TextView) searchView.findViewById(searchTextId);
             if (searchText != null) {
-                searchText.setTextColor(Color.WHITE);
-                searchText.setHintTextColor(Color.WHITE);
                 searchText.setTypeface(typeface);
                 searchText.setTextSize(TypedValue.COMPLEX_UNIT_DIP,16);
             }
@@ -194,7 +195,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
             }
-
         }
         return false;
     }

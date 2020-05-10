@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="350dp"
     android:layout_height="180dp"
-    android:orientation="vertical"
-    android:background="#fce4ec">
+    android:background="#fce4ec"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="125dp"
         android:background="@drawable/border_line"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
             android:layout_width="68dp"
@@ -29,8 +25,8 @@
                 android:id="@+id/nave_user_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"/>
-<!--                app:srcCompat="@drawable/basic_profile" />-->
+                android:layout_gravity="center_vertical"
+                app:srcCompat="@drawable/basic_profile" />
         </androidx.cardview.widget.CardView>
 
         <LinearLayout
@@ -65,15 +61,13 @@
                 android:textSize="10dp"
                 android:textStyle="bold" />
         </LinearLayout>
+
     </LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="409dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="1dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="1dp">
 
         <ImageView
             android:id="@+id/point"
@@ -82,24 +76,17 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.476"
             app:srcCompat="@drawable/point" />
 
         <TextView
             android:id="@+id/navi_user_point"
-            android:layout_width="209dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/dreamgothic7"
             android:text="10000P"
             android:textColor="#212121"
-            android:textSize="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/point"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/navi_card_register"
@@ -110,10 +97,7 @@
             android:gravity="right"
             android:text="@string/card_register"
             android:textColor="#212121"
-            android:textSize="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/navi_user_point"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/line"
@@ -124,10 +108,7 @@
             android:gravity="center"
             android:text="@string/separator"
             android:textColor="#212121"
-            android:textSize="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/navi_card_register"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="15dp" />
 
 
         <TextView
@@ -138,12 +119,9 @@
             android:fontFamily="@font/dreamgothic3"
             android:text="@string/point_charge"
             android:textColor="#212121"
-            android:textSize="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/line"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="15dp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

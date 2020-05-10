@@ -21,7 +21,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".enrollCheckActivity"/>
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".notice.NoticeActivity" />
@@ -31,11 +30,12 @@
         <activity android:name=".ReserveActivity" />
         <activity android:name=".ReserveConfirm" />
         <activity android:name=".DetailsActivity" />
-        <activity android:name=".enrollActivity" />
-        <activity android:name=".enroll_ImgActivity" />
+
         <activity android:name=".account.AccountChangePassword"/>
         <activity android:name=".account.AccountCardList"/>
         <activity android:name=".account.AccountCardRegister"/>
+        <activity android:name=".shared_parking.MySharedParkingActivity"/>
+        <activity android:name=".shared_parking.EnrollSharedParking"/>
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
