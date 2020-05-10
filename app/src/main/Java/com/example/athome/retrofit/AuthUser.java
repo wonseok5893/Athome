@@ -3,6 +3,8 @@ package com.example.athome.retrofit;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class AuthUser {
 
     @SerializedName("_id")
@@ -34,15 +36,11 @@ public class AuthUser {
     AuthSharedLocation authSharedLocation;
     @SerializedName("reservation")
     @Expose
-    AuthReservation authReservation;
+    private List<AuthReservation> reservation;
 
 
     public AuthSharedLocation getAuthSharedLocation() {
         return authSharedLocation;
-    }
-
-    public AuthReservation getAuthReservation() {
-        return authReservation;
     }
 
     public Integer getPoint() {

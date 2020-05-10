@@ -13,7 +13,7 @@ import com.example.athome.retrofit.LoginResult;
 import com.example.athome.retrofit.RegisterResult;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 
@@ -27,7 +27,7 @@ public class User implements Parcelable {
     private String userCarNumber;
     private Integer userPoint;
     private AuthSharedLocation authSharedLocation;
-    private ArrayList<AuthReservation> authReservation;
+    private List<AuthReservation> authReservation;
     String authMessage;
     String authRes;
     String registerMessage;
@@ -214,7 +214,6 @@ public class User implements Parcelable {
                     loginRes = loginResult.getLoginResult();
                     token = loginResult.getToken();
 
-
                 } catch (IOException ie) {
                     ie.printStackTrace();
                 }
@@ -248,8 +247,9 @@ public class User implements Parcelable {
                         userPhone = authResult.getAuthUser().getUserPhone();
                         userName = authResult.getAuthUser().getUserName();
                         userCarNumber = authResult.getAuthUser().getUserCarNumber();
-                        authSharedLocation = authResult.getAuthUser().getAuthSharedLocation();
-                        authReservation.add(authResult.getAuthUser().getAuthReservation());
+//                        if(authResult.getAuthUser().getAuthSharedLocation()!=null){
+//                        authSharedLocation = authResult.getAuthUser().getAuthSharedLocation();}
+//                        authReservation.add(authResult.getAuthUser().getAuthReservation());
                     }
                 } catch (IOException ie) {
                     ie.printStackTrace();
