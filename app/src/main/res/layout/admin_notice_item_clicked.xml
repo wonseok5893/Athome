@@ -1,9 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/notice_item_toolbar"
@@ -17,13 +17,13 @@
         tools:ignore="MissingConstraints">
 
         <Button
-            android:id="@+id/btn_back_notice_item"
+            android:id="@+id/admin_back_notice_item"
             android:layout_width="50dp"
             android:layout_height="30dp"
             android:layout_margin="3dp"
             android:background="#00ff0000"
             android:drawableTop="@drawable/back"
-            android:gravity="center"
+            android:layout_gravity="left"
             android:text=""
             app:layout_constraintBottom_toBottomOf="@+id/notice_toolbar"
             app:layout_constraintEnd_toEndOf="@+id/notice_toolbar"
@@ -32,17 +32,37 @@
             app:layout_constraintTop_toTopOf="@+id/notice_toolbar"
             app:layout_constraintVertical_bias="0.615" />
 
-        <TextView
-            android:id="@+id/notce_item_text"
+        <Button
+            android:id="@+id/admin_deleteBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/dreamgothic7"
-            android:text="@string/notice"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            tools:layout_editor_absoluteX="212dp"
-            tools:layout_editor_absoluteY="15dp" />
+            android:layout_gravity="right"
+            android:background="#F44336"
+            android:fontFamily="@font/dreamgothic"
+            android:textColor="@color/white"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="삭제"
+            tools:layout_editor_absoluteX="319dp"
+            tools:layout_editor_absoluteY="5dp" />
+
+        <Button
+            android:id="@+id/admin_reviseBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="#00BCD4"
+            android:text="수정"
+            android:fontFamily="@font/dreamgothic"
+            android:textColor="@color/white"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            tools:layout_editor_absoluteX="319dp"
+            tools:layout_editor_absoluteY="5dp" />
+
+
 
 
     </androidx.appcompat.widget.Toolbar>
@@ -65,7 +85,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/notice_item_title"
+                android:id="@+id/admin_notice_title"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:fontFamily="@font/dreamgothic3"
@@ -77,7 +97,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/notice_item_date"
+                android:id="@+id/admin_notice_date"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:fontFamily="@font/dreamgothic3"
@@ -101,7 +121,7 @@
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
             <TextView
-                android:id="@+id/notice_item_context"
+                android:id="@+id/admin_notice_context"
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
                 android:layout_marginTop="10dp"
@@ -116,6 +136,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

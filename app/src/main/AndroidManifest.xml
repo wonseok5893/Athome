@@ -21,7 +21,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".admin_enroll.AdminEnrollData"></activity>
+        <activity android:name=".admin_enroll.AdminEnrollClicked" />
+        <activity android:name=".admin_enroll.AdminEnrollActivity" />
+        <activity android:name=".admin.AdminListAdapter" />
+        <activity android:name=".admin.AdminNoticeClicked" />
+        <activity android:name=".admin.ItemAdminNoticeData" />
+        <activity android:name=".admin.AdminNoticeActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".notice.NoticeActivity" />
         <activity android:name=".notice.NoticeClicked" />
@@ -30,12 +36,11 @@
         <activity android:name=".ReserveActivity" />
         <activity android:name=".ReserveConfirm" />
         <activity android:name=".DetailsActivity" />
-
-        <activity android:name=".account.AccountChangePassword"/>
-        <activity android:name=".account.AccountCardList"/>
-        <activity android:name=".account.AccountCardRegister"/>
-        <activity android:name=".shared_parking.MySharedParkingActivity"/>
-        <activity android:name=".shared_parking.EnrollSharedParking"/>
+        <activity android:name=".account.AccountChangePassword" />
+        <activity android:name=".account.AccountCardList" />
+        <activity android:name=".account.AccountCardRegister" />
+        <activity android:name=".shared_parking.MySharedParkingActivity" />
+        <activity android:name=".shared_parking.EnrollSharedParking" />
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"

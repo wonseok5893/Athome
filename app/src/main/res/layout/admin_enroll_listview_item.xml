@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:background="@drawable/reserv_list"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginBottom="3dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/enlist_num"
+                    android:layout_width="195dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="5"
+                    android:fontFamily="@font/dreamgothic3"
+                    android:text="등록날짜"
+                    android:textColor="#212121"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/enlist_num_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="5"
+                    android:fontFamily="@font/dreamgothic3"
+                    android:text="날짜+시간 값 넣을까요(접수번호 ?) "
+                    android:textColor="#212121"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.2"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/enlist_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/dreamgothic3"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="7dp"
+                        android:text="회원 아이디"
+                        android:textSize="12dp" />
+
+                    <TextView
+                        android:id="@+id/enlist_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/dreamgothic3"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="7dp"
+                        android:text="연락처"
+                        android:textSize="12dp" />
+
+                    <TextView
+                        android:id="@+id/enlist_loc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/dreamgothic3"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="7dp"
+                        android:text="등록위치"
+                        android:textSize="12dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.6"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/enlist_id_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/dreamgothic3"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="7dp"
+                        android:text="사용자 아이디 출력"
+                        android:textSize="12dp" />
+
+                    <TextView
+                        android:id="@+id/enlist_phone_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/dreamgothic3"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="7dp"
+                        android:text="공유주차 등록시 작성한 연락처 출력"
+                        android:textSize="12dp" />
+
+                    <TextView
+                        android:id="@+id/enlist_loc_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/dreamgothic3"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="7dp"
+                        android:text="등록한 위치 출력"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.2"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp">
+
+                    <Button
+                        android:id="@+id/enlist_detail"
+                        android:layout_width="62dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:text="상세보기" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

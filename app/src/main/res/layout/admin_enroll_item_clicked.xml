@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/notice_item_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fce4ec"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/admin_back_enroll_item"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_gravity="left"
+            android:layout_margin="3dp"
+            android:background="#00ff0000"
+            android:drawableTop="@drawable/back" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="670dp"
+        android:layout_marginTop="2dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/admin_enroll_img"
+            android:layout_width="200dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            app:srcCompat="@drawable/car" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bottom_border"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/admin_enroll_num"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/dreamgothic3"
+                    android:paddingLeft="10dp"
+                    android:text="주차구역 번호"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/admin_enroll_num_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="3"
+                    android:fontFamily="@font/dreamgothic3"
+                    android:text="21-23"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/admin_enroll_userId"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:fontFamily="@font/dreamgothic3"
+                android:paddingLeft="10dp"
+                android:text="회원 아이디"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/admin_enroll_userId_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="3"
+                android:fontFamily="@font/dreamgothic3"
+                android:text="회원 아이디 값"
+                android:textSize="15dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/admin_enroll_phnum"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:fontFamily="@font/dreamgothic3"
+                android:paddingLeft="10dp"
+                android:text="연락번호"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/admin_enroll_phnum_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="3"
+                android:fontFamily="@font/dreamgothic3"
+                android:text="휴대폰 번호값"
+                android:textSize="15dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/admin_enroll_birth"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:fontFamily="@font/dreamgothic3"
+                android:paddingLeft="10dp"
+                android:text="법정 생년월일"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/admin_enroll_birth_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="3"
+                android:fontFamily="@font/dreamgothic3"
+                android:text="생년월일 값"
+                android:textSize="15dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/admin_enroll_loc"
+                android:layout_width="126dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/dreamgothic3"
+                android:paddingLeft="10dp"
+                android:text="상세주소"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/admin_enroll_loc_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/dreamgothic3"
+                android:text="구청으로 부터 받아온 값을 통한 상세주소.."
+                android:textSize="15dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="98dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <Button
+                android:id="@+id/admin_enroll_permit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="10dip"
+                android:layout_weight="1"
+                android:background="@color/colorAccent"
+                android:fontFamily="@font/dreamgothic"
+                android:padding="15dp"
+                android:text="수락"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/admin_enroll_reject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="10dip"
+                android:layout_weight="1"
+                android:background="@drawable/edit_border2"
+                android:fontFamily="@font/dreamgothic"
+                android:padding="15dp"
+                android:text="보류"
+                android:textColor="@color/input_register_bg" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+    </ScrollView>
+</LinearLayout>
