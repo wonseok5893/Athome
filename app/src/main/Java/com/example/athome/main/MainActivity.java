@@ -30,6 +30,9 @@ import com.example.athome.LoginActivity;
 import com.example.athome.R;
 import com.example.athome.User;
 import com.example.athome.account.AccountActivity;
+import com.example.athome.admin.UsersListActivity;
+import com.example.athome.admin_notice.AdminNoticeActivity;
+import com.example.athome.admin_enroll.AdminEnrollActivity;
 import com.example.athome.notice.NoticeActivity;
 import com.example.athome.reservation_list.ReservListActivity;
 import com.example.athome.shared_parking.MySharedParkingActivity;
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Button btn_back_enroll;
     private TextView name, id, point, profile;
     private User user;
+    private Button loginButton;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -65,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         /*저장된 토큰 가져오기*/
         SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
-      SharedPreferences.Editor editor = sf.edit(); //토큰 업데이트 삭제에서 쓸거
+        SharedPreferences.Editor editor = sf.edit(); //토큰 업데이트 삭제에서 쓸거
         String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
         System.out.println(sharedToken);
         if (sharedToken != "") {
@@ -76,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             } else {
                 // 토큰 오류시 User 초기화
                 editor.remove("token");
-                editor.putString("token", user.getToken());
                 editor.commit();
                 Toast.makeText(getApplicationContext(), user.getAuthMessage() + "", Toast.LENGTH_SHORT).show();
             }
@@ -101,6 +104,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (user.getUserId() == null) { // 로그인 되지 않은 경우
 
             navigationView.inflateHeaderView(R.layout.before_login_navi_header);
+            View header = navigationView.getHeaderView(0);
+            loginButton = (Button) header.findViewById(R.id.login_button);
+
+            loginButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    //인텐트 실행
+                    startActivity(intent);
+                }
+            });
             navigationView.inflateMenu(R.menu.navi_menu);
         } else { // 로그인 된경우
             navigationView.inflateHeaderView(R.layout.after_login_navi_header);
@@ -112,7 +126,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             name.setText(user.getUserName());
             id.setText(user.getUserId());
             point.setText(user.getUserPoint() + "");
-            navigationView.inflateMenu(R.menu.navi_menu);
+            if (user.getUserState() != 1)// 관리자 메뉴
+                navigationView.inflateMenu(R.menu.navi_menu);
+            else
+                navigationView.inflateMenu(R.menu.admin_menu);
         }
 
 
@@ -139,18 +156,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         //서치뷰 설정
-        searchView=(SearchView)findViewById(R.id.searchView);
+        searchView = (SearchView) findViewById(R.id.searchView);
         Typeface typeface = getResources().getFont(R.font.dreamgothic3);
         searchView.setIconifiedByDefault(false);
 
-        if(searchView!=null){
+        if (searchView != null) {
             int searchTextId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
             TextView searchText = (TextView) searchView.findViewById(searchTextId);
             if (searchText != null) {
                 searchText.setTypeface(typeface);
-                searchText.setTextSize(TypedValue.COMPLEX_UNIT_DIP,16);
+                searchText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             }
         }
+
 
     }
 
@@ -164,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // Test용 마커 생성 후 지도상에 set
         SharePlace test = new SharePlace();
-        test.readSharePlace("fails12", "junggyu","01031125927",200,37.3595704,127.105399, this);
+        test.readSharePlace("fails12", "junggyu", "01031125927", 200, 37.3595704, 127.105399, this);
         test.getMyMarker().setMap(naverMap);
 
         InfoWindow infoWindow = new InfoWindow();
@@ -218,25 +236,32 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Toast.makeText(getApplicationContext(), "결제,충전,적립", Toast.LENGTH_LONG).show();
         } else if (id == R.id.account) {//계정관리
             Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
-            intent.putExtra("user",user);
+            intent.putExtra("user", user);
             startActivity(intent);
             overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
         } else if (id == R.id.setting) {//환경설정
             Toast.makeText(getApplicationContext(), "환경설정", Toast.LENGTH_LONG).show();
+        }else if(id==R.id.admin_notice) {
+            Intent intent = new Intent(getApplicationContext(), AdminNoticeActivity.class);
+            startActivity(intent);
+        }else if(id==R.id.admin_enroll) {
+            Intent intent = new Intent(getApplicationContext(), AdminEnrollActivity.class);
+            startActivity(intent);
+        }else if(id==R.id.admin_users) {
+            Intent intent = new Intent(getApplicationContext(), UsersListActivity.class);
+            startActivity(intent);
         }
         mDrawerLayout.closeDrawers();
         return true;
     }
 
     @Override //뒤로가기 버튼 제어(로그인 후 뒤로가기 버튼 누르면 로그인하기 페이지로 이동 제어)해야함
-   public void onBackPressed() {
+    public void onBackPressed() {
 
     }
 
-    public void loginButtonClicked(View v) {//로그인하기버튼
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        //인텐트 실행
-        startActivity(intent);
+    public User getUser() {
+        return user;
     }
 }
 

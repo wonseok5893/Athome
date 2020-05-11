@@ -1,11 +1,9 @@
-package com.example.athome.admin;
+package com.example.athome.admin_notice;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.example.athome.R;
 

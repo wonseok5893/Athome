@@ -1,6 +1,9 @@
 package com.example.athome.retrofit;
 
 
+import com.example.athome.admin.AllUserResult;
+import com.example.athome.admin.UsersListActivity;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -40,6 +43,12 @@ public interface ApiService {
                                    @Field("phNum") String phNum,
                                    @Field("startTime") Long startTime,
                                    @Field("endTime") Long endTime);
+
+    @FormUrlEncoded
+    @POST("admin/users")
+    Call<AllUserResult> getAllUsers(@Header("x-access-token") String token
+            , @Field("secret") String secret);
+
 
 
 

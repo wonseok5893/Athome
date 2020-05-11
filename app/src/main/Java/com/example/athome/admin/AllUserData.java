@@ -1,12 +1,20 @@
-package com.example.athome.retrofit;
+package com.example.athome.admin;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class AuthUser {
-
+public class AllUserData {
+    @SerializedName("point")
+    @Expose
+    private Integer point;
+    @SerializedName("reservation")
+    @Expose
+    private List<Object> reservation = null;
+    @SerializedName("state")
+    @Expose
+    private Integer state;
     @SerializedName("_id")
     @Expose
     private String id;
@@ -25,33 +33,35 @@ public class AuthUser {
     @SerializedName("userPhone")
     @Expose
     private String userPhone;
-    @SerializedName("userCarNumber")
+    @SerializedName("created")
     @Expose
-    private String userCarNumber;
-    @SerializedName("point")
+    private String created;
+    @SerializedName("__v")
     @Expose
-    private Integer point;
-    @SerializedName("sharingParkingLot")
-    @Expose
-    AuthSharedLocation authSharedLocation;
-    @SerializedName("state")
-    @Expose
-    private Integer state;
+    private Integer v;
 
-    @SerializedName("reservation")
-    @Expose
-    private List<AuthReservation> reservation;
+    public Integer getPoint() {
+        return point;
+    }
+
+    public void setPoint(Integer point) {
+        this.point = point;
+    }
+
+    public List<Object> getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(List<Object> reservation) {
+        this.reservation = reservation;
+    }
 
     public Integer getState() {
         return state;
     }
 
-    public AuthSharedLocation getAuthSharedLocation() {
-        return authSharedLocation;
-    }
-
-    public Integer getPoint() {
-        return point;
+    public void setState(Integer state) {
+        this.state = state;
     }
 
     public String getId() {
@@ -102,14 +112,20 @@ public class AuthUser {
         this.userPhone = userPhone;
     }
 
-    public String getUserCarNumber() {
-        return userCarNumber;
+    public String getCreated() {
+        return created;
     }
 
-    public void setUserCarNumber(String userCarNumber) {
-        this.userCarNumber = userCarNumber;
+    public void setCreated(String created) {
+        this.created = created;
     }
 
+    public Integer getV() {
+        return v;
+    }
+
+    public void setV(Integer v) {
+        this.v = v;
+    }
 
 }
-

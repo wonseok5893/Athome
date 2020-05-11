@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/notice"
+            android:title="공지사항"
+            android:fontFamily="@font/dreamgothic7"
+            />
+        <item
+            android:id="@+id/reserinfo"
+            android:title="예약내역"
+            android:fontFamily="@font/dreamgothic7"
+            />
+        <item
+            android:id="@+id/payment"
+            android:title="결제•충전•적립"
+            android:fontFamily="@font/dreamgothic7"
+            />
+        <item
+            android:id="@+id/account"
+            android:title="계정관리"
+            android:fontFamily="@font/dreamgothic7"
+            />
+        <item
+            android:id="@+id/setting"
+            android:title="환경설정"
+            android:fontFamily="@font/dreamgothic7"
+            />
+        <item
+            android:id="@+id/admin_enroll"
+            android:title="관리자 배정자 등록"
+            android:fontFamily="@font/dreamgothic7"
+            />
+        <item
+            android:id="@+id/admin_users"
+            android:title="사용자 관리"
+            android:fontFamily="@font/dreamgothic7"
+            />
+
+    </group>
+</menu>

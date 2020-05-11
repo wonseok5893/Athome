@@ -5,8 +5,9 @@
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/notice_toolbar"
+        android:id="@+id/admin_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fce4ec">
@@ -20,46 +21,35 @@
             android:text="" />
 
         <TextView
-            android:id="@+id/admin_notice"
+            android:id="@+id/admin_users"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/dreamgothic7"
             android:gravity="center"
-            android:text="관리자용 공지사항"
+            android:text="사용자 관리"
             android:textColor="#000000"
             android:textSize="16sp" />
 
-        <Button
-            android:id="@+id/notice_enrollBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:paddingRight="5dp"
-            android:text="글등록"
-            android:textColor="@color/black"
-            android:background="#FEFDFC" />
-
     </androidx.appcompat.widget.Toolbar>
 
-    <ScrollView
-        android:id="@+id/scrollView2"
+    <SearchView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="50dp" />
 
-        <LinearLayout
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
 >
 
             <ListView
-                android:id="@+id/admin_notice_listView"
+                android:id="@+id/admin_users_listView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
         </LinearLayout>
-    </ScrollView>
+
 
 
 </LinearLayout>

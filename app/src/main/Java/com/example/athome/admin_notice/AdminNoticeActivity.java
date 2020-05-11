@@ -1,6 +1,5 @@
-package com.example.athome.admin;
+package com.example.athome.admin_notice;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,10 +11,8 @@ import android.widget.ListView;
 
 import com.example.athome.R;
 import com.example.athome.notice.ItemNoticeData;
-import com.example.athome.notice.ListAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AdminNoticeActivity extends AppCompatActivity {
     private Button btn_back_notice;
@@ -29,7 +26,7 @@ public class AdminNoticeActivity extends AppCompatActivity {
         setContentView(R.layout.admin_notice);
 
         admin_notice_listView=(ListView)findViewById(R.id.admin_notice_listView);
-        btn_back_notice = (Button)findViewById(R.id.admin_back_notice);
+        btn_back_notice = (Button)findViewById(R.id.admin_back);
         btn_enroll = (Button)findViewById(R.id.notice_enrollBtn);
         btn_back_notice.setOnClickListener(new View.OnClickListener() {
             @Override

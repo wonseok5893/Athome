@@ -1,4 +1,4 @@
-package com.example.athome.admin;
+package com.example.athome.admin_notice;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -25,7 +25,7 @@ public class AdminNoticeClicked extends Activity {
                 overridePendingTransition(R.anim.not_move_activity,R.anim.rightout_activity);
             }
         });
-
+        btn_delete = findViewById(R.id.admin_back_notice_item);
         btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

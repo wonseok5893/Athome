@@ -1,4 +1,4 @@
-package com.example.athome.admin;
+package com.example.athome.admin_notice;
 
 public class ItemAdminNoticeData {
     public String noticeTitle;
