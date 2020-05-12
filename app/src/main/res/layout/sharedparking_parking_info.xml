@@ -1,0 +1,181 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/parking_info_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fce4ec"
+        android:gravity="center"
+        app:contentInsetStart="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <Button
+            android:id="@+id/btn_back_parking_info"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:background="#00ff0000"
+            android:drawableRight="@drawable/back"
+            android:gravity="center"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/parking_info_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/dreamgothic7"
+            android:text="@string/enroll_parking"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            tools:layout_editor_absoluteX="212dp"
+            tools:layout_editor_absoluteY="15dp" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/parking_infomation_text"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="공유주차장 상세 설명"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/bareun1" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="471dp"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    android:id="@+id/parking_info_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:paddingLeft="10dp"
+                    android:text="공유주차장 구획번호"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/parking_info_name_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/edit_border"
+                    android:fontFamily="@font/bareun1"
+                    android:padding="10dp"
+                    android:textColor="@color/input_register"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/parking_info_explanation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:paddingLeft="10dp"
+                    android:text="공유주차장 설명란(선택)"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/parking_info_explanation_value"
+                    android:layout_width="370dp"
+                    android:layout_height="90dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/edit_border"
+                    android:fontFamily="@font/bareun1"
+                    android:gravity="left"
+                    android:hint="운전자가 주차공간을 찾기 쉽게 공유주차장을 설명해주세요!"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    android:textColor="@color/input_register"
+                    android:textColorHint="@color/input_register_hint"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/parking_info_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:paddingLeft="10dp"
+                    android:text="공유주차장 사진등록"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/edit_border"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/parking_info_img_value"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_gravity="center"
+                        tools:srcCompat="@drawable/camera"
+                        tools:visibility="visible" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn_select_photo"
+                            android:layout_width="200dp"
+                            android:layout_height="25dp"
+                            android:background="#00ff0000"
+                            android:fontFamily="@font/dreamgothic3"
+                            android:text="사진선택"
+                            android:textColor="@color/input_register"
+                            android:textSize="13dp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom"
+                >
+                <Button
+                    android:id="@+id/btn_assigner_lookup"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@drawable/edit_border2"
+                    android:fontFamily="@font/dreamgothic7"
+                    android:text="@string/btn_check"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
+
