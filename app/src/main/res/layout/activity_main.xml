@@ -63,7 +63,6 @@
                 android:queryHint="어디에 주차하세요?" />
         </androidx.appcompat.widget.Toolbar>
 
-
     </RelativeLayout>
     <!--navigation drawer-->
     <com.google.android.material.navigation.NavigationView

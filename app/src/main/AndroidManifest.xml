@@ -43,6 +43,7 @@
         <activity android:name=".account.AccountCardRegister" />
         <activity android:name=".shared_parking.MySharedParkingActivity" />
         <activity android:name=".shared_parking.EnrollSharedParking" />
+        <activity android:name=".shared_parking.SharedParkingExplanation"/>
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
@@ -60,14 +61,16 @@
             </intent-filter>
         </activity>
 
+        -
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.athome.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
+
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/extermal" />
+                android:resource="@xml/filepaths" />
         </provider>
     </application>
 

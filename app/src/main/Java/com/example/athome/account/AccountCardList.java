@@ -4,15 +4,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.athome.R;
+
+import java.util.ArrayList;
 
 public class AccountCardList extends Activity {
 
     private Button btn_back_card_list;
     private Button btn_card_register;
-    private Intent intent;
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
@@ -22,13 +26,14 @@ public class AccountCardList extends Activity {
         this.InitializeView();
         this.SetListner();
 
+
     }
 
     public void InitializeView(){
         btn_back_card_list=(Button)findViewById(R.id.btn_back_card_list);
         btn_card_register=(Button)findViewById(R.id.btn_card_register);
-
     }
+
 
     public void SetListner()
     {
@@ -52,4 +57,5 @@ public class AccountCardList extends Activity {
         btn_card_register.setOnClickListener(Listener);
         btn_back_card_list.setOnClickListener(Listener);
     }
+
 }
