@@ -4,12 +4,16 @@ package com.example.athome.retrofit;
 import com.example.athome.admin.AllUserResult;
 import com.example.athome.admin.UsersListActivity;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 public interface ApiService {
     @FormUrlEncoded
@@ -33,13 +37,14 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("user/editPassword")
-    Call<EditResult> editPassword(@Header("x-access-token") String token
-            ,@Field("userPassword") String userPassword,
+    Call<EditResult> editPassword(@Header("x-access-token") String token,
+                                  @Field("userPassword") String userPassword,
                                   @Field("newUserPassword") String newUserPassword);
 
     @FormUrlEncoded
     @POST("api/reservation/enroll")
-    Call<ResponseBody> sendReserve(@Field("carNum") String carNum,
+    Call<ResponseBody> sendReserve(@Header("x-access-token") String token,
+                                   @Field("carNum") String carNum,
                                    @Field("phNum") String phNum,
                                    @Field("startTime") Long startTime,
                                    @Field("endTime") Long endTime);
@@ -50,7 +55,14 @@ public interface ApiService {
             , @Field("secret") String secret);
 
 
-
+    @Multipart
+    @POST("api/reservation/enroll")
+    Call<ResponseBody> postRegister(@Header("x-access-token") String token,
+                                    @Part MultipartBody.Part image,
+                                    @Part("phNum") RequestBody phNum,
+                                    @Part("birth") RequestBody birth,
+                                    @Part("carNum") RequestBody carNum,
+                                    @Part("parkLocation") RequestBody parkLocation);
 
 //    Call<JsonArray> getUserRepositories(@Path("user") String userName);
 }

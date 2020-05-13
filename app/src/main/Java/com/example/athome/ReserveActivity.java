@@ -1,6 +1,7 @@
 package com.example.athome;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -78,16 +79,18 @@ public class ReserveActivity extends AppCompatActivity {
                     cal.set(Calendar.DAY_OF_MONTH, day);
                     cal.set(Calendar.MONTH, month);
                     cal.set(Calendar.YEAR, year);
-
                     long stime = cal.getTimeInMillis();
+
                     cal.set(Calendar.HOUR_OF_DAY, endTime.getHour());
                     cal.set(Calendar.MINUTE, endTime.getMinute());
                     long etime = cal.getTimeInMillis();
                     //date, time -> ms 끝
 
                     //서버와 http 통신 하는 부분
+                    SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
+                    String sharedToken = sf.getString("token", "");
                     ApiService serviceApi = new RestRequestHelper().getApiService();
-                    Call<ResponseBody> call = serviceApi.sendReserve(orCar,orPhone,stime,etime);
+                    Call<ResponseBody> call = serviceApi.sendReserve(sharedToken,orCar,orPhone,stime,etime);
                     call.enqueue(new Callback<ResponseBody>() {
                         @Override
                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

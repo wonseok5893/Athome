@@ -2,6 +2,7 @@ package com.example.athome.shared_parking;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,16 +12,31 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import com.example.athome.R;
+import com.example.athome.RestRequestHelper;
+import com.example.athome.main.MainActivity;
+import com.example.athome.retrofit.ApiService;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SharedParkingExplanation extends AppCompatActivity  implements View.OnClickListener
 {
@@ -31,10 +47,11 @@ public class SharedParkingExplanation extends AppCompatActivity  implements View
     private ImageView imageView;
     private Button btn_back_parking_info;
     private Button btn_select_photo;
+    private Button btn_assigner_lookup;
     private Uri mImageCaptureUri;
     private String absoultePath;
     private int id_view;
-
+    private Bitmap photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +61,65 @@ public class SharedParkingExplanation extends AppCompatActivity  implements View
         imageView = (ImageView) findViewById(R.id.parking_info_img_value);
         btn_select_photo = (Button) findViewById(R.id.btn_select_photo);
 
+        // 확인 버튼 누르면 정보 전달
+        btn_assigner_lookup = (Button)findViewById(R.id.btn_assigner_lookup);
+        btn_assigner_lookup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                //bitmap 이 jpeg로 저장된 absolutePath를 활용하여 서버에 사진 전송
+                String parkImageUrl = absoultePath;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(true){
+                            Intent intent = getIntent();
+                            File file = new File("/sdcard/Pictures/test.JPG");
+                            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"),file);
+                            MultipartBody.Part image = MultipartBody.Part.createFormData("img", file.getName(), requestFile);
+
+                            String temp = intent.getStringExtra("phNum");
+                            Log.i("jiwon", temp);
+                            RequestBody phNum = RequestBody.create(MediaType.parse("text/plain"),temp);
+                            temp = intent.getStringExtra("birth");
+                            Log.i("jiwon", temp);
+                            RequestBody birth = RequestBody.create(MediaType.parse("text/plain"),temp);
+                            temp = intent.getStringExtra("carNum");
+                            Log.i("jiwon", temp);
+                            RequestBody carNum = RequestBody.create(MediaType.parse("text/plain"),temp);
+                            temp = intent.getStringExtra("parkLocation");
+                            Log.i("jiwon", temp);
+                            RequestBody parkLocation = RequestBody.create(MediaType.parse("text/plain"),temp);
+                            Log.i("jiwon", parkLocation.toString());
+                            SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
+                            String sharedToken = sf.getString("token", "");
+
+                            ApiService serviceApi = new RestRequestHelper().getApiService();
+                            Call<ResponseBody> call = serviceApi.postRegister(sharedToken, image, phNum, birth, carNum, parkLocation);
+                            call.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    Toast.makeText(SharedParkingExplanation.this, "주차장 등록 되셨습니다.", Toast.LENGTH_SHORT).show();
+                                    //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    //startActivity(intent);
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    Toast.makeText(SharedParkingExplanation.this, "통신에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                        else{
+                            Toast.makeText(SharedParkingExplanation.this, "주차장 사진이 없습니다.", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }).run();
+
+            }
+        });
         //뒤로가기 버튼
         btn_back_parking_info = (Button) findViewById(R.id.btn_back_parking_info);
         btn_back_parking_info.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +188,9 @@ public class SharedParkingExplanation extends AppCompatActivity  implements View
                 startActivityForResult(intent, CROP_FROM_iMAGE); // CROP_FROM_CAMERA case문 이동
                 break;
             }
-            case CROP_FROM_iMAGE: {
+
+
+            case CROP_FROM_iMAGE: { //이미지 변수 Bitmap photo
                 // 크롭이 된 이후의 이미지를 넘겨 받음
                 // 이미지뷰에 이미지를 보여준다거나 부가적인 작업 이후에
                 // 임시 파일을 삭제함
@@ -126,7 +203,7 @@ public class SharedParkingExplanation extends AppCompatActivity  implements View
                         "/SmartWheel/" + System.currentTimeMillis() + ".jpg";
 
                 if (extras != null) {
-                    Bitmap photo = extras.getParcelable("data"); // CROP된 BITMAP
+                    photo = extras.getParcelable("data"); // CROP된 BITMAP
                     imageView.setImageBitmap(photo); // 레이아웃의 이미지칸에 CROP된 BITMAP을 보여줌
                     storeCropImage(photo, filePath); // CROP된 이미지를 외부저장소, 앨범에 저장한다.
                     absoultePath = filePath;
