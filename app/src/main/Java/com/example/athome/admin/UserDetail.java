@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.example.athome.R;
 
 public class UserDetail extends Activity {
-    private Button backButton=null;
+    private Button backButton;
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {

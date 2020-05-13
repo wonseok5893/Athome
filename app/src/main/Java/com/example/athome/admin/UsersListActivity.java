@@ -82,7 +82,7 @@ public class UsersListActivity extends AppCompatActivity {
         usersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), UserDetail.class);
+                Intent intent = new Intent(getApplicationContext(), AdminUserListClicked.class);
 
                 //putExtra의 첫 값은 식별 태그, 뒤에는 다음 화면에 넘길 값
                 intent.putExtra("data", (Parcelable) data);

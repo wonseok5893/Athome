@@ -1,11 +1,14 @@
 package com.example.athome.admin;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class AllUserData {
+public class AllUserData implements Parcelable {
     @SerializedName("point")
     @Expose
     private Integer point;
@@ -39,6 +42,77 @@ public class AllUserData {
     @SerializedName("__v")
     @Expose
     private Integer v;
+
+    protected AllUserData(Parcel in) {
+        if (in.readByte() == 0) {
+            point = null;
+        } else {
+            point = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            state = null;
+        } else {
+            state = in.readInt();
+        }
+        id = in.readString();
+        userId = in.readString();
+        userPassword = in.readString();
+        userName = in.readString();
+        userEmail = in.readString();
+        userPhone = in.readString();
+        created = in.readString();
+        if (in.readByte() == 0) {
+            v = null;
+        } else {
+            v = in.readInt();
+        }
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (point == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(point);
+        }
+        if (state == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(state);
+        }
+        dest.writeString(id);
+        dest.writeString(userId);
+        dest.writeString(userPassword);
+        dest.writeString(userName);
+        dest.writeString(userEmail);
+        dest.writeString(userPhone);
+        dest.writeString(created);
+        if (v == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(v);
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<AllUserData> CREATOR = new Creator<AllUserData>() {
+        @Override
+        public AllUserData createFromParcel(Parcel in) {
+            return new AllUserData(in);
+        }
+
+        @Override
+        public AllUserData[] newArray(int size) {
+            return new AllUserData[size];
+        }
+    };
 
     public Integer getPoint() {
         return point;
