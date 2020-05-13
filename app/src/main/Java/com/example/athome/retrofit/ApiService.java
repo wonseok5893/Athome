@@ -3,6 +3,7 @@ package com.example.athome.retrofit;
 
 import com.example.athome.admin.AllUserResult;
 import com.example.athome.admin.UsersListActivity;
+import com.naver.maps.geometry.LatLng;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -22,8 +23,7 @@ public interface ApiService {
                                 @Field("userPassword") String userPassword,
                                 @Field("userName") String userName,
                                 @Field("userEmail") String userEmail,
-                                @Field("userPhone") String userPhone
-    );
+                                @Field("userPhone") String userPhone);
 
     @FormUrlEncoded
     @POST("user/login")
@@ -52,17 +52,19 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("admin/users")
     Call<AllUserResult> getAllUsers(@Header("x-access-token") String token
-            , @Field("secret") String secret);
+                                    , @Field("secret") String secret);
 
 
     @Multipart
-    @POST("api/reservation/enroll")
+    @POST("api/sharedLocation/enroll")
     Call<EnrollResult> postRegister(@Header("x-access-token") String token,
-                                    @Part MultipartBody.Part image,
-                                    @Part("phNum") String phNum,
-                                    @Part("birth") String birth,
-                                    @Part("carNum") String carNum
-    );
+                                    @Part MultipartBody.Part img,
+                                    @Part("userBirth") String userBirth,
+                                    @Part("userCarNumber") String userCarNumber,
+                                    @Part("location") String location,
+                                    @Part("latitude") String latitude,
+                                    @Part("longitude") String longitude,
+                                    @Part("parkingInfo") String parkingInfo);
 
 //    Call<JsonArray> getUserRepositories(@Path("user") String userName);
 }

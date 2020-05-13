@@ -73,7 +73,6 @@
             android:id="@+id/assigner_phone_value"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:text="01037944084"
             android:layout_marginBottom="10dp"
             android:background="@drawable/edit_border"
             android:fontFamily="@font/bareun1"
@@ -135,16 +134,17 @@
             android:textSize="14sp"
             android:fontFamily="@font/bareun1"/>
 
-        <Spinner
-            android:id="@+id/assigner_parking_location_value"
+        <TextView
+            android:id="@+id/assigner_location_value"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:spinnerMode="dialog"
-            android:fontFamily="@font/bareun1"
-            android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dp"
             android:background="@drawable/edit_border"
-            />
+            android:fontFamily="@font/bareun1"
+            android:padding="10dp"
+            android:textColor="@color/input_register"
+            android:textSize="15sp"
+            android:maxLength="11"/>
 
     </LinearLayout>
 

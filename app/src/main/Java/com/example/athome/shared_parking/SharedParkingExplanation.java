@@ -1,8 +1,10 @@
 package com.example.athome.shared_parking;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,17 +13,21 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.example.athome.R;
 import com.example.athome.RestRequestHelper;
 import com.example.athome.main.MainActivity;
 import com.example.athome.retrofit.ApiService;
+import com.naver.maps.geometry.LatLng;
 import com.example.athome.retrofit.EnrollResult;
 
 import java.io.BufferedOutputStream;
@@ -39,8 +45,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SharedParkingExplanation extends AppCompatActivity  implements View.OnClickListener
-{
+public class SharedParkingExplanation extends AppCompatActivity implements View.OnClickListener {
     private static final int PICK_FROM_CAMERA = 0;
     private static final int PICK_FROM_ALBUM = 1;
     private static final int CROP_FROM_iMAGE = 2;
@@ -49,13 +54,11 @@ public class SharedParkingExplanation extends AppCompatActivity  implements View
     private Button btn_back_parking_info;
     private Button btn_select_photo;
     private Button btn_assigner_lookup;
+    private EditText parking_info_name_value;
     private Uri mImageCaptureUri;
-    private String absoultePath;
+    private String absolutePath;
     private int id_view;
     private Bitmap photo;
-    String userPhone, userBirth, userCarNumber;
-    String sharedToken;
-    MultipartBody.Part image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,62 +67,81 @@ public class SharedParkingExplanation extends AppCompatActivity  implements View
 
         imageView = (ImageView) findViewById(R.id.parking_info_img_value);
         btn_select_photo = (Button) findViewById(R.id.btn_select_photo);
+        parking_info_name_value = (EditText) findViewById(R.id.parking_info_name_value);
 
-        // 확인 버튼 누르면 정보 전달
+        // 확인 버튼 누르면 서버로 배정자 정보 전달
         btn_assigner_lookup = (Button) findViewById(R.id.btn_assigner_lookup);
         btn_assigner_lookup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                //bitmap 이 jpeg로 저장된 absolutePath를 활용하여 서버에 사진 전송
+                String parkImageUrl = absolutePath;
 
-                Intent intent = getIntent();
-                File file = new File("/sdcard/Pictures/test.JPG");
-                RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-                image = MultipartBody.Part.createFormData("img", file.getName(), requestFile);
+                if (true) {
+                    Intent intent = getIntent();
 
-                final String userPhone = intent.getStringExtra("phNum");
-                Log.i("핸드폰번호", userPhone);
-                userBirth = intent.getStringExtra("birth");
-                Log.i("생년월일", userBirth);
-                userCarNumber = intent.getStringExtra("carNum");
-                Log.i("차번호", userCarNumber);
+                    File file = new File("/sdcard/Pictures/test.JPG");
+                    RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                    MultipartBody.Part image = MultipartBody.Part.createFormData("img", file.getName(), requestFile);
 
-                SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
-                sharedToken = sf.getString("token", "");
-                ApiService serviceApi = new RestRequestHelper().getApiService();
-                final Call<EnrollResult> res = serviceApi.postRegister(sharedToken, image, userPhone, userBirth, userCarNumber);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            final EnrollResult enrollResult = res.execute().body();
-                            //User에 담는다 받은 결과를
-                            if (enrollResult.getResult().equals("success")) {
-                                Toast.makeText(SharedParkingExplanation.this, "" + enrollResult.getMessage(), Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(SharedParkingExplanation.this, "" + enrollResult.getMessage(), Toast.LENGTH_SHORT).show();
+                    String userBirth = intent.getStringExtra("birth");
+                    String userCarNumber = intent.getStringExtra("carNum");
+                    String location = intent.getStringExtra("locationName");
+                    LatLng SelectLocation = intent.getParcelableExtra("SelectLocation");
+                    String latitude = Double.toString(SelectLocation.latitude);
+                    String longitude = Double.toString(SelectLocation.longitude);
+                    String ParkingInfo = parking_info_name_value.getText().toString();
+
+                    SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
+                    String sharedToken = sf.getString("token", "");
+
+                    Toast.makeText(SharedParkingExplanation.this, "되냐?", Toast.LENGTH_SHORT).show();
+                    Log.i("test", sharedToken);
+                    Log.i("test", userBirth);
+                    Log.i("test", userCarNumber);
+                    Log.i("test", location);
+                    Log.i("test", latitude);
+                    Log.i("test", longitude);
+                    Log.i("test", ParkingInfo);
+
+
+                    ApiService serviceApi = new RestRequestHelper().getApiService();
+                    final Call<EnrollResult> res = serviceApi.postRegister(sharedToken, image, userBirth, userCarNumber, location, latitude, longitude, ParkingInfo);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                final EnrollResult enrollResult = res.execute().body();
+                                //User에 담는다 받은 결과를
+                                if (enrollResult.getResult().equals("success")) {
+                                    Toast.makeText(SharedParkingExplanation.this, "" + enrollResult.getMessage(), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    //Toast.makeText(SharedParkingExplanation.this, "" + enrollResult.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (IOException ie) {
+                                ie.printStackTrace();
                             }
-                        } catch (IOException ie) {
-                            ie.printStackTrace();
                         }
-                    }
-                }).start();
-
-
-                //뒤로가기 버튼
-                btn_back_parking_info = (Button) findViewById(R.id.btn_back_parking_info);
-                btn_back_parking_info.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finish();
-                        overridePendingTransition(R.anim.not_move_activity, R.anim.rightout_activity);
-                    }
-                });
-
-                btn_select_photo.setOnClickListener((View.OnClickListener) this);
+                    }).start();
+                } else {
+                    Toast.makeText(SharedParkingExplanation.this, "주차장 사진이 없습니다.", Toast.LENGTH_SHORT).show();
+                }
             }
-
         });
+
+
+        //뒤로가기 버튼
+        btn_back_parking_info = (Button) findViewById(R.id.btn_back_parking_info);
+        btn_back_parking_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                overridePendingTransition(R.anim.not_move_activity, R.anim.rightout_activity);
+            }
+        });
+
+        btn_select_photo.setOnClickListener((View.OnClickListener) this);
     }
 
     //카메라에서 사진 촬영
@@ -194,7 +216,7 @@ public class SharedParkingExplanation extends AppCompatActivity  implements View
                     photo = extras.getParcelable("data"); // CROP된 BITMAP
                     imageView.setImageBitmap(photo); // 레이아웃의 이미지칸에 CROP된 BITMAP을 보여줌
                     storeCropImage(photo, filePath); // CROP된 이미지를 외부저장소, 앨범에 저장한다.
-                    absoultePath = filePath;
+                    absolutePath = filePath;
                     break;
                 }
 

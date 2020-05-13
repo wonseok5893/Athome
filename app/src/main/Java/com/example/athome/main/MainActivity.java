@@ -242,6 +242,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         intent.putExtra("SelectLocation", new LatLng(coord.latitude, coord.longitude));
                         intent.putExtra("LocationName", locationName);
+                        intent.putExtra("User",user);
+                        Log.i("test",user.getUserPhone());
                         startActivity(intent);
                     }
                 });
