@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,12 +32,16 @@ import com.example.athome.R;
 import com.example.athome.User;
 import com.example.athome.account.AccountActivity;
 import com.example.athome.admin.UsersListActivity;
+import com.example.athome.admin_enroll.AdminCarlistActivity;
 import com.example.athome.admin_notice.AdminNoticeActivity;
 import com.example.athome.admin_enroll.AdminEnrollActivity;
 import com.example.athome.notice.NoticeActivity;
 import com.example.athome.reservation_list.ReservListActivity;
 import com.example.athome.shared_parking.MySharedParkingActivity;
 import com.google.android.material.navigation.NavigationView;
+import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.CameraAnimation;
+import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
@@ -46,16 +51,17 @@ import com.naver.maps.map.overlay.InfoWindow;
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,
         NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
     private DrawerLayout mDrawerLayout;
     private Context context = this;
-    private SearchView searchView;
     private GpsTracker gpsTracker;
     private static NaverMap nm = null;
     private Button enrollBtn;
     private Button btn_back_enroll;
     private TextView name, id, point, profile;
     private User user;
-    private Button loginButton;
+    private Button loginButton, searchButton;
+    private EditText resultAddress;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -133,6 +139,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
 
+        // 맵 동기화
+        MapFragment mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.map_view);
+        if (mapFragment == null) {
+            mapFragment = MapFragment.newInstance();
+            getSupportFragmentManager().beginTransaction().add(R.id.map_view, mapFragment).commit();
+        }
+
+        mapFragment.getMapAsync(this);
+
         //공유주차장버튼 클릭
         enrollBtn = (Button) findViewById(R.id.enrollBtn);
         enrollBtn.setOnClickListener(new View.OnClickListener() {
@@ -144,30 +159,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-
-        // 맵 동기화
-        MapFragment mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.map_view);
-        if (mapFragment == null) {
-            mapFragment = MapFragment.newInstance();
-            getSupportFragmentManager().beginTransaction().add(R.id.map_view, mapFragment).commit();
-        }
-
-        mapFragment.getMapAsync(this);
-
-
-        //서치뷰 설정
-        searchView = (SearchView) findViewById(R.id.searchView);
-        Typeface typeface = getResources().getFont(R.font.dreamgothic3);
-        searchView.setIconifiedByDefault(false);
-
-        if (searchView != null) {
-            int searchTextId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-            TextView searchText = (TextView) searchView.findViewById(searchTextId);
-            if (searchText != null) {
-                searchText.setTypeface(typeface);
-                searchText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+        //주소 검색 버튼 클릭
+        searchButton = findViewById(R.id.search_view);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
+                startActivityForResult(intent, SEARCH_ADDRESS_ACTIVITY);
             }
-        }
+        });
+        resultAddress = findViewById(R.id.search_result);
+//        if(resultAddress.getText().length()!=0){
+//            //임시로 다시 맵 생성 / 이거 navermap객체를 이용하지 못하게 막아놈 해결방안있어야함
+//            mapFragment = MapFragment.newInstance();
+//            getSupportFragmentManager().beginTransaction().add(R.id.map_view, mapFragment).commit();
+//
+//        }
+
 
 
     }
@@ -176,14 +184,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @UiThread
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
-
+        nm = naverMap;
         // 지도종류 Basic
-        naverMap.setMapType(NaverMap.MapType.Basic);
-
+        nm.setMapType(NaverMap.MapType.Basic);
+        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(37.5666102, 126.9783881))
+                .animate(CameraAnimation.Easing);
+        nm.moveCamera(cameraUpdate);
         // Test용 마커 생성 후 지도상에 set
         SharePlace test = new SharePlace();
         test.readSharePlace("fails12", "junggyu", "01031125927", 200, 37.3595704, 127.105399, this);
-        test.getMyMarker().setMap(naverMap);
+        test.getMyMarker().setMap(nm);
 
         InfoWindow infoWindow = new InfoWindow();
         // test : maker onclick 시 네비게이션 (윤지원 04-30)
@@ -244,8 +254,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }else if(id==R.id.admin_notice) {
             Intent intent = new Intent(getApplicationContext(), AdminNoticeActivity.class);
             startActivity(intent);
-        }else if(id==R.id.admin_enroll) {
+        }else if(id==R.id.admin_shared_enroll) {
             Intent intent = new Intent(getApplicationContext(), AdminEnrollActivity.class);
+            startActivity(intent);
+        }else if(id==R.id.admin_car_enroll) {
+            Intent intent = new Intent(getApplicationContext(), AdminCarlistActivity.class);
             startActivity(intent);
         }else if(id==R.id.admin_users) {
             Intent intent = new Intent(getApplicationContext(), UsersListActivity.class);
@@ -259,7 +272,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onBackPressed() {
 
     }
+    public void onActivityResult(int requestCode, int resultCode, Intent intent){
 
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        switch(requestCode){
+
+            case SEARCH_ADDRESS_ACTIVITY:
+
+                if(resultCode == 1){
+
+                    String data = intent.getExtras().getString("data");
+                    if (data != null)
+                        resultAddress.setText(data);
+
+                }
+                break;
+
+        }
+
+    }
     public User getUser() {
         return user;
     }

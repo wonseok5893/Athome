@@ -45,7 +45,7 @@
         <activity android:name=".shared_parking.MySharedParkingActivity" />
         <activity android:name=".shared_parking.EnrollSharedParking" />
         <activity android:name=".shared_parking.SharedParkingExplanation" />
-
+        <activity android:name=".main.WebViewActivity"/>
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="25z9e189v0" />
