@@ -52,7 +52,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("admin/users")
     Call<AllUserResult> getAllUsers(@Header("x-access-token") String token
-            , @Field("secret") String secret);
+                                    , @Field("secret") String secret);
 
 
     @Multipart
