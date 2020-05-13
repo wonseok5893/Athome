@@ -5,16 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.athome.R;
+import com.example.athome.admin_enroll.AdminCarlistAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class NoticeActivity extends AppCompatActivity {
     private Button btn_back_notice;
@@ -72,7 +70,7 @@ public class NoticeActivity extends AppCompatActivity {
         data.add(notice10);
 
         //리스트 속의 아이템 연결
-        ListAdapter adapter=new ListAdapter(this,R.layout.notice_listview_item,data);
+        AdminCarlistAdapter adapter=new AdminCarlistAdapter(this,R.layout.notice_listview_item,data);
         notice_listView.setAdapter(adapter);
 
         //아이템 클릭시 작동

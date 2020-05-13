@@ -3,7 +3,6 @@ package com.example.athome.admin;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,13 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.athome.R;
 import com.example.athome.RestRequestHelper;
-import com.example.athome.notice.ItemNoticeData;
-import com.example.athome.notice.ListAdapter;
-import com.example.athome.notice.NoticeClicked;
 import com.example.athome.retrofit.ApiService;
-import com.example.athome.retrofit.LoginResult;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
 import java.util.ArrayList;

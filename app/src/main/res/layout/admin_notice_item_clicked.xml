@@ -38,8 +38,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:background="#F44336"
-            android:fontFamily="@font/dreamgothic"
             android:textColor="@color/white"
+            android:fontFamily="@font/dreamgothic"
+
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
@@ -53,9 +54,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:background="#00BCD4"
+            android:textColor="@color/white"
             android:text="수정"
             android:fontFamily="@font/dreamgothic"
-            android:textColor="@color/white"
+
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
