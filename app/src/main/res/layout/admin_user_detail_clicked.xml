@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".admin.UserListClicked">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/admin_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fce4ec">
+
+        <Button
+            android:id="@+id/admin_back"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:background="#00ff0000"
+            android:drawableRight="@drawable/back"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/admin_detail_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/dreamgothic7"
+            android:gravity="center"
+            android:text="사용자 세부관리"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+    </androidx.appcompat.widget.Toolbar>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:text="아이디"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="5dp"/>
+
+                <TextView
+                    android:id="@+id/user_clicked_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:text="Name"
+                    tools:ignore="InvalidId" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:text="패스워드"
+                    android:gravity="center_vertical" />
+
+                <TextView
+                    android:id="@+id/user_clicked_pw"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:layout_weight="1"
+                    android:text="password"
+                    tools:ignore="InvalidId" />
+
+                <EditText
+                    android:id="@+id/user_clicked_pw_new"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="text"
+                    android:hint="새로운 패스워드"
+                    android:ems="10"
+                    android:textSize="35px"
+                    android:gravity="center_horizontal"
+                    tools:ignore="DuplicateIds" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:text="휴대폰 번호"
+                    android:gravity="center_vertical" />
+
+                <TextView
+                    android:id="@+id/user_clicked_phnum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:layout_weight="1"
+                    android:text="phone number"
+                    tools:ignore="InvalidId" />
+
+                <EditText
+                    android:id="@+id/user_clicked_ph_new"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="text"
+                    android:hint="새로운 휴대전화번호"
+                    android:ems="10"
+                    android:textSize="35px"
+                    android:gravity="center_horizontal"
+                    tools:ignore="DuplicateIds" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:text="포인트"
+                    android:gravity="center_vertical" />
+
+                <TextView
+                    android:id="@+id/user_clicked_point"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:layout_weight="1"
+                    android:text="point"
+                    tools:ignore="InvalidId" />
+
+                <EditText
+                    android:id="@+id/user_clicked_point_new"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="text"
+                    android:hint="포인트 수정"
+                    android:ems="10"
+                    android:textSize="35px"
+                    android:gravity="center_horizontal"
+                    tools:ignore="DuplicateIds" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:text="소유 차량"
+                    android:gravity="center_vertical" />
+                <ListView
+                    android:id="@+id/user_clicked_carlist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:text="권한"
+                    android:gravity="center_vertical" />
+
+                <TextView
+                    android:id="@+id/user_clicked_permit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:layout_weight="1"
+                    android:text="permit"
+                    tools:ignore="InvalidId" />
+
+                <EditText
+                    android:id="@+id/user_clicked_permit_new"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="text"
+                    android:hint="권한 수정"
+                    android:ems="10"
+                    android:textSize="35px"
+                    android:gravity="center_horizontal"
+                    tools:ignore="DuplicateIds" />
+            </LinearLayout>
+
+
+
+
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
