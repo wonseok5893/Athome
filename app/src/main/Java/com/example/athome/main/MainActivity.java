@@ -157,17 +157,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mapFragment.getMapAsync(this);
 
-        //공유주차장버튼 클릭
-//        enrollBtn = (Button) findViewById(R.id.enrollBtn);
-//        enrollBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), MySharedParkingActivity.class);
-//                startActivity(intent);
-//                overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);//화면전환시효과
-//            }
-//        });
-
 
         final Geocoder geocoder = new Geocoder(this);
 

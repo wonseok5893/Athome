@@ -23,7 +23,7 @@ public interface ApiService {
                                 @Field("userName") String userName,
                                 @Field("userEmail") String userEmail,
                                 @Field("userPhone") String userPhone
-                                );
+    );
 
     @FormUrlEncoded
     @POST("user/login")
@@ -52,17 +52,17 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("admin/users")
     Call<AllUserResult> getAllUsers(@Header("x-access-token") String token
-                                    , @Field("secret") String secret);
+            , @Field("secret") String secret);
 
 
     @Multipart
     @POST("api/reservation/enroll")
-    Call<ResponseBody> postRegister(@Header("x-access-token") String token,
+    Call<EnrollResult> postRegister(@Header("x-access-token") String token,
                                     @Part MultipartBody.Part image,
-                                    @Part("phNum") RequestBody phNum,
-                                    @Part("birth") RequestBody birth,
-                                    @Part("carNum") RequestBody carNum,
-                                    @Part("parkLocation") RequestBody parkLocation);
+                                    @Part("phNum") String phNum,
+                                    @Part("birth") String birth,
+                                    @Part("carNum") String carNum
+    );
 
 //    Call<JsonArray> getUserRepositories(@Path("user") String userName);
 }
