@@ -53,24 +53,27 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints">
 
-            <Button
+
+            <EditText
                 android:id="@+id/search_view"
-                android:layout_width="30dp"
-                android:layout_height="50dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="33dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="549dp"
-                android:text="주소 검색" />
-
-
-            <TextView
-                android:id="@+id/search_result"
-                android:layout_width="match_parent"
+                android:layout_width="260dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="33dp"
-                android:layout_marginRight="45dp" />
+                android:fontFamily="@font/bareun1"
+                android:hint="@string/search_text"
+                android:inputType="text"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint"
+                android:background="@android:color/transparent"
+                android:textSize="15sp"/>
+
+            <Button
+                android:id="@+id/btn_search"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:background="#00ff0000"
+                android:layout_marginLeft="15dp"
+                android:drawableRight="@drawable/search"
+                />
         </androidx.appcompat.widget.Toolbar>
 
 

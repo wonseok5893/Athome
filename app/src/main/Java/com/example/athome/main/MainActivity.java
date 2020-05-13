@@ -69,8 +69,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Button btn_back_enroll;
     private TextView name, id, point, profile;
     private User user;
-    private Button loginButton, searchButton;
-    private TextView resultAddress;
+    private Button loginButton;
+    private EditText searchEditText; // 웹뷰 띄우는 창
+    private Button btn_search;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -159,8 +160,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         final Geocoder geocoder = new Geocoder(this);
 
-        resultAddress = (TextView) findViewById(R.id.search_result);
-        resultAddress.setOnClickListener(new View.OnClickListener() {
+        searchEditText = findViewById(R.id.search_view);
+        searchEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
@@ -170,15 +171,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
         //주소 검색 버튼 클릭
-        searchButton = findViewById(R.id.search_view);
-        searchButton.setOnClickListener(new View.OnClickListener() {
+        btn_search = findViewById(R.id.btn_search);
+        btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 List<Address> list = null;
 
                 try {
-                    list = geocoder.getFromLocationName(resultAddress.getText().toString(), 10); // 읽을 개수
+                    list = geocoder.getFromLocationName(searchEditText.getText().toString(), 10); // 읽을 개수
                 } catch (IOException e) {
                     e.printStackTrace();
                     Log.e("test", "입출력 오류 - 서버에서 주소변환시 에러발생");
@@ -260,6 +261,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         nm = naverMap;
         // 지도종류 Basic
         nm.setMapType(NaverMap.MapType.Basic);
+        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(37.5666102, 126.9783881))
+                .animate(CameraAnimation.Easing);
+        nm.moveCamera(cameraUpdate);
+        // Test용 마커 생성 후 지도상에 set
 
         InfoWindow infoWindow = new InfoWindow();
         // test : maker onclick 시 네비게이션 (윤지원 04-30)
@@ -350,7 +355,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                     String data = intent.getExtras().getString("data");
                     if (data != null)
-                        resultAddress.setText(data);
+                        searchEditText.setText(data);
 
                 }
                 break;

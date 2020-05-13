@@ -36,6 +36,8 @@
     <string name="cancel">취소</string>
     <string name="register">등록</string>
 
+    <string name="search_text">어디에 주차하세요?</string>
+
     <string name="phone_change">휴대폰변경</string>
 
     <string name="enroll_parking">주차장 공유하기</string>
