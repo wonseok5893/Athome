@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.athome.R;
+import com.example.athome.notice.ItemNoticeData;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,8 @@ public class AccountCardList extends Activity {
 
     private Button btn_back_card_list;
     private Button btn_card_register;
+    private ListView card_listView= null;
+    private ArrayList<ItemAccountCardData> data=null;
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
@@ -26,12 +29,20 @@ public class AccountCardList extends Activity {
         this.InitializeView();
         this.SetListner();
 
+        ItemAccountCardData data1=new ItemAccountCardData("신한은행",1234,5678,0012,3344,12,23);
+        data.add(data1);
+
+        //리스트 속의 아이템 연결
+        CardListAdapter adapter=new CardListAdapter(this,R.layout.account_card_listview_item,data);
+        card_listView.setAdapter(adapter);
 
     }
 
     public void InitializeView(){
         btn_back_card_list=(Button)findViewById(R.id.btn_back_card_list);
         btn_card_register=(Button)findViewById(R.id.btn_card_register);
+        card_listView=(ListView)findViewById(R.id.card_listView);
+        data=new ArrayList<>();
     }
 
 

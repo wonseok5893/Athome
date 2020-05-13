@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/reserv_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/phone_change_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fce4ec"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:contentInsetStart="0dp"
+        tools:ignore="MissingConstraints">
+
+        <Button
+            android:id="@+id/btn_back_phone_change"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:background="#00ff0000"
+            android:drawableRight="@drawable/back"
+            android:gravity="center"
+            android:text=""
+            />
+
+        <TextView
+            android:id="@+id/phone_change_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/bareun3"
+            android:text="@string/phone_change"
+            android:textColor="#000000"
+            android:textSize="17sp"
+            />
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <EditText
+                android:id="@+id/phone_change_edit"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/edit_border4"
+                android:fontFamily="@font/dreamgothic3"
+                android:hint="-없이 휴대폰 번호를 입력하세요"
+                android:inputType="number"
+                android:maxLength="11"
+                android:padding="10dp"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btn_certification_number"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:fontFamily="@font/dreamgothic3"
+                android:text="인증번호 받기"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                android:background="@drawable/certification_number_border"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:padding="10dp">
+        <EditText
+            android:id="@+id/certification_number_edit"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/edit_border4"
+            android:fontFamily="@font/dreamgothic3"
+            android:hint="인증번호를 입력하세요"
+            android:inputType="number"
+            android:padding="10dp"
+            android:textColor="@color/input_register"
+            android:textColorHint="@color/input_register_hint"
+            android:textSize="14sp"
+
+            />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_certification"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:background="@drawable/certification_border"
+            android:text="본인 인증하기"
+            android:textColor="#100DD4" />
+    </LinearLayout>
+</LinearLayout>

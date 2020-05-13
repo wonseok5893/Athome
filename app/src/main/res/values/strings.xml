@@ -31,6 +31,12 @@
 
     <string name="car_list">차량목록</string>
     <string name="card_list">카드목록</string>
+    <string name="car_register">차량등록</string>
+
+    <string name="cancel">취소</string>
+    <string name="register">등록</string>
+
+    <string name="phone_change">휴대폰변경</string>
 
     <string name="enroll_parking">주차장 공유하기</string>
     <string name="sharedparking">공유주차장</string>

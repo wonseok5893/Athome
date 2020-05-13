@@ -41,9 +41,13 @@
         <activity android:name=".account.AccountChangePassword" />
         <activity android:name=".account.AccountCardList" />
         <activity android:name=".account.AccountCardRegister" />
+        <activity android:name=".account.AccountCarList"/>
         <activity android:name=".shared_parking.MySharedParkingActivity" />
         <activity android:name=".shared_parking.EnrollSharedParking" />
         <activity android:name=".shared_parking.SharedParkingExplanation"/>
+        <activity android:name=".main.WebViewActivity"/>
+        <activity android:name=".account.AccountChangePhone" />
+
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"

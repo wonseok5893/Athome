@@ -30,12 +30,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:fontFamily="@font/dreamgothic7"
+            android:fontFamily="@font/bareun3"
             android:text="@string/enroll_parking"
             android:textColor="#000000"
-            android:textSize="16sp"
-            tools:layout_editor_absoluteX="212dp"
-            tools:layout_editor_absoluteY="15dp" />
+            android:textSize="17sp"
+             />
 
     </androidx.appcompat.widget.Toolbar>
 

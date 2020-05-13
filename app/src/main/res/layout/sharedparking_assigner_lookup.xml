@@ -33,12 +33,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:fontFamily="@font/dreamgothic7"
+            android:fontFamily="@font/bareun3"
             android:text="@string/enroll_parking"
             android:textColor="#000000"
-            android:textSize="16sp"
-            tools:layout_editor_absoluteX="212dp"
-            tools:layout_editor_absoluteY="15dp" />
+            android:textSize="17sp"
+             />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -80,7 +79,8 @@
             android:fontFamily="@font/bareun1"
             android:padding="10dp"
             android:textColor="@color/input_register"
-            android:textSize="15sp"/>
+            android:textSize="15sp"
+            android:maxLength="11"/>
 
         <TextView
             android:id="@+id/assigner_birth"
@@ -102,7 +102,8 @@
             android:padding="10dp"
             android:textColor="@color/input_register"
             android:textColorHint="@color/input_register_hint"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:maxLength="6"/>
 
         <TextView
             android:id="@+id/assigner_car_num"
