@@ -24,10 +24,12 @@
         <activity android:name=".admin_enroll.AdminEnrollData"></activity>
         <activity android:name=".admin_enroll.AdminEnrollClicked" />
         <activity android:name=".admin_enroll.AdminEnrollActivity" />
-        <activity android:name=".admin.AdminListAdapter" />
-        <activity android:name=".admin.AdminNoticeClicked" />
-        <activity android:name=".admin.ItemAdminNoticeData" />
-        <activity android:name=".admin.AdminNoticeActivity" />
+        <activity android:name=".admin_notice.AdminListAdapter" />
+        <activity android:name=".admin_notice.AdminNoticeClicked" />
+        <activity android:name=".admin_notice.ItemAdminNoticeData" />
+        <activity android:name=".admin_notice.AdminNoticeActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".admin.UsersListActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".notice.NoticeActivity" />
         <activity android:name=".notice.NoticeClicked" />
@@ -41,6 +43,7 @@
         <activity android:name=".account.AccountCardRegister" />
         <activity android:name=".shared_parking.MySharedParkingActivity" />
         <activity android:name=".shared_parking.EnrollSharedParking" />
+        <activity android:name=".shared_parking.SharedParkingExplanation"/>
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
@@ -58,14 +61,16 @@
             </intent-filter>
         </activity>
 
+        -
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.athome.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
+
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/extermal" />
+                android:resource="@xml/filepaths" />
         </provider>
     </application>
 

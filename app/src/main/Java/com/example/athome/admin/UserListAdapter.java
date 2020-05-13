@@ -1,7 +1,6 @@
 package com.example.athome.admin;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,18 +8,16 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.athome.R;
-import com.example.athome.admin.ItemAdminNoticeData;
-import com.example.athome.notice.ItemNoticeData;
 
 import java.util.ArrayList;
 
-public class AdminListAdapter extends BaseAdapter {
+public class UserListAdapter extends BaseAdapter {
     LayoutInflater inflater = null;
-    private ArrayList<ItemNoticeData> data = null;
+    private ArrayList<AllUserData> data = null;
     private int layout;
 
     //생성자
-    public AdminListAdapter(Context context, int layout, ArrayList<ItemNoticeData> data)
+    public UserListAdapter(Context context, int layout, ArrayList<AllUserData> data)
     {
         this.inflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.data = data;
@@ -38,7 +35,7 @@ public class AdminListAdapter extends BaseAdapter {
     @Override
     public String getItem(int position)
     {
-        return data.get(position).getNoticeTitle();
+        return data.get(position).getUserId();
     }
 
     @Override
@@ -51,25 +48,24 @@ public class AdminListAdapter extends BaseAdapter {
     //포지션으로 현재 몇번째 아이템이 표시해야되는지 알 수 있음
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
-    {
+        {
         if (convertView == null)
         {
-            convertView = inflater.inflate(R.layout.admin_notice_listview_item, parent, false);
+            convertView = inflater.inflate(R.layout.admin_users_data, parent, false);
         }
 
-        ItemNoticeData itemNoticeData=data.get(position);
+        AllUserData usersData=data.get(position);
+        TextView userId = convertView.findViewById(R.id.allUserId);
+        TextView userName = (TextView) convertView.findViewById(R.id.allUserName);
+        TextView userPhone = (TextView) convertView.findViewById(R.id.allUserPhone);
 
-        TextView textTitle = (TextView) convertView.findViewById(R.id.admin_notice_title);
-        TextView textDate = (TextView) convertView.findViewById(R.id.admin_notice_date);
 
-
-        textTitle.setText(itemNoticeData.getNoticeTitle());
-        textDate.setText(itemNoticeData.getNoticeDate());
+        userId.setText(usersData.getUserId());
+        userName.setText(usersData.getUserName());
+        userPhone.setText(usersData.getUserPhone());
 
 
         return convertView;
     }
 
-
 }
-

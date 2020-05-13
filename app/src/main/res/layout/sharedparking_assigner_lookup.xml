@@ -56,8 +56,9 @@
             android:id="@+id/assigner_lookup"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:gravity="center"
             android:text="배정자 정보 확인"
-            android:textSize="18dp"
+            android:textSize="16dp"
             android:textColor="@color/black"
             android:fontFamily="@font/bareun1"/>
 
@@ -146,38 +147,20 @@
 
     </LinearLayout>
 
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="horizontal">
-
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        >
         <Button
-            android:id="@+id/en_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:layout_weight="1"
+            android:id="@+id/btn_assigner_lookup"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
             android:background="@drawable/edit_border2"
             android:fontFamily="@font/dreamgothic7"
-            android:padding="15dp"
-            android:text="취소"
-            android:textColor="@color/white" />
-
-        <Button
-            android:id="@+id/en_enroll"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/edit_border2"
-            android:fontFamily="@font/dreamgothic7"
-            android:padding="15dp"
             android:text="@string/btn_check"
             android:textColor="@color/white" />
-
-
     </LinearLayout>
 
 </LinearLayout>

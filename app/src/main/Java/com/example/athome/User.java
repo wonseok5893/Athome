@@ -28,12 +28,13 @@ public class User implements Parcelable {
     private Integer userPoint;
     private AuthSharedLocation authSharedLocation;
     private List<AuthReservation> authReservation;
+    private Integer userState;
+    private String token;
     String authMessage;
     String authRes;
     String registerMessage;
     String registerRes;
     String loginRes;
-    private String token;
     String editPasswordRes;
     String editPasswordMessage;
 
@@ -159,6 +160,9 @@ public class User implements Parcelable {
         this.userCarNumber = userCarNumber;
     }
 
+    public Integer getUserState() {
+        return userState;
+    }
 
     public String getAuthRes() {
         return authRes;
@@ -247,6 +251,7 @@ public class User implements Parcelable {
                         userPhone = authResult.getAuthUser().getUserPhone();
                         userName = authResult.getAuthUser().getUserName();
                         userCarNumber = authResult.getAuthUser().getUserCarNumber();
+                        userState = authResult.getAuthUser().getState();
 //                        if(authResult.getAuthUser().getAuthSharedLocation()!=null){
 //                        authSharedLocation = authResult.getAuthUser().getAuthSharedLocation();}
 //                        authReservation.add(authResult.getAuthUser().getAuthReservation());

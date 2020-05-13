@@ -1,78 +1,204 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/card_number"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/edit_border"
-        android:fontFamily="@font/dreamgothic3"
-        android:hint="@string/card_number"
-        android:inputType="text"
-        android:padding="10dp"
-        android:textColor="@color/input_register"
-        android:textColorHint="@color/input_register_hint"
-        android:textSize="15sp" />
-
-    <LinearLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/account_card_register_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:background="#fce4ec"
+        android:gravity="center"
+        app:contentInsetStart="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
 
-        <EditText
-            android:id="@+id/validity_mm"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/edit_border"
-            android:fontFamily="@font/dreamgothic3"
-            android:hint="MM"
-            android:inputType="textPassword"
-            android:padding="10dp"
-            android:textColor="@color/input_register"
-            android:textColorHint="@color/input_register_hint"
-            android:textSize="15sp" />
+        <Button
+            android:id="@+id/btn_back_card_register"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:background="#00ff0000"
+            android:drawableRight="@drawable/back"
+            android:gravity="center"
+            android:text=""
+             />
 
-        <EditText
-            android:id="@+id/validity_yy"
-            android:layout_width="fill_parent"
+        <TextView
+            android:id="@+id/card_register_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/edit_border"
-            android:fontFamily="@font/dreamgothic3"
-            android:hint="YY"
-            android:inputType="textPassword"
-            android:padding="10dp"
-            android:textColor="@color/input_register"
-            android:textColorHint="@color/input_register_hint"
-            android:textSize="15sp" />
-    </LinearLayout>
+            android:layout_gravity="center"
+            android:fontFamily="@font/bareun3"
+            android:text="@string/card_register"
+            android:textColor="#000000"
+            android:textSize="17sp"
+            tools:layout_editor_absoluteX="212dp"
+            tools:layout_editor_absoluteY="15dp" />
+
+    </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btn_card_register_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="취소" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btn_card_register_ok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="등록" />
+            <EditText
+                android:id="@+id/card_number1"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_border3"
+                android:fontFamily="@font/dreamgothic3"
+                android:gravity="center"
+                android:hint="1234"
+                android:inputType="number"
+                android:maxLength="4"
+                android:nextFocusDown="@+id/card_number2"
+                android:padding="10dp"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/card_number2"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_border3"
+                android:fontFamily="@font/dreamgothic3"
+                android:gravity="center"
+                android:hint="5678"
+                android:inputType="number"
+                android:maxLength="4"
+                android:nextFocusDown="@+id/card_number3"
+                android:padding="10dp"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/card_number3"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_border3"
+                android:fontFamily="@font/dreamgothic3"
+                android:gravity="center"
+                android:hint="9012"
+                android:inputType="number"
+                android:maxLength="4"
+                android:nextFocusDown="@+id/card_number4"
+                android:padding="10dp"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/card_number4"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_border3"
+                android:fontFamily="@font/dreamgothic3"
+                android:gravity="center"
+                android:hint="3456"
+                android:inputType="number"
+                android:maxLength="4"
+                android:padding="10dp"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/validity_mm"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_border3"
+                android:fontFamily="@font/dreamgothic3"
+                android:gravity="center"
+                android:hint="MM"
+                android:inputType="number"
+                android:maxLength="2"
+                android:nextFocusDown="@+id/validity_yy"
+                android:padding="10dp"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/validity_yy"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_border3"
+                android:fontFamily="@font/dreamgothic3"
+                android:gravity="center"
+                android:hint="YY"
+                android:inputType="number"
+                android:maxLength="2"
+                android:padding="10dp"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_card_register_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="취소" />
+
+            <Button
+                android:id="@+id/btn_card_register_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="등록" />
+
+        </LinearLayout>
 
     </LinearLayout>
-
 </LinearLayout>
