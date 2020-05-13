@@ -5,17 +5,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.example.athome.R;
 
+import java.util.List;
+
 public class AdminUserClickedShareActivity extends AppCompatActivity {
     private Button btn_back,btn_cancel,btn_delete;
+    private List<AdminUserClickedShareData> data = null;
+    private ListView shareListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_user_clicked_share);
 
+        shareListView=(ListView)findViewById(R.id.share_listview);
         btn_back=(Button) findViewById(R.id.clicked_share_back);
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
