@@ -22,6 +22,7 @@ import com.example.athome.R;
 import com.example.athome.RestRequestHelper;
 import com.example.athome.main.MainActivity;
 import com.example.athome.retrofit.ApiService;
+import com.example.athome.retrofit.EnrollResult;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -52,6 +53,9 @@ public class SharedParkingExplanation extends AppCompatActivity  implements View
     private String absoultePath;
     private int id_view;
     private Bitmap photo;
+    String userPhone, userBirth, userCarNumber;
+    String sharedToken;
+    MultipartBody.Part image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,76 +66,60 @@ public class SharedParkingExplanation extends AppCompatActivity  implements View
         btn_select_photo = (Button) findViewById(R.id.btn_select_photo);
 
         // 확인 버튼 누르면 정보 전달
-        btn_assigner_lookup = (Button)findViewById(R.id.btn_assigner_lookup);
+        btn_assigner_lookup = (Button) findViewById(R.id.btn_assigner_lookup);
         btn_assigner_lookup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //bitmap 이 jpeg로 저장된 absolutePath를 활용하여 서버에 사진 전송
-                String parkImageUrl = absoultePath;
+
+                Intent intent = getIntent();
+                File file = new File("/sdcard/Pictures/test.JPG");
+                RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                image = MultipartBody.Part.createFormData("img", file.getName(), requestFile);
+
+                final String userPhone = intent.getStringExtra("phNum");
+                Log.i("핸드폰번호", userPhone);
+                userBirth = intent.getStringExtra("birth");
+                Log.i("생년월일", userBirth);
+                userCarNumber = intent.getStringExtra("carNum");
+                Log.i("차번호", userCarNumber);
+
+                SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
+                sharedToken = sf.getString("token", "");
+                ApiService serviceApi = new RestRequestHelper().getApiService();
+                final Call<EnrollResult> res = serviceApi.postRegister(sharedToken, image, userPhone, userBirth, userCarNumber);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        if(true){
-                            Intent intent = getIntent();
-                            File file = new File("/sdcard/Pictures/test.JPG");
-                            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"),file);
-                            MultipartBody.Part image = MultipartBody.Part.createFormData("img", file.getName(), requestFile);
-
-                            String temp = intent.getStringExtra("phNum");
-                            Log.i("jiwon", temp);
-                            RequestBody phNum = RequestBody.create(MediaType.parse("text/plain"),temp);
-                            temp = intent.getStringExtra("birth");
-                            Log.i("jiwon", temp);
-                            RequestBody birth = RequestBody.create(MediaType.parse("text/plain"),temp);
-                            temp = intent.getStringExtra("carNum");
-                            Log.i("jiwon", temp);
-                            RequestBody carNum = RequestBody.create(MediaType.parse("text/plain"),temp);
-                            temp = intent.getStringExtra("parkLocation");
-                            Log.i("jiwon", temp);
-                            RequestBody parkLocation = RequestBody.create(MediaType.parse("text/plain"),temp);
-                            Log.i("jiwon", parkLocation.toString());
-                            SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
-                            String sharedToken = sf.getString("token", "");
-
-                            ApiService serviceApi = new RestRequestHelper().getApiService();
-                            Call<ResponseBody> call = serviceApi.postRegister(sharedToken, image, phNum, birth, carNum, parkLocation);
-                            call.enqueue(new Callback<ResponseBody>() {
-                                @Override
-                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                    Toast.makeText(SharedParkingExplanation.this, "주차장 등록 되셨습니다.", Toast.LENGTH_SHORT).show();
-                                    //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    //startActivity(intent);
-
-                                }
-
-                                @Override
-                                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                    Toast.makeText(SharedParkingExplanation.this, "통신에 실패했습니다.", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                        try {
+                            final EnrollResult enrollResult = res.execute().body();
+                            //User에 담는다 받은 결과를
+                            if (enrollResult.getResult().equals("success")) {
+                                Toast.makeText(SharedParkingExplanation.this, "" + enrollResult.getMessage(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(SharedParkingExplanation.this, "" + enrollResult.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (IOException ie) {
+                            ie.printStackTrace();
                         }
-                        else{
-                            Toast.makeText(SharedParkingExplanation.this, "주차장 사진이 없습니다.", Toast.LENGTH_SHORT).show();
-                        }
-
                     }
-                }).run();
+                }).start();
 
+
+                //뒤로가기 버튼
+                btn_back_parking_info = (Button) findViewById(R.id.btn_back_parking_info);
+                btn_back_parking_info.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                        overridePendingTransition(R.anim.not_move_activity, R.anim.rightout_activity);
+                    }
+                });
+
+                btn_select_photo.setOnClickListener((View.OnClickListener) this);
             }
-        });
-        //뒤로가기 버튼
-        btn_back_parking_info = (Button) findViewById(R.id.btn_back_parking_info);
-        btn_back_parking_info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                overridePendingTransition(R.anim.not_move_activity, R.anim.rightout_activity);
-            }
-        });
 
-        btn_select_photo.setOnClickListener((View.OnClickListener) this);
-
+        });
     }
 
     //카메라에서 사진 촬영
@@ -141,9 +129,9 @@ public class SharedParkingExplanation extends AppCompatActivity  implements View
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // 임시로 사용할 파일의 경로를 생성
         String url = "tmp_" + String.valueOf(System.currentTimeMillis()) + ".jpg";
-        mImageCaptureUri = FileProvider.getUriForFile ( getApplicationContext(),
+        mImageCaptureUri = FileProvider.getUriForFile(getApplicationContext(),
                 "com.example.athome.fileprovider",
-                new File (Environment.getExternalStorageDirectory(), url ));
+                new File(Environment.getExternalStorageDirectory(), url));
         intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
         startActivityForResult(intent, PICK_FROM_CAMERA);
     }
@@ -218,10 +206,11 @@ public class SharedParkingExplanation extends AppCompatActivity  implements View
             }
         }
     }
+
     @Override
     public void onClick(View v) {
         id_view = v.getId();
-        if(v.getId() == R.id.btn_select_photo) {
+        if (v.getId() == R.id.btn_select_photo) {
             DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -255,9 +244,9 @@ public class SharedParkingExplanation extends AppCompatActivity  implements View
     //비트맵을 저장하는부분
     private void storeCropImage(Bitmap bitmap, String filePath) {
         // SmartWheel 폴더를 생성하여 이미지를 저장하는 방식이다.
-        String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/SmartWheel";
+        String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/SmartWheel";
         File directory_SmartWheel = new File(dirPath);
-        if(!directory_SmartWheel.exists()) // SmartWheel 디렉터리에 폴더가 없다면 (새로 이미지를 저장할 경우에 속한다.)
+        if (!directory_SmartWheel.exists()) // SmartWheel 디렉터리에 폴더가 없다면 (새로 이미지를 저장할 경우에 속한다.)
             directory_SmartWheel.mkdir();
         File copyFile = new File(filePath);
         BufferedOutputStream out = null;
@@ -278,5 +267,6 @@ public class SharedParkingExplanation extends AppCompatActivity  implements View
         }
 
     }
+
 
 }

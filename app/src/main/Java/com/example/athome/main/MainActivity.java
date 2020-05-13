@@ -3,9 +3,13 @@ package com.example.athome.main;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.PointF;
 import android.graphics.Typeface;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -45,7 +49,12 @@ import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
+import com.naver.maps.map.Symbol;
 import com.naver.maps.map.overlay.InfoWindow;
+import com.naver.maps.map.overlay.Marker;
+
+import java.io.IOException;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,
@@ -55,13 +64,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private DrawerLayout mDrawerLayout;
     private Context context = this;
     private GpsTracker gpsTracker;
-    private static NaverMap nm = null;
+    private static NaverMap nm;
     private Button enrollBtn;
     private Button btn_back_enroll;
     private TextView name, id, point, profile;
     private User user;
-    private Button loginButton, searchButton;
-    private EditText resultAddress;
+    private Button loginButton;
+    private EditText searchEditText; // 웹뷰 띄우는 창
+    private Button btn_search;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -148,35 +158,98 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mapFragment.getMapAsync(this);
 
-        //공유주차장버튼 클릭
-        enrollBtn = (Button) findViewById(R.id.enrollBtn);
-        enrollBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MySharedParkingActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);//화면전환시효과
-            }
-        });
+        final Geocoder geocoder = new Geocoder(this);
 
-        //주소 검색 버튼 클릭
-        searchButton = findViewById(R.id.search_view);
-        searchButton.setOnClickListener(new View.OnClickListener() {
+        searchEditText = findViewById(R.id.search_view);
+        searchEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
                 startActivityForResult(intent, SEARCH_ADDRESS_ACTIVITY);
+//                resultAddress.setText("롯데리아 수원화성DT점");
             }
         });
-        resultAddress = findViewById(R.id.search_result);
-//        if(resultAddress.getText().length()!=0){
-//            //임시로 다시 맵 생성 / 이거 navermap객체를 이용하지 못하게 막아놈 해결방안있어야함
-//            mapFragment = MapFragment.newInstance();
-//            getSupportFragmentManager().beginTransaction().add(R.id.map_view, mapFragment).commit();
-//
-//        }
+
+        //주소 검색 버튼 클릭
+        btn_search = findViewById(R.id.btn_search);
+        btn_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                List<Address> list = null;
+
+                try {
+                    list = geocoder.getFromLocationName(searchEditText.getText().toString(), 10); // 읽을 개수
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e("test", "입출력 오류 - 서버에서 주소변환시 에러발생");
+                }
+
+                if (list != null) {
+                    if (list.size() == 0) {
+                        Log.e("test", "주소없음");
+                        Toast.makeText(getApplicationContext(), "주소를 찾을 수 없습니다.", Toast.LENGTH_LONG).show();
+                    } else {
+
+                        for (Address l : list) {
+                            Log.e("test", list.get(0).toString());
+                        }
+
+                        double lat = list.get(0).getLatitude();
+                        double longti = list.get(0).getLongitude();
+
+                        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(lat, longti));
+                        nm.moveCamera(cameraUpdate);
+                    }
+                }
+
+            }
+        });
 
 
+        enrollBtn = (Button) findViewById(R.id.enrollBtn);
+        enrollBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final Intent intent = new Intent(getApplicationContext(), MySharedParkingActivity.class);
+                Toast.makeText(getApplicationContext(), "주차장 공유 기능이 활성화되었습니다.", Toast.LENGTH_LONG).show();
+
+                nm.setOnMapLongClickListener(new NaverMap.OnMapLongClickListener() {
+                    @Override
+                    public void onMapLongClick(@NonNull PointF point, @NonNull LatLng coord) {
+
+                        Log.d("test", "현재 좌표 : " + coord.latitude + ", " + coord.longitude);
+
+                        List<Address> list = null;
+                        String locationName = null;
+                        Log.d("test", "실행체크 1번");
+
+                        try {
+                            list = geocoder.getFromLocation((double) coord.latitude, (double) coord.longitude, 1); // 얻어올 값의 개수
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Log.e("test", "입출력 오류 - 서버에서 주소변환시 에러발생");
+                        }
+                        if (list != null) {
+                            if (list.size() == 0) {
+                                Log.e("test", "이상한 장소입니다.");
+                            } else {
+                                locationName = list.get(0).getAddressLine(0);
+                                Log.d("test", locationName);
+                            }
+                        }
+
+                        intent.putExtra("SelectLocation", new LatLng(coord.latitude, coord.longitude));
+                        intent.putExtra("LocationName", locationName);
+                        startActivity(intent);
+                    }
+                });
+
+
+//                startActivity(intent);
+            }
+        });
 
     }
 
@@ -184,6 +257,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @UiThread
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
+
         nm = naverMap;
         // 지도종류 Basic
         nm.setMapType(NaverMap.MapType.Basic);
@@ -191,9 +265,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .animate(CameraAnimation.Easing);
         nm.moveCamera(cameraUpdate);
         // Test용 마커 생성 후 지도상에 set
-        SharePlace test = new SharePlace();
-        test.readSharePlace("fails12", "junggyu", "01031125927", 200, 37.3595704, 127.105399, this);
-        test.getMyMarker().setMap(nm);
 
         InfoWindow infoWindow = new InfoWindow();
         // test : maker onclick 시 네비게이션 (윤지원 04-30)
@@ -284,7 +355,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                     String data = intent.getExtras().getString("data");
                     if (data != null)
-                        resultAddress.setText(data);
+                        searchEditText.setText(data);
 
                 }
                 break;

@@ -59,7 +59,7 @@ public class WebViewActivity extends AppCompatActivity {
                     Log.d("Address", "address_building : " + arg3);
 
                     Intent intent = new Intent();
-                    intent.putExtra("data", String.format("(%s) %s %s", arg1, arg2, arg3));
+                    intent.putExtra("data", String.format("%s %s", arg2, arg3));
                     setResult(1, intent);
                     finish();
                 }

@@ -12,7 +12,7 @@
         android:layout_width="303dp"
         android:layout_height="35dp"
         android:layout_gravity="center_vertical"
-        android:fontFamily="@font/dreamgothic3"
+        android:fontFamily="@font/bareun1"
         android:paddingLeft="10dp"
         android:text="제목"
         android:textSize="15dp"
@@ -26,10 +26,10 @@
         android:layout_height="35dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="40"
-        android:fontFamily="@font/dreamgothic3"
+        android:fontFamily="@font/bareun1"
         android:gravity="center"
         android:text="12.34.56"
-        android:textSize="11dp"/>
+        android:textSize="12dp"/>
 
     <ImageView
         android:id="@+id/notice_more"
