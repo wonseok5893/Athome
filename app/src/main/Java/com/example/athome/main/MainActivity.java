@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private TextView name, id, point, profile;
     private User user;
     private Button loginButton, searchButton;
-    private EditText resultAddress;
+    private TextView resultAddress;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -157,8 +157,53 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mapFragment.getMapAsync(this);
 
-
         final Geocoder geocoder = new Geocoder(this);
+
+        resultAddress = (TextView) findViewById(R.id.search_result);
+        resultAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
+                startActivityForResult(intent, SEARCH_ADDRESS_ACTIVITY);
+//                resultAddress.setText("롯데리아 수원화성DT점");
+            }
+        });
+
+        //주소 검색 버튼 클릭
+        searchButton = findViewById(R.id.search_view);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                List<Address> list = null;
+
+                try {
+                    list = geocoder.getFromLocationName(resultAddress.getText().toString(), 10); // 읽을 개수
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e("test", "입출력 오류 - 서버에서 주소변환시 에러발생");
+                }
+
+                if (list != null) {
+                    if (list.size() == 0) {
+                        Log.e("test", "주소없음");
+                        Toast.makeText(getApplicationContext(), "주소를 찾을 수 없습니다.", Toast.LENGTH_LONG).show();
+                    } else {
+
+                        for (Address l : list) {
+                            Log.e("test", list.get(0).toString());
+                        }
+
+                        double lat = list.get(0).getLatitude();
+                        double longti = list.get(0).getLongitude();
+
+                        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(lat, longti));
+                        nm.moveCamera(cameraUpdate);
+                    }
+                }
+
+            }
+        });
 
 
         enrollBtn = (Button) findViewById(R.id.enrollBtn);
@@ -180,27 +225,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         Log.d("test", "실행체크 1번");
 
                         try {
-                            list = geocoder.getFromLocation((double) coord.latitude, (double)coord.longitude,1); // 얻어올 값의 개수
+                            list = geocoder.getFromLocation((double) coord.latitude, (double) coord.longitude, 1); // 얻어올 값의 개수
                         } catch (IOException e) {
                             e.printStackTrace();
                             Log.e("test", "입출력 오류 - 서버에서 주소변환시 에러발생");
                         }
                         if (list != null) {
-                            if (list.size()==0) {
+                            if (list.size() == 0) {
                                 Log.e("test", "이상한 장소입니다.");
                             } else {
-                                locationName = list.get(0).getCountryName() + " " +
-                                                        list.get(0).getAdminArea() + " " +
-                                                        list.get(0).getLocality() + " " +
-                                                        list.get(0).getSubLocality() + " "  +
-                                                        list.get(0).getThoroughfare() + " " +
-                                                        list.get(0).getPremises() + "Premises " +
-                                                        list.get(0).getFeatureName();
+                                locationName = list.get(0).getAddressLine(0);
                                 Log.d("test", locationName);
                             }
                         }
 
-                        intent.putExtra("SelectLocation", new LatLng(coord.latitude,coord.longitude));
+                        intent.putExtra("SelectLocation", new LatLng(coord.latitude, coord.longitude));
                         intent.putExtra("LocationName", locationName);
                         startActivity(intent);
                     }
@@ -211,42 +250,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-
-        //주소 검색 버튼 클릭
-        searchButton = findViewById(R.id.search_view);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                List<Address> list = null;
-
-                try {
-                    list = geocoder.getFromLocationName("맥도날드 수원화성DT점",10); // 읽을 개수
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.e("test","입출력 오류 - 서버에서 주소변환시 에러발생");
-                }
-
-                if (list != null) {
-                    if (list.size() == 0) {
-                        Log.e("test","주소없음");
-                        Toast.makeText(getApplicationContext(), "주소를 찾을 수 없습니다.", Toast.LENGTH_LONG).show();
-                    } else {
-
-                        for(Address l : list) {
-                            Log.e("test", list.get(0).toString());
-                        }
-
-                        double lat = list.get(0).getLatitude();
-                        double longti = list.get(0).getLongitude();
-
-                        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(lat,longti));
-                        nm.moveCamera(cameraUpdate);
-                    }
-                }
-
-            }
-        });
     }
 
     // 맵 준비되면 onMapReady에서 naverMap객체를 받아옴
