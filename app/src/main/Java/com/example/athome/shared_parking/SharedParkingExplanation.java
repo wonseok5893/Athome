@@ -59,7 +59,7 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
         setContentView(R.layout.sharedparking_parking_info);
 
         //사용자에게 권한 설정 받기
-       tedWritePermission();
+        tedWritePermission();
 
         imageView = (ImageView) findViewById(R.id.parking_info_img_value);
         btn_select_photo = (Button) findViewById(R.id.btn_select_photo);
@@ -129,7 +129,6 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
 
     //카메라에서 사진 촬영
     public void doTakePhotoAction() // 카메라 촬영 후 이미지 가져오기
-
     {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         try {
@@ -147,9 +146,9 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
                 startActivityForResult(intent, PICK_FROM_CAMERA);
             }
             else{
-            Uri photoUri = Uri.fromFile(tempFile);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-            startActivityForResult(intent, PICK_FROM_CAMERA);
+                Uri photoUri = Uri.fromFile(tempFile);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                startActivityForResult(intent, PICK_FROM_CAMERA);
             }
         }
 
@@ -230,13 +229,6 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
                 }
             }
 
-                if (extras != null) {
-                    photo = extras.getParcelable("data"); // CROP된 BITMAP
-                    imageView.setImageBitmap(photo); // 레이아웃의 이미지칸에 CROP된 BITMAP을 보여줌
-                    storeCropImage(photo, filePath); // CROP된 이미지를 외부저장소, 앨범에 저장한다.
-                    absolutePath = filePath;
-                    break;
-                }
 
             case CROP_FROM_IMAGE: { //이미지 변수 Bitmap photo
 

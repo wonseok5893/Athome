@@ -57,13 +57,13 @@ public class AdminEnrollClicked extends AppCompatActivity {
                                 //확인시 처리 로직
 
                                 ApiService serviceApi = new RestRequestHelper().getApiService();
-                                final Call<AdminResult> registerRes = serviceApi.registerSharedLocation(sharedToken, data.getOwner().getId());
+                                final Call<AdminResult> registerRes = serviceApi.registerSharedLocation(sharedToken, data.getId());
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
                                         try {
                                             final AdminResult adminResult = registerRes.execute().body();
-                                            registerLocationRes = adminResult.getEditPasswordRes();
+                                            registerLocationRes = adminResult.getRegisterLocationRes();
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
