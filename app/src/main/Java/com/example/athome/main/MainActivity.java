@@ -211,7 +211,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         enrollBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(user.getUserId() == null){
+                    Toast.makeText(context, "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 final Intent intent = new Intent(getApplicationContext(), MySharedParkingActivity.class);
                 Toast.makeText(getApplicationContext(), "주차장 공유 기능이 활성화되었습니다.", Toast.LENGTH_LONG).show();
 
@@ -243,7 +246,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         intent.putExtra("SelectLocation", new LatLng(coord.latitude, coord.longitude));
                         intent.putExtra("LocationName", locationName);
                         intent.putExtra("User",user);
-                        Log.i("test",user.getUserPhone());
                         startActivity(intent);
                     }
                 });
