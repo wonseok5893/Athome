@@ -89,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
         System.out.println(sharedToken);
         if (sharedToken != "") {
-//            user = new User();
             //검증
             if (user.authenticate(sharedToken)) {
                 Toast.makeText(getApplicationContext(), user.getUserId() + " 님 어서오세요!", Toast.LENGTH_SHORT).show();

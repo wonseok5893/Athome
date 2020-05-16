@@ -33,8 +33,10 @@ public class UsersListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_users_listview);
 
+        //모든 정보 다받아옴
         SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
         String sharedToken = sf.getString("token", "");
+
         ApiService apiService = new RestRequestHelper().getApiService();
         final Call<AllUserResult> res = apiService.getAllUsers(sharedToken,"good");
         new Thread(new Runnable() {
@@ -54,7 +56,7 @@ public class UsersListActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+//------------------------------------------------------------------------------------------
 
 
         usersListView=(ListView)findViewById(R.id.admin_users_listView);
@@ -83,9 +85,9 @@ public class UsersListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), AdminUserListClicked.class);
-
+                intent.putExtra("userInfo",data.get(position));
                 //putExtra의 첫 값은 식별 태그, 뒤에는 다음 화면에 넘길 값
-                intent.putExtra("data", (Parcelable) data);
+
                 startActivity(intent);
             }
         });

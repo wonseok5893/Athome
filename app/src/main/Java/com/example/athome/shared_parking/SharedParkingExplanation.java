@@ -59,7 +59,16 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
     private String absolutePath;
     private int id_view;
     private Bitmap photo;
-
+    String enrollRes, enrollMessage;
+    RequestBody userBirth;
+    RequestBody userCarNumber;
+    RequestBody location;
+    RequestBody latitude;
+    RequestBody longitude;
+    RequestBody parkingInfo;
+    LatLng SelectLocation;
+    String sharedToken;
+    MultipartBody.Part image;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +78,22 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
         btn_select_photo = (Button) findViewById(R.id.btn_select_photo);
         parking_info_name_value = (EditText) findViewById(R.id.parking_info_name_value);
 
+        Intent intent = getIntent();
+
+        File file = new File("/sdcard/Pictures/test.JPG");
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        image = MultipartBody.Part.createFormData("img", file.getName(), requestFile);
+
+        userBirth = RequestBody.create(MediaType.parse("multipart/form-data"),intent.getStringExtra("birth"));
+        userCarNumber = RequestBody.create(MediaType.parse("multipart/form-data"),intent.getStringExtra("carNum"));
+         location = RequestBody.create(MediaType.parse("multipart/form-data"),intent.getStringExtra("locationName"));
+         SelectLocation = intent.getParcelableExtra("SelectLocation");
+         latitude = RequestBody.create(MediaType.parse("multipart/form-data"),Double.toString(SelectLocation.latitude));
+         longitude = RequestBody.create(MediaType.parse("multipart/form-data"),Double.toString(SelectLocation.longitude));
+         parkingInfo = RequestBody.create(MediaType.parse("multipart/form-data"),parking_info_name_value.getText().toString());
+
+        SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
+         sharedToken = sf.getString("token", "");
         // 확인 버튼 누르면 서버로 배정자 정보 전달
         btn_assigner_lookup = (Button) findViewById(R.id.btn_assigner_lookup);
         btn_assigner_lookup.setOnClickListener(new View.OnClickListener() {
@@ -77,59 +102,41 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
 
                 //bitmap 이 jpeg로 저장된 absolutePath를 활용하여 서버에 사진 전송
                 String parkImageUrl = absolutePath;
-
                 if (true) {
-                    Intent intent = getIntent();
 
-                    File file = new File("/sdcard/Pictures/test.JPG");
-                    RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-                    MultipartBody.Part image = MultipartBody.Part.createFormData("img", file.getName(), requestFile);
 
-                    String userBirth = intent.getStringExtra("birth");
-                    String userCarNumber = intent.getStringExtra("carNum");
-                    String location = intent.getStringExtra("locationName");
-                    LatLng SelectLocation = intent.getParcelableExtra("SelectLocation");
-                    String latitude = Double.toString(SelectLocation.latitude);
-                    String longitude = Double.toString(SelectLocation.longitude);
-                    String ParkingInfo = parking_info_name_value.getText().toString();
-
-                    SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
-                    String sharedToken = sf.getString("token", "");
-
-                    Toast.makeText(SharedParkingExplanation.this, "되냐?", Toast.LENGTH_SHORT).show();
-                    Log.i("test", sharedToken);
-                    Log.i("test", userBirth);
-                    Log.i("test", userCarNumber);
-                    Log.i("test", location);
-                    Log.i("test", latitude);
-                    Log.i("test", longitude);
-                    Log.i("test", ParkingInfo);
 
 
                     ApiService serviceApi = new RestRequestHelper().getApiService();
-                    final Call<EnrollResult> res = serviceApi.postRegister(sharedToken, image, userBirth, userCarNumber, location, latitude, longitude, ParkingInfo);
+                    final Call<EnrollResult> res = serviceApi.postRegister(sharedToken, image, userBirth, userCarNumber, location, latitude, longitude, parkingInfo);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             try {
                                 final EnrollResult enrollResult = res.execute().body();
-                                //User에 담는다 받은 결과를
-                                if (enrollResult.getResult().equals("success")) {
-                                    Toast.makeText(SharedParkingExplanation.this, "" + enrollResult.getMessage(), Toast.LENGTH_SHORT).show();
-                                } else {
-                                    //Toast.makeText(SharedParkingExplanation.this, "" + enrollResult.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
+                                enrollRes = enrollResult.getResult();
+                                enrollMessage = enrollResult.getResult();
                             } catch (IOException ie) {
                                 ie.printStackTrace();
                             }
                         }
                     }).start();
+                    try {
+                        Thread.sleep(200);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     Toast.makeText(SharedParkingExplanation.this, "주차장 사진이 없습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
+        if(enrollRes!=null){
+        if (enrollRes.equals("success")) {
+            Toast.makeText(SharedParkingExplanation.this, "" + enrollMessage, Toast.LENGTH_SHORT).show();
+        } else if (enrollRes.equals("fail")) {
+            Toast.makeText(SharedParkingExplanation.this, "" + enrollMessage, Toast.LENGTH_SHORT).show();
+        }}
 
         //뒤로가기 버튼
         btn_back_parking_info = (Button) findViewById(R.id.btn_back_parking_info);
