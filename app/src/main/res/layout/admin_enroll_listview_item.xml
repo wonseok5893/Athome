@@ -138,15 +138,7 @@
                     android:layout_weight="0.2"
                     android:paddingLeft="10dp"
                     android:paddingTop="7dp"
-                    android:paddingBottom="7dp">
-
-                    <Button
-                        android:id="@+id/enlist_detail"
-                        android:layout_width="62dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:text="상세보기" />
-                </LinearLayout>
+                    android:paddingBottom="7dp"/>
 
 
             </LinearLayout>

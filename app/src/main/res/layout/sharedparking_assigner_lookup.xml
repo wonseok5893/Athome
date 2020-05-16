@@ -143,8 +143,7 @@
             android:fontFamily="@font/bareun1"
             android:padding="10dp"
             android:textColor="@color/input_register"
-            android:textSize="15sp"
-            android:maxLength="11"/>
+            android:textSize="15sp" />
 
     </LinearLayout>
 

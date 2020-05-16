@@ -50,6 +50,7 @@ public class EnrollSharedParking extends AppCompatActivity {
         Intent intent = getIntent();
         user = intent.getParcelableExtra("User");
         locationName = intent.getStringExtra("LocationName");
+        Log.d("test",locationName);
         SelectLocation = intent.getParcelableExtra("SelectLocation");
 
         //배정자가 지정한 주소값 입력

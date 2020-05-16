@@ -262,7 +262,7 @@ public class User implements Parcelable {
             }
         }).start();
         try {
-            Thread.sleep(1000);
+            Thread.sleep(100);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -300,7 +300,7 @@ public class User implements Parcelable {
             }
         }).start();
         try {
-            Thread.sleep(1000);
+            Thread.sleep(100);
 
         } catch (Exception e) {
             e.printStackTrace();

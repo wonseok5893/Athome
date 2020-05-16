@@ -1,15 +1,12 @@
 package com.example.athome.shared_parking;
 
 import android.Manifest;
-import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -20,35 +17,38 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.activity.ComponentActivity;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+
 import com.example.athome.R;
 import com.example.athome.RestRequestHelper;
+import com.example.athome.main.MainActivity;
 import com.example.athome.retrofit.ApiService;
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
 import com.naver.maps.geometry.LatLng;
 import com.example.athome.retrofit.EnrollResult;
+
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SharedParkingExplanation extends AppCompatActivity implements View.OnClickListener {
     private static final int PICK_FROM_CAMERA = 0;
     private static final int PICK_FROM_ALBUM = 1;
-    private static final int CROP_FROM_IMAGE = 2;
+    private static final int CROP_FROM_iMAGE = 2;
 
     private ImageView imageView;
     private Button btn_back_parking_info;
@@ -56,18 +56,14 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
     private Button btn_assigner_lookup;
     private EditText parking_info_name_value;
     private Uri mImageCaptureUri;
+    private String absolutePath;
     private int id_view;
     private Bitmap photo;
-    private Boolean isPermission = true;
-    private File tempFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sharedparking_parking_info);
-
-        //사용자에게 권한 설정 받기
-       tedWritePermission();
 
         imageView = (ImageView) findViewById(R.id.parking_info_img_value);
         btn_select_photo = (Button) findViewById(R.id.btn_select_photo);
@@ -78,9 +74,14 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
         btn_assigner_lookup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tempFile != null) {
+
+                //bitmap 이 jpeg로 저장된 absolutePath를 활용하여 서버에 사진 전송
+                String parkImageUrl = absolutePath;
+
+                if (true) {
                     Intent intent = getIntent();
-                    File file = new File(tempFile.getAbsolutePath());
+
+                    File file = new File("/sdcard/Pictures/test.JPG");
                     RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
                     MultipartBody.Part image = MultipartBody.Part.createFormData("img", file.getName(), requestFile);
 
@@ -90,26 +91,33 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
                     LatLng SelectLocation = intent.getParcelableExtra("SelectLocation");
                     String latitude = Double.toString(SelectLocation.latitude);
                     String longitude = Double.toString(SelectLocation.longitude);
-                    String parkingInfo = parking_info_name_value.getText().toString();
-
-
+                    String ParkingInfo = parking_info_name_value.getText().toString();
 
                     SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
                     String sharedToken = sf.getString("token", "");
 
-                    ApiService serviceApi = new RestRequestHelper().getApiService();
-                    final Call<EnrollResult> res = serviceApi.postRegister(sharedToken, image, userBirth, userCarNumber, location, latitude, longitude, parkingInfo);
+                    Toast.makeText(SharedParkingExplanation.this, "되냐?", Toast.LENGTH_SHORT).show();
+                    Log.i("test", sharedToken);
+                    Log.i("test", userBirth);
+                    Log.i("test", userCarNumber);
+                    Log.i("test", location);
+                    Log.i("test", latitude);
+                    Log.i("test", longitude);
+                    Log.i("test", ParkingInfo);
 
+
+                    ApiService serviceApi = new RestRequestHelper().getApiService();
+                    final Call<EnrollResult> res = serviceApi.postRegister(sharedToken, image, userBirth, userCarNumber, location, latitude, longitude, ParkingInfo);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                EnrollResult enrollResult = res.execute().body();
+                                final EnrollResult enrollResult = res.execute().body();
                                 //User에 담는다 받은 결과를
                                 if (enrollResult.getResult().equals("success")) {
-
+                                    Toast.makeText(SharedParkingExplanation.this, "" + enrollResult.getMessage(), Toast.LENGTH_SHORT).show();
                                 } else {
-
+                                    //Toast.makeText(SharedParkingExplanation.this, "" + enrollResult.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             } catch (IOException ie) {
                                 ie.printStackTrace();
@@ -121,7 +129,6 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
                 }
             }
         });
-
 
 
         //뒤로가기 버튼
@@ -139,119 +146,92 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
 
     //카메라에서 사진 촬영
     public void doTakePhotoAction() // 카메라 촬영 후 이미지 가져오기
+
     {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        tedReadPermission();
-        try {
-            tempFile = createImageFile();
-        } catch (IOException e) {
-            Toast.makeText(this, "이미지 처리 오류! 다시 시도해주세요(이거지?).", Toast.LENGTH_SHORT).show();
-            finish();
-            e.printStackTrace();
-        }
-        if (tempFile != null) {
-            if(Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N){
-                Uri photoUri = FileProvider.getUriForFile(this,
-                        "com.example.athome.fileprovider", tempFile);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                startActivityForResult(intent, PICK_FROM_CAMERA);
-            }
-            else{
-            Uri photoUri = Uri.fromFile(tempFile);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-            startActivityForResult(intent, PICK_FROM_CAMERA);
-            }
-        }
-
-
+        // 임시로 사용할 파일의 경로를 생성
+        String url = "tmp_" + String.valueOf(System.currentTimeMillis()) + ".jpg";
+        mImageCaptureUri = FileProvider.getUriForFile(getApplicationContext(),
+                "com.example.athome.fileprovider",
+                new File(Environment.getExternalStorageDirectory(), url));
+        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
+        startActivityForResult(intent, PICK_FROM_CAMERA);
     }
 
     //앨범에서 이미지 가져오기
     public void doTakeAlbumAction() // 앨범에서 이미지 가져오기
+
     {
+        // 앨범 호출
         Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-        startActivityForResult(intent,PICK_FROM_ALBUM);
+        intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+        startActivityForResult(intent, PICK_FROM_ALBUM);
     }
 
     @Override
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) {
-            Toast.makeText(this, "취소 되었습니다.", Toast.LENGTH_SHORT).show();
-
-            if(tempFile != null) {
-                if (tempFile.exists()) {
-                    if (tempFile.delete()) {
-                        Log.e("jiwon", tempFile.getAbsolutePath() + " 삭제 성공");
-                        tempFile = null;
-                    }
-                }
-            }
-
+        if (resultCode != RESULT_OK)
             return;
-        }
         switch (requestCode) {
             case PICK_FROM_ALBUM: {
-                Uri photoUri = data.getData();
-                Log.i("jiwon",photoUri.toString());
-
-                Cursor cursor = null;
-                try {
-
-                    /*
-                     *  Uri 스키마를
-                     *  content:/// 에서 file:/// 로  변경한다.
-                     */
-                    String[] proj = { MediaStore.Images.Media.DATA };
-
-                    assert photoUri != null;
-                    cursor = getContentResolver().query(photoUri, proj, null, null, null);
-
-                    assert cursor != null;
-                    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-
-                    cursor.moveToFirst();
-
-                    tempFile = new File(cursor.getString(column_index));
-                    Log.i("jiwon", tempFile.getAbsolutePath().toString());
-                } finally {
-                    if (cursor != null) {
-                        cursor.close();
-                    }
-                }
-
-                try {
-                    setImage();
-                } catch (FileNotFoundException e) {
-                    Toast.makeText(this, "파일을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
+                // 이후의 처리가 카메라와 같으므로 일단  break없이 진행합니다.
+                // 실제 코드에서는 좀더 합리적인 방법을 선택하시기 바랍니다.
+                mImageCaptureUri = data.getData();
+                Log.d("SmartWheel", mImageCaptureUri.getPath().toString());
             }
 
             case PICK_FROM_CAMERA: {
-                try {
-                    setImage();
-                } catch (FileNotFoundException e) {
-                    Toast.makeText(this, "파일을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
+                // 이미지를 가져온 이후의 리사이즈할 이미지 크기를 결정합니다.
+                // 이후에 이미지 크롭 어플리케이션을 호출하게 됩니다.
+                Intent intent = new Intent("com.android.camera.action.CROP");
+                intent.setDataAndType(mImageCaptureUri, "image/*");
+
+                // CROP할 이미지를 200*200 크기로 저장
+                intent.putExtra("outputX", 200); // CROP한 이미지의 x축 크기
+                intent.putExtra("outputY", 200); // CROP한 이미지의 y축 크기
+                intent.putExtra("aspectX", 1); // CROP 박스의 X축 비율
+                intent.putExtra("aspectY", 1); // CROP 박스의 Y축 비율
+                intent.putExtra("scale", true);
+                intent.putExtra("return-data", true);
+                startActivityForResult(intent, CROP_FROM_iMAGE); // CROP_FROM_CAMERA case문 이동
+                break;
             }
 
 
-            case CROP_FROM_IMAGE: { //이미지 변수 Bitmap photo
+            case CROP_FROM_iMAGE: { //이미지 변수 Bitmap photo
+                // 크롭이 된 이후의 이미지를 넘겨 받음
+                // 이미지뷰에 이미지를 보여준다거나 부가적인 작업 이후에
+                // 임시 파일을 삭제함
+                if (resultCode != RESULT_OK) {
+                    return;
+                }
+                final Bundle extras = data.getExtras();
+                // CROP된 이미지를 저장하기 위한 FILE 경로
+                String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() +
+                        "/SmartWheel/" + System.currentTimeMillis() + ".jpg";
 
+                if (extras != null) {
+                    photo = extras.getParcelable("data"); // CROP된 BITMAP
+                    imageView.setImageBitmap(photo); // 레이아웃의 이미지칸에 CROP된 BITMAP을 보여줌
+                    storeCropImage(photo, filePath); // CROP된 이미지를 외부저장소, 앨범에 저장한다.
+                    absolutePath = filePath;
+                    break;
+                }
+
+                // 임시 파일 삭제
+                File f = new File(mImageCaptureUri.getPath());
+                if (f.exists()) {
+                    f.delete();
+                }
             }
         }
     }
 
     @Override
     public void onClick(View v) {
-        if(!isPermission) {
-            Toast.makeText(this, getResources().getString(R.string.permission_2), Toast.LENGTH_LONG).show();
-            return;
-        }
+        id_view = v.getId();
         if (v.getId() == R.id.btn_select_photo) {
             DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
                 @Override
@@ -283,97 +263,32 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
 
     }
 
-    private void tedWritePermission() {
+    //비트맵을 저장하는부분
+    private void storeCropImage(Bitmap bitmap, String filePath) {
+        // SmartWheel 폴더를 생성하여 이미지를 저장하는 방식이다.
+        String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/SmartWheel";
+        File directory_SmartWheel = new File(dirPath);
+        if (!directory_SmartWheel.exists()) // SmartWheel 디렉터리에 폴더가 없다면 (새로 이미지를 저장할 경우에 속한다.)
+            directory_SmartWheel.mkdir();
+        File copyFile = new File(filePath);
+        BufferedOutputStream out = null;
+        try {
+            copyFile.createNewFile();
+            out = new BufferedOutputStream(new FileOutputStream(copyFile));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
 
-        PermissionListener permissionListener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                // 권한 요청 성공
-                isPermission = true;
-
-            }
-
-            @Override
-            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                // 권한 요청 실패
-                isPermission = false;
-
-            }
-        };
-
-        TedPermission.with(this)
-                .setPermissionListener(permissionListener)
-                .setRationaleMessage(getResources().getString(R.string.permission_2)+"폴더 생성")
-                .setDeniedMessage(getResources().getString(R.string.permission_1))
-                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
-                .check();
-
-    }
-
-    private void tedReadPermission() {
-
-        PermissionListener permissionListener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                // 권한 요청 성공
-                isPermission = true;
-
-            }
-
-            @Override
-            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                // 권한 요청 실패
-                isPermission = false;
-
-            }
-        };
-
-        TedPermission.with(this)
-                .setPermissionListener(permissionListener)
-                .setRationaleMessage(getResources().getString(R.string.permission_2))
-                .setDeniedMessage(getResources().getString(R.string.permission_1))
-                .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
-                .check();
+            // sendBroadcast를 통해 Crop된 사진을 앨범에 보이도록 갱신한다.
+            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            mImageCaptureUri = FileProvider.getUriForFile(SharedParkingExplanation.this, "com.example.athome.fileprovider", copyFile);
+            intent.setData(mImageCaptureUri);
+            sendBroadcast(intent);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
-
-    private void setImage() throws FileNotFoundException {
-
-        Uri uri = getUriFromPath(tempFile.getAbsolutePath());
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        Bitmap originalBm = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-        imageView.setImageBitmap(originalBm);
-    }
-
-    private File createImageFile() throws IOException{
-
-        // 이미지 파일 이름 ( AtHome_{시간}_ )
-        String timeStamp = new SimpleDateFormat("HHmmss").format(new Date());
-        String imageFileName = "AtHome_" + timeStamp + "_";
-
-        // 이미지가 저장될 폴더 이름 ( AtHome )
-        File storageDir = new File(Environment.getExternalStorageDirectory() + "/AtHome/");
-        storageDir.mkdirs();
-
-        // 빈 파일 생성
-
-        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
-
-        return image;
-    }
-
-    private Uri getUriFromPath(String filePath) {
-        Cursor cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                null, "_data = '" + filePath + "'", null, null);
-
-        cursor.moveToNext();
-        int id = cursor.getInt(cursor.getColumnIndex("_id"));
-        Uri uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
-
-        return uri;
-    }
-
-
 
 
 }

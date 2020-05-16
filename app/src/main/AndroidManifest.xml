@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.athome">
-
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 위치정보활용시 추가 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 위치정보활용시 추가 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- WIFI 상태활용시 추가 -->
@@ -51,10 +50,14 @@
         <activity android:name=".account.AccountChangePassword" />
         <activity android:name=".account.AccountCardList" />
         <activity android:name=".account.AccountCardRegister" />
+        <activity android:name=".account.AccountCarList"/>
         <activity android:name=".shared_parking.MySharedParkingActivity" />
         <activity android:name=".shared_parking.EnrollSharedParking" />
         <activity android:name=".shared_parking.SharedParkingExplanation" />
         <activity android:name=".main.WebViewActivity"/>
+        <activity android:name=".account.AccountChangePhone" />
+
+
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="25z9e189v0" />
@@ -71,11 +74,13 @@
             </intent-filter>
         </activity>
 
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.athome.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
+
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
