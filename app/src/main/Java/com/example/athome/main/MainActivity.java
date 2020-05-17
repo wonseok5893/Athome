@@ -237,6 +237,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         if (list != null) {
                             if (list.size() == 0) {
                                 Log.e("test", "이상한 장소입니다.");
+                            Toast.makeText(MainActivity.this, "위치를 다시 지정해주십시오.", Toast.LENGTH_SHORT).show();
+                                return;
                             } else {
                                 locationName = list.get(0).getAddressLine(0);
                                 Log.d("test", locationName);

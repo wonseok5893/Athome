@@ -6,6 +6,7 @@ import com.example.athome.admin.AllUserResult;
 import com.example.athome.admin.UsersListActivity;
 import com.example.athome.admin_enroll.AdminEnrollData;
 import com.example.athome.admin_enroll.AdminEnrollResult;
+import com.example.athome.admin_notice.AdminNoticeResult;
 import com.naver.maps.geometry.LatLng;
 
 import okhttp3.MultipartBody;

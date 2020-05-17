@@ -34,7 +34,7 @@ public class AdminCarlistActivity extends AppCompatActivity {
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                show_okay();
+                //show_okay();
                 finish();
             }
         });
@@ -43,7 +43,7 @@ public class AdminCarlistActivity extends AppCompatActivity {
         btn_reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                show_reject();
+                //show_reject();
                 finish();
             }
         });
