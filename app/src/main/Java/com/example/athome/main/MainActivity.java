@@ -33,6 +33,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.athome.GpsTracker;
 import com.example.athome.LoginActivity;
 import com.example.athome.R;
+import com.example.athome.RestRequestHelper;
 import com.example.athome.User;
 import com.example.athome.account.AccountActivity;
 import com.example.athome.admin.UsersListActivity;
@@ -41,6 +42,9 @@ import com.example.athome.admin_notice.AdminNoticeActivity;
 import com.example.athome.admin_enroll.AdminEnrollActivity;
 import com.example.athome.notice.NoticeActivity;
 import com.example.athome.reservation_list.ReservListActivity;
+import com.example.athome.retrofit.ApiService;
+import com.example.athome.retrofit.EnrollResult;
+import com.example.athome.retrofit.MarkerResult;
 import com.example.athome.setting.SettingActivity;
 import com.example.athome.shared_parking.MySharedParkingActivity;
 import com.google.android.material.navigation.NavigationView;
@@ -56,6 +60,10 @@ import com.naver.maps.map.overlay.Marker;
 
 import java.io.IOException;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,
@@ -73,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Button loginButton;
     private EditText searchEditText; // 웹뷰 띄우는 창
     private Button btn_search;
+    private MarkerResult markerResult;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -253,7 +262,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 });
 
 
-//                startActivity(intent);
             }
         });
 
@@ -263,7 +271,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @UiThread
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
-
         nm = naverMap;
         // 지도종류 Basic
         nm.setMapType(NaverMap.MapType.Basic);
@@ -282,6 +289,51 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return "정보 창 내용";
             }
         });
+
+        SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
+        String sharedToken = sf.getString("token", "");
+
+        ApiService serviceApi = new RestRequestHelper().getApiService();
+        final Call<MarkerResult> res = serviceApi.getMarkerData(sharedToken, "catstone");
+
+        /*res.enqueue(new Callback<MarkerResult>() {
+            @Override
+            public void onResponse(Call<MarkerResult> call, Response<MarkerResult> response) {
+                //markerResult = response.body();
+                Log.i("jiwon", "성공");
+            }
+
+            @Override
+            public void onFailure(Call<MarkerResult> call, Throwable t) {
+                Log.i("jiwon", "실패");
+            }
+        });*/
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    markerResult = res.execute().body();
+                    if(markerResult == null){
+                        return;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if(markerResult == null) {
+            Log.i("jiwon","실패");
+        }else{
+            Log.i("jiwon","성공");
+        }
+
+
+
     }
 
 

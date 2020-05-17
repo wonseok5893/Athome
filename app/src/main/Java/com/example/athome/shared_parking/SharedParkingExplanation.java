@@ -111,7 +111,7 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
 
                     }).start();
                 } else {
-
+                    Toast.makeText(SharedParkingExplanation.this, "사진이 없습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
