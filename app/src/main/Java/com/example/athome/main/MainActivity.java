@@ -43,7 +43,6 @@ import com.example.athome.admin_enroll.AdminEnrollActivity;
 import com.example.athome.notice.NoticeActivity;
 import com.example.athome.reservation_list.ReservListActivity;
 import com.example.athome.retrofit.ApiService;
-import com.example.athome.retrofit.EnrollResult;
 import com.example.athome.retrofit.MarkerResult;
 import com.example.athome.setting.SettingActivity;
 import com.example.athome.shared_parking.MySharedParkingActivity;
@@ -59,11 +58,10 @@ import com.naver.maps.map.overlay.InfoWindow;
 import com.naver.maps.map.overlay.Marker;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,
@@ -262,6 +260,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 });
 
 
+//                startActivity(intent);
             }
         });
 
@@ -271,24 +270,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @UiThread
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
+
         nm = naverMap;
         // 지도종류 Basic
         nm.setMapType(NaverMap.MapType.Basic);
         CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(37.5666102, 126.9783881))
                 .animate(CameraAnimation.Easing);
         nm.moveCamera(cameraUpdate);
-        // Test용 마커 생성 후 지도상에 set
-
-        InfoWindow infoWindow = new InfoWindow();
-        // test : maker onclick 시 네비게이션 (윤지원 04-30)
-
-        infoWindow.setAdapter(new InfoWindow.DefaultTextAdapter(context) {
-            @NonNull
-            @Override
-            public CharSequence getText(@NonNull InfoWindow infoWindow) {
-                return "정보 창 내용";
-            }
-        });
 
         SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
         String sharedToken = sf.getString("token", "");
@@ -296,18 +284,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         ApiService serviceApi = new RestRequestHelper().getApiService();
         final Call<MarkerResult> res = serviceApi.getMarkerData(sharedToken, "catstone");
 
-        /*res.enqueue(new Callback<MarkerResult>() {
-            @Override
-            public void onResponse(Call<MarkerResult> call, Response<MarkerResult> response) {
-                //markerResult = response.body();
-                Log.i("jiwon", "성공");
-            }
-
-            @Override
-            public void onFailure(Call<MarkerResult> call, Throwable t) {
-                Log.i("jiwon", "실패");
-            }
-        });*/
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -330,6 +306,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.i("jiwon","실패");
         }else{
             Log.i("jiwon","성공");
+        }
+
+        int markerCount = markerResult.getData().size();
+
+        ArrayList<SharePlace> placeList = new ArrayList<>();
+
+        for(int i=0;i<markerCount;i++) {
+            SharePlace s = new SharePlace();
+            s.readSharePlace(markerResult.getData().get(i).getId()
+                    ,markerResult.getData().get(i).getOwner().getUserId(),
+                    Double.parseDouble(markerResult.getData().get(i).getLatitude()),
+                    Double.parseDouble(markerResult.getData().get(i).getLongitude()),
+                    this);
+            placeList.add(s);
+        }
+
+        for(SharePlace s : placeList) {
+            s.getMyMarker().setMap(nm);
         }
 
 

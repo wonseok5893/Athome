@@ -3,11 +3,13 @@ package com.example.athome.admin;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Parcelable;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,6 +30,7 @@ public class UsersListActivity extends AppCompatActivity {
 
     Button backButton;
     ListView usersListView;
+    SearchView searchView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +63,8 @@ public class UsersListActivity extends AppCompatActivity {
 
 
         usersListView=(ListView)findViewById(R.id.admin_users_listView);
+        searchView=(SearchView)findViewById(R.id.userTextFilter);
+
         backButton=(Button)findViewById(R.id.admin_back);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +84,24 @@ public class UsersListActivity extends AppCompatActivity {
         //리스트 속의 아이템 연결
         UserListAdapter adapter=new UserListAdapter(this,R.layout.admin_users_data, (ArrayList<AllUserData>) data);
         usersListView.setAdapter(adapter);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d("junggyu", "검색어" + newText);
+                if (newText.length() > 0) {
+                    usersListView.setFilterText(newText) ;
+                } else {
+                    usersListView.clearTextFilter() ;
+                }
+                return false;
+            }
+        });
 
         //아이템 클릭시 작동
         usersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

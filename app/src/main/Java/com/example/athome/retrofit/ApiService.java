@@ -49,8 +49,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("api/reservation/enroll")
     Call<ResponseBody> sendReserve(@Header("x-access-token") String token,
-                                   @Field("carNum") String carNum,
-                                   @Field("phNum") String phNum,
+                                   @Field("_id") String locationId,
+                                   @Field("carNumber") String carNum,
                                    @Field("startTime") Long startTime,
                                    @Field("endTime") Long endTime);
     //사용자 배정자 등록 신청
@@ -97,7 +97,7 @@ public interface ApiService {
     @POST("admin/editPassword")
     Call<AdminResult> adminEditPassword(@Header("x-access-token") String token,
                                         @Field("editPassword") String editPassword,
-                                        @Field("userID") String userId);
+                                        @Field("userId") String userId);
 
 
 
@@ -105,13 +105,13 @@ public interface ApiService {
     @POST("admin/editPhone")
     Call<AdminResult> adminEditPhone(@Header("x-access-token") String token,
                                      @Field("phone") String Phone,
-                                     @Field("userID") String userId);
+                                     @Field("userId") String userId);
 
     @FormUrlEncoded
     @POST("admin/editPoint")
     Call<AdminResult> adminEditPoint(@Header("x-access-token") String token,
                                      @Field("point") int point,
-                                     @Field("userID") String userId);
+                                     @Field("userId") String userId);
 
     @FormUrlEncoded
     @POST("admin/editState")
