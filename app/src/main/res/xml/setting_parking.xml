@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="parking_notification_settings"
+        android:title="주차알림">
+
+        <SwitchPreference
+            android:key="notification_reception"
+            android:title="출차 알림 수신동의"
+            android:defaultValue="true"/>
+
+        <ListPreference
+            android:key="arrival_time_list"
+            android:title="입차시간 알림"
+            android:defaultValue="0"
+            android:entries="@array/arrival_time_details"
+            android:entryValues="@array/arrival_time_values"
+            android:dialogTitle="입차 알림 시간을 선택해주세요."
+            android:dependency="notification_reception"/>
+
+        <ListPreference
+            android:key="arrival_time_list"
+            android:title="출차시간 알림"
+            android:defaultValue="0"
+            android:entries="@array/arrival_time_details"
+            android:entryValues="@array/arrival_time_values"
+            android:dialogTitle="출차 알림 시간을 선택해주세요."
+            android:dependency="notification_reception"/>
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -10,6 +10,7 @@
     <string name="now_reserv">현재내역</string>
     <string name="past_reserv">지난내역</string>
     <string name="account">계정관리</string>
+    <string name="setting">환경설정</string>
 
     <string name="card_register">카드등록</string>
     <string name="point_charge">충전금</string>
@@ -39,9 +40,12 @@
     <string name="search_text">어디에 주차하세요?</string>
 
     <string name="phone_change">휴대폰변경</string>
+    <string name="email_change">이메일 변경</string>
+    <string name="hint_email_change">변경 할 이메일 입력</string>
 
     <string name="enroll_parking">주차장 공유하기</string>
     <string name="sharedparking">공유주차장</string>
+    <string name="change">변경하기</string>
 
     <string name="hint_id">아이디를 입력하세요</string>
     <string name="hint_password">비밀번호를 입력하세요</string>

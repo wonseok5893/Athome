@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/account_change_password_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fce4ec"
+        android:gravity="center"
+        app:contentInsetStart="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <Button
+            android:id="@+id/btn_back_change_email"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:background="#00ff0000"
+            android:drawableRight="@drawable/back"
+            android:gravity="center"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/change_password_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/bareun3"
+            android:text="@string/email_change"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:id="@+id/email_change_description1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bareun1"
+            android:text="기존에 등록된 이메일 주소를 변경합니다."
+            android:textColor="#424242" />
+
+        <TextView
+            android:id="@+id/email_change_description2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/bareun1"
+            android:text="새로 등록하실 이메일 주소를 입력해주세요!"
+            android:textColor="#424242" />
+
+        <EditText
+            android:id="@+id/new_email"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/edit_border4"
+            android:fontFamily="@font/dreamgothic3"
+            android:hint="@string/hint_email_change"
+            android:inputType="textEmailAddress"
+            android:padding="10dp"
+            android:textColor="@color/input_register"
+            android:textColorHint="@color/input_register_hint"
+            android:textSize="14sp" />
+        <Button
+            android:id="@+id/btn_email_change"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:background="@drawable/certification_border"
+            android:text="@string/change"
+            android:textColor="#100DD4" />
+    </LinearLayout>
+</LinearLayout>

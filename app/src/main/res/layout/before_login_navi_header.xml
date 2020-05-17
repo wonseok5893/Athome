@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
-    android:background="#fce4ec">
+    android:layout_height="200dp"
+    android:background="@drawable/before_login_background"
+    android:orientation="vertical">
 
     <Button
         android:id="@+id/login_button"
         android:layout_width="131dp"
-        android:layout_height="43dp"
-        android:background="@drawable/login_button"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="75dp"
+        android:background="@drawable/edit_border2"
+        android:fontFamily="@font/dreamgothic7"
         android:onClick="loginButtonClicked"
         android:text="로그인하기"
-        android:fontFamily="@font/dreamgothic7"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:textColor="@android:color/white" />
+</LinearLayout>

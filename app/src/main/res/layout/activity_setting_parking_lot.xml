@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/account_card_list_toolbar"
+        android:id="@+id/setting_parking_lot_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fce4ec"
@@ -19,7 +19,7 @@
         tools:ignore="MissingConstraints">
 
         <Button
-            android:id="@+id/btn_back_card_list"
+            android:id="@+id/btn_back_setting_parking_lot"
             android:layout_width="35dp"
             android:layout_height="30dp"
             android:background="#00ff0000"
@@ -29,39 +29,22 @@
             />
 
         <TextView
-            android:id="@+id/card_list_text"
+            android:id="@+id/setting_parking_lot_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/bareun3"
-            android:text="@string/card_list"
+            android:text="@string/setting"
             android:textColor="#000000"
             android:textSize="17sp"
-           />
-        <Button
-        android:id="@+id/btn_card_register"
-        android:layout_width="35dp"
-        android:layout_height="30dp"
-        android:layout_gravity="right"
-        android:background="#00ff0000"
-        android:text=""
-        android:drawableLeft="@drawable/add" />
+            />
 
     </androidx.appcompat.widget.Toolbar>
-
-    <LinearLayout
+    <fragment
+        android:id="@+id/setting_parking_lot_FrameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-        <ListView
-            android:id="@+id/card_listView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
+        android:name="com.example.athome.setting.SettingParkingLotFragment"
 
-    </LinearLayout>
-
+        />
 </LinearLayout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/drawable/edit_border.xml -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle"
+    >
+    <gradient
+        android:startColor="#C8424E"
+        android:centerColor="#F3C5BA"
+        android:endColor="#F8DFD3"
+        android:angle="0"/>
+</shape>
+

@@ -15,7 +15,6 @@ import com.example.athome.main.MainActivity;
 
 public class AccountChangePassword extends Activity {
     private Button btn_back_change_password;
-    private Button btn_change_pw_cancel;
     private Button btn_change_pw;
     private EditText currentPassword;
     private EditText newPassword;
@@ -37,7 +36,6 @@ public class AccountChangePassword extends Activity {
 
     public void InitializeView() {
         btn_back_change_password = (Button) findViewById(R.id.btn_back_change_password);
-        btn_change_pw_cancel = (Button) findViewById(R.id.btn_change_pw_cancel);
         btn_change_pw = (Button) findViewById(R.id.btn_change_pw);
 
         currentPassword = findViewById(R.id.current_pw);
@@ -55,9 +53,6 @@ public class AccountChangePassword extends Activity {
                     case R.id.btn_back_change_password: //뒤로가기 버튼
                         finish();
                         overridePendingTransition(R.anim.not_move_activity, R.anim.rightout_activity);
-                        break;
-                    case R.id.btn_change_pw_cancel: //취소 버튼
-                        finish();
                         break;
                     case R.id.btn_change_pw: //확인 버튼
                         //비밀번화 변경 확인구현
@@ -94,7 +89,6 @@ public class AccountChangePassword extends Activity {
             }
         };
         btn_back_change_password.setOnClickListener(Listener);
-        btn_change_pw_cancel.setOnClickListener(Listener);
         btn_change_pw.setOnClickListener(Listener);
     }
 

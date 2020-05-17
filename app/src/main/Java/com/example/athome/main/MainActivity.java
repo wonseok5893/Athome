@@ -41,6 +41,7 @@ import com.example.athome.admin_notice.AdminNoticeActivity;
 import com.example.athome.admin_enroll.AdminEnrollActivity;
 import com.example.athome.notice.NoticeActivity;
 import com.example.athome.reservation_list.ReservListActivity;
+import com.example.athome.setting.SettingActivity;
 import com.example.athome.shared_parking.MySharedParkingActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.naver.maps.geometry.LatLng;
@@ -324,7 +325,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             startActivity(intent);
             overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
         } else if (id == R.id.setting) {//환경설정
-            Toast.makeText(getApplicationContext(), "환경설정", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
         }else if(id==R.id.admin_notice) {
             Intent intent = new Intent(getApplicationContext(), AdminNoticeActivity.class);
             startActivity(intent);

@@ -128,7 +128,9 @@ public class AccountActivity extends AppCompatActivity {
                         break;
 
                     case R.id.useremail_linear://클릭시 이메일 변경하는 레이아웃으로 이동
-                        Toast.makeText(getApplicationContext(), "이메일", Toast.LENGTH_LONG).show();
+                        intent = new Intent(getApplicationContext(), AccountChangeEmail.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
                         break;
 
 

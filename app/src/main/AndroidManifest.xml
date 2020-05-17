@@ -56,6 +56,21 @@
         <activity android:name=".shared_parking.SharedParkingExplanation" />
         <activity android:name=".main.WebViewActivity"/>
         <activity android:name=".account.AccountChangePhone" />
+        <activity android:name=".setting.SettingActivity"/>
+        <activity android:name=".account.AccountChangeEmail"/>
+
+        <activity android:name=".setting.SettingParkingLotActivity">
+        <intent-filter>
+            <action android:name=".setting.SettingParkingLotActivity" />
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+        </activity>
+        <activity android:name=".setting.SettingParkingActivity">
+            <intent-filter>
+                <action android:name=".setting.SettingParkingActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
 
         <meta-data

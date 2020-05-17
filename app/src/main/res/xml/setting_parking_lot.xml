@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="parking_lot_notification_settings"
+        android:title="주차장알림">
+
+        <SwitchPreference
+            android:key="reservation_notification"
+            android:title="예약 알림"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

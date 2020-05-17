@@ -45,18 +45,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:orientation="horizontal"
-            android:padding="10dp">
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/phone_change_edit"
-                android:layout_width="300dp"
+                android:layout_width="280dp"
                 android:layout_height="40dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/edit_border4"
@@ -73,38 +75,41 @@
                 android:id="@+id/btn_certification_number"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
+                android:background="@drawable/certification_number_border"
                 android:fontFamily="@font/dreamgothic3"
                 android:text="인증번호 받기"
                 android:textColor="@color/white"
-                android:textSize="13sp"
-                android:background="@drawable/certification_number_border"/>
+                android:textSize="12sp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:orientation="horizontal"
-            android:padding="10dp">
-        <EditText
-            android:id="@+id/certification_number_edit"
-            android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@drawable/edit_border4"
-            android:fontFamily="@font/dreamgothic3"
-            android:hint="인증번호를 입력하세요"
-            android:inputType="number"
-            android:padding="10dp"
-            android:textColor="@color/input_register"
-            android:textColorHint="@color/input_register_hint"
-            android:textSize="14sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
 
-            />
+            <EditText
+                android:id="@+id/certification_number_edit"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edit_border4"
+                android:fontFamily="@font/dreamgothic3"
+                android:hint="인증번호를 입력하세요"
+                android:inputType="number"
+                android:padding="10dp"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint"
+                android:textSize="14sp"
+
+                />
         </LinearLayout>
 
         <Button
             android:id="@+id/btn_certification"
-            android:layout_width="150dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="10dp"

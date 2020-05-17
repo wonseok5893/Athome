@@ -20,6 +20,7 @@ public class AccountCardList extends Activity {
     private Button btn_card_register;
     private ListView card_listView= null;
     private ArrayList<ItemAccountCardData> data=null;
+    private CardListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
@@ -33,7 +34,7 @@ public class AccountCardList extends Activity {
         data.add(data1);
 
         //리스트 속의 아이템 연결
-        CardListAdapter adapter=new CardListAdapter(this,R.layout.account_card_listview_item,data);
+        adapter=new CardListAdapter(this,R.layout.account_card_listview_item,data);
         card_listView.setAdapter(adapter);
 
     }
@@ -58,9 +59,12 @@ public class AccountCardList extends Activity {
                         finish();
                         overridePendingTransition(R.anim.not_move_activity,R.anim.rightout_activity);
                         break;
-                    case R.id.btn_card_register: //등록하기 버튼
-                        Intent intent = new Intent(getApplicationContext(), AccountCardRegister.class);
-                        startActivity(intent);
+                    case R.id.btn_card_register: //등록하기  버튼
+                        // 다이얼로그를 생성. 사용자가 만든 클래스이다.
+                        AccountCardRegister accountCardRegister= new AccountCardRegister(AccountCardList.this);
+                        // 다이얼로그 호출
+                        //그외 작업
+                        accountCardRegister.callFunction();
                         break;
                 }
             }
