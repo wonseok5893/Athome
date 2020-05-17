@@ -6,6 +6,7 @@ import com.example.athome.admin.AllUserResult;
 import com.example.athome.admin.UsersListActivity;
 import com.example.athome.admin_enroll.AdminEnrollData;
 import com.example.athome.admin_enroll.AdminEnrollResult;
+import com.example.athome.admin_notice.AdminNoticeResult;
 import com.naver.maps.geometry.LatLng;
 
 import okhttp3.MultipartBody;
@@ -77,14 +78,24 @@ public interface ApiService {
     Call<AdminResult> registerSharedLocation(@Header("x-access-token") String token
             , @Field("_id") String Id);
 
-
+    @FormUrlEncoded
+    @POST("공지사항")
+    Call<EnrollResult> enrollNotice(@Header("x-access-token") String token
+            , @Field("title") String title,@Field("description") String description);
+    @FormUrlEncoded
+    @POST("admin/allNotice")
+    Call<AdminNoticeResult> allNotice(@Header("x-access-token") String token
+            , @Field("secret") String secret);
     //비밀번호 변경
     @FormUrlEncoded
     @POST("admin/editPassword")
-    Call<AdminResult> adminEditPassword(@Header("x-access-token") String token, @Field("editPassword") String editPassword);
+    Call<AdminResult> adminEditPassword(@Header("x-access-token") String token, @Field("userId") String userId,@Field("editPassword") String editPassword);
         // 폰번호 변경 admin/editPhone
         // 포인트 변경 admin/editPoint
         // 권한 변경 admin/editState 0이 사용자 1이 관리자
+        @FormUrlEncoded
+        @POST("admin/editState")
+        Call<AdminResult> adminEditState(@Header("x-access-token") String token, @Field("userId") String userId,@Field("editState") Integer editState);
 
 
 }

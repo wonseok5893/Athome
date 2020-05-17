@@ -1,5 +1,6 @@
 package com.example.athome.admin_notice;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,17 +12,18 @@ import com.example.athome.R;
 import com.example.athome.notice.ItemNoticeData;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AdminListAdapter extends BaseAdapter {
     LayoutInflater inflater = null;
-    private ArrayList<ItemNoticeData> data = null;
+    private ArrayList<ItemAdminNoticeData> data = null;
     private int layout;
 
     //생성자
-    public AdminListAdapter(Context context, int layout, ArrayList<ItemNoticeData> data)
+    public AdminListAdapter(Context context, int layout, List<ItemAdminNoticeData> data)
     {
         this.inflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.data = data;
+        this.data = (ArrayList<ItemAdminNoticeData>) data;
         this.layout=layout;
     }
 
@@ -55,14 +57,15 @@ public class AdminListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.admin_notice_listview_item, parent, false);
         }
 
-        ItemNoticeData itemNoticeData=data.get(position);
+        ItemAdminNoticeData itemAdminNoticeData = data.get(position);
 
         TextView textTitle = (TextView) convertView.findViewById(R.id.admin_notice_title);
         TextView textDate = (TextView) convertView.findViewById(R.id.admin_notice_date);
 
 
-        textTitle.setText(itemNoticeData.getNoticeTitle());
-        textDate.setText(itemNoticeData.getNoticeDate());
+        textTitle.setText(itemAdminNoticeData.getNoticeTitle());
+        textDate.setText(itemAdminNoticeData.getNoticeDate());
+
 
 
         return convertView;

@@ -27,7 +27,7 @@ public class AdminUserListClicked extends AppCompatActivity {
     private Button btn_save_pw, btn_save_point, btn_save_phnum, btn_save_permit;
     private ListView carlistView;
     AllUserData user;
-    String adminEditPasswordResult;
+    String adminEditPasswordResult, adminEditStateResult;
     String sharedToken;
 
     @Override
@@ -51,13 +51,44 @@ public class AdminUserListClicked extends AppCompatActivity {
             permit.setText("사용자");
         point.setText(user.getPoint().toString());
 
-        btn_back.setOnClickListener(new View.OnClickListener() {
+        btn_save_permit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
-                overridePendingTransition(R.anim.not_move_activity, R.anim.rightout_activity);
+                if(!editPermit.getText().toString().equals("0")&&!editPermit.getText().toString().equals("1")) {
+                    Toast.makeText(AdminUserListClicked.this, "관리자는 1 사용자는 0입니다", Toast.LENGTH_SHORT).show();
+                }else{
+                ApiService serviceApi = new RestRequestHelper().getApiService();
+                final Call<AdminResult> editRes = serviceApi.adminEditState(sharedToken, user.getUserId(),Integer.parseInt(editPermit.getText().toString()));
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            final AdminResult adminResult = editRes.execute().body();
+                            adminEditStateResult = adminResult.getEditStateRes();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+                if (adminEditStateResult== null) {
+                    Log.d("TEST", "권한 변경 오류");
+                } else if (adminEditStateResult.equals("success")) {
+                    if(editPermit.getText().toString()=="0")
+                    {    user.setState(0);
+                    permit.setText("사용자");}
+                    else if(editPermit.getText().toString()=="1")
+                    {    user.setState(1);
+                    permit.setText("관리자");}
+
+                    Log.i("ADMIN",  user.getUserId()+ "권한" + permit.getText().toString()+ "로 바뀌었습니다");
+                    Toast.makeText(getApplicationContext(), user.getUserId() + permit.getText().toString()  + "으로 바뀌었습니다", Toast.LENGTH_SHORT).show();
+
+                } else if (adminEditStateResult.equals("fail")) {
+                    Log.d("TEST", "권한 변경 실패.. ");
+                }}
             }
         });
+
 
 
         btn_resv.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +134,7 @@ public class AdminUserListClicked extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ApiService serviceApi = new RestRequestHelper().getApiService();
-                final Call<AdminResult> editRes = serviceApi.adminEditPassword(sharedToken, editPassword.getText().toString());
+                final Call<AdminResult> editRes = serviceApi.adminEditPassword(sharedToken, user.getUserId(),editPassword.getText().toString());
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -151,6 +182,15 @@ public class AdminUserListClicked extends AppCompatActivity {
         editPhone = findViewById(R.id.user_clicked_ph_new);
         editPoint = findViewById(R.id.user_clicked_point_new);
         editPermit = findViewById(R.id.user_clicked_permit_new);
+
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                overridePendingTransition(R.anim.not_move_activity, R.anim.rightout_activity);
+            }
+        });
+
 
     }
 
