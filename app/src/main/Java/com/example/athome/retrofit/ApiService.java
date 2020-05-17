@@ -82,7 +82,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("admin/sharedLocation/enroll")
     Call<AdminResult> registerSharedLocation(@Header("x-access-token") String token
-            , @Field("_id") String Id);
+            ,@Field("userId") String userId, @Field("_id") String Id);
 
     @FormUrlEncoded
     @POST("공지사항")

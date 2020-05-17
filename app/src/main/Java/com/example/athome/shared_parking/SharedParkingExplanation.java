@@ -54,7 +54,7 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
     private EditText parking_info_name_value;
     private Boolean isPermission = true;
     private File tempFile;
-
+    String enrollRes,enrollMessage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,11 +98,8 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
                         public void run() {
                             try {
                                 EnrollResult enrollResult = res.execute().body();
-                                if (enrollResult.getResult().equals("success")) {
-                                    Intent intent = new Intent(SharedParkingExplanation.this, MainActivity.class);
-                                    startActivity(intent);
-                                } else {
-                                }
+                                enrollRes = enrollResult.getResult();
+                                enrollMessage = enrollResult.getMessage();
                             } catch (IOException ie) {
                                 ie.printStackTrace();
                             }
@@ -110,8 +107,25 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
 
 
                     }).start();
-                } else {
-                    Toast.makeText(SharedParkingExplanation.this, "사진이 없습니다.", Toast.LENGTH_SHORT).show();
+                    try{
+                        Thread.sleep(1000);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                if (enrollRes.equals("success")) {
+                    Toast.makeText(SharedParkingExplanation.this,enrollMessage, Toast.LENGTH_SHORT).show();
+                    intent = new Intent(SharedParkingExplanation.this, MainActivity.class);
+                    startActivity(intent);
+                } else if(enrollRes.equals("fail")){
+                    Toast.makeText(SharedParkingExplanation.this,enrollMessage, Toast.LENGTH_SHORT).show();
+                    intent = new Intent(SharedParkingExplanation.this, MainActivity.class);
+                    startActivity(intent);
+                }
+                }
+
+
+                else {
+
                 }
             }
         });

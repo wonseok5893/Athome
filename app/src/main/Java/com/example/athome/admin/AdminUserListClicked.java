@@ -80,8 +80,8 @@ public class AdminUserListClicked extends AppCompatActivity {
                     {    user.setState(1);
                     permit.setText("관리자");}
 
-                    Log.i("ADMIN",  user.getUserId()+ "권한" + permit.getText().toString()+ "로 바뀌었습니다");
-                    Toast.makeText(getApplicationContext(), user.getUserId() + permit.getText().toString()  + "으로 바뀌었습니다", Toast.LENGTH_SHORT).show();
+                    Log.i("ADMIN",  user.getUserId()+ "의 권한이 " + permit.getText().toString()+ "로 바뀌었습니다");
+                    Toast.makeText(getApplicationContext(), user.getUserId()+"가 " + permit.getText().toString()  + "으로 바뀌었습니다", Toast.LENGTH_SHORT).show();
 
                 } else if (adminEditStateResult.equals("fail")) {
                     Log.d("TEST", "권한 변경 실패.. ");

@@ -57,7 +57,7 @@ public class AdminEnrollClicked extends AppCompatActivity {
                                 //확인시 처리 로직
 
                                 ApiService serviceApi = new RestRequestHelper().getApiService();
-                                final Call<AdminResult> registerRes = serviceApi.registerSharedLocation(sharedToken, data.getId());
+                                final Call<AdminResult> registerRes = serviceApi.registerSharedLocation(sharedToken,userData.getUserId(),data.getId());
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -131,7 +131,8 @@ public void initialize() {
             userData = getIntent().getParcelableExtra("userInfo");
             SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
             sharedToken = sf.getString("token", "");
-            enroll_loc.setText(data.getLocation() +" 위도:"+data.getLatitude()+" 경도:"+data.getLongitude());
+            enroll_num.setText(data.getParkingInfo());
+            enroll_loc.setText(data.getLocation() +"\n 위도:"+data.getLatitude()+"\n 경도:"+data.getLongitude());
             enroll_birth.setText(data.getUserBirth());
             enroll_userId.setText(userData.getUserId());
             enroll_Phnum.setText(userData.getUserPhone());
