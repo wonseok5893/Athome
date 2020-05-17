@@ -6,7 +6,6 @@ import com.example.athome.admin.AllUserResult;
 import com.example.athome.admin.UsersListActivity;
 import com.example.athome.admin_enroll.AdminEnrollData;
 import com.example.athome.admin_enroll.AdminEnrollResult;
-import com.example.athome.admin_notice.AdminNoticeResult;
 import com.naver.maps.geometry.LatLng;
 
 import okhttp3.MultipartBody;
@@ -89,7 +88,23 @@ public interface ApiService {
     //비밀번호 변경
     @FormUrlEncoded
     @POST("admin/editPassword")
-    Call<AdminResult> adminEditPassword(@Header("x-access-token") String token, @Field("userId") String userId,@Field("editPassword") String editPassword);
+    Call<AdminResult> adminEditPassword(@Header("x-access-token") String token,
+                                        @Field("editPassword") String editPassword,
+                                        @Field("userID") String userId);
+
+
+
+    @FormUrlEncoded
+    @POST("admin/editPhone")
+    Call<AdminResult> adminEditPhone(@Header("x-access-token") String token,
+                                     @Field("phone") String Phone,
+                                     @Field("userID") String userId);
+
+    @FormUrlEncoded
+    @POST("admin/editPoint")
+    Call<AdminResult> adminEditPoint(@Header("x-access-token") String token,
+                                     @Field("point") int point,
+                                     @Field("userID") String userId);
         // 폰번호 변경 admin/editPhone
         // 포인트 변경 admin/editPoint
         // 권한 변경 admin/editState 0이 사용자 1이 관리자

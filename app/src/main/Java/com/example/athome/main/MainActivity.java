@@ -328,16 +328,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
-        }else if(id==R.id.admin_notice) {
+        }else if(id==R.id.admin_notice) {// 공지사항 관리
             Intent intent = new Intent(getApplicationContext(), AdminNoticeActivity.class);
             startActivity(intent);
-        }else if(id==R.id.admin_shared_enroll) {
+        }else if(id==R.id.admin_shared_enroll) { //관리자 배정자 등록
             Intent intent = new Intent(getApplicationContext(), AdminEnrollActivity.class);
             startActivity(intent);
-        }else if(id==R.id.admin_car_enroll) {
+        }else if(id==R.id.admin_car_enroll) { // 관리자 차량 등록
             Intent intent = new Intent(getApplicationContext(), AdminCarlistActivity.class);
             startActivity(intent);
-        }else if(id==R.id.admin_users) {
+        }else if(id==R.id.admin_users) { // 사용자 관리
             Intent intent = new Intent(getApplicationContext(), UsersListActivity.class);
             startActivity(intent);
         }
