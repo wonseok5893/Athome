@@ -74,7 +74,9 @@ public class AdminNoticeActivity extends AppCompatActivity {
         btn_enroll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getApplicationContext(),AdminNoticeNew.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.not_move_activity,R.anim.rightout_activity);
             }
         });
     }
