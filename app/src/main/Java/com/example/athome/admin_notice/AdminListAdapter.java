@@ -14,7 +14,7 @@ import com.example.athome.notice.ItemNoticeData;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminListAdapter extends BaseAdapter {
+public class  AdminListAdapter extends BaseAdapter {
     LayoutInflater inflater = null;
     private ArrayList<ItemAdminNoticeData> data = null;
     private int layout;

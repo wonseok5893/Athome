@@ -27,7 +27,7 @@ public class AdminUserListClicked extends AppCompatActivity {
     private Button btn_save_pw, btn_save_point, btn_save_phnum, btn_save_permit;
     private ListView carlistView;
     AllUserData user;
-    String adminEditPasswordResult, adminEditStateResult;
+    String adminEditPasswordResult, adminEditPhoneResult, adminEditPointResult, adminEditStateResult;
     String sharedToken;
 
     @Override
@@ -80,8 +80,8 @@ public class AdminUserListClicked extends AppCompatActivity {
                     {    user.setState(1);
                     permit.setText("관리자");}
 
-                    Log.i("ADMIN",  user.getUserId()+ "권한" + permit.getText().toString()+ "로 바뀌었습니다");
-                    Toast.makeText(getApplicationContext(), user.getUserId() + permit.getText().toString()  + "으로 바뀌었습니다", Toast.LENGTH_SHORT).show();
+                    Log.i("ADMIN",  user.getUserId()+ "의 권한이 " + permit.getText().toString()+ "로 바뀌었습니다");
+                    Toast.makeText(getApplicationContext(), user.getUserId()+"가 " + permit.getText().toString()  + "으로 바뀌었습니다", Toast.LENGTH_SHORT).show();
 
                 } else if (adminEditStateResult.equals("fail")) {
                     Log.d("TEST", "권한 변경 실패.. ");
@@ -129,12 +129,77 @@ public class AdminUserListClicked extends AppCompatActivity {
             }
         });
 
+        // point 변경
+        btn_save_point.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ApiService serviceApi = new RestRequestHelper().getApiService();
+                final Call<AdminResult> editRes = serviceApi.adminEditPoint(sharedToken,
+                        Integer.parseInt(editPoint.getText().toString()),
+                        user.getUserId());
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            final AdminResult adminResult = editRes.execute().body();
+                            adminEditPointResult = adminResult.getEditPointRes();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+                if (adminEditPointResult == null) {
+                    Log.d("TEST", "point 변경 오류");
+                } else if (adminEditPointResult.equals("success")) {
+                    user.setPoint(Integer.parseInt(editPoint.getText().toString()));
+                    point.setText(String.valueOf(user.getPoint()));
+                    Log.i("ADMIN",  user.getUserId()+ " point가 " + editPoint.getText().toString() + "로 바뀌었습니다");
+                    Toast.makeText(getApplicationContext(), user.getUserId() + " point가 " + editPoint.getText().toString() + "으로 바뀌었습니다", Toast.LENGTH_SHORT).show();
+
+                } else if (adminEditPointResult.equals("fail")) {
+                    Log.d("TEST", "point 변경 실패.. ");
+                }
+            }
+        });
+
+        // 전화번호 변경
+        btn_save_phnum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ApiService serviceApi = new RestRequestHelper().getApiService();
+                final Call<AdminResult> editRes = serviceApi.adminEditPhone(sharedToken, editPhone.getText().toString(),user.getUserId());
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            final AdminResult adminResult = editRes.execute().body();
+                            adminEditPhoneResult = adminResult.getEditPhoneRes();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+                if (adminEditPhoneResult == null) {
+                    Log.d("TEST", "전화번호 변경 오류");
+                } else if (adminEditPhoneResult.equals("success")) {
+                    user.setUserPhone(editPhone.getText().toString());
+                    phnum.setText(user.getUserPhone());
+                    Log.i("ADMIN",  user.getUserId()+ " 전화번호가 " + editPhone.getText().toString() + "로 바뀌었습니다");
+                    Toast.makeText(getApplicationContext(), user.getUserId() + " 전화번호가 " + editPhone.getText().toString() + "으로 바뀌었습니다", Toast.LENGTH_SHORT).show();
+
+                } else if (adminEditPasswordResult.equals("fail")) {
+                    Log.d("TEST", "전화번호 변경 실패.. ");
+                }
+            }
+        });
+
+
         //비밀번호 수정 버튼
         btn_save_pw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ApiService serviceApi = new RestRequestHelper().getApiService();
-                final Call<AdminResult> editRes = serviceApi.adminEditPassword(sharedToken, user.getUserId(),editPassword.getText().toString());
+                final Call<AdminResult> editRes = serviceApi.adminEditPassword(sharedToken, editPassword.getText().toString(),user.getUserId());
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -170,6 +235,13 @@ public class AdminUserListClicked extends AppCompatActivity {
         permit = findViewById(R.id.user_clicked_permit);
         btn_resv = (Button) findViewById(R.id.btn_clicked_reserv);
         btn_back = (Button) findViewById(R.id.admin_detail_back);
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                overridePendingTransition(R.anim.not_move_activity, R.anim.rightout_activity);
+            }
+        });
         btn_save_pw = (Button) findViewById(R.id.user_pw_save_btn);
         btn_save_point = (Button) findViewById(R.id.user_point_save_btn);
         btn_save_phnum = (Button) findViewById(R.id.user_ph_save_btn);
@@ -182,14 +254,6 @@ public class AdminUserListClicked extends AppCompatActivity {
         editPhone = findViewById(R.id.user_clicked_ph_new);
         editPoint = findViewById(R.id.user_clicked_point_new);
         editPermit = findViewById(R.id.user_clicked_permit_new);
-
-        btn_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                overridePendingTransition(R.anim.not_move_activity, R.anim.rightout_activity);
-            }
-        });
 
 
     }

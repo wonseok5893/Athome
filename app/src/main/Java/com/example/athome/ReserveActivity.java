@@ -11,11 +11,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.athome.retrofit.ApiService;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Calendar;
 
@@ -33,7 +38,7 @@ public class ReserveActivity extends AppCompatActivity {
     private TextView or_phnum;
     private EditText en_carnum;
     private TextView or_carnum;
-
+    private String _id;
 
 
     private int month=0;
@@ -54,7 +59,8 @@ public class ReserveActivity extends AppCompatActivity {
         //편의상 ap,pm 없애고 24시간으로 설정
         startTime.setIs24HourView(true);
         endTime.setIs24HourView(true);
-
+        Intent intent = getIntent();
+        _id = intent.getStringExtra("locationId");
 
 
 
@@ -90,21 +96,16 @@ public class ReserveActivity extends AppCompatActivity {
                     SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
                     String sharedToken = sf.getString("token", "");
                     ApiService serviceApi = new RestRequestHelper().getApiService();
-                    Call<ResponseBody> call = serviceApi.sendReserve(sharedToken,orCar,orPhone,stime,etime);
+                    Call<ResponseBody> call = serviceApi.sendReserve(sharedToken,_id,orCar,stime,etime);
                     call.enqueue(new Callback<ResponseBody>() {
                         @Override
                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            if(response.isSuccessful() && response.body() !=null) {
-                                Toast.makeText(ReserveActivity.this, "저장성공했습니다.", Toast.LENGTH_SHORT).show();
-                            }
-                            else{
-                                Toast.makeText(ReserveActivity.this, "실패.", Toast.LENGTH_SHORT).show();
-                            }
+                            Toast.makeText(ReserveActivity.this,"통신 성공.",Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            Toast.makeText(ReserveActivity.this,"저장실패.",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ReserveActivity.this,"통신에 실패하였습니다.",Toast.LENGTH_SHORT).show();
                         }
                     });
                     //통신 끝 + 오류 수정해야 할 것 : 전송속도가 느리면 다음 코드 실행되서 화면이 넘어감. sleep 쓰면 될 듯

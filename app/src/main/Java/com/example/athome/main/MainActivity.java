@@ -33,6 +33,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.athome.GpsTracker;
 import com.example.athome.LoginActivity;
 import com.example.athome.R;
+import com.example.athome.RestRequestHelper;
 import com.example.athome.User;
 import com.example.athome.account.AccountActivity;
 import com.example.athome.admin.UsersListActivity;
@@ -41,6 +42,8 @@ import com.example.athome.admin_notice.AdminNoticeActivity;
 import com.example.athome.admin_enroll.AdminEnrollActivity;
 import com.example.athome.notice.NoticeActivity;
 import com.example.athome.reservation_list.ReservListActivity;
+import com.example.athome.retrofit.ApiService;
+import com.example.athome.retrofit.MarkerResult;
 import com.example.athome.setting.SettingActivity;
 import com.example.athome.shared_parking.MySharedParkingActivity;
 import com.google.android.material.navigation.NavigationView;
@@ -55,7 +58,10 @@ import com.naver.maps.map.overlay.InfoWindow;
 import com.naver.maps.map.overlay.Marker;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,
@@ -73,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Button loginButton;
     private EditText searchEditText; // 웹뷰 띄우는 창
     private Button btn_search;
+    private MarkerResult markerResult;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -237,6 +244,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         if (list != null) {
                             if (list.size() == 0) {
                                 Log.e("test", "이상한 장소입니다.");
+                            Toast.makeText(MainActivity.this, "위치를 다시 지정해주십시오.", Toast.LENGTH_SHORT).show();
+                                return;
                             } else {
                                 locationName = list.get(0).getAddressLine(0);
                                 Log.d("test", locationName);
@@ -268,18 +277,57 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(37.5666102, 126.9783881))
                 .animate(CameraAnimation.Easing);
         nm.moveCamera(cameraUpdate);
-        // Test용 마커 생성 후 지도상에 set
 
-        InfoWindow infoWindow = new InfoWindow();
-        // test : maker onclick 시 네비게이션 (윤지원 04-30)
+        SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
+        String sharedToken = sf.getString("token", "");
 
-        infoWindow.setAdapter(new InfoWindow.DefaultTextAdapter(context) {
-            @NonNull
+        ApiService serviceApi = new RestRequestHelper().getApiService();
+        final Call<MarkerResult> res = serviceApi.getMarkerData(sharedToken, "catstone");
+
+        new Thread(new Runnable() {
             @Override
-            public CharSequence getText(@NonNull InfoWindow infoWindow) {
-                return "정보 창 내용";
+            public void run() {
+                try {
+                    markerResult = res.execute().body();
+                    if(markerResult == null){
+                        return;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        });
+        }).start();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if(markerResult == null) {
+            Log.i("jiwon","실패");
+        }else{
+            Log.i("jiwon","성공");
+        }
+
+        int markerCount = markerResult.getData().size();
+
+        ArrayList<SharePlace> placeList = new ArrayList<>();
+
+        for(int i=0;i<markerCount;i++) {
+            SharePlace s = new SharePlace();
+            s.readSharePlace(markerResult.getData().get(i).getId()
+                    ,markerResult.getData().get(i).getOwner().getUserId(),
+                    Double.parseDouble(markerResult.getData().get(i).getLatitude()),
+                    Double.parseDouble(markerResult.getData().get(i).getLongitude()),
+                    this);
+            placeList.add(s);
+        }
+
+        for(SharePlace s : placeList) {
+            s.getMyMarker().setMap(nm);
+        }
+
+
+
     }
 
 
@@ -328,16 +376,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
-        }else if(id==R.id.admin_notice) {
+        }else if(id==R.id.admin_notice) {// 공지사항 관리
             Intent intent = new Intent(getApplicationContext(), AdminNoticeActivity.class);
             startActivity(intent);
-        }else if(id==R.id.admin_shared_enroll) {
+        }else if(id==R.id.admin_shared_enroll) { //관리자 배정자 등록
             Intent intent = new Intent(getApplicationContext(), AdminEnrollActivity.class);
             startActivity(intent);
-        }else if(id==R.id.admin_car_enroll) {
+        }else if(id==R.id.admin_car_enroll) { // 관리자 차량 등록
             Intent intent = new Intent(getApplicationContext(), AdminCarlistActivity.class);
             startActivity(intent);
-        }else if(id==R.id.admin_users) {
+        }else if(id==R.id.admin_users) { // 사용자 관리
             Intent intent = new Intent(getApplicationContext(), UsersListActivity.class);
             startActivity(intent);
         }

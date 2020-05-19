@@ -1,6 +1,7 @@
 package com.example.athome.shared_parking;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import com.example.athome.R;
 import com.example.athome.RestRequestHelper;
+import com.example.athome.main.MainActivity;
 import com.example.athome.retrofit.ApiService;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -52,7 +54,7 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
     private EditText parking_info_name_value;
     private Boolean isPermission = true;
     private File tempFile;
-
+    String enrollRes,enrollMessage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +77,6 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
                     File file = new File(tempFile.getAbsolutePath());
                     RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
                     MultipartBody.Part image = MultipartBody.Part.createFormData("img", file.getName(), requestFile);
-
                     RequestBody userBirth = RequestBody.create(MediaType.parse("text/plain"), intent.getStringExtra("birth"));
                     RequestBody userCarNumber = RequestBody.create(MediaType.parse("text/plain"),intent.getStringExtra("carNum"));
                     RequestBody location = RequestBody.create(MediaType.parse("text/plain"),intent.getStringExtra("locationName"));
@@ -84,30 +85,47 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
                     RequestBody longitude = RequestBody.create(MediaType.parse("text/plain"),Double.toString(SelectLocation.longitude));
                     RequestBody parkingInfo = RequestBody.create(MediaType.parse("text/plain"),parking_info_name_value.getText().toString());
 
+                    final String locName = intent.getStringExtra("locationName");
+
                     SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
                     String sharedToken = sf.getString("token", "");
 
                     ApiService serviceApi = new RestRequestHelper().getApiService();
                     final Call<EnrollResult> res = serviceApi.postRegister(sharedToken, image, userBirth, userCarNumber, location, latitude, longitude, parkingInfo);
 
-                    new Thread(new Runnable() {
+                    new  Thread(new Runnable() {
                         @Override
                         public void run() {
                             try {
                                 EnrollResult enrollResult = res.execute().body();
-                                //User에 담는다 받은 결과를
-                                if (enrollResult.getResult().equals("success")) {
-
-                                } else {
-
-                                }
+                                enrollRes = enrollResult.getResult();
+                                enrollMessage = enrollResult.getMessage();
                             } catch (IOException ie) {
                                 ie.printStackTrace();
                             }
                         }
+
+
                     }).start();
-                } else {
-                    Toast.makeText(SharedParkingExplanation.this, "주차장 사진이 없습니다.", Toast.LENGTH_SHORT).show();
+                    try{
+                        Thread.sleep(1000);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                if (enrollRes.equals("success")) {
+                    Toast.makeText(SharedParkingExplanation.this,enrollMessage, Toast.LENGTH_SHORT).show();
+                    intent = new Intent(SharedParkingExplanation.this, MainActivity.class);
+                    startActivity(intent);
+                } else if(enrollRes.equals("fail")){
+                    Toast.makeText(SharedParkingExplanation.this,enrollMessage, Toast.LENGTH_SHORT).show();
+                    intent = new Intent(SharedParkingExplanation.this, MainActivity.class);
+                    startActivity(intent);
+                }
+                }
+
+
+                else {
+
                 }
             }
         });

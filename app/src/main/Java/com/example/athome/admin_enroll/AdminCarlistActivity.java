@@ -8,9 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.example.athome.R;
-
 import java.util.ArrayList;
 
 public class AdminCarlistActivity extends AppCompatActivity {
@@ -36,8 +34,7 @@ public class AdminCarlistActivity extends AppCompatActivity {
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 서버에 데이터 넣어야함!!!
-                show_okay();
+                //show_okay();
                 finish();
             }
         });
@@ -46,7 +43,7 @@ public class AdminCarlistActivity extends AppCompatActivity {
         btn_reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                show_reject();
+                //show_reject();
                 finish();
             }
         });
@@ -61,7 +58,7 @@ public class AdminCarlistActivity extends AppCompatActivity {
 
     }
     void show_reject () {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(AdminCarlistActivity.this);
         builder.setTitle("보류창");
         builder.setMessage("등록을 거절하시겠습니까?");
         builder.setPositiveButton("예",
@@ -76,11 +73,12 @@ public class AdminCarlistActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "아니오", Toast.LENGTH_LONG).show();
                     }
                 });
-        builder.show();
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     void show_okay () {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(AdminCarlistActivity.this);
         builder.setTitle("확인창");
         builder.setMessage("등록을 수락하시겠습니까?");
         builder.setPositiveButton("예",
@@ -96,5 +94,7 @@ public class AdminCarlistActivity extends AppCompatActivity {
                     }
                 });
         builder.show();
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

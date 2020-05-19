@@ -3,22 +3,22 @@ package com.example.athome.retrofit;
 
 import com.example.athome.admin.AdminResult;
 import com.example.athome.admin.AllUserResult;
-import com.example.athome.admin.UsersListActivity;
-import com.example.athome.admin_enroll.AdminEnrollData;
 import com.example.athome.admin_enroll.AdminEnrollResult;
 import com.example.athome.admin_notice.AdminNoticeResult;
-import com.naver.maps.geometry.LatLng;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Query;
 
 public interface ApiService {
     //사용자 회원가입
@@ -49,12 +49,12 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("api/reservation/enroll")
     Call<ResponseBody> sendReserve(@Header("x-access-token") String token,
-                                   @Field("carNum") String carNum,
-                                   @Field("phNum") String phNum,
+                                   @Field("_id") String locationId,
+                                   @Field("carNumber") String carNum,
                                    @Field("startTime") Long startTime,
                                    @Field("endTime") Long endTime);
     //사용자 배정자 등록 신청
-       @Multipart
+    @Multipart
     @POST("api/sharedLocation/enroll")
     Call<EnrollResult> postRegister(@Header("x-access-token") String token,
                                     @Part MultipartBody.Part image,
@@ -64,6 +64,12 @@ public interface ApiService {
                                     @Part("latitude")  RequestBody latitude,
                                     @Part("longitude")  RequestBody longitude,
                                     @Part("parkingInfo")  RequestBody parkingInfo);
+    //마커 정보 요청
+    @FormUrlEncoded
+    @POST("api/allSharedLocation")
+    Call<MarkerResult> getMarkerData(@Header("x-access-token") String token,
+                                     @Field("capstone") String capstone);
+
     //==========================관리자===========================================================
     @FormUrlEncoded
     @POST("admin/users")
@@ -76,7 +82,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("admin/sharedLocation/enroll")
     Call<AdminResult> registerSharedLocation(@Header("x-access-token") String token
-            , @Field("_id") String Id);
+            ,@Field("userId") String userId, @Field("_id") String Id);
 
     @FormUrlEncoded
     @POST("공지사항")
@@ -89,13 +95,27 @@ public interface ApiService {
     //비밀번호 변경
     @FormUrlEncoded
     @POST("admin/editPassword")
-    Call<AdminResult> adminEditPassword(@Header("x-access-token") String token, @Field("userId") String userId,@Field("editPassword") String editPassword);
-        // 폰번호 변경 admin/editPhone
-        // 포인트 변경 admin/editPoint
-        // 권한 변경 admin/editState 0이 사용자 1이 관리자
-        @FormUrlEncoded
-        @POST("admin/editState")
-        Call<AdminResult> adminEditState(@Header("x-access-token") String token, @Field("userId") String userId,@Field("editState") Integer editState);
+    Call<AdminResult> adminEditPassword(@Header("x-access-token") String token,
+                                        @Field("editPassword") String editPassword,
+                                        @Field("userId") String userId);
+
+
+
+    @FormUrlEncoded
+    @POST("admin/editPhone")
+    Call<AdminResult> adminEditPhone(@Header("x-access-token") String token,
+                                     @Field("phone") String Phone,
+                                     @Field("userId") String userId);
+
+    @FormUrlEncoded
+    @POST("admin/editPoint")
+    Call<AdminResult> adminEditPoint(@Header("x-access-token") String token,
+                                     @Field("point") int point,
+                                     @Field("userId") String userId);
+
+    @FormUrlEncoded
+    @POST("admin/editState")
+    Call<AdminResult> adminEditState(@Header("x-access-token") String token, @Field("userId") String userId,@Field("editState") Integer editState);
 
 
 }
