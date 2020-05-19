@@ -1,8 +1,8 @@
 package com.example.athome;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Build;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,35 +11,33 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.athome.retrofit.ApiService;
-import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Calendar;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.Date;
 
 public class ReserveActivity extends AppCompatActivity {
-    private Button nextBtn;
-    private DatePicker datePicker;
-    private TimePicker startTime;
-    private TimePicker endTime;
-    private EditText en_phnum;
-    private TextView or_phnum;
-    private EditText en_carnum;
-    private TextView or_carnum;
-    private String _id;
+    private Button btn_back_reserv;
+    private TextView parking_number;
+    private TextView reserv_date_select;
+    private TextView reserv_start_time_select;
+    private TextView reserv_end_time_select;
+    private TextView parking_car_number_select;
 
+    private Calendar c;
+    private int mYear;
+    private int mMonth;
+    private int mDay;
+    private int mHour;
+    private int mMinute;
+
+    static final int DATE_DIALOG_ID=0;
+    static final int START_TIME_DIALOG_ID=1;
+    static final int END_TIME_DIALOG_ID=2;
 
     private int month=0;
     private int year=0;
@@ -48,86 +46,110 @@ public class ReserveActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserve);
-        nextBtn = (Button)findViewById(R.id.res_next);
-        datePicker = (DatePicker)findViewById(R.id.picker_date);
-        startTime = (TimePicker)findViewById(R.id.picker_start);
-        endTime = (TimePicker)findViewById(R.id.picker_end);
-        or_phnum=(TextView)findViewById(R.id.origin_phnum); //기존 회원 전화번호를 찾아서 출력해야함.
-        en_phnum = (EditText)findViewById(R.id.new_num);
-        en_carnum = (EditText)findViewById(R.id.new_num); //기존 차량 정보를 찾아서 출력해야함.
-        or_carnum = (TextView)findViewById(R.id.origin_num);
-        //편의상 ap,pm 없애고 24시간으로 설정
-        startTime.setIs24HourView(true);
-        endTime.setIs24HourView(true);
-        Intent intent = getIntent();
-        _id = intent.getStringExtra("locationId");
+
+        this.InitializeView();
+        this.SetListner();
+    }
 
 
 
-        nextBtn.setOnClickListener(new View.OnClickListener() {
+    public void InitializeView(){
+        btn_back_reserv=findViewById(R.id.btn_back_reserv);
+        parking_number=findViewById(R.id.parking_number);
+        reserv_date_select=findViewById(R.id.reserv_date_select);
+        reserv_start_time_select=findViewById(R.id.reserv_start_time_select);
+        reserv_end_time_select=findViewById(R.id.reserv_end_time_select);
 
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View v) {
-                String enPhone = en_phnum.getText().toString();
-                String orPhone = or_phnum.getText().toString();
-                String enCar = en_carnum.getText().toString();
-                String orCar = or_carnum.getText().toString();
-
-                if(enPhone.isEmpty()&&orPhone.isEmpty()){
-                    Toast.makeText(getApplicationContext(), "모든 항목을 기입하십시오.", Toast.LENGTH_SHORT).show();
-                }else if (enCar.isEmpty()&&orCar.isEmpty()){Toast.makeText(getApplicationContext(), "모든 항목을 기입하십시오.", Toast.LENGTH_SHORT).show();
-                }else {
-                    //서버에 밀리세컨드로 예약 시작 시간, 종료 시간 전송
-                    Calendar cal = Calendar.getInstance();
-                    cal.set(Calendar.HOUR_OF_DAY, startTime.getHour());
-                    cal.set(Calendar.MINUTE, startTime.getMinute());
-                    cal.set(Calendar.DAY_OF_MONTH, day);
-                    cal.set(Calendar.MONTH, month);
-                    cal.set(Calendar.YEAR, year);
-                    long stime = cal.getTimeInMillis();
-
-                    cal.set(Calendar.HOUR_OF_DAY, endTime.getHour());
-                    cal.set(Calendar.MINUTE, endTime.getMinute());
-                    long etime = cal.getTimeInMillis();
-                    //date, time -> ms 끝
-
-                    //서버와 http 통신 하는 부분
-                    SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
-                    String sharedToken = sf.getString("token", "");
-                    ApiService serviceApi = new RestRequestHelper().getApiService();
-                    Call<ResponseBody> call = serviceApi.sendReserve(sharedToken,_id,orCar,stime,etime);
-                    call.enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            Toast.makeText(ReserveActivity.this,"통신 성공.",Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            Toast.makeText(ReserveActivity.this,"통신에 실패하였습니다.",Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    //통신 끝 + 오류 수정해야 할 것 : 전송속도가 느리면 다음 코드 실행되서 화면이 넘어감. sleep 쓰면 될 듯
-                    Intent intent = new Intent(getApplicationContext(),ReserveConfirm.class);
-                    startActivity(intent);
-                }
-
-
-
-            }
-        });
-
-        datePicker.init(year, month, day, new DatePicker.OnDateChangedListener() {
-            @Override
-            public void onDateChanged(DatePicker view, int sel_year, int monthOfYear, int dayOfMonth) {
-                year = sel_year;
-                month = monthOfYear;
-                day = dayOfMonth; // 예약날짜 리턴
-            }
-        });
+        //현재 날짜와 시간 가져오기
+        c=Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+        mHour = c.get(Calendar.HOUR_OF_DAY);
+        mMinute = c.get(Calendar.MINUTE);
 
     }
+
+    public void SetListner()
+    {
+        View.OnClickListener Listener= new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v)
+            {
+                switch (v.getId()){
+                    case R.id.btn_back_reserv: //뒤로가기 버튼
+                        finish();
+                        overridePendingTransition(R.anim.not_move_activity,R.anim.rightout_activity);
+                        break;
+                    case R.id.reserv_date_select: //예약날짜 설정
+                        showDialog(DATE_DIALOG_ID);
+                        break;
+                    case R.id.reserv_start_time_select: //예약 시작시간 설정
+                        showDialog(START_TIME_DIALOG_ID);
+                        break;
+                    case R.id.reserv_end_time_select: //예약 종료시간 설정정
+                        showDialog(END_TIME_DIALOG_ID);
+                        break;
+               }
+            }
+        };
+        btn_back_reserv.setOnClickListener(Listener);
+        reserv_date_select.setOnClickListener(Listener);
+        reserv_start_time_select.setOnClickListener(Listener);
+        reserv_end_time_select.setOnClickListener(Listener);
+    }
+
+    //DatePicker 리스너
+    private DatePickerDialog.OnDateSetListener mDateSetListener =
+            new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    mYear = year;
+                    mMonth = monthOfYear;
+                    mDay = dayOfMonth;
+                    reserv_date_select.setText(String.format("%d년 %d월 %d일",mYear,mMonth+1,mDay));
+                }
+            };
+
+    //StartTimePicker 리스너
+    private TimePickerDialog.OnTimeSetListener mStartTimeSetListener =
+            new TimePickerDialog.OnTimeSetListener(){
+                @Override
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    mHour = hourOfDay;
+                    mMinute = minute;
+                    reserv_start_time_select.setText(String.format("%d시 %d분",mHour,mMinute));
+                }
+            };
+
+    //EndTimePicker 리스너
+    private TimePickerDialog.OnTimeSetListener mEndTimeSetListener =
+            new TimePickerDialog.OnTimeSetListener(){
+                @Override
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    mHour = hourOfDay;
+                    mMinute = minute;
+                    reserv_end_time_select.setText(String.format("%d시 %d분",mHour,mMinute));
+                }
+            };
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case DATE_DIALOG_ID:
+                return new DatePickerDialog(this, mDateSetListener, mYear, mMonth, mDay);
+
+            case START_TIME_DIALOG_ID :
+                return new TimePickerDialog(this, mStartTimeSetListener, mHour, mMinute, false);
+
+            case END_TIME_DIALOG_ID:
+                return new TimePickerDialog(this, mEndTimeSetListener, mHour, mMinute, false);
+        }
+
+        return null;
+    }
+
 
 
 }

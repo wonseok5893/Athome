@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="85dp"
+    android:background="@drawable/bottom_border"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/notification_title"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical"
+        android:fontFamily="@font/bareun1"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="입차 10분전 입니다!"
+        android:textColor="#212121"
+        android:textSize="14dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/notification_context"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_gravity="center_vertical"
+        android:fontFamily="@font/bareun1"
+        android:text="입차 10분전입니다! 빨리 목적지로 달려가세요~tltttttttttttttttttttttttttttttttttttttttttttttttttttttttttt"
+        android:textSize="13dp"
+        android:textColor="#373737"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/notification_date"
+            android:layout_width="33dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:fontFamily="@font/bareun1"
+            android:text="05/17"
+            android:textSize="12dp"
+            android:textColor="#616161"/>
+
+        <TextView
+            android:id="@+id/notification_time"
+            android:layout_width="35dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:fontFamily="@font/bareun1"
+            android:text="17:50"
+            android:textSize="12dp"
+            android:textColor="#616161"/>
+    </LinearLayout>
+
+
+</LinearLayout>
+

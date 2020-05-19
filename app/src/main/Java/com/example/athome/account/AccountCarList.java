@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -42,7 +41,7 @@ public class AccountCarList extends Activity {
 
 
         //리스트 속의 아이템 연결
-       adapter=new CarListAdapter(this,R.layout.account_car_item,data);
+       adapter=new CarListAdapter(this,R.layout.account_car_listview_item,data);
        car_listView.setAdapter(adapter);
 
        car_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

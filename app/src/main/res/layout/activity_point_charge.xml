@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/point_charge_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/toolbar_background"
+        app:contentInsetStart="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <Button
+            android:id="@+id/btn_back_point_charge"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:background="#00ff0000"
+            android:drawableRight="@drawable/back2"
+            android:gravity="center"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/point_charge_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/bareun3"
+            android:text="포인트"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="8">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <NumberPicker
+                android:id="@+id/picker_point"
+                android:layout_width="300dp"
+                android:layout_height="180dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp" />
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="15"
+        android:background="@drawable/edit_border4"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_point_current"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:padding="5dp"
+                    android:text="현재 포인트"
+                    android:textColor="#424242"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/text_point_after_charging_"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:padding="5dp"
+                    android:text="충전 후 포인트"
+                    android:textColor="#424242"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/text_payment_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:padding="5dp"
+                    android:text="결제 금액"
+                    android:textColor="#424242"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/text_payment_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:padding="5dp"
+                    android:text="결제 수단"
+                    android:textColor="#424242"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginRight="5dp">
+
+                <TextView
+                    android:id="@+id/point_crruent_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:padding="5dp"
+                    android:text="0P"
+                    android:textColor="#01579b"
+                    android:textSize="17sp"
+                    android:gravity="right"/>
+
+                <TextView
+                    android:id="@+id/point_after_charging_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:padding="5dp"
+                    android:text="5000P"
+                    android:textColor="#01579b"
+                    android:textSize="17sp"
+                    android:gravity="right"/>
+
+                <TextView
+                    android:id="@+id/payment_amount_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:padding="5dp"
+                    android:text="5000"
+                    android:textColor="#01579b"
+                    android:textSize="17sp"
+                    android:gravity="right"/>
+
+                <TextView
+                    android:id="@+id/payment_method_select"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:padding="5dp"
+                    android:text="선택하기"
+                    android:textColor="#212121"
+                    android:textSize="17sp"
+                    android:gravity="right"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_point_charging"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/edit_border5"
+            android:fontFamily="@font/bareun1"
+            android:text="충전하기"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

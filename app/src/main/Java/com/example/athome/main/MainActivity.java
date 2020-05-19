@@ -41,6 +41,8 @@ import com.example.athome.admin_enroll.AdminCarlistActivity;
 import com.example.athome.admin_notice.AdminNoticeActivity;
 import com.example.athome.admin_enroll.AdminEnrollActivity;
 import com.example.athome.notice.NoticeActivity;
+import com.example.athome.notification.NotificationActivity;
+import com.example.athome.point_charge.PointChargeActivity;
 import com.example.athome.reservation_list.ReservListActivity;
 import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.MarkerResult;
@@ -76,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Button btn_back_enroll;
     private TextView name, id, point, profile;
     private User user;
-    private Button loginButton;
+    private Button loginButton,btn_notification_box,btn_point_charge;
     private EditText searchEditText; // 웹뷰 띄우는 창
     private Button btn_search;
     private MarkerResult markerResult;
@@ -145,6 +147,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             name = (TextView) header.findViewById(R.id.navi_user_name);
             id = (TextView) header.findViewById(R.id.navi_user_id);
             point = (TextView) header.findViewById(R.id.navi_user_point);
+            btn_notification_box=(Button)header.findViewById(R.id.btn_notification_box);
+            btn_point_charge=(Button)header.findViewById(R.id.btn_point_charge) ;
 
             name.setText(user.getUserName());
             id.setText(user.getUserId());
@@ -153,6 +157,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 navigationView.inflateMenu(R.menu.navi_menu);
             else
                 navigationView.inflateMenu(R.menu.admin_menu);
+
+
+            //알림함 레이아웃
+            btn_notification_box.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+            //포인트 충전하기 레이아웃
+            btn_point_charge.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), PointChargeActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
 
 
@@ -244,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         if (list != null) {
                             if (list.size() == 0) {
                                 Log.e("test", "이상한 장소입니다.");
-                            Toast.makeText(MainActivity.this, "위치를 다시 지정해주십시오.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "위치를 다시 지정해주십시오.", Toast.LENGTH_SHORT).show();
                                 return;
                             } else {
                                 locationName = list.get(0).getAddressLine(0);
@@ -421,4 +444,3 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return user;
     }
 }
-

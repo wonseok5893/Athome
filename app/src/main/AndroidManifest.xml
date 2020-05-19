@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -45,7 +46,8 @@
         <activity android:name=".notice.NoticeClicked" />
         <activity android:name=".reservation_list.ReservListActivity" />
         <activity android:name=".account.AccountActivity" />
-        <activity android:name=".ReserveActivity" />
+        <activity android:name=".ReserveActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ReserveConfirm" />
         <activity android:name=".DetailsActivity" />
         <activity android:name=".account.AccountChangePassword" />
@@ -57,8 +59,10 @@
         <activity android:name=".shared_parking.SharedParkingExplanation" />
         <activity android:name=".main.WebViewActivity" />
         <activity android:name=".account.AccountChangePhone" />
-        <activity android:name=".setting.SettingActivity" />
-        <activity android:name=".account.AccountChangeEmail" />
+        <activity android:name=".setting.SettingActivity"/>
+        <activity android:name=".account.AccountChangeEmail"/>
+        <activity android:name=".notification.NotificationActivity"/>
+        <activity android:name=".point_charge.PointChargeActivity"/>
         <activity android:name=".setting.SettingParkingLotActivity">
             <intent-filter>
                 <action android:name=".setting.SettingParkingLotActivity" />
@@ -69,10 +73,10 @@
         <activity android:name=".setting.SettingParkingActivity">
             <intent-filter>
                 <action android:name=".setting.SettingParkingActivity" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
@@ -90,11 +94,13 @@
             </intent-filter>
         </activity>
 
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.athome.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
+
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
