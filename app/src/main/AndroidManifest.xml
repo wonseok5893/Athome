@@ -44,7 +44,8 @@
         <activity android:name=".notice.NoticeClicked" />
         <activity android:name=".reservation_list.ReservListActivity" />
         <activity android:name=".account.AccountActivity" />
-        <activity android:name=".ReserveActivity" />
+        <activity android:name=".ReserveActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ReserveConfirm" />
         <activity android:name=".DetailsActivity" />
         <activity android:name=".account.AccountChangePassword" />
@@ -58,6 +59,8 @@
         <activity android:name=".account.AccountChangePhone" />
         <activity android:name=".setting.SettingActivity"/>
         <activity android:name=".account.AccountChangeEmail"/>
+        <activity android:name=".notification.NotificationActivity"/>
+        <activity android:name=".point_charge.PointChargeActivity"/>
 
         <activity android:name=".setting.SettingParkingLotActivity">
         <intent-filter>

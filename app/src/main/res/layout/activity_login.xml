@@ -30,11 +30,22 @@
 
 
     <TextView
-        android:id="@+id/textView12"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:id="@+id/textView11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
+        android:gravity="center"
+        android:text="아차하면주차"
+        android:textColor="@color/white"
+        android:fontFamily="@font/bareun1"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:layout_gravity="center"
-        android:layout_marginTop="110dp"
         android:background="@drawable/circle"
         android:fontFamily="@font/circe"
         android:gravity="center"
@@ -42,6 +53,17 @@
         android:textColor="@color/white"
         android:textSize="33dp"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="아  차  파  킹"
+        android:fontFamily="@font/bareun1"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:textStyle="bold"/>
 
 
     <LinearLayout
@@ -54,10 +76,10 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="52dp"
+            android:layout_marginTop="35dp"
             android:orientation="vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp">
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp">
 
             <EditText
                 android:id="@+id/et_id"

@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.example.athome.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CarListAdapter  extends BaseAdapter {
     LayoutInflater inflater = null;
@@ -51,7 +50,7 @@ public class CarListAdapter  extends BaseAdapter {
     {
         if (convertView == null)
         {
-            convertView = inflater.inflate(R.layout.account_car_item, parent, false);
+            convertView = inflater.inflate(R.layout.account_car_listview_item, parent, false);
         }
 
         ItemAccountCarData itemAccountCarData=data.get(position);
