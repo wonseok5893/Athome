@@ -1,9 +1,11 @@
 package com.example.athome.main;
 
+import android.app.Activity;
 import android.content.Intent;
 import androidx.annotation.NonNull;
 
 import com.example.athome.DetailsActivity;
+import com.example.athome.DrawerActivity;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
@@ -36,7 +38,7 @@ public class SharePlace {
         this.myMarker.setPosition(new LatLng(this.latitude,this.longitude));
 
 
-        final Intent intent = new Intent(main.getApplicationContext(), DetailsActivity.class);
+        final Intent intent = new Intent(main.getApplicationContext(), DrawerActivity.class);
         LatLng position = myMarker.getPosition();
 
         intent.putExtra("locationId", locationId);
@@ -48,6 +50,8 @@ public class SharePlace {
         this.myMarker.setOnClickListener(new Overlay.OnClickListener() {
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
+                LatLng position = myMarker.getPosition();
+                intent.putExtra("position", position);
                 main.startActivity(intent);
                 return true;
             }

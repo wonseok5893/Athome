@@ -78,6 +78,8 @@
 
 
 
+
+
     </RelativeLayout>
     <!--navigation drawer-->
     <com.google.android.material.navigation.NavigationView
@@ -86,5 +88,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:maxWidth="350dp" />
+
+
 
 </androidx.drawerlayout.widget.DrawerLayout>

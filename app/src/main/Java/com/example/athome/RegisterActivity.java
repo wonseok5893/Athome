@@ -25,8 +25,8 @@ public class RegisterActivity extends AppCompatActivity {
         sign_email = findViewById(R.id.sign_email);
         sign_phone = findViewById(R.id.sign_phone);
 
-        signUpButton = findViewById(R.id.signUpButton);
-        signUpCancelButton = findViewById(R.id.signUpCancelButton);
+        signUpButton = findViewById(R.id.space_resv);
+        signUpCancelButton = findViewById(R.id.space_navi);
 
         signUpCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
