@@ -54,7 +54,6 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints">
 
-
             <EditText
                 android:id="@+id/search_view"
                 android:layout_width="260dp"

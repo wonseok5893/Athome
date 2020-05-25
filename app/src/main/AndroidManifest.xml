@@ -25,7 +25,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".DrawerActivity"></activity>
         <activity android:name=".admin_notice.AdminNoticeNew" />
         <activity android:name=".admin.AdminUserClickedReservPastActivity" />
         <activity android:name=".admin.AdminUserClickedReservActivity" />

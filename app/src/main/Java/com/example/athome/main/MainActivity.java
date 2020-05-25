@@ -7,6 +7,8 @@ import android.graphics.PointF;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,12 +58,16 @@ import com.google.android.material.navigation.NavigationView;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraAnimation;
 import com.naver.maps.map.CameraUpdate;
+import com.naver.maps.map.LocationSource;
+import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.Symbol;
+import com.naver.maps.map.UiSettings;
 import com.naver.maps.map.overlay.InfoWindow;
 import com.naver.maps.map.overlay.Marker;
+import com.naver.maps.map.util.FusedLocationSource;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,6 +78,11 @@ import retrofit2.Call;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,
         NavigationView.OnNavigationItemSelectedListener {
+
+
+    // 현재위치 관련
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
+    private FusedLocationSource locationSource;
 
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
     private DrawerLayout mDrawerLayout;
@@ -100,6 +111,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         slide_down = AnimationUtils.loadAnimation(this,R.anim.slide_down);
         slide_up = AnimationUtils.loadAnimation(this,R.anim.slide_up);
         stay = AnimationUtils.loadAnimation(this,R.anim.stay);
+
+        locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
+
 
 
 
@@ -303,17 +317,37 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,  @NonNull int[] grantResults) {
+        if (locationSource.onRequestPermissionsResult(
+                requestCode, permissions, grantResults)) {
+            return;
+        }
+        super.onRequestPermissionsResult(
+                requestCode, permissions, grantResults);
+    }
+
     // 맵 준비되면 onMapReady에서 naverMap객체를 받아옴
     @UiThread
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
 
         nm = naverMap;
+        nm.setLocationSource(locationSource);
+        nm.setLocationTrackingMode(LocationTrackingMode.Follow);
+
+        UiSettings uiSettings = nm.getUiSettings();
         // 지도종류 Basic
         nm.setMapType(NaverMap.MapType.Basic);
         CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(37.5666102, 126.9783881))
                 .animate(CameraAnimation.Easing);
         nm.moveCamera(cameraUpdate);
+
+        uiSettings.setLocationButtonEnabled(true);
+
+
+
 
         SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
         String sharedToken = sf.getString("token", "");
@@ -366,6 +400,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     }
+
+
 
 
     @Override

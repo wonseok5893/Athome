@@ -61,7 +61,7 @@ public class ReserveActivity extends AppCompatActivity {
         reserv_end_time_select=findViewById(R.id.reserv_end_time_select);
 
         //현재 날짜와 시간 가져오기
-        c=Calendar.getInstance();
+        c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
@@ -113,7 +113,7 @@ public class ReserveActivity extends AppCompatActivity {
             };
 
     //StartTimePicker 리스너
-    private TimePickerDialog.OnTimeSetListener mStartTimeSetListener =
+    private CustomTimePickerDialog.OnTimeSetListener mStartTimeSetListener =
             new TimePickerDialog.OnTimeSetListener(){
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -124,7 +124,7 @@ public class ReserveActivity extends AppCompatActivity {
             };
 
     //EndTimePicker 리스너
-    private TimePickerDialog.OnTimeSetListener mEndTimeSetListener =
+    private CustomTimePickerDialog.OnTimeSetListener mEndTimeSetListener =
             new TimePickerDialog.OnTimeSetListener(){
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -141,10 +141,10 @@ public class ReserveActivity extends AppCompatActivity {
                 return new DatePickerDialog(this, mDateSetListener, mYear, mMonth, mDay);
 
             case START_TIME_DIALOG_ID :
-                return new TimePickerDialog(this, mStartTimeSetListener, mHour, mMinute, false);
+                return new CustomTimePickerDialog(this, mStartTimeSetListener, mHour, mMinute, true);
 
             case END_TIME_DIALOG_ID:
-                return new TimePickerDialog(this, mEndTimeSetListener, mHour, mMinute, false);
+                return new CustomTimePickerDialog(this, mEndTimeSetListener, mHour, mMinute, true);
         }
 
         return null;

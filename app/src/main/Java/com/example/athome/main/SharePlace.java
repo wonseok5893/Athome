@@ -1,19 +1,14 @@
 package com.example.athome.main;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.example.athome.DetailsActivity;
-import com.example.athome.DrawerActivity;
 import com.example.athome.R;
 import com.example.athome.ReserveActivity;
 import com.naver.maps.geometry.LatLng;
@@ -32,9 +27,12 @@ public class SharePlace {
 
     // 미리보기 화면
     private Button space_resv;
-    private ImageView preview_close, image;
 
-    private TextView fee,time,loc ;// 주차장 마커의 정보 -> 해당 주차장의 시간당 가격, 이용가능 시간, 주소
+    private ImageView preview_close, image;
+    // 주차장 마커의 정보 -> 해당 주차장의 시간당 가격, 이용가능 시간, 주소
+    private TextView fee, // 요금
+            time, // 이용시간
+            loc ; // 위치
     private Button naviBtn, resBtn;
 
 
@@ -76,13 +74,12 @@ public class SharePlace {
                 Log.d("teststs", intent.getStringExtra("locationId")+" "+
                         intent.getStringExtra("userId"));
 
-
+                fee.setText(600 + "원/시간");
+                time.setText("1시 ~ 6시");
                 loc.setText(intent.getStringExtra("locationId"));
-                fee.setText(intent.getStringExtra("userId"));
-                time.setText(Double.toString(intent.getDoubleExtra("latitude",0)));
 
                 if(main.getUser().getUserId()==null) { // 비회원일때
-
+                    main.PreviewVisible();
                 } else { // 회원일때
                     main.PreviewVisible();
                     space_resv.setOnClickListener(new View.OnClickListener() {
