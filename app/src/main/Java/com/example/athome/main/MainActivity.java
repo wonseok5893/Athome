@@ -15,8 +15,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -82,12 +86,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private EditText searchEditText; // 웹뷰 띄우는 창
     private Button btn_search;
     private MarkerResult markerResult;
+    private LinearLayout preview;
+    private Animation slide_up,slide_down,stay;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        preview = (LinearLayout) findViewById(R.id.preview);
+        preview.setVisibility(View.INVISIBLE);
+        slide_down = AnimationUtils.loadAnimation(this,R.anim.slide_down);
+        slide_up = AnimationUtils.loadAnimation(this,R.anim.slide_up);
+        stay = AnimationUtils.loadAnimation(this,R.anim.stay);
+
+
 
         /* ****** 아래 토큰 확인하는 if문에서 user = new User() 해주면 오류남 조건이 거짓일 경우 user가 new되지 않기 때문인 것으로 보임.
            oncreate될때 빈 user객체 생성하고 토큰확인하면 유저정보 set해주고, 토큰 없으면 그냥 빈 상태로 놔뒀다고 로그인시 유저정보 set해주는 방향으로 해주는게 좋지 않을까 함*/
@@ -442,6 +456,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
     public User getUser() {
         return user;
+    }
+
+    public void PreviewVisible() {
+        this.preview.setVisibility(View.VISIBLE);
+        overridePendingTransition(R.anim.slide_up, R.anim.stay);
+        preview.startAnimation(slide_up);
+
+    }
+    public void PreviewInvisible(){
+        this.preview.setVisibility(View.INVISIBLE);
+        overridePendingTransition(R.anim.stay, R.anim.slide_down);
+        preview.startAnimation(slide_down);
     }
 }
 

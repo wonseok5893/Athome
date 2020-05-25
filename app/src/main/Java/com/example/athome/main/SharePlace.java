@@ -2,10 +2,20 @@ package com.example.athome.main;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.text.Layout;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 
 import com.example.athome.DetailsActivity;
 import com.example.athome.DrawerActivity;
+import com.example.athome.R;
+import com.example.athome.ReserveActivity;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
@@ -20,6 +30,12 @@ public class SharePlace {
     private Marker myMarker; // 마커
     private String img;
 
+    // 미리보기 화면
+    private Button space_resv;
+    private ImageView preview_close, image;
+
+    private TextView fee,time,loc ;// 주차장 마커의 정보 -> 해당 주차장의 시간당 가격, 이용가능 시간, 주소
+    private Button naviBtn, resBtn;
 
 
     // 차량등록 후 관리자가 정보 확인한 뒤 승인하면 입력 정보로 공유공간 객체 생성
@@ -28,6 +44,9 @@ public class SharePlace {
                                double latitude,
                                double longitude,
                                final MainActivity main) {
+
+        PriviewInitialize(main);
+
         this.locationId = locationId;
         this.userId = userId;
         this.latitude = latitude;
@@ -38,7 +57,7 @@ public class SharePlace {
         this.myMarker.setPosition(new LatLng(this.latitude,this.longitude));
 
 
-        final Intent intent = new Intent(main.getApplicationContext(), DrawerActivity.class);
+        final Intent intent = new Intent(main.getApplicationContext(), ReserveActivity.class);
         LatLng position = myMarker.getPosition();
 
         intent.putExtra("locationId", locationId);
@@ -50,9 +69,29 @@ public class SharePlace {
         this.myMarker.setOnClickListener(new Overlay.OnClickListener() {
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
+
                 LatLng position = myMarker.getPosition();
                 intent.putExtra("position", position);
-                main.startActivity(intent);
+
+                Log.d("teststs", intent.getStringExtra("locationId")+" "+
+                        intent.getStringExtra("userId"));
+
+
+                loc.setText(intent.getStringExtra("locationId"));
+                fee.setText(intent.getStringExtra("userId"));
+                time.setText(Double.toString(intent.getDoubleExtra("latitude",0)));
+
+                if(main.getUser().getUserId()==null) { // 비회원일때
+
+                } else { // 회원일때
+                    main.PreviewVisible();
+                    space_resv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            main.startActivity(intent);
+                        }
+                    });
+                }
                 return true;
             }
         });
@@ -60,5 +99,27 @@ public class SharePlace {
 
     public Marker getMyMarker() {
         return this.myMarker;
+    }
+
+    void PriviewInitialize(final MainActivity main) {
+
+        // 예약하기 버튼
+        space_resv = (Button) main.findViewById(R.id.space_resv);
+
+        // 미리보기 비활성화 버튼
+        preview_close = (ImageView)main.findViewById(R.id.preview_close);
+        preview_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                main.PreviewInvisible();
+            }
+        });
+
+        resBtn = (Button)main.findViewById(R.id.space_resv);
+        naviBtn = (Button)main.findViewById(R.id.space_navi);
+        image= (ImageView)main.findViewById(R.id.space_img);
+        time = (TextView)main.findViewById(R.id.space_time);
+        fee = (TextView)main.findViewById(R.id.space_fee);
+        loc = (TextView)main.findViewById(R.id.space_loc);
     }
 }

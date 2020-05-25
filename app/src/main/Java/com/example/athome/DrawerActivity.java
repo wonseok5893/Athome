@@ -89,13 +89,7 @@ public class DrawerActivity extends AppCompatActivity {
         });
     }
     private void Initialize(){
-        resBtn = (Button) findViewById(R.id.space_resv);
-        naviBtn = (Button)findViewById(R.id.space_navi);
-        image= (ImageView)findViewById(R.id.space_img);
-        time = (TextView)findViewById(R.id.space_time);
-        fee = (TextView)findViewById(R.id.space_fee);
-        loc = (TextView)findViewById(R.id.space_loc);
-        view = (LinearLayout)findViewById(R.id.preview);
+
 
     }
 }
