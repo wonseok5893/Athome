@@ -43,7 +43,7 @@ public class AdminEnrollData implements Parcelable {
     private String parkingInfo;
     @SerializedName("enrollTime")
     @Expose
-    private Date enrollTime;
+    private String enrollTime;
     @SerializedName("state")
     @Expose
     private Integer state;
@@ -148,9 +148,10 @@ public class AdminEnrollData implements Parcelable {
         this.parkingInfo = parkingInfo;
     }
 
-    public Date getEnrollTime() {
+    public String getEnrollTime() {
         return enrollTime;
     }
+
 
     @Override
     public int describeContents() {

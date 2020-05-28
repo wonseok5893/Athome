@@ -340,9 +340,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         public void run() {
                             try {
                                 markerResult = res.execute().body();
-                                if(markerResult == null){
-                                    return;
-                                }
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -353,7 +350,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if(markerResult == null) {
+                    if(markerResult.getData() == null) {
                         Log.i("jiwon","실패");
                     }else{
                         Log.i("jiwon","성공");
@@ -427,9 +424,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void run() {
                 try {
                     markerResult = res.execute().body();
-                    if(markerResult == null){
-                        return;
-                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -440,7 +434,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if(markerResult == null) {
+        if(markerResult.getData() == null) {
             Log.i("jiwon","실패");
         }else{
             Log.i("jiwon","성공");
