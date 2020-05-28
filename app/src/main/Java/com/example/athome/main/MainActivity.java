@@ -7,6 +7,8 @@ import android.graphics.PointF;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,10 +22,13 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.SearchView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,10 +59,14 @@ import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.MarkerResult;
 import com.example.athome.setting.SettingActivity;
 import com.example.athome.shared_parking.MySharedParkingActivity;
+import com.example.athome.shared_time.SharedParkingTime;
+import com.github.angads25.toggle.LabeledSwitch;
+import com.github.angads25.toggle.interfaces.OnToggledListener;
 import com.google.android.material.navigation.NavigationView;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraAnimation;
 import com.naver.maps.map.CameraUpdate;
+import com.naver.maps.map.LocationSource;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
@@ -94,12 +103,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Button btn_back_enroll;
     private TextView name, id, point, profile;
     private User user;
-    private Button loginButton,btn_notification_box,btn_point_charge;
+    private Button loginButton,btn_notification_box,btn_point_charge,btn_share_time;
     private EditText searchEditText; // 웹뷰 띄우는 창
     private Button btn_search;
     private MarkerResult markerResult;
     private LinearLayout preview;
     private Animation slide_up,slide_down,stay;
+    private Switch share_switch;
     private static final int MESSAGE_TIMER_START = 100;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -108,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //미리보기 창
         preview = (LinearLayout) findViewById(R.id.preview);
         preview.setVisibility(View.INVISIBLE);
         slide_down = AnimationUtils.loadAnimation(this,R.anim.slide_down);
@@ -179,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             point = (TextView) header.findViewById(R.id.navi_user_point);
             btn_notification_box=(Button)header.findViewById(R.id.btn_notification_box);
             btn_point_charge=(Button)header.findViewById(R.id.btn_point_charge) ;
+            btn_share_time=(Button)header.findViewById(R.id.btn_share_time);
 
             name.setText(user.getUserName());
             id.setText(user.getUserId());
@@ -187,6 +199,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 navigationView.inflateMenu(R.menu.navi_menu);
             else
                 navigationView.inflateMenu(R.menu.admin_menu);
+
+            //공유 스위치
+            share_switch=findViewById(R.id.share_switch);
+            share_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked == true){
+                        Toast.makeText(MainActivity.this, "공유가 활성화 되었습니다.", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        Toast.makeText(MainActivity.this, "공유가 비활성화 되었습니다.", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+            });
 
 
             //알림함 레이아웃
@@ -203,6 +230,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), PointChargeActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+            btn_share_time.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public  void onClick(View v){
+                    Intent intent = new Intent(getApplicationContext(), SharedParkingTime.class);
                     startActivity(intent);
                 }
             });
@@ -424,6 +459,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void run() {
                 try {
                     markerResult = res.execute().body();
+                    if(markerResult == null){
+                        return;
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -456,7 +494,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 s.getMyMarker().setMap(nm);
             }
         }
-
 
 
 

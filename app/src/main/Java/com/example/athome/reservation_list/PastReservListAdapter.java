@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.athome.R;
-import com.example.athome.reservation_list.ItemPastReservData;
 
 import java.util.ArrayList;
 

@@ -146,6 +146,16 @@
             android:fontFamily="@font/dreamgothic3"
             android:text="충전금"
             android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/btn_share_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00ff0000"
+            android:drawableTop="@drawable/coin"
+            android:fontFamily="@font/dreamgothic3"
+            android:text="공유 시간"
+            android:textSize="11sp" />
     </LinearLayout>
 
 

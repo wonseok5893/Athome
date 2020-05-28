@@ -14,7 +14,6 @@ import com.example.athome.ReserveActivity;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
-
 // 각 공유공간의 정보를 가지고있는 객체
 // 앱 실행시 주차 공간마다 가지고있게하려면 필요, 마커 누를때마다 실시간으로 DB에서 가져오게 하려면 구조 변경
 public class SharePlace {

@@ -44,7 +44,7 @@
     <string name="hint_email_change">변경 할 이메일 입력</string>
 
     <string name="enroll_parking">주차장 공유하기</string>
-    <string name="sharedparking">공유주차장</string>
+    <string name="sharedparking">주차장등록</string>
     <string name="change">변경하기</string>
 
     <string name="hint_id">아이디를 입력하세요</string>
@@ -64,6 +64,9 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+
+    <string name="switch_on">공유ON</string>
+    <string name="switch_off">공유OFF</string>
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>

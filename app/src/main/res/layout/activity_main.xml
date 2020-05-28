@@ -13,12 +13,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <fragment
             android:id="@+id/map_view"
             android:name="com.naver.maps.map.MapFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp" />
 
         <Button
             android:id="@+id/enrollBtn"
@@ -34,6 +38,7 @@
             android:layout_marginEnd="9dp"
             android:layout_marginRight="9dp"
             android:text="@string/sharedparking" />
+
 
 
         <androidx.appcompat.widget.Toolbar
@@ -58,23 +63,46 @@
                 android:id="@+id/search_view"
                 android:layout_width="260dp"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 android:fontFamily="@font/bareun1"
                 android:hint="@string/search_text"
                 android:inputType="text"
                 android:textColor="@color/input_register"
                 android:textColorHint="@color/input_register_hint"
-                android:background="@android:color/transparent"
-                android:textSize="15sp"/>
+                android:textSize="15sp" />
 
             <Button
                 android:id="@+id/btn_search"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
-                android:background="#00ff0000"
                 android:layout_marginLeft="15dp"
-                android:drawableRight="@drawable/search"
-                />
+                android:background="#00ff0000"
+                android:drawableRight="@drawable/search" />
         </androidx.appcompat.widget.Toolbar>
+        <RelativeLayout
+            android:id="@+id/rl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <Switch
+                android:id="@+id/share_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="13dp"
+                android:layout_marginBottom="632dp"
+                android:showText="true"
+                android:textOff="@string/switch_off"
+                android:textOn="@string/switch_on"
+                android:textStyle="bold"
+                android:thumb="@drawable/switch_thumb"
+                android:track="@drawable/switch_selector" />
+        </RelativeLayout>
+
 
         <LinearLayout
             android:toAlpha="1.0"

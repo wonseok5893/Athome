@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".shared_time.SharedParkingTime">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/assigner_lookup_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/toolbar_background"
+        android:gravity="center"
+        app:contentInsetStart="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <Button
+            android:id="@+id/share_time_backBtn"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:background="#00ff0000"
+            android:drawableRight="@drawable/back"
+            android:gravity="center"
+            android:text="" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/bareun3"
+            android:text="공유시간 관리"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:background="@color/babypink"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/allday"
+                        android:layout_width="120dp"
+                        android:layout_height="44dp"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:fontFamily="@font/bareun1"
+                        android:paddingLeft="5dp"
+                        android:text="모든요일"
+                        android:textColor="#373636"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <Switch
+                        android:id="@+id/allday_switch"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="15dp"
+                        android:textSize="28dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/share_time_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/bareun1"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="시작시간"
+                        android:textColor="#373636"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+                    <ImageView
+                        android:id="@+id/start_editBtn"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        app:srcCompat="@drawable/pencil" />
+
+                    <ImageView
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="5dp"
+                        android:gravity="center_vertical"
+                        app:srcCompat="@drawable/direction" />
+
+
+                    <TextView
+                        android:id="@+id/share_time_end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:fontFamily="@font/bareun1"
+                        android:layout_marginLeft="10dp"
+                        android:text="종료시간"
+                        android:textColor="#373636"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/end_editBtn"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        app:srcCompat="@drawable/pencil" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/sunday"
+                        android:layout_width="125dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/bareun1"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="일요일"
+                        android:textColor="#373636"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <Switch
+                        android:id="@+id/sunday_switch"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="15dp"
+                        android:textSize="28dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/monday"
+                        android:layout_width="120dp"
+                        android:layout_height="44dp"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:fontFamily="@font/bareun1"
+                        android:paddingLeft="5dp"
+                        android:text="월요일"
+                        android:textColor="#373636"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <Switch
+                        android:id="@+id/monday_switch"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="15dp"
+                        android:textSize="28dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tuesday"
+                        android:layout_width="125dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/bareun1"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="화요일"
+                        android:textColor="#373636"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <Switch
+                        android:id="@+id/tuesday_switch"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="15dp"
+                        android:textSize="28dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/wensday"
+                        android:layout_width="125dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/bareun1"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="수요일"
+                        android:textColor="#373636"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <Switch
+                        android:id="@+id/wensday_switch"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="15dp"
+                        android:textSize="28dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/thursday"
+                        android:layout_width="125dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/bareun1"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="목요일"
+                        android:textColor="#373636"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <Switch
+                        android:id="@+id/thursday_switch"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="28dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/friday"
+                        android:layout_width="125dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/bareun1"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="금요일"
+                        android:textColor="#373636"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <Switch
+                        android:id="@+id/friday_switch"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="15dp"
+                        android:textSize="28dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/saturday"
+                        android:layout_width="125dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/bareun1"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="토요일"
+                        android:textColor="#373636"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <Switch
+                        android:id="@+id/saturday_switch"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="15dp"
+                        android:textSize="28dp" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </ScrollView>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

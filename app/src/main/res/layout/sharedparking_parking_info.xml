@@ -9,7 +9,7 @@
         android:id="@+id/parking_info_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fce4ec"
+        android:background="@drawable/toolbar_background"
         android:gravity="center"
         app:contentInsetStart="0dp"
         app:layout_constraintStart_toStartOf="parent"

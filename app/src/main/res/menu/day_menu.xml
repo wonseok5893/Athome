@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+    <item android:id="@+id/monday"
+        android:title="월요일"
+        android:fontFamily="@font/dreamgothic7"/>
+    <item android:id="@+id/tuesday"
+        android:title="화요일"
+        android:fontFamily="@font/dreamgothic7"/>
+    <item android:id="@+id/wensday"
+        android:title="수요일"
+        android:fontFamily="@font/dreamgothic7"/>
+    <item android:id="@+id/thursday"
+        android:title="목요일"
+        android:fontFamily="@font/dreamgothic7"/>
+    <item android:id="@+id/friday"
+        android:title="금요일"
+        android:fontFamily="@font/dreamgothic7"/>
+    <item android:id="@+id/saturday"
+        android:title="토요일"
+        android:fontFamily="@font/dreamgothic7"/>
+    <item android:id="@+id/sunday"
+        android:title="일요일"
+        android:fontFamily="@font/dreamgothic7"/>
+    </group>
+</menu>
