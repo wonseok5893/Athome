@@ -58,7 +58,7 @@ public class SharePlace {
         final Intent intent = new Intent(main.getApplicationContext(), ReserveActivity.class);
         LatLng position = myMarker.getPosition();
 
-        intent.putExtra("locationId", locationId);
+        intent.putExtra("locationId", locationId);//_id
         intent.putExtra("userId",userId);
         intent.putExtra("latitude", latitude);
         intent.putExtra("longitude", longitude);

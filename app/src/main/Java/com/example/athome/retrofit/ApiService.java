@@ -5,20 +5,17 @@ import com.example.athome.admin.AdminResult;
 import com.example.athome.admin.AllUserResult;
 import com.example.athome.admin_enroll.AdminEnrollResult;
 import com.example.athome.admin_notice.AdminNoticeResult;
-
+import java.util.Date;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
-import retrofit2.http.Query;
 
 public interface ApiService {
     //사용자 회원가입
@@ -51,8 +48,8 @@ public interface ApiService {
     Call<ResponseBody> sendReserve(@Header("x-access-token") String token,
                                    @Field("_id") String locationId,
                                    @Field("carNumber") String carNum,
-                                   @Field("startTime") Long startTime,
-                                   @Field("endTime") Long endTime);
+                                   @Field("startTime") Date startTime,
+                                   @Field("endTime") Date endTime);
     //사용자 배정자 등록 신청
     @Multipart
     @POST("api/sharedLocation/enroll")

@@ -7,10 +7,10 @@ import android.graphics.PointF;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -58,7 +58,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraAnimation;
 import com.naver.maps.map.CameraUpdate;
-import com.naver.maps.map.LocationSource;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
@@ -72,6 +71,8 @@ import com.naver.maps.map.util.FusedLocationSource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import retrofit2.Call;
 
@@ -99,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private MarkerResult markerResult;
     private LinearLayout preview;
     private Animation slide_up,slide_down,stay;
+    private static final int MESSAGE_TIMER_START = 100;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -315,7 +317,72 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+        TimerHandler timerHandler = new TimerHandler();
+        timerHandler.sendEmptyMessage(MESSAGE_TIMER_START);
     }
+
+    private class TimerHandler extends Handler{
+        int count = 0;
+
+        @Override
+        public void handleMessage(Message msg){
+            switch (msg.what){
+                case MESSAGE_TIMER_START:
+                    Log.d("jiwon", "timer : "+count++);
+                    SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
+                    String sharedToken = sf.getString("token", "");
+
+                    ApiService serviceApi = new RestRequestHelper().getApiService();
+                    final Call<MarkerResult> res = serviceApi.getMarkerData(sharedToken, "catstone");
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                markerResult = res.execute().body();
+                                if(markerResult == null){
+                                    return;
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if(markerResult == null) {
+                        Log.i("jiwon","실패");
+                    }else{
+                        Log.i("jiwon","성공");
+                        int markerCount = markerResult.getData().size();
+
+                        ArrayList<SharePlace> placeList = new ArrayList<>();
+
+                        for(int i=0;i<markerCount;i++) {
+                            SharePlace s = new SharePlace();
+                            s.readSharePlace(markerResult.getData().get(i).getId()
+                                    ,markerResult.getData().get(i).getOwner().getUserId(),
+                                    Double.parseDouble(markerResult.getData().get(i).getLatitude()),
+                                    Double.parseDouble(markerResult.getData().get(i).getLongitude()),
+                                    MainActivity.this);
+                            placeList.add(s);
+                        }
+
+                        for(SharePlace s : placeList) {
+                            s.getMyMarker().setMap(nm);
+                        }
+                    }
+
+
+                    this.sendEmptyMessageDelayed(MESSAGE_TIMER_START, 5000);
+                    break;
+            }
+        }
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -377,25 +444,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.i("jiwon","실패");
         }else{
             Log.i("jiwon","성공");
+            int markerCount = markerResult.getData().size();
+
+            ArrayList<SharePlace> placeList = new ArrayList<>();
+
+            for(int i=0;i<markerCount;i++) {
+                SharePlace s = new SharePlace();
+                s.readSharePlace(markerResult.getData().get(i).getId()
+                        ,markerResult.getData().get(i).getOwner().getUserId(),
+                        Double.parseDouble(markerResult.getData().get(i).getLatitude()),
+                        Double.parseDouble(markerResult.getData().get(i).getLongitude()),
+                        this);
+                placeList.add(s);
+            }
+
+            for(SharePlace s : placeList) {
+                s.getMyMarker().setMap(nm);
+            }
         }
 
-        int markerCount = markerResult.getData().size();
-
-        ArrayList<SharePlace> placeList = new ArrayList<>();
-
-        for(int i=0;i<markerCount;i++) {
-            SharePlace s = new SharePlace();
-            s.readSharePlace(markerResult.getData().get(i).getId()
-                    ,markerResult.getData().get(i).getOwner().getUserId(),
-                    Double.parseDouble(markerResult.getData().get(i).getLatitude()),
-                    Double.parseDouble(markerResult.getData().get(i).getLongitude()),
-                    this);
-            placeList.add(s);
-        }
-
-        for(SharePlace s : placeList) {
-            s.getMyMarker().setMap(nm);
-        }
 
 
 
