@@ -24,7 +24,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.example.athome.CustomTimePickerDialog;
+import com.example.athome.reservation.CustomTimePickerDialog;
 import com.example.athome.R;
 import com.example.athome.main.MainActivity;
 

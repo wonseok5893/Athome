@@ -1,32 +1,84 @@
 package com.example.athome.reservation_list;
 
 public class ItemPastReservData {
-    public String pastReservDate;
-    public String pastReservPlace;
-    public String pastReservTime;
-    public String pastReservPrice;
+    public String pastReservStartDate;
+    public String pastReservEndDate;
+    public String pastReservStartTime;
+    public String pastReservEndTime;
+    public String pastReservCarNumber;
+    public String pastReservParkingNumber;
+    public String pastReservParkingAddress;
 
-    public String getPastReservDate() {
-        return pastReservDate;
+    public String getPastReservStartDate() {
+        return pastReservStartDate;
     }
 
-    public String getPastReservPlace() {
-        return pastReservPlace;
+    public void setPastReservStartDate(String pastReservStartDate) {
+        this.pastReservStartDate = pastReservStartDate;
     }
 
-    public String getPastReservTime() {
-        return pastReservTime;
+    public String getPastReservEndDate() {
+        return pastReservEndDate;
     }
 
-    public String getPastReservPrice() {
-        return pastReservPrice;
+    public void setPastReservEndDate(String pastReservEndDate) {
+        this.pastReservEndDate = pastReservEndDate;
     }
 
-    public ItemPastReservData(String pastReservDate, String pastReservPlace, String pastReservTime, String pastReservPrice) {
-        this.pastReservDate = pastReservDate;
-        this.pastReservPlace = pastReservPlace;
-        this.pastReservTime = pastReservTime;
-        this.pastReservPrice = pastReservPrice;
+    public String getPastReservStartTime() {
+        return pastReservStartTime;
+    }
+
+    public void setPastReservStartTime(String pastReservStartTime) {
+        this.pastReservStartTime = pastReservStartTime;
+    }
+
+    public String getPastReservEndTime() {
+        return pastReservEndTime;
+    }
+
+    public void setPastReservEndTime(String pastReservEndTime) {
+        this.pastReservEndTime = pastReservEndTime;
+    }
+
+    public String getPastReservCarNumber() {
+        return pastReservCarNumber;
+    }
+
+    public void setPastReservCarNumber(String pastReservCarNumber) {
+        this.pastReservCarNumber = pastReservCarNumber;
+    }
+
+    public String getPastReservParkingNumber() {
+        return pastReservParkingNumber;
+    }
+
+    public void setPastReservParkingNumber(String pastReservParkingNumber) {
+        this.pastReservParkingNumber = pastReservParkingNumber;
+    }
+
+    public String getPastReservParkingAddress() {
+        return pastReservParkingAddress;
+    }
+
+    public void setPastReservParkingAddress(String pastReservParkingAddress) {
+        this.pastReservParkingAddress = pastReservParkingAddress;
+    }
+
+    public ItemPastReservData(String pastReservStartDate,
+            String pastReservEndDate,
+            String pastReservStartTime,
+            String pastReservEndTime,
+            String pastReservCarNumber,
+            String pastReservParkingNumber,
+            String pastReservParkingAddress) {
+        this.pastReservEndDate=pastReservEndDate;
+        this.pastReservStartTime=pastReservStartTime;
+        this.pastReservEndTime=pastReservEndTime;
+        this.pastReservCarNumber=pastReservCarNumber;
+        this.pastReservParkingNumber=pastReservParkingNumber;
+        this.pastReservParkingAddress=pastReservParkingAddress;
+
     }
 
 }

@@ -8,12 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.athome.reservation.ReserveActivity;
 import com.kakao.kakaonavi.KakaoNaviParams;
 import com.kakao.kakaonavi.KakaoNaviService;
 import com.kakao.kakaonavi.Location;
 import com.kakao.kakaonavi.NaviOptions;
 import com.kakao.kakaonavi.options.CoordType;
-import com.naver.maps.geometry.LatLng;
+
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -40,7 +41,7 @@ public class DetailsActivity extends AppCompatActivity {
         de_time.setText(Double.toString(detail_intent.getDoubleExtra("latitude",0)));
         de_call.setText(Double.toString(detail_intent.getDoubleExtra("longitude",0)));
 
-        final Intent intent = new Intent(getApplicationContext(),ReserveActivity.class);
+        final Intent intent = new Intent(getApplicationContext(), ReserveActivity.class);
         intent.putExtra("locationId", detail_intent.getStringExtra("locationId"));
 
         resBtn = (Button) findViewById(R.id.de_res);

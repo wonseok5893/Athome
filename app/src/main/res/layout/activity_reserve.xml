@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/reserv_toolbar"
         android:layout_width="match_parent"
@@ -20,7 +21,8 @@
             android:layout_height="30dp"
             android:background="#00ff0000"
             android:drawableRight="@drawable/back2"
-            android:gravity="center" />
+            android:gravity="center"
+            android:text="" />
 
         <TextView
             android:id="@+id/reserv_text"
@@ -34,140 +36,225 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView14"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/bareun3"
-                android:paddingLeft="20dp"
-                android:paddingTop="20dp"
-                android:text="주차 정보"
-                android:textColor="#0026ca"
-                android:textSize="15sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#ffffff"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/textView14"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun3"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:text="주차 정보"
+                    android:textColor="#0026ca"
+                    android:textSize="15sp" />
 
-                    <TextView
-                        android:id="@+id/parking_info"
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:fontFamily="@font/dreamgothic3"
-                        android:padding="10dp"
-                        android:text="주차구획"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/parking_number"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="10dp"
-                        android:fontFamily="@font/dreamgothic3"
-                        android:gravity="right"
-                        android:padding="10dp"
-                        android:text="#2662504"
-                        android:textColor="@color/black"
-                        android:textSize="13dp" />
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="105dp">
+                    android:layout_height="wrap_content"
+                    android:background="#ffffff"
+                    android:orientation="vertical">
+
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/parking_date"
+                            android:id="@+id/parking_info"
                             android:layout_width="80dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
                             android:fontFamily="@font/dreamgothic3"
                             android:padding="10dp"
-                            android:text="예약날짜"
+                            android:text="주차구획"
                             android:textSize="13sp"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/parking_start_time"
-                            android:layout_width="80dp"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/parking_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="10dp"
                             android:fontFamily="@font/dreamgothic3"
+                            android:gravity="right"
                             android:padding="10dp"
-                            android:text="시작시간"
-                            android:textSize="13sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/parking_end_time"
-                            android:layout_width="80dp"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/dreamgothic3"
-                            android:padding="10dp"
-                            android:text="종료시간"
-                            android:textSize="13sp"
-                            android:textStyle="bold" />
+                            android:text="#2662504"
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/reserv_start"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/start_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:fontFamily="@font/dreamgothic3"
+                                android:gravity="center"
+                                android:text="시작"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/reserv_start_date_select"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:fontFamily="@font/bareun1"
+                                android:gravity="center"
+                                android:text="00-00-00"
+                                android:textColor="@color/black"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/reserv_start_time_select"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/bareun1"
+                                android:gravity="center"
+                                android:text="00:00"
+                                android:textColor="@color/black"
+                                android:textSize="20sp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/imagenext"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginTop="30dp"
+                            app:srcCompat="@drawable/next_page" />
+
+                        <LinearLayout
+                            android:id="@+id/reserv_end"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/end_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:fontFamily="@font/dreamgothic3"
+                                android:gravity="center"
+                                android:text="종료"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/reserv_end_date_select"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:fontFamily="@font/bareun1"
+                                android:gravity="center"
+                                android:text="00-00-00"
+                                android:textColor="@color/black"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/reserv_end_time_select"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/bareun1"
+                                android:gravity="center"
+                                android:text="00:00"
+                                android:textColor="@color/black"
+                                android:textSize="20sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/reserv_date_select"
-                            android:layout_width="match_parent"
+                            android:id="@+id/parking_time"
+                            android:layout_width="80dp"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/dreamgothic3"
+                            android:padding="10dp"
+                            android:text="이용시간"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/parking_time_result"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:fontFamily="@font/dreamgothic3"
                             android:gravity="right"
                             android:padding="10dp"
-                            android:text="선택▼"
+                            android:text="1시간"
                             android:textColor="@color/black"
                             android:textSize="13sp" />
 
-                        <TextView
-                            android:id="@+id/reserv_start_time_select"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/dreamgothic3"
-                            android:gravity="right"
-                            android:padding="10dp"
-                            android:text="선택▼"
-                            android:textColor="@color/black"
-                            android:textSize="13sp" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/reserv_end_time_select"
-                            android:layout_width="match_parent"
+                            android:id="@+id/my_car_number"
+                            android:layout_width="80dp"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/dreamgothic3"
+                            android:padding="10dp"
+                            android:text="차량번호"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/parking_car_number_select"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:fontFamily="@font/dreamgothic3"
                             android:gravity="right"
                             android:padding="10dp"
-                            android:text="선택▼"
+                            android:text="선택하기▼"
                             android:textColor="@color/black"
                             android:textSize="13sp" />
 
@@ -175,151 +262,201 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/point_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun3"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:text="포인트"
+                    android:textColor="#0026ca"
+                    android:textSize="15sp" />
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:orientation="horizontal">
+                    android:layout_height="100dp"
+                    android:background="#ffffff"
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/my_car_number"
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/dreamgothic3"
-                        android:padding="10dp"
-                        android:text="차량번호"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/parking_car_number_select"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/point_use"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/dreamgothic3"
+                            android:padding="10dp"
+                            android:text="포인트 사용"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:orientation="vertical">
+
+                            <EditText
+                                android:id="@+id/point_select"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:layout_marginLeft="20dp"
+                                android:background="@drawable/edit_border4"
+                                android:fontFamily="@font/dreamgothic3"
+                                android:gravity="right"
+                                android:hint="1,000P 부터 사용하실 수 있어요"
+                                android:inputType="number"
+                                android:padding="10dp"
+                                android:textColor="@color/input_register"
+                                android:textColorHint="@color/input_register_hint"
+                                android:textSize="13sp" />
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="5dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="80dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="20dp"
+                                    android:fontFamily="@font/dreamgothic3"
+                                    android:text="보유 포인트:"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/point_value"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/dreamgothic3"
+                                    android:text="5000"
+                                    android:textColor="#1b1b1b"
+                                    android:textSize="12sp" />
+
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1" />
+
+                                <TextView
+                                    android:id="@+id/all_point_use"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/dreamgothic3"
+                                    android:gravity="right"
+                                    android:text="전액사용하기"
+                                    android:textColor="#1b1b1b"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun3"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:text="결제하기"
+                    android:textColor="#0026ca"
+                    android:textSize="15sp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="#ffffff"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/payment_select"
+                        android:layout_width="200dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/edit_border4"
                         android:fontFamily="@font/dreamgothic3"
-                        android:gravity="right"
+                        android:gravity="center"
                         android:padding="10dp"
-                        android:text="22가5555▼"
-                        android:textColor="@color/black"
+                        android:text="카드선택"
+                        android:textColor="#1b1b1b"
                         android:textSize="13sp" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/point_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/bareun3"
-                android:paddingLeft="20dp"
-                android:paddingTop="20dp"
-                android:text="포인트"
-                android:textColor="#0026ca"
-                android:textSize="15sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#ffffff"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_border4"
                 android:orientation="vertical">
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/point_use"
+                        android:id="@+id/text_reserv_payment_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/dreamgothic3"
-                        android:padding="10dp"
-                        android:text="포인트 사용"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
+                        android:layout_marginLeft="20dp"
+                        android:fontFamily="@font/bareun1"
+                        android:padding="5dp"
+                        android:text="최종 결제 금액"
+                        android:textColor="#424242"
+                        android:textSize="17sp" />
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/reserv_payment_amount_value"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="10dp"
-                        android:orientation="vertical">
-
-                        <EditText
-                            android:id="@+id/point_select"
-                            android:layout_width="match_parent"
-                            android:layout_height="35dp"
-                            android:layout_marginLeft="20dp"
-                            android:background="@drawable/edit_border4"
-                            android:fontFamily="@font/dreamgothic3"
-                            android:gravity="right"
-                            android:hint="1,000P 부터 사용하실 수 있어요"
-                            android:inputType="textEmailAddress"
-                            android:padding="10dp"
-                            android:textColor="@color/input_register"
-                            android:textColorHint="@color/input_register_hint"
-                            android:textSize="13sp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="5dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="80dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="20dp"
-                                android:fontFamily="@font/dreamgothic3"
-                                android:text="보유 포인트:"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:id="@+id/point_value"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/dreamgothic3"
-                                android:text="5000"
-                                android:textColor="#1b1b1b"
-                                android:textSize="12sp" />
-
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="0dp"
-                                android:layout_weight="1" />
-
-                            <TextView
-                                android:id="@+id/textView18"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/dreamgothic3"
-                                android:gravity="right"
-                                android:text="전액사용하기"
-                                android:textColor="#1b1b1b"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
-                    </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:fontFamily="@font/bareun1"
+                        android:gravity="right"
+                        android:padding="5dp"
+                        android:text="5000"
+                        android:textColor="#01579b"
+                        android:textSize="17sp" />
 
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_next_reserv"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/edit_border5"
+                    android:fontFamily="@font/bareun1"
+                    android:text="결제하기"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/btn_next_reserv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/bareun3"
-                android:paddingLeft="20dp"
-                android:paddingTop="20dp"
-                android:text="결제하기"
-                android:textColor="#0026ca"
-                android:textSize="15sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"></LinearLayout>
         </LinearLayout>
+
     </ScrollView>
+
 </LinearLayout>

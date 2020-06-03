@@ -14,7 +14,7 @@
             android:id="@+id/view"
             android:layout_width="7dp"
             android:layout_height="match_parent"
-            android:background="#424242" />
+            android:background="@drawable/reserv_list" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,7 +36,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/past_reserv_start_date"
+                        android:id="@+id/now_reserv_start_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
@@ -47,7 +47,7 @@
                         android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/past_reserv_start_time"
+                        android:id="@+id/now_reserv_start_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/bareun1"
@@ -62,7 +62,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginTop="10dp"
-                    app:srcCompat="@drawable/next_page2" />
+                    app:srcCompat="@drawable/next_page" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -71,7 +71,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/past_reserv_end_date"
+                        android:id="@+id/now_reserv_end_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
@@ -82,7 +82,7 @@
                         android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/past_reserv_end_time"
+                        android:id="@+id/now_reserv_end_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/bareun1"
@@ -127,13 +127,13 @@
                         android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/parking_address_text"
+                        android:id="@+id/reserv_state_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/bareun1"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text="주차장위치"
+                        android:text="예약상태"
                         android:textColor="#616161"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -145,7 +145,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/past_reserv_car_number"
+                        android:id="@+id/now_reserv_car_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/bareun1"
@@ -156,7 +156,7 @@
                         android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/past_reserv_parking_number"
+                        android:id="@+id/now_reserv_parking_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/bareun1"
@@ -167,13 +167,13 @@
                         android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/past_reserv_parking_address"
+                        android:id="@+id/now_reserv_state"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/bareun1"
+                        android:fontFamily="@font/bareun3"
                         android:gravity="center|left"
                         android:padding="5dp"
-                        android:text="수원 영통구 이의동 1234"
+                        android:text="주차중"
                         android:textColor="@color/black"
                         android:textSize="13sp" />
                 </LinearLayout>

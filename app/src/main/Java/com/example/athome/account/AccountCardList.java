@@ -1,23 +1,29 @@
 package com.example.athome.account;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.example.athome.R;
 import com.example.athome.notice.ItemNoticeData;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
 public class AccountCardList extends Activity {
 
-    private Button btn_back_card_list;
-    private Button btn_card_register;
+    private Button  btn_back_card_list;
+    private FloatingActionButton btn_card_register;
     private ListView card_listView= null;
     private ArrayList<ItemAccountCardData> data=null;
     private CardListAdapter adapter;
@@ -37,11 +43,33 @@ public class AccountCardList extends Activity {
         adapter=new CardListAdapter(this,R.layout.account_card_listview_item,data);
         card_listView.setAdapter(adapter);
 
+        card_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                new AlertDialog.Builder(AccountCardList.this)
+                        .setTitle("카드 삭제")
+                        .setMessage("해당 카드를 삭제하시겠습니까?")
+                        .setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                data.remove(position);
+                                adapter.notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton("취소",null)
+                        .show();
+
+                return;
+            }
+        });
+
     }
+
+
 
     public void InitializeView(){
         btn_back_card_list=(Button)findViewById(R.id.btn_back_card_list);
-        btn_card_register=(Button)findViewById(R.id.btn_card_register);
+        btn_card_register=(FloatingActionButton)findViewById(R.id.btn_card_register);
         card_listView=(ListView)findViewById(R.id.card_listView);
         data=new ArrayList<>();
     }
@@ -69,8 +97,9 @@ public class AccountCardList extends Activity {
                 }
             }
         };
-        btn_card_register.setOnClickListener(Listener);
         btn_back_card_list.setOnClickListener(Listener);
+        btn_card_register.setOnClickListener(Listener);
+
     }
 
 }

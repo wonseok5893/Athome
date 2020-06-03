@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="350dp"
-    android:layout_height="450dp"
+    android:layout_height="500dp"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/point_payment_text"
+        android:id="@+id/reserv_car_select_text"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:gravity="center"
-        android:text="결제수단 선택"
+        android:text="차량선택"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -17,27 +17,38 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="380dp"
         android:orientation="vertical">
 
         <ListView
-            android:id="@+id/point_payment_listView"
+            android:id="@+id/reserv_car_select_listView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
 
-
+        <TextView
+            android:id="@+id/reserv_car_direct_input"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:fontFamily="@font/bareun1"
+            android:text="직접입력"
+            android:textColor="#1b1b1b"
+            android:textSize="15dp" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_gravity="bottom"
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/btn_point_payment_cancel"
+            android:id="@+id/btn_reserv_car_select_cancel"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right"

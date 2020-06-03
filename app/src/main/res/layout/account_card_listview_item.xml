@@ -15,14 +15,14 @@
 
         <TextView
             android:id="@+id/card_company_value"
-            android:layout_width="238dp"
+            android:layout_width="170dp"
             android:layout_height="18dp"
             android:layout_gravity="center"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="20dp"
             android:fontFamily="@font/bareun3"
             android:text="신한카드"
             android:textColor="#1b1b1b"
-            android:textSize="16dp" />
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/card_number_value1"
@@ -44,18 +44,38 @@
             android:textSize="13dp"
             android:layout_gravity="center"/>
 
+        <TextView
+            android:id="@+id/card_number_value3"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:text="5678"
+            android:textColor="#1b1b1b"
+            android:fontFamily="@font/bareun1"
+            android:textSize="13dp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/card_number_value4"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:text="5678"
+            android:textColor="#1b1b1b"
+            android:fontFamily="@font/bareun1"
+            android:textSize="13dp"
+            android:layout_gravity="center"/>
+
 
         <TextView
             android:id="@+id/car_number_delete"
             android:layout_width="40dp"
             android:layout_height="18dp"
             android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
             android:background="@drawable/car_number_cancel"
             android:fontFamily="@font/bareun1"
             android:gravity="center"
             android:text="삭제"
             android:textColor="@color/white"
-            android:textSize="15dp"
-            android:layout_marginLeft="10dp"/>
+            android:textSize="13dp" />
     </LinearLayout>
 </LinearLayout>

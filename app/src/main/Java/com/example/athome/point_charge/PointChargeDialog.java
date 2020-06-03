@@ -7,7 +7,7 @@ import android.view.Window;
 
 import com.example.athome.R;
 
-public class PointChareDialog extends Activity implements View.OnClickListener {
+public class PointChargeDialog extends Activity implements View.OnClickListener {
 
     @Override
     public void onCreate(Bundle saveInsanceState) {

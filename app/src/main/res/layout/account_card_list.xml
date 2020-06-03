@@ -11,10 +11,8 @@
         android:id="@+id/account_card_list_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fce4ec"
         android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/toolbar_background"
         app:contentInsetStart="0dp"
         tools:ignore="MissingConstraints">
 
@@ -23,7 +21,7 @@
             android:layout_width="35dp"
             android:layout_height="30dp"
             android:background="#00ff0000"
-            android:drawableRight="@drawable/back"
+            android:drawableRight="@drawable/back2"
             android:gravity="center"
             android:text=""
             />
@@ -35,19 +33,16 @@
             android:layout_gravity="center"
             android:fontFamily="@font/bareun3"
             android:text="@string/card_list"
-            android:textColor="#000000"
+            android:textColor="@color/white"
             android:textSize="17sp"
-           />
-        <Button
-        android:id="@+id/btn_card_register"
-        android:layout_width="35dp"
-        android:layout_height="30dp"
-        android:layout_gravity="right"
-        android:background="#00ff0000"
-        android:text=""
-        android:drawableLeft="@drawable/add" />
+            />
 
     </androidx.appcompat.widget.Toolbar>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -63,5 +58,16 @@
             android:layout_marginRight="10dp"/>
 
     </LinearLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_card_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="15sp"
+            android:backgroundTint="#e41653"
+            android:src="@drawable/add"
+            />
+
+    </FrameLayout>
 
 </LinearLayout>

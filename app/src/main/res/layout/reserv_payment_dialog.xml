@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="350dp"
-    android:layout_height="450dp"
+    android:layout_height="500dp"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/point_payment_text"
+        android:id="@+id/reserv_payment_text"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:gravity="center"
@@ -17,27 +17,23 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="420dp"
         android:orientation="vertical">
 
         <ListView
-            android:id="@+id/point_payment_listView"
+            android:id="@+id/reserv_payment_listView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
 
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_gravity="bottom"
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/btn_point_payment_cancel"
+            android:id="@+id/btn_reserv_payment_cancel"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right"

@@ -11,23 +11,24 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <ImageButton
+        <Button
             android:id="@+id/point_payment_more"
-            android:layout_width="39dp"
+            android:layout_width="30dp"
             android:layout_height="16dp"
             android:layout_gravity="center"
+            android:layout_marginRight="5dp"
             android:background="#00ff0000"
-            app:srcCompat="@drawable/more" />
+            android:drawableRight="@drawable/more" />
 
         <TextView
             android:id="@+id/point_payment_card_company_value"
-            android:layout_width="227dp"
+            android:layout_width="150dp"
             android:layout_height="18dp"
             android:layout_gravity="center"
             android:fontFamily="@font/bareun3"
             android:text="신한카드"
             android:textColor="#1b1b1b"
-            android:textSize="16dp" />
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/point_payment_card_number_value1"
@@ -48,6 +49,30 @@
             android:text="5678"
             android:textColor="#1b1b1b"
             android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/point_payment_card_number_value3"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/bareun1"
+            android:text="5678"
+            android:textColor="#1b1b1b"
+            android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/point_payment_card_number_value4"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/bareun1"
+            android:text="5678"
+            android:textColor="#1b1b1b"
+            android:textSize="13dp" />
+
+
+
+
 
     </LinearLayout>
 </LinearLayout>

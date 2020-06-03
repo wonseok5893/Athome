@@ -104,140 +104,210 @@
         </RelativeLayout>
 
 
+
         <LinearLayout
             android:toAlpha="1.0"
             android:id="@+id/preview"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="180dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="0dp"
-            android:background="@color/babypink"
+            android:layout_margin="5dp"
+            android:background="@drawable/edit_border3"
             android:orientation="vertical"
-            android:padding="7dp"
+            android:padding="10dp"
             android:paddingBottom="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-            <TextView
-                android:id="@+id/account_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:fontFamily="@font/bareun3"
-                android:text="주차구역 번호"
-                android:textColor="#000000"
-                android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/toolbar_background"
+                    android:fontFamily="@font/bareun3"
+                    android:text="  공유P  "
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/account_text"
+                    android:layout_width="299dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun3"
+                    android:text="구획 15-4-5(#255074)"
+                    android:textColor="#000000"
+                    android:textSize="17sp" />
 
                 <ImageView
                     android:id="@+id/preview_close"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
+                    android:layout_width="16dp"
+                    android:layout_height="match_parent"
                     android:layout_gravity="right"
-                    android:layout_marginLeft="265dp"
-                    app:srcCompat="@drawable/delete" />
+                    app:srcCompat="@drawable/more" />
             </LinearLayout>
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingTop="7dp">
 
-                <ImageView
-                    android:id="@+id/space_img"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    app:srcCompat="@drawable/ap_logo" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/dreamgothic3"
-                    android:orientation="vertical"
-                    android:textSize="15dp">
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="5dp">
+                        android:layout_width="95dp"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/dreamgothic3"
+                        android:orientation="vertical"
+                        >
 
-                        <ImageView
-                            android:layout_width="26dp"
-                            android:layout_height="23dp"
-                            android:layout_marginRight="7dp"
-                            app:srcCompat="@drawable/card" />
-
-                        <TextView
-                            android:id="@+id/space_fee"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="이용요금" />
+                            android:orientation="horizontal"
+                            android:padding="5dp">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="7dp"
+                                app:srcCompat="@drawable/fee" />
+
+                            <TextView
+                                android:id="@+id/space_fee_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="주차요금"
+                                android:fontFamily="@font/bareun1"
+                                android:textSize="14sp"
+                                />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="5dp">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="7dp"
+                                app:srcCompat="@drawable/clock" />
+
+                            <TextView
+                                android:id="@+id/space_time_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="운영시간"
+                                android:fontFamily="@font/bareun1"
+                                android:textSize="14sp"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="5dp">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="7dp"
+                                app:srcCompat="@drawable/address" />
+
+                            <TextView
+                                android:id="@+id/space_loc_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="주소"
+                                android:fontFamily="@font/bareun1"
+                                android:textSize="14sp"/>
+                        </LinearLayout>
+
+
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="5dp">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/dreamgothic3"
+                        android:orientation="vertical"
+                        >
 
-                        <ImageView
-                            android:layout_width="26dp"
-                            android:layout_marginRight="7dp"
-                            android:layout_height="23dp"
-                            app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
-
-                        <TextView
-                            android:id="@+id/space_time"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="사용가능 시간대" />
-                    </LinearLayout>
+                            android:orientation="horizontal"
+                            android:padding="5dp"
+                            android:gravity="right">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="5dp">
+                            <TextView
+                                android:id="@+id/space_fee"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:textColor="@color/black"
+                                android:text="1시간 1200원"
+                                android:fontFamily="@font/bareun1"
+                                android:textSize="14sp"/>
+                        </LinearLayout>
 
-                        <ImageView
-                            android:layout_width="26dp"
-                            android:layout_height="23dp"
-                            android:layout_marginRight="7dp"
-                            app:srcCompat="@drawable/search" />
-
-                        <TextView
-                            android:id="@+id/space_loc"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="주소" />
+                            android:orientation="horizontal"
+                            android:padding="5dp"
+                            android:gravity="right">
+
+                            <TextView
+                                android:id="@+id/space_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="09:00~18:00"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/bareun1"
+                                android:textSize="14sp"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="5dp"
+                            android:gravity="right">
+
+                            <TextView
+                                android:id="@+id/space_loc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:fontFamily="@font/bareun1"
+                                android:text="수원시 영통구 연무동"
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+
                     </LinearLayout>
-
-
                 </LinearLayout>
 
 
             </LinearLayout>
 
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-
-            </LinearLayout>
 
 
             <LinearLayout
@@ -250,30 +320,28 @@
                     android:id="@+id/space_navi"
                     android:layout_width="fill_parent"
                     android:layout_height="40dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:background="#03A9F4"
-                    android:fontFamily="@font/dreamgothic7"
-                    android:text="바로 안내"
-                    android:textColor="@color/white" />
+                    android:background="@drawable/edit_border3"
+                    android:fontFamily="@font/bareun3"
+                    android:text="바로안내"
+                    android:textColor="@color/black" />
 
                 <Button
                     android:id="@+id/space_resv"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="7dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:background="@drawable/edit_border2"
-                    android:fontFamily="@font/dreamgothic7"
+                    android:background="@drawable/edit_border3"
+                    android:fontFamily="@font/bareun3"
                     android:text="에약하기"
-                    android:textColor="@color/white" />
+                    android:textColor="#e41653" />
 
             </LinearLayout>
-
         </LinearLayout>
-
 
     </RelativeLayout>
     <!--navigation drawer-->

@@ -12,14 +12,15 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.athome.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
 
 public class AccountCarList extends Activity {
     private Button btn_back_car_list;
-    private Button btn_car_register;
-    private ListView car_listView= null;
+    private FloatingActionButton btn_car_register;
+    private ListView car_listView;
     private ArrayList<ItemAccountCarData> data=null;
     private TextView car_number_delete;
     private CarListAdapter adapter;
@@ -67,7 +68,7 @@ public class AccountCarList extends Activity {
     }
     public void InitializeView(){
         btn_back_car_list=(Button)findViewById(R.id.btn_back_car_list);
-        btn_car_register=(Button)findViewById(R.id.btn_car_register);
+        btn_car_register=(FloatingActionButton)findViewById(R.id.btn_car_register);
         car_listView=(ListView)findViewById(R.id.car_listView);
         data=new ArrayList<>();
 

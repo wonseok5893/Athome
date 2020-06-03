@@ -118,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //미리보기 창
         preview = (LinearLayout) findViewById(R.id.preview);
         preview.setVisibility(View.INVISIBLE);
         slide_down = AnimationUtils.loadAnimation(this,R.anim.slide_down);

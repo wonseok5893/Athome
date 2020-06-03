@@ -33,11 +33,11 @@
         android:id="@+id/textView11"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="105dp"
+        android:fontFamily="@font/bareun1"
         android:gravity="center"
         android:text="아차하면주차"
         android:textColor="@color/white"
-        android:fontFamily="@font/bareun1"
         android:textSize="16dp"
         android:textStyle="bold" />
 

@@ -1,15 +1,19 @@
-package com.example.athome;
+package com.example.athome.reservation;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -17,10 +21,17 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.athome.R;
+import com.example.athome.RestRequestHelper;
+import com.example.athome.account.AccountCarRegister;
+import com.example.athome.account.CarListAdapter;
+import com.example.athome.account.ItemAccountCarData;
+import com.example.athome.reservation.CustomTimePickerDialog;
 import com.example.athome.retrofit.ApiService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -30,20 +41,32 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ReserveActivity extends AppCompatActivity {
+    private LinearLayout reserv_start;
+    private LinearLayout reserv_end;
     private Button btn_back_reserv;
+    private Button btn_next_reserv;
     private TextView parking_number;
-    private TextView reserv_date_select;
+    private TextView reserv_start_date_select;
+    private TextView reserv_end_date_select;
     private TextView reserv_start_time_select;
     private TextView reserv_end_time_select;
     private TextView parking_car_number_select;
-    private TextView btn_next_reserv;
+    private TextView all_point_use; //포인트전액사용하기
+    private CarListAdapter adapter;
+    private ArrayList<ItemAccountCarData> data=new ArrayList<>();
 
     private Calendar c;
-    private int mYear;
-    private int mMonth;
-    private int mDay;
+    private int smYear;
+    private int smMonth;
+    private int smDay;
+
+    private int emYear;
+    private int emMonth;
+    private int emDay;
+
     private int smHour;
     private int smMinute;
+
     private int emHour;
     private int emMinute;
 
@@ -55,13 +78,12 @@ public class ReserveActivity extends AppCompatActivity {
     private Date startTime;
     private Date endTime;
 
-    static final int DATE_DIALOG_ID=0;
-    static final int START_TIME_DIALOG_ID=1;
-    static final int END_TIME_DIALOG_ID=2;
+    static final int START_DATE_DIALOG_ID=0;
+    static final int END_DATE_DIALOG_ID=1;
+    static final int START_TIME_DIALOG_ID=2;
+    static final int END_TIME_DIALOG_ID=3;
 
-    private int month=0;
-    private int year=0;
-    private int day=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,19 +103,31 @@ public class ReserveActivity extends AppCompatActivity {
 
 
     public void InitializeView(){
+        reserv_start=findViewById(R.id.reserv_start);
+        reserv_end=findViewById(R.id.reserv_end);
+
         btn_back_reserv=findViewById(R.id.btn_back_reserv);
         parking_number=findViewById(R.id.parking_number);
-        reserv_date_select=findViewById(R.id.reserv_date_select);
+        reserv_start_date_select=findViewById(R.id.reserv_start_date_select);
+        reserv_end_date_select=findViewById(R.id.reserv_end_date_select);
+
         reserv_start_time_select=findViewById(R.id.reserv_start_time_select);
         reserv_end_time_select=findViewById(R.id.reserv_end_time_select);
+
         parking_car_number_select=findViewById(R.id.parking_car_number_select);
         btn_next_reserv=findViewById(R.id.btn_next_reserv);
+        parking_car_number_select=findViewById(R.id.parking_car_number_select);
+        all_point_use=findViewById(R.id.all_point_use);
+        all_point_use.setPaintFlags(all_point_use.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG); //밑줄긋기
 
         //현재 날짜와 시간 가져오기
         c=Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
-        mDay = c.get(Calendar.DAY_OF_MONTH);
+        smYear = c.get(Calendar.YEAR);
+        smMonth = c.get(Calendar.MONTH);
+        smDay = c.get(Calendar.DAY_OF_MONTH);
+        emYear = c.get(Calendar.YEAR);
+        emMonth = c.get(Calendar.MONTH);
+        emDay = c.get(Calendar.DAY_OF_MONTH);
         smHour = c.get(Calendar.HOUR_OF_DAY);
         smMinute = c.get(Calendar.MINUTE);
         emHour = c.get(Calendar.HOUR_OF_DAY);
@@ -113,19 +147,20 @@ public class ReserveActivity extends AppCompatActivity {
                         finish();
                         overridePendingTransition(R.anim.not_move_activity,R.anim.rightout_activity);
                         break;
-                    case R.id.reserv_date_select: //예약날짜 설정
-                        showDialog(DATE_DIALOG_ID);
+                    case R.id.reserv_start://예약시작날짜와시간설정
+                        showDialog(START_DATE_DIALOG_ID);
                         break;
-                    case R.id.reserv_start_time_select: //예약 시작시간 설정
-                        showDialog(START_TIME_DIALOG_ID);
+                    case R.id.reserv_end: //예약종료날짜와시간설정
+                        showDialog(END_DATE_DIALOG_ID);
                         break;
-                    case R.id.reserv_end_time_select: //예약 종료시간 설정정
-                        showDialog(END_TIME_DIALOG_ID);
+
+                    case R.id.parking_car_number_select://차량번호 선택, 직접입력
+                        showDirectInputAlertDialog(ReserveActivity.this);
                         break;
                     case R.id.btn_next_reserv:
                         SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                        String startTimeString = mYear+"-"+(mMonth+1)+"-"+mDay+" "+smHour+":"+smMinute;//"2013-04-08 10:10";
-                        String endTimeString = mYear+"-"+(mMonth+1)+"-"+mDay +" "+emHour+":"+emMinute;//"2013-04-08 10:10";
+                        String startTimeString = smYear+"-"+(smMonth+1)+"-"+smDay+" "+smHour+":"+smMinute;//"2013-04-08 10:10";
+                        String endTimeString = emYear+"-"+(emMonth+1)+"-"+emDay +" "+emHour+":"+emMinute;//"2013-04-08 10:10";
                         try {
                             startTime = transFormat.parse(startTimeString);
                             endTime = transFormat.parse(endTimeString);
@@ -151,21 +186,76 @@ public class ReserveActivity extends AppCompatActivity {
             }
         };
         btn_back_reserv.setOnClickListener(Listener);
-        reserv_date_select.setOnClickListener(Listener);
-        reserv_start_time_select.setOnClickListener(Listener);
-        reserv_end_time_select.setOnClickListener(Listener);
-        btn_next_reserv.setOnClickListener(Listener);
+        reserv_start.setOnClickListener(Listener);
+        reserv_end.setOnClickListener(Listener);
+        parking_car_number_select.setOnClickListener(Listener);
     }
 
-    //DatePicker 리스너
-    private DatePickerDialog.OnDateSetListener mDateSetListener =
+    private void showDirectInputAlertDialog(Activity activity) {
+        //다이얼로그를 정의하기위해 Dialog클래스를 생성
+        final Dialog dlg = new Dialog(activity);
+        // 액티비티의 타이틀바를 숨긴다.
+        dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // 다이얼로그의 레이아웃을 설정한다.
+        dlg.setContentView(R.layout.reserv_car_select_dialog);
+        // 다이얼로그를 노출한다.
+        dlg.show();
+
+        // 커스텀 다이얼로그의 각 위젯들을 정의한다.
+        final Button btn_reserv_car_select_cancel = (Button) dlg.findViewById(R.id.btn_reserv_car_select_cancel);
+        final ListView reserv_car_select_listView=(ListView)dlg.findViewById(R.id.reserv_car_select_listView);
+        final TextView reserv_car_direct_input=(TextView)dlg.findViewById(R.id.reserv_car_direct_input);
+
+        btn_reserv_car_select_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 커스텀 다이얼로그를 종료한다.
+                dlg.dismiss();
+            }
+        });
+
+        reserv_car_direct_input.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 차량번호 직접입력하는 다이얼로그 생성
+                AccountCarRegister accountCarRegister= new AccountCarRegister(ReserveActivity.this);
+                // 다이얼로그 호출
+                //그외 작업
+                accountCarRegister.callFunction();
+            }
+        });
+
+        adapter=new CarListAdapter(this, R.layout.reserv_car_select_dialog_item, data);
+        reserv_car_select_listView.setAdapter(adapter);
+
+
+    }
+
+    //StartDatePicker 리스너
+    private DatePickerDialog.OnDateSetListener mStartDateSetListener =
             new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    mYear = year;
-                    mMonth = monthOfYear;
-                    mDay = dayOfMonth;
-                    reserv_date_select.setText(String.format("%d년 %d월 %d일",mYear,mMonth+1,mDay));
+                    smYear = year;
+                    smMonth = monthOfYear;
+                    smDay = dayOfMonth;
+                    showDialog(START_TIME_DIALOG_ID);
+                    reserv_start_date_select.setText(String.format("%-d-%d-%d",smYear,smMonth+1,smDay));
+
+                }
+            };
+
+    //StartDatePicker 리스너
+    private DatePickerDialog.OnDateSetListener mEndDateSetListener =
+            new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    emYear = year;
+                    emMonth = monthOfYear;
+                    emDay = dayOfMonth;
+                    showDialog(END_TIME_DIALOG_ID);
+                    reserv_end_date_select.setText(String.format("%d-%d-%d",emYear,emMonth+1,emDay));
+
                 }
             };
 
@@ -194,8 +284,11 @@ public class ReserveActivity extends AppCompatActivity {
     @Override
     protected Dialog onCreateDialog(int id) {
         switch (id) {
-            case DATE_DIALOG_ID:
-                return new DatePickerDialog(this, mDateSetListener, mYear, mMonth, mDay);
+            case START_DATE_DIALOG_ID:
+                return new DatePickerDialog(this, mStartDateSetListener, smYear, smMonth, smDay);
+
+            case END_DATE_DIALOG_ID:
+                return new DatePickerDialog(this, mEndDateSetListener, emYear, emMonth, emDay);
 
             case START_TIME_DIALOG_ID :
                 return new CustomTimePickerDialog(this, mStartTimeSetListener, smHour, smMinute, true);
@@ -206,6 +299,8 @@ public class ReserveActivity extends AppCompatActivity {
 
         return null;
     }
+
+
 
 
 

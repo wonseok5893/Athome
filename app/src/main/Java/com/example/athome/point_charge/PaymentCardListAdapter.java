@@ -26,9 +26,6 @@ public class PaymentCardListAdapter extends BaseAdapter {
         this.layout=layout;
     }
 
-    public String imhere() {
-        return "저 여기있어요";
-    }
 
     //화면 갱신되기전 호출
     //처음 생성될때도 getCount()가 호출되어 아이템이 몇개 그려질지 결정
@@ -63,10 +60,14 @@ public class PaymentCardListAdapter extends BaseAdapter {
         TextView textCardCompany = (TextView) convertView.findViewById(R.id.point_payment_card_company_value);
         TextView textCardNumberValue1  = (TextView) convertView.findViewById(R.id.point_payment_card_number_value1);
         TextView textCardNumberValue2  = (TextView) convertView.findViewById(R.id.point_payment_card_number_value2);
+        TextView textCardNumberValue3  = (TextView) convertView.findViewById(R.id.point_payment_card_number_value3);
+        TextView textCardNumberValue4  = (TextView) convertView.findViewById(R.id.point_payment_card_number_value4);
 
         textCardCompany.setText(ItemPaymentCardData.getCardCompany());
         textCardNumberValue1.setText(String.valueOf(ItemPaymentCardData.getCardNumberValue1()));
         textCardNumberValue2.setText(String.valueOf(ItemPaymentCardData.getCardNumberValue2()));
+        textCardNumberValue3.setText(String.valueOf(ItemPaymentCardData.getCardNumberValue3()));
+        textCardNumberValue4.setText(String.valueOf(ItemPaymentCardData.getCardNumberValue4()));
 
         return convertView;
     }

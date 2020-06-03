@@ -1,22 +1,26 @@
 package com.example.athome.point_charge;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.example.athome.R;
 import com.example.athome.account.AccountCarList;
 import com.example.athome.account.AccountCarRegister;
+import com.example.athome.account.AccountCardList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +31,7 @@ public class PointChargeActivity extends Activity {
     private TextView payment_method_select;
     private ArrayList<ItemPaymentCardData> data=new ArrayList<>();
     private PaymentCardListAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,6 @@ public class PointChargeActivity extends Activity {
         picker_point=(NumberPicker)findViewById(R.id.picker_point);
         btn_back_point_charge=(Button)findViewById(R.id.btn_back_point_charge);
         payment_method_select=(TextView)findViewById(R.id.payment_method_select);
-
     }
 
     public void SetListner()
@@ -58,7 +62,7 @@ public class PointChargeActivity extends Activity {
                         finish();
                         overridePendingTransition(R.anim.not_move_activity,R.anim.rightout_activity);
                         break;
-                    case R.id.payment_method_select:
+                    case R.id.payment_method_select: //결제수단 선택
                             showAlertDialog(PointChargeActivity.this);
                         break;
                 }
@@ -91,6 +95,7 @@ public class PointChargeActivity extends Activity {
         // 커스텀 다이얼로그의 각 위젯들을 정의한다.
         final Button btn_point_payment_cancel = (Button) dlg.findViewById(R.id.btn_point_payment_cancel);
         final ListView point_payment_listView=(ListView)dlg.findViewById(R.id.point_payment_listView);
+       // final TextView point_payment_card_number_delete=(TextView)dlg.findViewById(R.id.point_payment_card_number_delete);
 
         btn_point_payment_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,12 +105,17 @@ public class PointChargeActivity extends Activity {
             }
         });
 
-        ItemPaymentCardData data1=new ItemPaymentCardData("신한은행",1234,5678);
+        ItemPaymentCardData data1=new ItemPaymentCardData("신한은행",1234,5678, 3333,4444);
         data.add(data1);
-
 
         adapter=new PaymentCardListAdapter(this, R.layout.point_payment_dialog_item, data);
         point_payment_listView.setAdapter(adapter);
-    }
+
+
+
+
+}
+
+
 
 }

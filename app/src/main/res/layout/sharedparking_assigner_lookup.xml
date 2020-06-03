@@ -13,8 +13,6 @@
         android:layout_height="wrap_content"
         android:background="@drawable/toolbar_background"
         android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:contentInsetStart="0dp"
         tools:ignore="MissingConstraints">
 
@@ -23,7 +21,7 @@
             android:layout_width="35dp"
             android:layout_height="30dp"
             android:background="#00ff0000"
-            android:drawableRight="@drawable/back"
+            android:drawableRight="@drawable/back2"
             android:gravity="center"
             android:text=""
             />
@@ -35,7 +33,7 @@
             android:layout_gravity="center"
             android:fontFamily="@font/bareun3"
             android:text="@string/enroll_parking"
-            android:textColor="#000000"
+            android:textColor="@color/white"
             android:textSize="17sp"
              />
 

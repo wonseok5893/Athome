@@ -1,0 +1,530 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/reserv_ticket_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/toolbar_background"
+        app:contentInsetStart="0dp"
+        tools:ignore="MissingConstraints">
+
+        <Button
+            android:id="@+id/btn_back_reserv_ticket"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:background="#00ff0000"
+            android:drawableRight="@drawable/back2"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/reserv_ticket_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/bareun3"
+            android:text="예약정보"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:background="@drawable/toolbar_background"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/reserv_ticket_parking_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:fontFamily="@font/bareun3"
+                    android:gravity="center|left"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="구획 04-15-a03"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/reserv_ticket_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:gravity="center|left"
+                    android:paddingLeft="20dp"
+                    android:text="경기 수원시 장안구 연무동 56-39 서진주택 201호"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="170dp"
+                        android:background="@drawable/reserv_line"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/start_text"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="10dp"
+                                    android:fontFamily="@font/dreamgothic3"
+                                    android:gravity="center"
+                                    android:text="시작"
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:id="@+id/now_reserv_start_date"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:fontFamily="@font/bareun1"
+                                    android:gravity="center"
+                                    android:text="20-05-28"
+                                    android:textColor="@color/black"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:id="@+id/now_reserv_start_time"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/bareun1"
+                                    android:gravity="center"
+                                    android:text="15:00"
+                                    android:textColor="@color/black"
+                                    android:textSize="20sp" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:id="@+id/imagenext"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_marginTop="30dp"
+                                app:srcCompat="@drawable/next_page" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/end_text"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="10dp"
+                                    android:fontFamily="@font/dreamgothic3"
+                                    android:gravity="center"
+                                    android:text="종료"
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:id="@+id/now_reserv_end_date"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:fontFamily="@font/bareun1"
+                                    android:gravity="center"
+                                    android:text="20-05-28"
+                                    android:textColor="@color/black"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:id="@+id/now_reserv_end_time"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/bareun1"
+                                    android:gravity="center"
+                                    android:text="16:00"
+                                    android:textColor="@color/black"
+                                    android:textSize="20sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:padding="10dp">
+
+                            <Button
+                                android:id="@+id/btn_reserv_ticket_payment_cancel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_border3"
+                                android:fontFamily="@font/bareun1"
+                                android:text="결제취소"
+                                android:textColor="#d50000" />
+
+                            <Button
+                                android:id="@+id/btn_reserv_ticket_time_extension"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_border3"
+                                android:fontFamily="@font/bareun1"
+                                android:text="시간연장"
+                                android:textColor="#304ffe" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:background="@drawable/reserv_line"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:orientation="vertical">
+
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_vertical"
+                            app:cardCornerRadius="100dp">
+
+                            <ImageView
+                                android:id="@+id/assigner_profile"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                app:srcCompat="@drawable/basic_profile" />
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:id="@+id/assigner_id"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/dreamgothic3"
+                            android:gravity="center"
+                            android:text="공유자"
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/parking_explanation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/dreamgothic3"
+                        android:text="구획 04-15-a03은 서진주택 건물 앞에 위치해 있습니다. 길목이 다소 협소하니 주의하면서 주차하시길 바랍니다."
+                        android:textColor="#d50000"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/more_parking_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/reserv_line"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/textView21"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:fontFamily="@font/bareun1"
+                            android:text="주차장정보"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/parking_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/bareun1"
+                            android:gravity="right"
+                            android:text="04-15-a03"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                        <Button
+                            android:id="@+id/btn_parking"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="10dp"
+                            android:background="#00ff0000"
+                            android:drawableRight="@drawable/more"
+                            android:text="" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/reserv_line"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/textView22"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:fontFamily="@font/bareun1"
+                            android:text="차량번호"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/now_reserv_car_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/bareun1"
+                            android:gravity="right"
+                            android:text="13마5673"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@drawable/reserv_line"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/state"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:fontFamily="@font/bareun1"
+                                android:text="예약상태"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/now_reserv_state_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/bareun3"
+                                android:gravity="right"
+                                android:text="주차중"
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/textView29"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:text="[안내]"
+                    android:layout_marginBottom="10dp"
+                    android:textColor="#424242"
+                    />
+
+                <TextView
+                    android:id="@+id/textView30"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:layout_marginBottom="2dp"
+                    android:text="- 공유주차장은 거주자우선주차구획 중 비어있는 시간대를 유료로 공유한 주차구획입니다."
+                    android:textColor="#424242" />
+                <TextView
+                    android:id="@+id/textView31"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:layout_marginBottom="2dp"
+                    android:text="- 해당 공유시간동안 결제 취소 및 환불은 어렵습니다."
+                    android:textColor="#424242" />
+                <TextView
+                    android:id="@+id/textView32"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:layout_marginBottom="2dp"
+                    android:text="- 공유주차장 예약 시작시간 전에 결제취소가 가능합니다."
+                    android:textColor="#424242" />
+
+                <TextView
+                    android:id="@+id/textView33"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:text="- 공유시간동안 주차 결제 및 연장이 가능하지만, 예약 종료시간 후에 예약이 있는 경우에는 연장이 불가능합니다."
+                    android:textColor="#424242" />
+
+                <TextView
+                    android:id="@+id/textView41"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:text="- 부정주차로 인해 주차가 지연될 수 있으니 여유가 있을 때 이용하시길 권장합니다."
+                    android:textColor="#424242" />
+
+                <TextView
+                    android:id="@+id/textView34"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:text="[부정주차 차량으로 간주되는 경우]"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:textColor="#424242"
+                    />
+
+                <TextView
+                    android:id="@+id/textView35"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:text="- 차량번호를 잘못 입력한 경우"
+                    android:layout_marginBottom="2dp"
+                    android:textColor="#424242" />
+                <TextView
+                    android:id="@+id/textView36"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:text="- 정확한 구획번호에 주차를 하지 않은 경우"
+                    android:layout_marginBottom="2dp"
+                    android:textColor="#424242" />
+
+                <TextView
+                    android:id="@+id/textView37"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:text="- 주차시간이 끝나고 추가 결제 없이 주차하는 경우"
+                    android:layout_marginBottom="2dp"
+                    android:textColor="#424242" />
+
+                <TextView
+                    android:id="@+id/textView38"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:text="[부정주차 차량이 있는 경우]"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:textColor="#424242"
+                    />
+
+                <TextView
+                    android:id="@+id/textView39"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:text="- 부정주차 차량에 이동 요청을 하고 주차하실 수 있습니다."
+                    android:layout_marginBottom="2dp"
+                    android:textColor="#424242" />
+
+                <TextView
+                    android:id="@+id/textView40"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun1"
+                    android:text="- 부정주차 연락처 확인 및 이동이 어려운 경우 앱에서 결제 취소 후 다른 주차장을 이용 바랍니다."
+                    android:layout_marginBottom="10dp"
+                    android:textColor="#424242" />
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

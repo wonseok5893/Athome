@@ -6,20 +6,21 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.athome.R;
+import com.google.android.material.tabs.TabLayout;
 
 public class ReservListActivity extends AppCompatActivity {
     private Button btn_back_reserv;
-    private Button btn_now_reserv;
-    private Button btn_past_reserv;
-    private FragmentManager fragmentManager;
-    private NowReservFragmnet nowReservFragmnet;
-    private PastReservFragmnet pastReservFragmnet;
-    private FragmentTransaction transaction;
+    private ViewPager mViewPager;
+    private TabLayout tabLayout;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,22 +29,38 @@ public class ReservListActivity extends AppCompatActivity {
         this.InitializeView();
         this.SetListner();
 
+        final ViewPager viewPager=(ViewPager)findViewById(R.id.reserv_list_viewpager);
+        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+
 
     }
 
-    public void InitializeView(){
-        btn_now_reserv=(Button)findViewById(R.id.btn_now_reserv) ;
-        btn_past_reserv=(Button)findViewById(R.id.btn_past_reserv);
+    public void InitializeView() {
         btn_back_reserv = (Button) findViewById(R.id.btn_back_reserv);
-        fragmentManager = getSupportFragmentManager();
-        nowReservFragmnet = new NowReservFragmnet();
-        pastReservFragmnet = new PastReservFragmnet();
-
-        //예약내역 클릭했을때 현재내역이 첫화면으로 나와야함
-        btn_now_reserv.setBackgroundResource(R.drawable.now_reserv_on);
-        btn_past_reserv.setBackgroundResource(R.drawable.past_reserv_off);
-        transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.reserv_list_FrameLayout, nowReservFragmnet).commitAllowingStateLoss();
+        mViewPager=(ViewPager)findViewById(R.id.container);
+        tabLayout=(TabLayout)findViewById(R.id.tabLayout);
+        tabLayout.addTab(tabLayout.newTab().setText("현재내역"));
+        tabLayout.addTab(tabLayout.newTab().setText("지난내역"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
     }
 
     public void SetListner()
@@ -58,24 +75,12 @@ public class ReservListActivity extends AppCompatActivity {
                         finish();
                         overridePendingTransition(R.anim.not_move_activity,R.anim.rightout_activity);
                         break;
-                    case R.id.btn_now_reserv: //현재내역버튼 클릭
-                        btn_now_reserv.setBackgroundResource(R.drawable.now_reserv_on);
-                        btn_past_reserv.setBackgroundResource(R.drawable.past_reserv_off);
-                        transaction = fragmentManager.beginTransaction();
-                        transaction.replace(R.id.reserv_list_FrameLayout, nowReservFragmnet).commitAllowingStateLoss();
-                        break;
-                    case R.id.btn_past_reserv:
-                        btn_now_reserv.setBackgroundResource(R.drawable.now_reserv_off);
-                        btn_past_reserv.setBackgroundResource(R.drawable.past_reserv_on);
-                        transaction = fragmentManager.beginTransaction();
-                        transaction.replace(R.id.reserv_list_FrameLayout, pastReservFragmnet).commitAllowingStateLoss();
-                        break;
+
                 }
             }
         };
         btn_back_reserv.setOnClickListener(Listener);
-        btn_now_reserv.setOnClickListener(Listener);
-        btn_past_reserv.setOnClickListener(Listener);
+
     }
 
 }

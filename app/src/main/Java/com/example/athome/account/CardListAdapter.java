@@ -61,10 +61,14 @@ public class CardListAdapter extends BaseAdapter {
         TextView textCardCompany = (TextView) convertView.findViewById(R.id.card_company_value);
         TextView textCardNumberValue1  = (TextView) convertView.findViewById(R.id.card_number_value1);
         TextView textCardNumberValue2  = (TextView) convertView.findViewById(R.id.card_number_value2);
+        TextView textCardNumberValue3  = (TextView) convertView.findViewById(R.id.card_number_value3);
+        TextView textCardNumberValue4  = (TextView) convertView.findViewById(R.id.card_number_value4);
 
         textCardCompany.setText(itemAccountCardData.getCardCompany());
         textCardNumberValue1.setText(String.valueOf(itemAccountCardData.getCardNumberValue1()));
         textCardNumberValue2.setText(String.valueOf(itemAccountCardData.getCardNumberValue2()));
+        textCardNumberValue3.setText(String.valueOf(itemAccountCardData.getCardNumberValue3()));
+        textCardNumberValue4.setText(String.valueOf(itemAccountCardData.getCardNumberValue4()));
 
         return convertView;
     }

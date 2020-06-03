@@ -1,4 +1,4 @@
-package com.example.athome;
+package com.example.athome.reservation;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

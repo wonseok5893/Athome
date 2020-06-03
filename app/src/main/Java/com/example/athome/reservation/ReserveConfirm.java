@@ -1,4 +1,4 @@
-package com.example.athome;
+package com.example.athome.reservation;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.athome.R;
 import com.example.athome.main.MainActivity;
 
 public class ReserveConfirm extends AppCompatActivity {
@@ -23,7 +24,7 @@ public class ReserveConfirm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserve_confirm);
         naviBtn = (Button)findViewById(R.id.con_navi);
-        closeBtn = (ImageButton)findViewById(R.id.close_btn);
+        //closeBtn = (ImageButton)findViewById(R.id.close_btn);
 
         cancelBtn = (Button)findViewById(R.id.cancelBtn);
 
@@ -44,7 +45,7 @@ public class ReserveConfirm extends AppCompatActivity {
             }
         });
 
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
+       cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(ReserveConfirm.this);

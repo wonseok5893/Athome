@@ -53,15 +53,22 @@ public class PastReservListAdapter extends BaseAdapter {
 
         ItemPastReservData itemPastReservData=data.get(position);
 
-        TextView textDate = (TextView) convertView.findViewById(R.id.past_reserv_date);
-        TextView textPlace = (TextView) convertView.findViewById(R.id.past_reserv_place_value);
-        TextView textTime = (TextView) convertView.findViewById(R.id.past_reserv_time_value);
-        TextView textPrice = (TextView) convertView.findViewById(R.id.past_reserv_price_value);
+        TextView textStartDate = (TextView) convertView.findViewById(R.id.past_reserv_start_date);
+        TextView textEndDate = (TextView) convertView.findViewById(R.id.past_reserv_end_date);
+        TextView textStartTime = (TextView) convertView.findViewById(R.id.past_reserv_start_time);
+        TextView textEndTime = (TextView) convertView.findViewById(R.id.past_reserv_end_time);
+        TextView textCarNumber = (TextView) convertView.findViewById(R.id.past_reserv_car_number);
+        TextView textParkingNumber = (TextView) convertView.findViewById(R.id.past_reserv_parking_number);
+        TextView textParkingAddress = (TextView) convertView.findViewById(R.id.past_reserv_parking_address);
 
-        textDate.setText(itemPastReservData.getPastReservDate());
-        textPlace.setText(itemPastReservData.getPastReservPlace());
-        textTime.setText(itemPastReservData.getPastReservTime());
-        textPrice.setText(itemPastReservData.getPastReservPrice());
+
+        textStartDate.setText(itemPastReservData.getPastReservStartDate());
+        textEndDate.setText(itemPastReservData.getPastReservEndDate());
+        textStartTime.setText(itemPastReservData.getPastReservStartTime());
+        textEndTime.setText(itemPastReservData.getPastReservEndTime());
+        textCarNumber.setText(itemPastReservData.getPastReservCarNumber());
+        textParkingNumber.setText(itemPastReservData.getPastReservParkingNumber());
+        textParkingAddress.setText(itemPastReservData.getPastReservParkingAddress());
 
         return convertView;
     }
