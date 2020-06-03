@@ -85,6 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="65dp"
                     android:layout_gravity="center_vertical"
+                    android:gravity="center_horizontal"
                     android:orientation="horizontal">
 
                     <TextView
@@ -108,13 +109,13 @@
                         app:srcCompat="@drawable/pencil" />
 
                     <ImageView
-                        android:layout_width="21dp"
-                        android:layout_height="21dp"
+                        android:layout_width="15dp"
+                        android:layout_height="16dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="5dp"
                         android:gravity="center_vertical"
-                        app:srcCompat="@drawable/direction" />
+                        app:srcCompat="@drawable/arrow" />
 
 
                     <TextView

@@ -1,140 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/admin_detail_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fce4ec"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:contentInsetStart="0dp"
-        tools:ignore="MissingConstraints">
+        android:gravity="center">
 
         <Button
             android:id="@+id/btn_back_new"
             android:layout_width="50dp"
             android:layout_height="30dp"
+            android:layout_gravity="left"
             android:layout_margin="3dp"
             android:background="#00ff0000"
             android:drawableTop="@drawable/back"
-            android:layout_gravity="left"
-            android:text=""
-            app:layout_constraintBottom_toBottomOf="@+id/notice_toolbar"
-            app:layout_constraintEnd_toEndOf="@+id/notice_toolbar"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/notice_toolbar"
-            app:layout_constraintTop_toTopOf="@+id/notice_toolbar"
-            app:layout_constraintVertical_bias="0.615" />
+            android:text="" />
 
 
         <Button
             android:id="@+id/notice_new_saveBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:background="#00BCD4"
-            android:text="저장"
-            android:fontFamily="@font/dreamgothic"
-            android:textColor="@color/white"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            tools:layout_editor_absoluteX="319dp"
-            tools:layout_editor_absoluteY="5dp" />
-
-
+            android:layout_gravity="right"
+            android:background="#00BCD4"
+            android:fontFamily="@font/dreamgothic"
+            android:text="저장"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/white" />
 
 
     </androidx.appcompat.widget.Toolbar>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="670dp"
         android:layout_marginTop="2dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/notice_item_toolbar">
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/constraintLayout2"
             android:layout_width="match_parent"
             android:layout_height="65dp"
-            android:orientation="vertical"
             android:background="@drawable/bottom_border"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/admin_notice_newTitle"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:fontFamily="@font/dreamgothic3"
+                android:inputType="text"
                 android:padding="10dp"
                 android:text="제목"
-                android:textSize="16dp"
-                android:inputType="text"
                 android:textColor="@color/black"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textSize="16dp" />
 
             <EditText
                 android:id="@+id/admin_notice_newDate"
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
+                android:layout_height="30dp"
                 android:fontFamily="@font/dreamgothic3"
-                android:gravity=""
+                android:inputType="date"
                 android:paddingLeft="10dp"
                 android:text="날짜"
-                android:textSize="10dp"
                 android:textColor="#616161"
-                android:inputType="date"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/notice_item_title" />
+                android:textSize="10dp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="vertical"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="590dp"
-            android:layout_marginTop="3dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+            android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/admin_notice_newContext"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
                 android:layout_marginTop="10dp"
-                android:padding="10dp"
-                android:text="내용"
-                android:textSize="14dp"
-                android:gravity="start"
-                android:textColor="#212121"
-                android:inputType="text"
-                android:fontFamily="@font/dreamgothic3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </LinearLayout>
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/admin_notice_newContext"
+                    android:layout_width="match_parent"
+                    android:layout_height="531dp"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/dreamgothic3"
+                    android:gravity="start"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    android:text="내용"
+                    android:textColor="#212121"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+        </ScrollView>
     </LinearLayout>
-    </ScrollView>
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
