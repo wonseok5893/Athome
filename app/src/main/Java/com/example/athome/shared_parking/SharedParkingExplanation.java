@@ -20,9 +20,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+
 import com.example.athome.R;
 import com.example.athome.RestRequestHelper;
 import com.example.athome.main.MainActivity;
@@ -31,12 +33,14 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.naver.maps.geometry.LatLng;
 import com.example.athome.retrofit.EnrollResult;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -54,7 +58,8 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
     private EditText parking_info_name_value;
     private Boolean isPermission = true;
     private File tempFile;
-    String enrollRes,enrollMessage;
+    String enrollRes, enrollMessage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,12 +83,12 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
                     RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
                     MultipartBody.Part image = MultipartBody.Part.createFormData("img", file.getName(), requestFile);
                     RequestBody userBirth = RequestBody.create(MediaType.parse("text/plain"), intent.getStringExtra("birth"));
-                    RequestBody userCarNumber = RequestBody.create(MediaType.parse("text/plain"),intent.getStringExtra("carNum"));
-                    RequestBody location = RequestBody.create(MediaType.parse("text/plain"),intent.getStringExtra("locationName"));
+                    RequestBody userCarNumber = RequestBody.create(MediaType.parse("text/plain"), intent.getStringExtra("carNum"));
+                    RequestBody location = RequestBody.create(MediaType.parse("text/plain"), intent.getStringExtra("locationName"));
                     LatLng SelectLocation = intent.getParcelableExtra("SelectLocation");
-                    RequestBody latitude = RequestBody.create(MediaType.parse("text/plain"),Double.toString(SelectLocation.latitude));
-                    RequestBody longitude = RequestBody.create(MediaType.parse("text/plain"),Double.toString(SelectLocation.longitude));
-                    RequestBody parkingInfo = RequestBody.create(MediaType.parse("text/plain"),parking_info_name_value.getText().toString());
+                    RequestBody latitude = RequestBody.create(MediaType.parse("text/plain"), Double.toString(SelectLocation.latitude));
+                    RequestBody longitude = RequestBody.create(MediaType.parse("text/plain"), Double.toString(SelectLocation.longitude));
+                    RequestBody parkingInfo = RequestBody.create(MediaType.parse("text/plain"), parking_info_name_value.getText().toString());
 
                     final String locName = intent.getStringExtra("locationName");
 
@@ -93,7 +98,7 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
                     ApiService serviceApi = new RestRequestHelper().getApiService();
                     final Call<EnrollResult> res = serviceApi.postRegister(sharedToken, image, userBirth, userCarNumber, location, latitude, longitude, parkingInfo);
 
-                    new  Thread(new Runnable() {
+                    new Thread(new Runnable() {
                         @Override
                         public void run() {
                             try {
@@ -107,29 +112,25 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
 
 
                     }).start();
-                    try{
+                    try {
                         Thread.sleep(1000);
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
-                if (enrollRes.equals("success")) {
-                    Toast.makeText(SharedParkingExplanation.this,enrollMessage, Toast.LENGTH_SHORT).show();
-                    intent = new Intent(SharedParkingExplanation.this, MainActivity.class);
-                    startActivity(intent);
-                } else if(enrollRes.equals("fail")){
-                    Toast.makeText(SharedParkingExplanation.this,enrollMessage, Toast.LENGTH_SHORT).show();
-                    intent = new Intent(SharedParkingExplanation.this, MainActivity.class);
-                    startActivity(intent);
-                }
-                }
-
-
-                else {
+                    if (enrollRes.equals("success")) {
+                        Toast.makeText(SharedParkingExplanation.this, enrollMessage, Toast.LENGTH_SHORT).show();
+                        intent = new Intent(SharedParkingExplanation.this, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    } else if (enrollRes.equals("fail")) {
+                        Toast.makeText(SharedParkingExplanation.this, enrollMessage, Toast.LENGTH_SHORT).show();
+                    }
+                } else {
 
                 }
             }
         });
-
 
 
         //뒤로가기 버튼
@@ -157,19 +158,17 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
             e.printStackTrace();
         }
         if (tempFile != null) {
-            if(Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N){
+            if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                 Uri photoUri = FileProvider.getUriForFile(this,
                         "com.example.athome.fileprovider", tempFile);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 startActivityForResult(intent, PICK_FROM_CAMERA);
-            }
-            else{
+            } else {
                 Uri photoUri = Uri.fromFile(tempFile);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 startActivityForResult(intent, PICK_FROM_CAMERA);
             }
         }
-
 
 
     }
@@ -179,7 +178,7 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
     {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-        startActivityForResult(intent,PICK_FROM_ALBUM);
+        startActivityForResult(intent, PICK_FROM_ALBUM);
     }
 
     @Override
@@ -189,7 +188,7 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
         if (resultCode != RESULT_OK) {
             Toast.makeText(this, "취소 되었습니다.", Toast.LENGTH_SHORT).show();
 
-            if(tempFile != null) {
+            if (tempFile != null) {
                 if (tempFile.exists()) {
                     if (tempFile.delete()) {
                         Log.e("jiwon", tempFile.getAbsolutePath() + " 삭제 성공");
@@ -203,7 +202,7 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
         switch (requestCode) {
             case PICK_FROM_ALBUM: {
                 Uri photoUri = data.getData();
-                Log.i("jiwon",photoUri.toString());
+                Log.i("jiwon", photoUri.toString());
 
                 Cursor cursor = null;
                 try {
@@ -212,7 +211,7 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
                      *  Uri 스키마를
                      *  content:/// 에서 file:/// 로  변경한다.
                      */
-                    String[] proj = { MediaStore.Images.Media.DATA };
+                    String[] proj = {MediaStore.Images.Media.DATA};
 
                     assert photoUri != null;
                     cursor = getContentResolver().query(photoUri, proj, null, null, null);
@@ -256,7 +255,7 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
 
     @Override
     public void onClick(View v) {
-        if(!isPermission) {
+        if (!isPermission) {
             Toast.makeText(this, getResources().getString(R.string.permission_2), Toast.LENGTH_LONG).show();
             return;
         }
@@ -311,7 +310,7 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
 
         TedPermission.with(this)
                 .setPermissionListener(permissionListener)
-                .setRationaleMessage(getResources().getString(R.string.permission_2)+"폴더 생성")
+                .setRationaleMessage(getResources().getString(R.string.permission_2) + "폴더 생성")
                 .setDeniedMessage(getResources().getString(R.string.permission_1))
                 .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
                 .check();
@@ -353,7 +352,7 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
         imageView.setImageBitmap(originalBm);
     }
 
-    private File createImageFile() throws IOException{
+    private File createImageFile() throws IOException {
 
         // 이미지 파일 이름 ( AtHome_{시간}_ )
         String timeStamp = new SimpleDateFormat("HHmmss").format(new Date());
@@ -380,8 +379,6 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
 
         return uri;
     }
-
-
 
 
 }

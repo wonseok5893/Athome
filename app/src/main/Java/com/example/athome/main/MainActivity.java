@@ -4,17 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PointF;
-import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,14 +20,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
-import android.widget.SearchView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.UiThread;
@@ -40,7 +32,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import com.example.athome.GpsTracker;
 import com.example.athome.LoginActivity;
 import com.example.athome.R;
@@ -60,29 +51,19 @@ import com.example.athome.retrofit.MarkerResult;
 import com.example.athome.setting.SettingActivity;
 import com.example.athome.shared_parking.MySharedParkingActivity;
 import com.example.athome.shared_time.SharedParkingTime;
-import com.github.angads25.toggle.LabeledSwitch;
-import com.github.angads25.toggle.interfaces.OnToggledListener;
 import com.google.android.material.navigation.NavigationView;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraAnimation;
 import com.naver.maps.map.CameraUpdate;
-import com.naver.maps.map.LocationSource;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
-import com.naver.maps.map.Symbol;
 import com.naver.maps.map.UiSettings;
-import com.naver.maps.map.overlay.InfoWindow;
-import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.util.FusedLocationSource;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import retrofit2.Call;
 
 
@@ -97,20 +78,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
     private DrawerLayout mDrawerLayout;
     private Context context = this;
-    private GpsTracker gpsTracker;
     private static NaverMap nm;
     private Button enrollBtn;
-    private Button btn_back_enroll;
-    private TextView name, id, point, profile;
+    private TextView name, id, point;
     private User user;
-    private Button loginButton,btn_notification_box,btn_point_charge,btn_share_time;
+    private Button loginButton, btn_notification_box, btn_point_charge, btn_share_time;
     private EditText searchEditText; // 웹뷰 띄우는 창
     private Button btn_search;
     private MarkerResult markerResult;
     private LinearLayout preview;
-    private Animation slide_up,slide_down,stay;
+    private Animation slide_up, slide_down, stay;
     private Switch share_switch;
+    NavigationView navigationView;
     private static final int MESSAGE_TIMER_START = 100;
+    private TimerHandler timerHandler;
+    private static final int LOGOUT_REQUEST_CODE = 117;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -120,9 +102,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         preview = (LinearLayout) findViewById(R.id.preview);
         preview.setVisibility(View.INVISIBLE);
-        slide_down = AnimationUtils.loadAnimation(this,R.anim.slide_down);
-        slide_up = AnimationUtils.loadAnimation(this,R.anim.slide_up);
-        stay = AnimationUtils.loadAnimation(this,R.anim.stay);
+        slide_down = AnimationUtils.loadAnimation(this, R.anim.slide_down);
+        slide_up = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+        stay = AnimationUtils.loadAnimation(this, R.anim.stay);
 
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
 
@@ -163,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         //네비게이션화면설정
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navi_view);
+        navigationView = (NavigationView) findViewById(R.id.navi_view);
         navigationView.setNavigationItemSelectedListener(this);//리스너설정
 
         if (user.getUserId() == null) { // 로그인 되지 않은 경우
@@ -181,15 +163,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             });
             navigationView.inflateMenu(R.menu.navi_menu);
-        } else { // 로그인 된경우
+        }
+        else { // 로그인 된경우
             navigationView.inflateHeaderView(R.layout.after_login_navi_header);
             View header = navigationView.getHeaderView(0);
             name = (TextView) header.findViewById(R.id.navi_user_name);
             id = (TextView) header.findViewById(R.id.navi_user_id);
             point = (TextView) header.findViewById(R.id.navi_user_point);
-            btn_notification_box=(Button)header.findViewById(R.id.btn_notification_box);
-            btn_point_charge=(Button)header.findViewById(R.id.btn_point_charge) ;
-            btn_share_time=(Button)header.findViewById(R.id.btn_share_time);
+            btn_notification_box = (Button) header.findViewById(R.id.btn_notification_box);
+            btn_point_charge = (Button) header.findViewById(R.id.btn_point_charge);
+            btn_share_time = (Button) header.findViewById(R.id.btn_share_time);
 
             name.setText(user.getUserName());
             id.setText(user.getUserId());
@@ -200,11 +183,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 navigationView.inflateMenu(R.menu.admin_menu);
 
             //공유 스위치
-            share_switch=findViewById(R.id.share_switch);
+            share_switch = findViewById(R.id.share_switch);
             share_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked == true){
+                    if (isChecked == true) {
                         Toast.makeText(MainActivity.this, "공유가 활성화 되었습니다.", Toast.LENGTH_SHORT).show();
 
                     } else {
@@ -233,9 +216,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             });
 
-            btn_share_time.setOnClickListener(new View.OnClickListener(){
+            btn_share_time.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public  void onClick(View v){
+                public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), SharedParkingTime.class);
                     startActivity(intent);
                 }
@@ -260,7 +243,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
                 startActivityForResult(intent, SEARCH_ADDRESS_ACTIVITY);
-//                resultAddress.setText("롯데리아 수원화성DT점");
             }
         });
 
@@ -305,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         enrollBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(user.getUserId() == null){
+                if (user.getUserId() == null) {
                     Toast.makeText(context, "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -341,28 +323,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         intent.putExtra("SelectLocation", new LatLng(coord.latitude, coord.longitude));
                         intent.putExtra("LocationName", locationName);
-                        intent.putExtra("User",user);
+                        intent.putExtra("User", user);
                         startActivity(intent);
                     }
                 });
-
-
-//                startActivity(intent);
             }
         });
 
-        TimerHandler timerHandler = new TimerHandler();
+        timerHandler = new TimerHandler();
         timerHandler.sendEmptyMessage(MESSAGE_TIMER_START);
     }
 
-    private class TimerHandler extends Handler{
+    private class TimerHandler extends Handler {
         int count = 0;
 
         @Override
-        public void handleMessage(Message msg){
-            switch (msg.what){
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
                 case MESSAGE_TIMER_START:
-                    Log.d("jiwon", "timer : "+count++);
+                    Log.d("jiwon", "timer : " + count++);
                     SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
                     String sharedToken = sf.getString("token", "");
 
@@ -384,25 +363,29 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if(markerResult.getData() == null) {
-                        Log.i("jiwon","실패");
-                    }else{
-                        Log.i("jiwon","성공");
+                    if (markerResult == null) {
+                        Log.i("jiwon", "실패 1");
+                    } else if (markerResult.getData() == null) {
+                        Log.i("jiwon", "실패 2");
+                    } else if (markerResult.getData().size() == 0) {
+                        Log.i("jiwon", "실패 3");
+                    } else {
+                        Log.i("jiwon", "marker성공");
                         int markerCount = markerResult.getData().size();
 
                         ArrayList<SharePlace> placeList = new ArrayList<>();
 
-                        for(int i=0;i<markerCount;i++) {
+                        for (int i = 0; i < markerCount; i++) {
                             SharePlace s = new SharePlace();
                             s.readSharePlace(markerResult.getData().get(i).getId()
-                                    ,markerResult.getData().get(i).getOwner().getUserId(),
+                                    , markerResult.getData().get(i).getOwner().getUserId(),
                                     Double.parseDouble(markerResult.getData().get(i).getLatitude()),
                                     Double.parseDouble(markerResult.getData().get(i).getLongitude()),
                                     MainActivity.this);
                             placeList.add(s);
                         }
 
-                        for(SharePlace s : placeList) {
+                        for (SharePlace s : placeList) {
                             s.getMyMarker().setMap(nm);
                         }
                     }
@@ -414,10 +397,35 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        timerHandler.removeMessages(MESSAGE_TIMER_START);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        timerHandler.sendEmptyMessage(MESSAGE_TIMER_START);
+        SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sf.edit(); //토큰 업데이트 삭제에서 쓸거
+        String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
+        if (sharedToken != "") {
+            //검증
+            if (user.authenticate(sharedToken)) {
+            } else {
+                // 토큰 오류시 User 초기화
+                editor.remove("token");
+                editor.commit();
+                Toast.makeText(getApplicationContext(), user.getAuthMessage() + "..", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,  @NonNull int[] grantResults) {
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (locationSource.onRequestPermissionsResult(
                 requestCode, permissions, grantResults)) {
             return;
@@ -445,8 +453,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         uiSettings.setLocationButtonEnabled(true);
 
 
-
-
         SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
         String sharedToken = sf.getString("token", "");
 
@@ -458,9 +464,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void run() {
                 try {
                     markerResult = res.execute().body();
-                    if(markerResult == null){
-                        return;
-                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -471,34 +474,35 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if(markerResult.getData() == null) {
-            Log.i("jiwon","실패");
-        }else{
-            Log.i("jiwon","성공");
+        if (markerResult == null) {
+            Log.i("jiwon", "실패 1");
+        } else if (markerResult.getData() == null) {
+            Log.i("jiwon", "실패 2");
+        } else if (markerResult.getData().size() == 0) {
+            Log.i("jiwon", "실패 3");
+        } else {
+            Log.i("jiwon", "성공");
             int markerCount = markerResult.getData().size();
 
             ArrayList<SharePlace> placeList = new ArrayList<>();
 
-            for(int i=0;i<markerCount;i++) {
+            for (int i = 0; i < markerCount; i++) {
                 SharePlace s = new SharePlace();
                 s.readSharePlace(markerResult.getData().get(i).getId()
-                        ,markerResult.getData().get(i).getOwner().getUserId(),
+                        , markerResult.getData().get(i).getOwner().getUserId(),
                         Double.parseDouble(markerResult.getData().get(i).getLatitude()),
                         Double.parseDouble(markerResult.getData().get(i).getLongitude()),
                         this);
                 placeList.add(s);
             }
 
-            for(SharePlace s : placeList) {
+            for (SharePlace s : placeList) {
                 s.getMyMarker().setMap(nm);
             }
         }
 
 
-
     }
-
-
 
 
     @Override
@@ -546,16 +550,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
-        }else if(id==R.id.admin_notice) {// 공지사항 관리
+        } else if (id == R.id.admin_notice) {// 공지사항 관리
             Intent intent = new Intent(getApplicationContext(), AdminNoticeActivity.class);
             startActivity(intent);
-        }else if(id==R.id.admin_shared_enroll) { //관리자 배정자 등록
+        } else if (id == R.id.admin_shared_enroll) { //관리자 배정자 등록
             Intent intent = new Intent(getApplicationContext(), AdminEnrollActivity.class);
             startActivity(intent);
-        }else if(id==R.id.admin_car_enroll) { // 관리자 차량 등록
+        } else if (id == R.id.admin_car_enroll) { // 관리자 차량 등록
             Intent intent = new Intent(getApplicationContext(), AdminCarlistActivity.class);
             startActivity(intent);
-        }else if(id==R.id.admin_users) { // 사용자 관리
+        } else if (id == R.id.admin_users) { // 사용자 관리
             Intent intent = new Intent(getApplicationContext(), UsersListActivity.class);
             startActivity(intent);
         }
@@ -563,19 +567,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return true;
     }
 
-    @Override //뒤로가기 버튼 제어(로그인 후 뒤로가기 버튼 누르면 로그인하기 페이지로 이동 제어)해야함
-    public void onBackPressed() {
-
-    }
-    public void onActivityResult(int requestCode, int resultCode, Intent intent){
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
         super.onActivityResult(requestCode, resultCode, intent);
 
-        switch(requestCode){
+        switch (requestCode) {
 
             case SEARCH_ADDRESS_ACTIVITY:
 
-                if(resultCode == 1){
+                if (resultCode == 1) {
 
                     String data = intent.getExtras().getString("data");
                     if (data != null)
@@ -583,10 +583,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 }
                 break;
-
         }
 
     }
+
     public User getUser() {
         return user;
     }
@@ -595,9 +595,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         this.preview.setVisibility(View.VISIBLE);
         overridePendingTransition(R.anim.slide_up, R.anim.stay);
         preview.startAnimation(slide_up);
-
     }
-    public void PreviewInvisible(){
+
+    public void PreviewInvisible() {
         this.preview.setVisibility(View.INVISIBLE);
         overridePendingTransition(R.anim.stay, R.anim.slide_down);
         preview.startAnimation(slide_down);
