@@ -51,8 +51,9 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                     Intent intent = new Intent(getApplicationContext(), com.example.athome.main.MainActivity.class);
-
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
+
                 }
                     else{
                         Toast.makeText(getApplicationContext(),  "로그인 실패", Toast.LENGTH_SHORT).show();
