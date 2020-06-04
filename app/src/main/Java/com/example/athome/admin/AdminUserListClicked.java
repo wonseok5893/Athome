@@ -148,6 +148,10 @@ public class AdminUserListClicked extends AppCompatActivity {
                         }
                     }
                 }).start();
+                try{
+                    Thread.sleep(100);
+                }catch (Exception e){e.printStackTrace();}
+
                 if (adminEditPointResult == null) {
                     Log.d("TEST", "point 변경 오류");
                 } else if (adminEditPointResult.equals("success")) {

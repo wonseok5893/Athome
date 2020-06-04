@@ -138,16 +138,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         SharedPreferences.Editor editor = sf.edit(); //토큰 업데이트 삭제에서 쓸거
         String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
         System.out.println(sharedToken);
-        if (sharedToken != "") {
-            //검증
-            if (user.authenticate(sharedToken)) {
-                Toast.makeText(getApplicationContext(), user.getUserId() + " 님 어서오세요!", Toast.LENGTH_SHORT).show();
-            } else {
-                // 토큰 오류시 User 초기화
-                editor.remove("token");
-                editor.commit();
-                Toast.makeText(getApplicationContext(), user.getAuthMessage() + "", Toast.LENGTH_SHORT).show();
-            }
+        try {
+            if (sharedToken != "") {
+                //검증
+                if (user.authenticate(sharedToken)) {
+                    Toast.makeText(getApplicationContext(), user.getUserId() + " 님 어서오세요!", Toast.LENGTH_SHORT).show();
+                } }
+        }catch (Exception e){
+            editor.remove("token");
+            editor.commit();
+            Toast.makeText(getApplicationContext(), user.getAuthMessage() + "", Toast.LENGTH_SHORT).show();
+            Log.d("TokenTest","토큰 없음");
         }
 
         //상단바 설정

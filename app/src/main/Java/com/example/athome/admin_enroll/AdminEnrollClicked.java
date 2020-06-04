@@ -78,6 +78,7 @@ public class AdminEnrollClicked extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), "배정자 등록 완료 ", Toast.LENGTH_SHORT).show();
 
                                 } else if (registerLocationRes.equals("fail")) {
+                                    Toast.makeText(AdminEnrollClicked.this, "배정자 등록 오류", Toast.LENGTH_SHORT).show();
                                     Log.d("TEST", "배정자 등록 실패.. ");
                                 }
                                 finish();

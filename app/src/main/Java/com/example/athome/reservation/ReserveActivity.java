@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -164,6 +165,8 @@ public class ReserveActivity extends AppCompatActivity {
                         try {
                             startTime = transFormat.parse(startTimeString);
                             endTime = transFormat.parse(endTimeString);
+                        Log.d("time",startTime.toString());
+                        Log.d("time",endTime.toString());
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }

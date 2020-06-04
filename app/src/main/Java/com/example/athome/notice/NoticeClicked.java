@@ -35,7 +35,7 @@ public class NoticeClicked extends Activity {
 
         noticeTitle.setText(intent.getStringExtra("noticeTitle"));
         noticeDate.setText(intent.getStringExtra("noticeDate"));
-        noticeContext.setText(intent.getStringExtra("noticeContext"));
+        noticeContext.setText(intent.getStringExtra("noticeDescription"));
 
 
 

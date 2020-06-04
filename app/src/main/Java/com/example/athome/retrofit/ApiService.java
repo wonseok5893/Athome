@@ -5,6 +5,8 @@ import com.example.athome.admin.AdminResult;
 import com.example.athome.admin.AllUserResult;
 import com.example.athome.admin_enroll.AdminEnrollResult;
 import com.example.athome.admin_notice.AdminNoticeResult;
+import com.example.athome.notice.ItemNoticeResult;
+
 import java.util.Date;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -12,10 +14,12 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Query;
 
 public interface ApiService {
     //사용자 회원가입
@@ -66,7 +70,10 @@ public interface ApiService {
     @POST("api/allSharedLocation")
     Call<MarkerResult> getMarkerData(@Header("x-access-token") String token,
                                      @Field("capstone") String capstone);
+    //
 
+    @GET("notices")
+    Call<ItemNoticeResult> allNotice(@Query("noticeName") String noticeName);
     //==========================관리자===========================================================
     @FormUrlEncoded
     @POST("admin/users")
@@ -82,13 +89,10 @@ public interface ApiService {
             ,@Field("userId") String userId, @Field("_id") String Id);
 
     @FormUrlEncoded
-    @POST("공지사항")
+    @POST("admin/enroll/notice")
     Call<EnrollResult> enrollNotice(@Header("x-access-token") String token
             , @Field("title") String title,@Field("description") String description);
-    @FormUrlEncoded
-    @POST("admin/allNotice")
-    Call<AdminNoticeResult> allNotice(@Header("x-access-token") String token
-            , @Field("secret") String secret);
+
     //비밀번호 변경
     @FormUrlEncoded
     @POST("admin/editPassword")

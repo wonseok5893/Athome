@@ -9,27 +9,27 @@
 
     <TextView
         android:id="@+id/notice_title"
-        android:layout_width="303dp"
-        android:layout_height="35dp"
+        android:layout_width="245dp"
+        android:layout_height="36dp"
         android:layout_gravity="center_vertical"
         android:fontFamily="@font/bareun1"
+        android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:text="제목"
-        android:textSize="15dp"
-        android:gravity="center_vertical"
         android:textColor="#212121"
+        android:textSize="15dp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/notice_date"
-        android:layout_width="64dp"
-        android:layout_height="35dp"
+        android:layout_width="112dp"
+        android:layout_height="34dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="40"
         android:fontFamily="@font/bareun1"
         android:gravity="center"
         android:text="12.34.56"
-        android:textSize="12dp"/>
+        android:textSize="12dp" />
 
     <ImageView
         android:id="@+id/notice_more"
