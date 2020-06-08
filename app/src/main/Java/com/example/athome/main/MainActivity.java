@@ -194,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             share_switch = findViewById(R.id.share_switch);
             share_on = findViewById(R.id.share_on);
             share_off = findViewById(R.id.share_off);
+            share_on.setChecked(true);
             share_on.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
