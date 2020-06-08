@@ -21,10 +21,12 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.UiThread;
@@ -33,6 +35,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.example.athome.GpsTracker;
 import com.example.athome.LoginActivity;
 import com.example.athome.R;
@@ -62,9 +65,11 @@ import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.UiSettings;
 import com.naver.maps.map.util.FusedLocationSource;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import retrofit2.Call;
 
 
@@ -90,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LinearLayout preview;
     private Animation slide_up, slide_down, stay;
     private RadioGroup share_switch;
+    private RadioButton share_off, share_on;
     NavigationView navigationView;
     private static final int MESSAGE_TIMER_START = 100;
     private TimerHandler timerHandler;
@@ -126,12 +132,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 //검증
                 if (user.authenticate(sharedToken)) {
                     Toast.makeText(getApplicationContext(), user.getUserId() + " 님 어서오세요!", Toast.LENGTH_SHORT).show();
-                } }
-        }catch (Exception e){
+                }
+            }
+        } catch (Exception e) {
             editor.remove("token");
             editor.commit();
             Toast.makeText(getApplicationContext(), user.getAuthMessage() + "", Toast.LENGTH_SHORT).show();
-            Log.d("TokenTest","토큰 없음");
+            Log.d("TokenTest", "토큰 없음");
         }
 
         //상단바 설정
@@ -165,8 +172,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             });
             navigationView.inflateMenu(R.menu.navi_menu);
-        }
-        else { // 로그인 된경우
+        } else { // 로그인 된경우
             navigationView.inflateHeaderView(R.layout.after_login_navi_header);
             View header = navigationView.getHeaderView(0);
             name = (TextView) header.findViewById(R.id.navi_user_name);
@@ -186,6 +192,32 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             //공유 스위치
             share_switch = findViewById(R.id.share_switch);
+            share_on = findViewById(R.id.share_on);
+            share_off = findViewById(R.id.share_off);
+            share_on.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (user.getUserId() == null) {
+                        Toast.makeText(context, "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    //공유 주차장 공유 기능 활성화 코드 작성 해주세여
+                    Toast.makeText(getApplicationContext(), "주차장 공유 기능이 활성화되었습니다.", Toast.LENGTH_LONG).show();
+                }
+            });
+
+            share_off.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (user.getUserId() == null) {
+                        Toast.makeText(context, "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    //공유 주차장 공유 기능 비활성화 코드 작성 해주세여
+                    Toast.makeText(getApplicationContext(), "주차장 공유 기능이 비활성화되었습니다.", Toast.LENGTH_LONG).show();
+                }
+            });
+
 
 
 
@@ -283,7 +315,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     return;
                 }
                 final Intent intent = new Intent(getApplicationContext(), MySharedParkingActivity.class);
-                Toast.makeText(getApplicationContext(), "주차장 공유 기능이 활성화되었습니다.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "공유 주차장 등록기능이 활성화되었습니다.", Toast.LENGTH_LONG).show();
 
                 nm.setOnMapLongClickListener(new NaverMap.OnMapLongClickListener() {
                     @Override

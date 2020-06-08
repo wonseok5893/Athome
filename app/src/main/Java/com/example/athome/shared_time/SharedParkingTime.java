@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Switch;
@@ -37,9 +38,10 @@ import java.util.List;
 
 public class SharedParkingTime extends AppCompatActivity {
     private TextView allday, startTime, endTime;
-    private Button allBtn, monBtn, tuesBtn, wenBtn, thurBtn, friBtn, satBtn, sunBtn;
+    private Button monBtn, tuesBtn, wenBtn, thurBtn, friBtn, satBtn, sunBtn;
     private Button backBtn;
     private ImageView startEdit, endEdit;
+    private Switch allBtn;
     boolean monState = true;
     boolean tueState = true;
     boolean wenState = true;
@@ -47,6 +49,8 @@ public class SharedParkingTime extends AppCompatActivity {
     boolean friState = true;
     boolean satState = true;
     boolean sunState = true;
+    boolean allState = true;
+
 
     static final int START_TIME_DIALOG_ID = 1;
     static final int END_TIME_DIALOG_ID = 2;
@@ -154,11 +158,34 @@ public class SharedParkingTime extends AppCompatActivity {
             }
         });
 
+        allBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    monBtn.setSelected(false);
+                    tuesBtn.setSelected(false);
+                    wenBtn.setSelected(false);
+                    thurBtn.setSelected(false);
+                    friBtn.setSelected(false);
+                    satBtn.setSelected(false);
+                    sunBtn.setSelected(false);
+                }
+                else{
+                    monBtn.setSelected(true);
+                    tuesBtn.setSelected(true);
+                    wenBtn.setSelected(true);
+                    thurBtn.setSelected(true);
+                    friBtn.setSelected(true);
+                    satBtn.setSelected(true);
+                    sunBtn.setSelected(true);
+                }
+            }
+        });
 
     }
 
-    //요일별 스위치 클릭시
 
+    //요일별 스위치 클릭시
 
 
     //StartTimePicker 리스너
@@ -196,9 +223,5 @@ public class SharedParkingTime extends AppCompatActivity {
 
         return null;
     }
-
-
-
 }
-
 
