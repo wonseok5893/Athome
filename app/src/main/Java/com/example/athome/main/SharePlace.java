@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 
 import com.example.athome.R;
 import com.example.athome.reservation.ReserveActivity;
-import com.example.athome.non_member.nonReserveActivity;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
@@ -34,7 +33,7 @@ public class SharePlace {
     // 주차장 마커의 정보 -> 해당 주차장의 시간당 가격, 이용가능 시간, 주소
     private TextView fee, // 요금
             time, // 이용시간
-            loc; // 위치
+            loc ; // 위치
     private Button naviBtn, resBtn;
 
 
@@ -43,28 +42,43 @@ public class SharePlace {
                                String userId,
                                double latitude,
                                double longitude,
+                               String locationName,
                                final MainActivity main) {
+
+        // 예약초기화
+//        ReserveInitial();
+        final Intent intent = new Intent(main.getApplicationContext(), ReserveActivity.class);
 
         PriviewInitialize(main);
 
         this.locationId = locationId;
+        this.locationName = locationName;
         this.userId = userId;
         this.latitude = latitude;
         this.longitude = longitude;
 
         // 마커 생성후 받아온 좌표값 이용해 마커 위치정보 세팅
         this.myMarker = new Marker();
-        this.myMarker.setPosition(new LatLng(this.latitude, this.longitude));
+        this.myMarker.setPosition(new LatLng(this.latitude,this.longitude));
 
+        if(!activity) {
+            myMarker.setIcon(MarkerIcons.BLACK);
+            myMarker.setIconTintColor(Color.GRAY);
+        }
 
         final Intent intent = new Intent(main.getApplicationContext(), ReserveActivity.class);
         final Intent nonuser_intent = new Intent(main.getApplicationContext(), nonReserveActivity.class);
         LatLng position = myMarker.getPosition();
 
         intent.putExtra("locationId", locationId);//_id
-        intent.putExtra("userId", userId);
-        intent.putExtra("latitude", latitude);
-        intent.putExtra("longitude", longitude);
+        intent.putExtra("locationName",locationName);
+        intent.putExtra("userId",userId); // UserId
+        intent.putExtra("latitude", latitude); // 위도
+        intent.putExtra("longitude", longitude); // 경도
+
+        intent.putExtra("shareTime", shareTime);
+        intent.putExtra("week",week);
+        intent.putExtra("todayOn", todayOn);
 
         nonuser_intent.putExtra("locationId", locationId);//_id
         nonuser_intent.putExtra("latitude", latitude);
@@ -77,8 +91,19 @@ public class SharePlace {
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
 
+                Log.d("ResTest",intent.getStringExtra("locationId"));
+
+                ReservationList(intent);
+
+                LatLng position = myMarker.getPosition();
+                intent.putExtra("position", position);
+
+//                Log.d("teststs", intent.getStringExtra("locationId")+" "+
+//                        intent.getStringExtra("userId"));
+
                 fee.setText(600 + "원/시간");
                 time.setText("1시 ~ 6시");
+                loc.setText(intent.getStringExtra("locationName"));
 
 
                 if (main.getUser().getUserId() == null) { // 비회원일때
@@ -124,7 +149,7 @@ public class SharePlace {
         space_resv = (Button) main.findViewById(R.id.space_resv);
 
         // 미리보기 비활성화 버튼
-        preview_close = (ImageView) main.findViewById(R.id.preview_close);
+        preview_close = (ImageView)main.findViewById(R.id.preview_close);
         preview_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,10 +157,135 @@ public class SharePlace {
             }
         });
 
-        resBtn = (Button) main.findViewById(R.id.space_resv);
-        naviBtn = (Button) main.findViewById(R.id.space_navi);
-        time = (TextView) main.findViewById(R.id.space_time);
-        fee = (TextView) main.findViewById(R.id.space_fee);
-        loc = (TextView) main.findViewById(R.id.space_loc);
+        resBtn = (Button)main.findViewById(R.id.space_resv);
+        naviBtn = (Button)main.findViewById(R.id.space_navi);
+        time = (TextView)main.findViewById(R.id.space_time);
+        fee = (TextView)main.findViewById(R.id.space_fee);
+        loc = (TextView)main.findViewById(R.id.space_loc);
     }
+
+    void ReservationList(Intent intent) {
+
+
+        ApiService serviceApi = new RestRequestHelper().getApiService();
+        final Call<ReserveListResult> res = serviceApi.getReserveData(intent.getStringExtra("locationId"));
+        Log.d("ResTest",intent.getStringExtra("locationId"));
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    reserveResult = res.execute().body();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if (reserveResult == null) {
+            Log.i("junggyu", "예약사항없음 or 실패 으앙!");
+        } else {
+            int reservCount = reserveResult.getReservationList().size();
+            ArrayList<String> reserveList = new ArrayList<>();
+
+            for (int i = 0; i < reservCount; i++) {
+                String s = reserveResult.getReservationList().get(i).getStartTime();
+                String e = reserveResult.getReservationList().get(i).getEndTime();
+                Log.i("junggyu", s + " " + e);
+            }
+        }
+    }
+
+
+
+
+
+
+    void ReserveInitial() {
+
+        /*
+            서버에서 받아와야 할 값
+            1. 몇시부터 몇시까지 공유하는지
+            2. 어느요일에 공유하는지
+        */
+
+        // 파싱해서 여기다 값 대입해주기
+        this.todayOn = todayOn;
+        this.shareTime = shareTime;
+        this.week = week;
+
+        // 오늘 날짜가 공유하는 테이블인지 확인
+        switch (String.valueOf(doDayOfWeek())) { // 해당 요일의 week의 값이 true이면 activate를 활성화시킴..
+            case "일요일":
+                if (this.week[0])
+                    this.todayOn = true;
+                break;
+            case "월요일":
+                if (this.week[1])
+                    this.todayOn = true;
+                break;
+            case "화요일":
+                if (this.week[2])
+                    this.todayOn = true;
+                break;
+            case "수요일":
+                if (this.week[3])
+                    this.todayOn = true;
+                break;
+            case "목요일":
+                if (this.week[4])
+                    this.todayOn = true;
+                break;
+            case "금요일":
+                if (this.week[5])
+                    this.todayOn = true;
+                break;
+            case "토요일":
+                if (this.week[6])
+                    this.todayOn = true;
+                break;
+        }
+
+        if(this.todayOn) { // todayOnOff가 true이고, 현재 시각에 예약이 없으면
+            this.activity = true;
+        }
+
+        // 예약현황 참고해서 마커색깔 수정
+        // 예약테이블 받아와서 바에다가 시각적인 정보 게종
+
+    }
+
+    public boolean getActivity() {
+        return this.activity;
+    }
+
+    private String doDayOfWeek() {
+        Calendar cal = Calendar.getInstance();
+        String strWeek = null;
+
+        int nWeek = cal.get(Calendar.DAY_OF_WEEK);
+        if (nWeek == 1) {
+            strWeek = "일요일";
+        } else if (nWeek == 2) {
+            strWeek = "월요일";
+        } else if (nWeek == 3) {
+            strWeek = "화요일";
+        } else if (nWeek == 4) {
+            strWeek = "수요일";
+        } else if (nWeek == 5) {
+            strWeek = "목요일";
+        } else if (nWeek == 6) {
+            strWeek = "금요일";
+        } else if (nWeek == 7) {
+            strWeek = "토요일";
+        }
+
+        return strWeek;
+    }
+
 }

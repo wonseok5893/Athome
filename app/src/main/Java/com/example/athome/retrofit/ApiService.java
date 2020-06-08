@@ -4,7 +4,6 @@ package com.example.athome.retrofit;
 import com.example.athome.admin.AdminResult;
 import com.example.athome.admin.AllUserResult;
 import com.example.athome.admin_enroll.AdminEnrollResult;
-import com.example.athome.admin_notice.AdminNoticeResult;
 import com.example.athome.notice.ItemNoticeResult;
 
 import java.util.Date;
@@ -40,6 +39,7 @@ public interface ApiService {
     @POST("api/auth")
     Call<AuthResult> authenticate(@Header("x-access-token") String token
             , @Field("authKey") String key);
+
     //사용자 비밀번호 수정
     @FormUrlEncoded
     @POST("user/editPassword")
@@ -70,7 +70,14 @@ public interface ApiService {
     @POST("api/allSharedLocation")
     Call<MarkerResult> getMarkerData(@Header("x-access-token") String token,
                                      @Field("capstone") String capstone);
-    //
+
+    @FormUrlEncoded
+    @POST("api/shareinfo")
+    Call<ShareInfoResult> getShareData(@Header("x-access-token") String token);
+
+
+    @GET("api/reserveList")
+    Call<ReserveListResult> getReserveData(@Query("locationId") String locationId);
 
     @GET("notices")
     Call<ItemNoticeResult> allNotice(@Query("noticeName") String noticeName);

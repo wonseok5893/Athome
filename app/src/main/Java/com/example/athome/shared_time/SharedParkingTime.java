@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.TestLooperManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,29 +27,39 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.example.athome.RestRequestHelper;
 import com.example.athome.reservation.CustomTimePickerDialog;
 import com.example.athome.R;
 import com.example.athome.main.MainActivity;
+import com.example.athome.retrofit.ApiService;
+import com.example.athome.retrofit.ReserveListResult;
+import com.example.athome.retrofit.ShareInfoResult;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import retrofit2.Call;
 
 public class SharedParkingTime extends AppCompatActivity {
     private TextView allday, startTime, endTime;
     private Button monBtn, tuesBtn, wenBtn, thurBtn, friBtn, satBtn, sunBtn;
     private Button backBtn;
+    private ImageView startEdit, endEdit;
     private Switch allBtn;
-    boolean monState = true;
-    boolean tueState = true;
-    boolean wenState = true;
-    boolean thurState = true;
-    boolean friState = true;
-    boolean satState = true;
-    boolean sunState = true;
-    boolean allState = true;
+    private boolean monState = false;
+    private boolean tueState = false;
+    private boolean wenState = false;
+    private boolean thurState = false;
+    private boolean friState = false;
+    private boolean satState = false;
+    private boolean sunState = false;
+    private boolean allState = false;
+
+    private ShareInfoResult shInfo;
 
 
     static final int START_TIME_DIALOG_ID = 1;
@@ -66,7 +77,38 @@ public class SharedParkingTime extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        // 패킷 보내주는거 작성
+    }
+
     public void Initialize() {
+
+        Intent intent = getIntent();
+
+        ApiService serviceApi = new RestRequestHelper().getApiService();
+        final Call<ShareInfoResult> res = serviceApi.getShareData(intent.getStringExtra("token"));
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    shInfo = res.execute().body();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
         startTime = findViewById(R.id.share_time_start);
         endTime = findViewById(R.id.share_time_end);
         allBtn = findViewById(R.id.allday_switch);
@@ -78,6 +120,8 @@ public class SharedParkingTime extends AppCompatActivity {
         satBtn = findViewById(R.id.saturday);
         sunBtn = findViewById(R.id.sunday);
         backBtn = findViewById(R.id.share_time_backBtn);
+        startEdit = findViewById(R.id.start_editBtn);
+        endEdit = findViewById(R.id.end_editBtn);
 
     }
 
@@ -91,70 +135,42 @@ public class SharedParkingTime extends AppCompatActivity {
                         finish();
                         overridePendingTransition(R.anim.not_move_activity, R.anim.rightout_activity);
                         break;
-                    case R.id.share_time_start:
+                    case R.id.start_editBtn:
                         showDialog(START_TIME_DIALOG_ID);
                         break;
-                    case R.id.share_time_end: //예약 종료시간 설정정
+                    case R.id.end_editBtn: //예약 종료시간 설정정
                         showDialog(END_TIME_DIALOG_ID);
                         break;
-
-
+                    case R.id.monday:
+                        if(monState==true) {
+                            monState=true;
+                            monBtn.setSelected(false);
+                        } else {
+                            monState=false;
+                            monBtn.setSelected(true);
+                        }
+                        break;
                 }
             }
         };
 
 
         backBtn.setOnClickListener(Listener);
-        startTime.setOnClickListener(Listener);
-        endTime.setOnClickListener(Listener);
-        monBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                monBtn.setSelected(true);
-            }
-        });
+        startEdit.setOnClickListener(Listener);
+        endEdit.setOnClickListener(Listener);
 
-        tuesBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tuesBtn.setSelected(true);
-            }
-        });
 
-        wenBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                wenBtn.setSelected(true);
-            }
-        });
 
-        thurBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                thurBtn.setSelected(true);
-            }
-        });
 
-        friBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                friBtn.setSelected(true);
-            }
-        });
 
-        satBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                satBtn.setSelected(true);
-            }
-        });
 
-        sunBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sunBtn.setSelected(true);
-            }
-        });
+
+
+
+
+
+
+
 
         allBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

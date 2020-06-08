@@ -243,7 +243,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             btn_share_time.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     Intent intent = new Intent(getApplicationContext(), SharedParkingTime.class);
+                    SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
+                    String sharedToken = sf.getString("token", "");
+                    intent.putExtra("token", sharedToken);
                     startActivity(intent);
                 }
             });
@@ -405,6 +409,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     , markerResult.getData().get(i).getOwner().getUserId(),
                                     Double.parseDouble(markerResult.getData().get(i).getLatitude()),
                                     Double.parseDouble(markerResult.getData().get(i).getLongitude()),
+                                    markerResult.getData().get(i).getLocation(),
                                     MainActivity.this);
                             placeList.add(s);
                         }
@@ -516,6 +521,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         , markerResult.getData().get(i).getOwner().getUserId(),
                         Double.parseDouble(markerResult.getData().get(i).getLatitude()),
                         Double.parseDouble(markerResult.getData().get(i).getLongitude()),
+                        markerResult.getData().get(i).getLocation(),
                         this);
                 placeList.add(s);
             }
@@ -624,4 +630,3 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         preview.startAnimation(slide_down);
     }
 }
-

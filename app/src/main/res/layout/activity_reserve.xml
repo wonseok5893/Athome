@@ -220,7 +220,6 @@
                             android:fontFamily="@font/dreamgothic3"
                             android:gravity="right"
                             android:padding="10dp"
-                            android:text="1시간"
                             android:textColor="@color/black"
                             android:textSize="13sp" />
 

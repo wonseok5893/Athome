@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -54,6 +56,7 @@ public class ReserveActivity extends AppCompatActivity {
     private TextView reserv_start_time_select;
     private TextView reserv_end_time_select;
     private TextView parking_car_number_select;
+    private TextView parking_time_result;
     private TextView all_point_use; //포인트전액사용하기
     private CarListAdapter adapter;
     private ArrayList<ItemAccountCarData> data=new ArrayList<>();
@@ -101,6 +104,27 @@ public class ReserveActivity extends AppCompatActivity {
         longitude = intent.getDoubleExtra("longitude",0);
         SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
         sharedToken = sf.getString("token", "");
+
+        reserv_end_time_select.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    timeCalc();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 
@@ -120,6 +144,7 @@ public class ReserveActivity extends AppCompatActivity {
         parking_car_number_select=findViewById(R.id.parking_car_number_select);
         btn_next_reserv=findViewById(R.id.btn_next_reserv);
         parking_car_number_select=findViewById(R.id.parking_car_number_select);
+        parking_time_result=findViewById(R.id.parking_time_result);
         all_point_use=findViewById(R.id.all_point_use);
         all_point_use.setPaintFlags(all_point_use.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG); //밑줄긋기
 
@@ -156,20 +181,27 @@ public class ReserveActivity extends AppCompatActivity {
                         break;
                     case R.id.reserv_end: //예약종료날짜와시간설정
                         showDialog(END_DATE_DIALOG_ID);
+                        try {
+                            timeCalc();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                         break;
 
                     case R.id.parking_car_number_select://차량번호 선택, 직접입력
                         showDirectInputAlertDialog(ReserveActivity.this);
                         break;
                     case R.id.btn_next_reserv:
+                        Log.d("junggyu","버튼이 눌렸습니다.");
+
                         SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                         String startTimeString = smYear+"-"+(smMonth+1)+"-"+smDay+" "+smHour+":"+smMinute;//"2013-04-08 10:10";
                         String endTimeString = emYear+"-"+(emMonth+1)+"-"+emDay +" "+emHour+":"+emMinute;//"2013-04-08 10:10";
                         try {
                             startTime = transFormat.parse(startTimeString);
                             endTime = transFormat.parse(endTimeString);
-                        Log.d("time",startTime.toString());
-                        Log.d("time",endTime.toString());
+                            Log.d("time",startTime.toString());
+                            Log.d("time",endTime.toString());
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
@@ -180,11 +212,14 @@ public class ReserveActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                 Toast.makeText(ReserveActivity.this,"예약 되셨습니다.",Toast.LENGTH_SHORT).show();
+                                Log.d("junggyu","예약 성공");
                             }
 
                             @Override
                             public void onFailure(Call<ResponseBody> call, Throwable t) {
                                 Toast.makeText(ReserveActivity.this,"다시 시도해주십시오.",Toast.LENGTH_SHORT).show();
+                                Log.d("junggyu","다시시도");
+
                             }
                         });
                         break;
@@ -192,6 +227,7 @@ public class ReserveActivity extends AppCompatActivity {
             }
         };
         btn_back_reserv.setOnClickListener(Listener);
+        btn_next_reserv.setOnClickListener(Listener);
         reserv_start.setOnClickListener(Listener);
         reserv_end.setOnClickListener(Listener);
         parking_car_number_select.setOnClickListener(Listener);
@@ -246,12 +282,12 @@ public class ReserveActivity extends AppCompatActivity {
                     smMonth = monthOfYear;
                     smDay = dayOfMonth;
                     showDialog(START_TIME_DIALOG_ID);
-                    reserv_start_date_select.setText(String.format("%-d-%d-%d",smYear,smMonth+1,smDay));
+                    reserv_start_date_select.setText(String.format("%d-%d-%d",smYear,smMonth+1,smDay));
 
                 }
             };
 
-    //StartDatePicker 리스너
+    //StartEndPicker 리스너
     private DatePickerDialog.OnDateSetListener mEndDateSetListener =
             new DatePickerDialog.OnDateSetListener() {
                 @Override
@@ -303,5 +339,46 @@ public class ReserveActivity extends AppCompatActivity {
                 return new CustomTimePickerDialog(this, mEndTimeSetListener, emHour, emMinute, true);
         }
         return null;
+    }
+
+
+    int timeCalc() throws ParseException {
+
+        SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String startTimeString = smYear + "-" + (smMonth + 1) + "-" + smDay + " " + smHour + ":" + smMinute;//"2013-04-08 10:10";
+        String endTimeString = emYear + "-" + (emMonth + 1) + "-" + emDay + " " + emHour + ":" + emMinute;//"2013-04-08 10:10";
+
+        int resultMin;
+        int resultHour;
+        int resultDay;
+
+            startTime = transFormat.parse(startTimeString);
+            endTime = transFormat.parse(endTimeString);
+
+            long calDate = endTime.getTime() - startTime.getTime();
+
+            // Date.getTime() 은 해당날짜를 기준으로1970년 00:00:00 부터 몇 초가 흘렀는지를 반환해준다.
+            // 이제 24*60*60*1000(각 시간값에 따른 차이점) 을 나눠주면 일수가 나온다.
+            if(calDate>0){
+                resultHour = emHour-smHour;  // 1
+                resultMin = emMinute-smMinute; // -50
+                resultDay = emDay - smDay;
+                if(resultMin<0){
+
+                    resultMin += 60; // 10
+                    resultHour -= 1; // 0
+                }
+                if(resultDay==1){
+                    resultHour += 24;
+                }
+            } else{
+                resultHour = emHour-smHour;
+                resultMin = emMinute-smMinute;
+            }
+
+        parking_time_result.setText(resultHour+"시"+resultMin+"분");
+
+        Log.d("두 날짜의 날짜 차이: ", resultHour+"시"+resultMin+"분");
+        return 0;
     }
 }
