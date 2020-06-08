@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 
 import com.example.athome.R;
 import com.example.athome.reservation.ReserveActivity;
+import com.example.athome.non_member.nonReserveActivity;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
@@ -33,7 +34,7 @@ public class SharePlace {
     // 주차장 마커의 정보 -> 해당 주차장의 시간당 가격, 이용가능 시간, 주소
     private TextView fee, // 요금
             time, // 이용시간
-            loc ; // 위치
+            loc; // 위치
     private Button naviBtn, resBtn;
 
 
@@ -53,35 +54,53 @@ public class SharePlace {
 
         // 마커 생성후 받아온 좌표값 이용해 마커 위치정보 세팅
         this.myMarker = new Marker();
-        this.myMarker.setPosition(new LatLng(this.latitude,this.longitude));
+        this.myMarker.setPosition(new LatLng(this.latitude, this.longitude));
 
 
         final Intent intent = new Intent(main.getApplicationContext(), ReserveActivity.class);
+        final Intent nonuser_intent = new Intent(main.getApplicationContext(), nonReserveActivity.class);
         LatLng position = myMarker.getPosition();
 
         intent.putExtra("locationId", locationId);//_id
-        intent.putExtra("userId",userId);
+        intent.putExtra("userId", userId);
         intent.putExtra("latitude", latitude);
         intent.putExtra("longitude", longitude);
+
+        nonuser_intent.putExtra("locationId", locationId);//_id
+        nonuser_intent.putExtra("latitude", latitude);
+        nonuser_intent.putExtra("longitude", longitude);
+        nonuser_intent.putExtra("userId", userId);
+
 
         // 마커 클릭하면 이벤트 발생
         this.myMarker.setOnClickListener(new Overlay.OnClickListener() {
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
 
-                LatLng position = myMarker.getPosition();
-                intent.putExtra("position", position);
-
-                Log.d("teststs", intent.getStringExtra("locationId")+" "+
-                        intent.getStringExtra("userId"));
-
                 fee.setText(600 + "원/시간");
                 time.setText("1시 ~ 6시");
-                loc.setText(intent.getStringExtra("locationId"));
 
-                if(main.getUser().getUserId()==null) { // 비회원일때
+
+                if (main.getUser().getUserId() == null) { // 비회원일때
+                    loc.setText(nonuser_intent.getStringExtra("locationId"));
+                    LatLng position = myMarker.getPosition();
+                    nonuser_intent.putExtra("position", position);
+
+                    Log.d("teststs", nonuser_intent.getStringExtra("locationId"));
                     main.PreviewVisible();
+                    space_resv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            main.startActivity(nonuser_intent);
+                        }
+                    });
                 } else { // 회원일때
+                    loc.setText(intent.getStringExtra("locationId"));
+                    LatLng position = myMarker.getPosition();
+                    intent.putExtra("position", position);
+
+                    Log.d("teststs", intent.getStringExtra("locationId") + " " +
+                            intent.getStringExtra("userId"));
                     main.PreviewVisible();
                     space_resv.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -105,7 +124,7 @@ public class SharePlace {
         space_resv = (Button) main.findViewById(R.id.space_resv);
 
         // 미리보기 비활성화 버튼
-        preview_close = (ImageView)main.findViewById(R.id.preview_close);
+        preview_close = (ImageView) main.findViewById(R.id.preview_close);
         preview_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,10 +132,10 @@ public class SharePlace {
             }
         });
 
-        resBtn = (Button)main.findViewById(R.id.space_resv);
-        naviBtn = (Button)main.findViewById(R.id.space_navi);
-        time = (TextView)main.findViewById(R.id.space_time);
-        fee = (TextView)main.findViewById(R.id.space_fee);
-        loc = (TextView)main.findViewById(R.id.space_loc);
+        resBtn = (Button) main.findViewById(R.id.space_resv);
+        naviBtn = (Button) main.findViewById(R.id.space_navi);
+        time = (TextView) main.findViewById(R.id.space_time);
+        fee = (TextView) main.findViewById(R.id.space_fee);
+        loc = (TextView) main.findViewById(R.id.space_loc);
     }
 }

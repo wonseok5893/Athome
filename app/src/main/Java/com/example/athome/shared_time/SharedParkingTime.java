@@ -40,7 +40,6 @@ public class SharedParkingTime extends AppCompatActivity {
     private TextView allday, startTime, endTime;
     private Button monBtn, tuesBtn, wenBtn, thurBtn, friBtn, satBtn, sunBtn;
     private Button backBtn;
-    private ImageView startEdit, endEdit;
     private Switch allBtn;
     boolean monState = true;
     boolean tueState = true;
@@ -79,8 +78,7 @@ public class SharedParkingTime extends AppCompatActivity {
         satBtn = findViewById(R.id.saturday);
         sunBtn = findViewById(R.id.sunday);
         backBtn = findViewById(R.id.share_time_backBtn);
-        startEdit = findViewById(R.id.start_editBtn);
-        endEdit = findViewById(R.id.end_editBtn);
+
     }
 
     public void setListner() {
@@ -93,10 +91,10 @@ public class SharedParkingTime extends AppCompatActivity {
                         finish();
                         overridePendingTransition(R.anim.not_move_activity, R.anim.rightout_activity);
                         break;
-                    case R.id.start_editBtn:
+                    case R.id.share_time_start:
                         showDialog(START_TIME_DIALOG_ID);
                         break;
-                    case R.id.end_editBtn: //예약 종료시간 설정정
+                    case R.id.share_time_end: //예약 종료시간 설정정
                         showDialog(END_TIME_DIALOG_ID);
                         break;
 
@@ -107,8 +105,8 @@ public class SharedParkingTime extends AppCompatActivity {
 
 
         backBtn.setOnClickListener(Listener);
-        startEdit.setOnClickListener(Listener);
-        endEdit.setOnClickListener(Listener);
+        startTime.setOnClickListener(Listener);
+        endTime.setOnClickListener(Listener);
         monBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -27,8 +27,8 @@
 
         <RadioGroup
             android:id="@+id/share_switch"
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="71dp"
             android:layout_marginRight="24dp"
@@ -39,7 +39,7 @@
 
             <RadioButton
                 android:id="@+id/share_on"
-                android:layout_width="0dp"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
@@ -51,12 +51,13 @@
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:text="Share"
+                android:text="SHARE"
+                android:textSize="12dp"
                 android:textColor="@color/control_switch_color_selector" />
 
             <RadioButton
                 android:id="@+id/share_off"
-                android:layout_width="0dp"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
                 android:layout_marginRight="1dp"
@@ -68,9 +69,9 @@
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:text="Off"
+                android:text="OFF"
                 android:textColor="@color/control_switch_color_selector"
-                android:textSize="13dp" />
+                android:textSize="12dp" />
         </RadioGroup>
 
 
@@ -117,7 +118,7 @@
         <Button
             android:id="@+id/enrollBtn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
