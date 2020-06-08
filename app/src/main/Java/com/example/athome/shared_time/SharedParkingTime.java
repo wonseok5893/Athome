@@ -9,6 +9,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.TestLooperManager;
@@ -36,9 +37,16 @@ import java.util.List;
 
 public class SharedParkingTime extends AppCompatActivity {
     private TextView allday, startTime, endTime;
-    private Switch allBtn, monBtn, tuesBtn, wenBtn, thurBtn, friBtn, satBtn, sunBtn;
+    private Button allBtn, monBtn, tuesBtn, wenBtn, thurBtn, friBtn, satBtn, sunBtn;
     private Button backBtn;
     private ImageView startEdit, endEdit;
+    boolean monState = true;
+    boolean tueState = true;
+    boolean wenState = true;
+    boolean thurState = true;
+    boolean friState = true;
+    boolean satState = true;
+    boolean sunState = true;
 
     static final int START_TIME_DIALOG_ID = 1;
     static final int END_TIME_DIALOG_ID = 2;
@@ -59,13 +67,13 @@ public class SharedParkingTime extends AppCompatActivity {
         startTime = findViewById(R.id.share_time_start);
         endTime = findViewById(R.id.share_time_end);
         allBtn = findViewById(R.id.allday_switch);
-        monBtn = findViewById(R.id.monday_switch);
-        tuesBtn = findViewById(R.id.tuesday_switch);
-        wenBtn = findViewById(R.id.wensday_switch);
-        thurBtn = findViewById(R.id.thursday_switch);
-        friBtn = findViewById(R.id.friday_switch);
-        satBtn = findViewById(R.id.saturday_switch);
-        sunBtn = findViewById(R.id.sunday_switch);
+        monBtn = findViewById(R.id.monday);
+        tuesBtn = findViewById(R.id.tuesday);
+        wenBtn = findViewById(R.id.wensday);
+        thurBtn = findViewById(R.id.thursday);
+        friBtn = findViewById(R.id.friday);
+        satBtn = findViewById(R.id.saturday);
+        sunBtn = findViewById(R.id.sunday);
         backBtn = findViewById(R.id.share_time_backBtn);
         startEdit = findViewById(R.id.start_editBtn);
         endEdit = findViewById(R.id.end_editBtn);
@@ -87,6 +95,8 @@ public class SharedParkingTime extends AppCompatActivity {
                     case R.id.end_editBtn: //예약 종료시간 설정정
                         showDialog(END_TIME_DIALOG_ID);
                         break;
+
+
                 }
             }
         };
@@ -95,7 +105,60 @@ public class SharedParkingTime extends AppCompatActivity {
         backBtn.setOnClickListener(Listener);
         startEdit.setOnClickListener(Listener);
         endEdit.setOnClickListener(Listener);
+        monBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                monBtn.setSelected(true);
+            }
+        });
+
+        tuesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tuesBtn.setSelected(true);
+            }
+        });
+
+        wenBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                wenBtn.setSelected(true);
+            }
+        });
+
+        thurBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                thurBtn.setSelected(true);
+            }
+        });
+
+        friBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                friBtn.setSelected(true);
+            }
+        });
+
+        satBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                satBtn.setSelected(true);
+            }
+        });
+
+        sunBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sunBtn.setSelected(true);
+            }
+        });
+
+
     }
+
+    //요일별 스위치 클릭시
+
 
 
     //StartTimePicker 리스너
@@ -134,40 +197,8 @@ public class SharedParkingTime extends AppCompatActivity {
         return null;
     }
 
-    //요일별 스위치 클릭시
-    public void setChecked(boolean checked) {
-        View.OnClickListener Listener2 = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.allday_switch:
-                        allBtn.setChecked(true);
-                    case R.id.monday_switch:
-                        monBtn.setChecked(true);
-                        break;
-                    case R.id.tuesday_switch:
-                        tuesBtn.setChecked(true);
-                        break;
-                    case R.id.wensday_switch:
-                        wenBtn.setChecked(true);
-                        break;
-                    case R.id.thursday_switch:
-                        thurBtn.setChecked(true);
-                        break;
-                    case R.id.friday_switch:
-                        friBtn.setChecked(true);
-                        break;
-                    case R.id.saturday_switch:
-                        satBtn.setChecked(true);
-                        break;
-                    case R.id.sunday_switch:
-                        sunBtn.setChecked(true);
-                        break;
-                }
 
-            }
-        };
-    }
+
 }
 
 

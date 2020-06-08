@@ -11,7 +11,7 @@
         android:gravity="center"
         android:textColor="#ffffff"
         android:textSize="16dp"
-        android:text="방문목적을 작성해주세요"
+        android:text="방문목적을 선택해주세요"
         android:textStyle="bold"
         android:fontFamily="@font/bareun3"
         android:background="@drawable/edit_border2"/>
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="12dp"
-        android:text="목적을 기입해 주시면 ㅇㅇ보상 ? "
+        android:text="목적을 기입해 주시면 300포인트를 드립니다"
         android:fontFamily="@font/bareun1"
         android:gravity="center_horizontal"/>
 
@@ -28,18 +28,13 @@
         android:layout_height="1dp"
         android:background="#000000"/>
 
-    <EditText
-        android:id="@+id/mesgase"
+    <ListView
+        android:id="@+id/listview_purpose_list"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:gravity="center"
-        android:textColor="#000000"
-        android:textSize="16dp"
-        android:hint="내용을 입력하세요."/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#000000"/>
+        android:layout_height="wrap_content"
+        android:divider="@null"
+        android:dividerHeight="10dp"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,10 +52,6 @@
             android:textSize="16dp"
             android:background="#ffffff"/>
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="#000000" />
 
         <Button
             android:id="@+id/purpose_submit"
@@ -74,8 +65,4 @@
             android:background="#ffffff"/>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#000000"/>
 </LinearLayout>

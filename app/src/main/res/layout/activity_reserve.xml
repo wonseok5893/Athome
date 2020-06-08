@@ -196,9 +196,6 @@
                     </LinearLayout>
 
 
-
-
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -366,6 +363,8 @@
 
                 </LinearLayout>
 
+
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -398,6 +397,7 @@
                         android:textSize="13sp" />
 
                 </LinearLayout>
+
 
             </LinearLayout>
 
@@ -442,6 +442,7 @@
 
                 </LinearLayout>
 
+
                 <Button
                     android:id="@+id/btn_next_reserv"
                     android:layout_width="match_parent"
@@ -454,9 +455,6 @@
                     android:textSize="16sp" />
 
             </LinearLayout>
-
         </LinearLayout>
-
     </ScrollView>
-
 </LinearLayout>

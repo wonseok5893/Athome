@@ -38,9 +38,9 @@ public class AuthUser {
     @Expose
     private Integer state;
 
-    @SerializedName("reservation")
-    @Expose
-    private List<AuthReservation> reservation;
+//    @SerializedName("reservation")
+//    @Expose
+//    private List<AuthReservation> reservation;
 
     public Integer getState() {
         return state;

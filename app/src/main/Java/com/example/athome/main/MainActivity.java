@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private MarkerResult markerResult;
     private LinearLayout preview;
     private Animation slide_up, slide_down, stay;
-    private Switch share_switch;
+    private RadioGroup share_switch;
     NavigationView navigationView;
     private static final int MESSAGE_TIMER_START = 100;
     private TimerHandler timerHandler;
@@ -185,18 +186,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             //공유 스위치
             share_switch = findViewById(R.id.share_switch);
-            share_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked == true) {
-                        Toast.makeText(MainActivity.this, "공유가 활성화 되었습니다.", Toast.LENGTH_SHORT).show();
 
-                    } else {
-                        Toast.makeText(MainActivity.this, "공유가 비활성화 되었습니다.", Toast.LENGTH_SHORT).show();
-
-                    }
-                }
-            });
 
 
             //알림함 레이아웃

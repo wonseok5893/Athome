@@ -9,6 +9,7 @@
     tools:context=".main.MainActivity">
 
 
+    <!--navigation drawer-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -24,21 +25,53 @@
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="0dp" />
 
-        <Button
-            android:id="@+id/enrollBtn"
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/share_switch"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_border2"
-            android:fontFamily="@font/dreamgothic"
-            android:textColor="@color/white"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_marginLeft="12dp"
             android:layout_marginTop="71dp"
-            android:layout_marginEnd="9dp"
-            android:layout_marginRight="9dp"
-            android:text="@string/sharedparking" />
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/control_switch_background_border"
+            android:checkedButton="@+id/calm"
+            android:orientation="horizontal">
 
+            <RadioButton
+                android:id="@+id/share_on"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/control_switch_background_selector_middle"
+                android:button="@null"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="Share"
+                android:textColor="@color/control_switch_color_selector" />
+
+            <RadioButton
+                android:id="@+id/share_off"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/control_switch_background_selector"
+                android:button="@null"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="Off"
+                android:textColor="@color/control_switch_color_selector"
+                android:textSize="13dp" />
+        </RadioGroup>
 
 
         <androidx.appcompat.widget.Toolbar
@@ -79,44 +112,46 @@
                 android:background="#00ff0000"
                 android:drawableRight="@drawable/search" />
         </androidx.appcompat.widget.Toolbar>
+
+
+        <Button
+            android:id="@+id/enrollBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="71dp"
+            android:layout_marginEnd="9dp"
+            android:layout_marginRight="9dp"
+            android:background="@drawable/edit_border2"
+            android:fontFamily="@font/dreamgothic"
+            android:text="@string/sharedparking"
+            android:textColor="@color/white" />
+
         <RelativeLayout
             android:id="@+id/rl"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-
-            <Switch
-                android:id="@+id/share_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentBottom="true"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="13dp"
-                android:layout_marginBottom="632dp"
-                android:showText="true"
-                android:textOff="@string/switch_off"
-                android:textOn="@string/switch_on"
-                android:textStyle="bold"
-                android:thumb="@drawable/switch_thumb"
-                android:track="@drawable/switch_selector" />
-        </RelativeLayout>
-
-
-
-        <LinearLayout
-            android:toAlpha="1.0"
-            android:id="@+id/preview"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_margin="5dp"
-            android:background="@drawable/edit_border3"
+            android:layout_marginEnd="-19dp"
+            android:layout_marginBottom="-67dp"
+            android:orientation="vertical" />
+
+        <LinearLayout
+            android:id="@+id/preview"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="0dp"
+            android:background="@color/babypink"
             android:orientation="vertical"
-            android:padding="10dp"
-            android:paddingBottom="0dp">
+            android:padding="7dp"
+            android:paddingBottom="0dp"
+            android:toAlpha="1.0">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -158,6 +193,12 @@
                 android:orientation="horizontal"
                 android:paddingTop="7dp">
 
+                <ImageView
+                    android:id="@+id/space_img"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:srcCompat="@drawable/ap_logo" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -167,8 +208,7 @@
                         android:layout_width="95dp"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/dreamgothic3"
-                        android:orientation="vertical"
-                        >
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -187,10 +227,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:text="주차요금"
                                 android:fontFamily="@font/bareun1"
-                                android:textSize="14sp"
-                                />
+                                android:text="주차요금"
+                                android:textSize="14sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -210,9 +249,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:text="운영시간"
                                 android:fontFamily="@font/bareun1"
-                                android:textSize="14sp"/>
+                                android:text="운영시간"
+                                android:textSize="14sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -232,11 +271,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:text="주소"
                                 android:fontFamily="@font/bareun1"
-                                android:textSize="14sp"/>
+                                android:text="주소"
+                                android:textSize="14sp" />
                         </LinearLayout>
-
 
                     </LinearLayout>
 
@@ -244,51 +282,50 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/dreamgothic3"
-                        android:orientation="vertical"
-                        >
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="right"
                             android:orientation="horizontal"
-                            android:padding="5dp"
-                            android:gravity="right">
+                            android:padding="5dp">
 
                             <TextView
                                 android:id="@+id/space_fee"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:textColor="@color/black"
-                                android:text="1시간 1200원"
                                 android:fontFamily="@font/bareun1"
-                                android:textSize="14sp"/>
+                                android:text="1시간 1200원"
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="right"
                             android:orientation="horizontal"
-                            android:padding="5dp"
-                            android:gravity="right">
+                            android:padding="5dp">
 
                             <TextView
                                 android:id="@+id/space_time"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
+                                android:fontFamily="@font/bareun1"
                                 android:text="09:00~18:00"
                                 android:textColor="@color/black"
-                                android:fontFamily="@font/bareun1"
-                                android:textSize="14sp"/>
+                                android:textSize="14sp" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="right"
                             android:orientation="horizontal"
-                            android:padding="5dp"
-                            android:gravity="right">
+                            android:padding="5dp">
 
                             <TextView
                                 android:id="@+id/space_loc"
@@ -307,7 +344,6 @@
 
 
             </LinearLayout>
-
 
 
             <LinearLayout
@@ -341,10 +377,12 @@
                     android:textColor="#e41653" />
 
             </LinearLayout>
+
         </LinearLayout>
 
+
     </RelativeLayout>
-    <!--navigation drawer-->
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navi_view"
         android:layout_width="wrap_content"

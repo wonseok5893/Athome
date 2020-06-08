@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#e0f7fa</color>
     <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="gray">#757575</color>
 
     <color name="input_register_bg">#ffffff</color>
     <color name="input_register">#222222</color>
@@ -10,4 +10,12 @@
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="babypink">#fce4ec</color>
+
+
+    <color name="blue">#E91E63</color>
+    <color name="lightBlue">#F58DB0</color>
+    <color name="lighterBlue">@color/babypink</color>
+    <color name="controlBackground">#ffffffff</color>
+
+
 </resources>

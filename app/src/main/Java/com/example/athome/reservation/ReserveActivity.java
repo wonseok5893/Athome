@@ -35,6 +35,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -67,7 +69,6 @@ public class ReserveActivity extends AppCompatActivity {
 
     private int smHour;
     private int smMinute;
-
     private int emHour;
     private int emMinute;
 
@@ -83,6 +84,7 @@ public class ReserveActivity extends AppCompatActivity {
     static final int END_DATE_DIALOG_ID=1;
     static final int START_TIME_DIALOG_ID=2;
     static final int END_TIME_DIALOG_ID=3;
+    static final String TEXT = "text";
 
 
     @Override
@@ -133,6 +135,7 @@ public class ReserveActivity extends AppCompatActivity {
         smMinute = c.get(Calendar.MINUTE);
         emHour = c.get(Calendar.HOUR_OF_DAY);
         emMinute = c.get(Calendar.MINUTE);
+
 
     }
 
@@ -299,12 +302,6 @@ public class ReserveActivity extends AppCompatActivity {
             case END_TIME_DIALOG_ID:
                 return new CustomTimePickerDialog(this, mEndTimeSetListener, emHour, emMinute, true);
         }
-
         return null;
     }
-
-
-
-
-
 }
