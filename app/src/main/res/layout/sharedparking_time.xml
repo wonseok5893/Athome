@@ -36,6 +36,17 @@
             android:textColor="#000000"
             android:textSize="17sp" />
 
+        <ImageButton
+            android:id="@+id/time_saveBtn"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="#00ff0000"
+            android:src="@drawable/save3"
+            android:gravity="center"
+            android:layout_gravity="right"
+            android:layout_marginRight="5dp"
+          />
+
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -136,6 +147,20 @@
                     android:orientation="horizontal">
 
                     <Button
+                        android:id="@+id/sunday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_custom_button"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="일"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <Button
                         android:id="@+id/monday"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -220,19 +245,7 @@
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
-                    <Button
-                        android:id="@+id/sunday"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="3dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_custom_button"
-                        android:gravity="center"
-                        android:padding="8dp"
-                        android:text="일"
-                        android:textColor="@android:color/white"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+
 
 
                 </LinearLayout>

@@ -1,66 +1,28 @@
 package com.example.athome.shared_time;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
-import android.os.TestLooperManager;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.example.athome.RestRequestHelper;
 import com.example.athome.reservation.CustomTimePickerDialog;
 import com.example.athome.R;
-import com.example.athome.main.MainActivity;
-import com.example.athome.retrofit.ApiService;
-import com.example.athome.retrofit.ReserveListResult;
-import com.example.athome.retrofit.ShareInfoResult;
-
-import org.w3c.dom.Text;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-import retrofit2.Call;
 
 public class SharedParkingTime extends AppCompatActivity {
     private TextView allday, startTime, endTime;
-    private Button monBtn, tuesBtn, wenBtn, thurBtn, friBtn, satBtn, sunBtn;
     private Button backBtn;
-    private ImageView startEdit, endEdit;
+    private ImageButton saveBtn;
     private Switch allBtn;
-    private boolean monState = false;
-    private boolean tueState = false;
-    private boolean wenState = false;
-    private boolean thurState = false;
-    private boolean friState = false;
-    private boolean satState = false;
-    private boolean sunState = false;
-    private boolean allState = false;
 
-    private ShareInfoResult shInfo;
-
+    private Button[] dayButton = new Button[7];
+    private int[] dayState = new int[7];
 
     static final int START_TIME_DIALOG_ID = 1;
     static final int END_TIME_DIALOG_ID = 2;
@@ -77,52 +39,19 @@ public class SharedParkingTime extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        // 패킷 보내주는거 작성
-    }
-
     public void Initialize() {
-
-        Intent intent = getIntent();
-
-        ApiService serviceApi = new RestRequestHelper().getApiService();
-        final Call<ShareInfoResult> res = serviceApi.getShareData(intent.getStringExtra("token"));
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    shInfo = res.execute().body();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
         startTime = findViewById(R.id.share_time_start);
         endTime = findViewById(R.id.share_time_end);
         allBtn = findViewById(R.id.allday_switch);
-        monBtn = findViewById(R.id.monday);
-        tuesBtn = findViewById(R.id.tuesday);
-        wenBtn = findViewById(R.id.wensday);
-        thurBtn = findViewById(R.id.thursday);
-        friBtn = findViewById(R.id.friday);
-        satBtn = findViewById(R.id.saturday);
-        sunBtn = findViewById(R.id.sunday);
+        dayButton[0] = findViewById(R.id.sunday);
+        dayButton[1] = findViewById(R.id.monday);
+        dayButton[2] = findViewById(R.id.tuesday);
+        dayButton[3] = findViewById(R.id.wensday);
+        dayButton[4] = findViewById(R.id.thursday);
+        dayButton[5] = findViewById(R.id.friday);
+        dayButton[6] = findViewById(R.id.saturday);
         backBtn = findViewById(R.id.share_time_backBtn);
-        startEdit = findViewById(R.id.start_editBtn);
-        endEdit = findViewById(R.id.end_editBtn);
-
+        saveBtn = findViewById(R.id.time_saveBtn);
     }
 
     public void setListner() {
@@ -135,63 +64,97 @@ public class SharedParkingTime extends AppCompatActivity {
                         finish();
                         overridePendingTransition(R.anim.not_move_activity, R.anim.rightout_activity);
                         break;
-                    case R.id.start_editBtn:
+                    case R.id.share_time_start:
                         showDialog(START_TIME_DIALOG_ID);
                         break;
-                    case R.id.end_editBtn: //예약 종료시간 설정정
+                    case R.id.share_time_end: //예약 종료시간 설정정
                         showDialog(END_TIME_DIALOG_ID);
                         break;
-                    case R.id.monday:
-                        if(monState==true) {
-                            monState=true;
-                            monBtn.setSelected(false);
+                    case R.id.sunday:
+                        // 일요일이 true이면
+                        if(dayState[0]==1) {
+                            dayState[0]=0;
+                            dayButton[0].setSelected(false);
                         } else {
-                            monState=false;
-                            monBtn.setSelected(true);
+                            dayState[0]=1;
+                            dayButton[0].setSelected(true);
                         }
                         break;
+                    case R.id.monday:
+                        if(dayState[1]==1) {
+                            dayState[1]=0;
+                            dayButton[1].setSelected(false);
+                        } else {
+                            dayState[1]=1;
+                            dayButton[1].setSelected(true);
+                        }
+                        break;
+                    case R.id.tuesday:
+                        if(dayState[2]==1) {
+                            dayState[2]=0;
+                            dayButton[2].setSelected(false);
+                        } else {
+                            dayState[2]=1;
+                            dayButton[2].setSelected(true);
+                        }
+                        break;
+                    case R.id.wensday:
+                        if(dayState[3]==1) {
+                            dayState[3]=0;
+                            dayButton[3].setSelected(false);
+                        } else {
+                            dayState[3]=1;
+                            dayButton[3].setSelected(true);
+                        }
+                        break;
+                    case R.id.thursday:
+                        if(dayState[4]==1) {
+                            dayState[4]=0;
+                            dayButton[4].setSelected(false);
+                        } else {
+                            dayState[4]=1;
+                            dayButton[4].setSelected(true);
+                        }
+                        break;
+                    case R.id.friday:
+                        if(dayState[5]==1) {
+                            dayState[5]=0;
+                            dayButton[5].setSelected(false);
+                        } else {
+                            dayState[5]=1;
+                            dayButton[5].setSelected(true);
+                        }
+                        break;
+                    case R.id.saturday:
+                        if(dayState[6]==1) {
+                            dayState[6]=0;
+                            dayButton[6].setSelected(false);
+                        } else {
+                            dayState[6]=1;
+                            dayButton[6].setSelected(true);
+                        }
+                        break;
+
+
                 }
             }
         };
 
 
         backBtn.setOnClickListener(Listener);
-        startEdit.setOnClickListener(Listener);
-        endEdit.setOnClickListener(Listener);
+        startTime.setOnClickListener(Listener);
+        endTime.setOnClickListener(Listener);
 
-
-
-
-
-
-
-
-
-
-
-
-
+        for(int i=0;i<7;i++) {
+            dayButton[i].setOnClickListener(Listener);
+        }
 
         allBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    monBtn.setSelected(false);
-                    tuesBtn.setSelected(false);
-                    wenBtn.setSelected(false);
-                    thurBtn.setSelected(false);
-                    friBtn.setSelected(false);
-                    satBtn.setSelected(false);
-                    sunBtn.setSelected(false);
                 }
                 else{
-                    monBtn.setSelected(true);
-                    tuesBtn.setSelected(true);
-                    wenBtn.setSelected(true);
-                    thurBtn.setSelected(true);
-                    friBtn.setSelected(true);
-                    satBtn.setSelected(true);
-                    sunBtn.setSelected(true);
                 }
             }
         });
@@ -238,4 +201,3 @@ public class SharedParkingTime extends AppCompatActivity {
         return null;
     }
 }
-

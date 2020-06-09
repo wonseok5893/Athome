@@ -1,6 +1,7 @@
 package com.example.athome.main;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -10,19 +11,36 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.example.athome.R;
+import com.example.athome.RestRequestHelper;
+import com.example.athome.non_member.nonReserveActivity;
 import com.example.athome.reservation.ReserveActivity;
+import com.example.athome.retrofit.ApiService;
+import com.example.athome.retrofit.ReserveListResult;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
+import com.naver.maps.map.util.MarkerIcons;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+
+import retrofit2.Call;
 
 
 // 각 공유공간의 정보를 가지고있는 객체
 // 앱 실행시 주차 공간마다 가지고있게하려면 필요, 마커 누를때마다 실시간으로 DB에서 가져오게 하려면 구조 변경
 public class SharePlace {
 
+    private ReserveListResult reserveResult;
+
+    private boolean activity = false;
+
+
     private String locationId;
     private String userId; // 고유번호
     private double latitude, longitude; // 좌표
+    private String locationName;
     private Marker myMarker; // 마커
     private String img;
 
@@ -47,8 +65,6 @@ public class SharePlace {
 
         // 예약초기화
 //        ReserveInitial();
-        final Intent intent = new Intent(main.getApplicationContext(), ReserveActivity.class);
-
         PriviewInitialize(main);
 
         this.locationId = locationId;
@@ -71,14 +87,10 @@ public class SharePlace {
         LatLng position = myMarker.getPosition();
 
         intent.putExtra("locationId", locationId);//_id
-        intent.putExtra("locationName",locationName);
+        intent.putExtra("locationName",locationName); // 주소
         intent.putExtra("userId",userId); // UserId
         intent.putExtra("latitude", latitude); // 위도
         intent.putExtra("longitude", longitude); // 경도
-
-        intent.putExtra("shareTime", shareTime);
-        intent.putExtra("week",week);
-        intent.putExtra("todayOn", todayOn);
 
         nonuser_intent.putExtra("locationId", locationId);//_id
         nonuser_intent.putExtra("latitude", latitude);
@@ -94,12 +106,6 @@ public class SharePlace {
                 Log.d("ResTest",intent.getStringExtra("locationId"));
 
                 ReservationList(intent);
-
-                LatLng position = myMarker.getPosition();
-                intent.putExtra("position", position);
-
-//                Log.d("teststs", intent.getStringExtra("locationId")+" "+
-//                        intent.getStringExtra("userId"));
 
                 fee.setText(600 + "원/시간");
                 time.setText("1시 ~ 6시");
@@ -205,14 +211,14 @@ public class SharePlace {
 
 
 
-
+/*
     void ReserveInitial() {
 
-        /*
+
             서버에서 받아와야 할 값
             1. 몇시부터 몇시까지 공유하는지
             2. 어느요일에 공유하는지
-        */
+
 
         // 파싱해서 여기다 값 대입해주기
         this.todayOn = todayOn;
@@ -259,6 +265,7 @@ public class SharePlace {
         // 예약테이블 받아와서 바에다가 시각적인 정보 게종
 
     }
+*/
 
     public boolean getActivity() {
         return this.activity;
