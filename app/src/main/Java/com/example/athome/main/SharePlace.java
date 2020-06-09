@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import com.example.athome.R;
 import com.example.athome.RestRequestHelper;
 import com.example.athome.non_member.nonReserveActivity;
-import com.example.athome.parking_details.ParkingDetailsActivity;
 import com.example.athome.reservation.ReserveActivity;
 import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.ReserveListResult;
@@ -111,8 +110,8 @@ public class SharePlace {
 
                 Log.d("ResTest",intent.getStringExtra("locationId"));
 
-                    ReservationList(intent);
-                    parseMsg();
+                ReservationList(intent);
+                parseMsg();
 
                 fee.setText(600 + "원/시간");
                 time.setText("1시 ~ 6시");
@@ -163,15 +162,10 @@ public class SharePlace {
 
         // 미리보기 비활성화 버튼
         preview_close = (ImageView)main.findViewById(R.id.preview_close);
-        // 미리보기 비활성화 버튼
-        preview_close = (ImageView)main.findViewById(R.id.preview_close);
-
         preview_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(main.getApplicationContext(), ParkingDetailsActivity.class);
-                main.startActivity(intent);
-
+                main.PreviewInvisible();
             }
         });
 
@@ -219,13 +213,13 @@ public class SharePlace {
         }
     }
 
+
     void parseMsg(){
-
-
         for(int i=0;i<startTimeList.size();i++) {
 
             Log.d("junggyu", startTimeList.get(i));
             Log.d("junggyu", endTimeList.get(i));
+
         }
     }
 

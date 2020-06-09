@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.athome.RestRequestHelper;
 import com.example.athome.reservation.CustomTimePickerDialog;
@@ -32,35 +33,45 @@ import retrofit2.Response;
 
 public class SharedParkingTime extends AppCompatActivity {
 
+    // 처음에 초기값 받아올 부분
     private ShareInfoResult sir;
 
-    private TextView allday, startTime, endTime;
+    // 시작시간, 종료시간, 뒤로가기 버튼 , 전부 제어하는 스위치, 저장버튼
+    private TextView startTime, endTime;
     private Button backBtn;
-    private ImageButton saveBtn;
     private Switch allBtn;
+    private ImageButton saveBtn;
 
+    // 요일별 버튼들과 요일별 버튼의 값을 저장하는 부분
     private Button[] dayButton = new Button[7];
     private int[] dayState = new int[7];
 
     static final int START_TIME_DIALOG_ID = 1;
     static final int END_TIME_DIALOG_ID = 2;
 
-    private int mHour;
-    private int mMinute;
+    // 시작시간, 종료시간
+    private int sHour;
+    private int sMinute;
+    private int eHour;
+    private int eMinute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sharedparking_time);
         this.Initialize();
+        initShareData();
+        setButtonState();
         this.setListner();
-
     }
 
+    // 해당 화면으로 전환될때 서버에서 시작, 종료시간과 요일별 데이터를 받아옴
     void initShareData() {
 
         SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
         String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
+
+        Log.d("junggyu", sharedToken);
 
         ApiService serviceApi = new RestRequestHelper().getApiService();
         final Call<ShareInfoResult> res = serviceApi.getShareData(sharedToken, "");
@@ -81,6 +92,33 @@ public class SharedParkingTime extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        if(sir.getResult().equals("success")) {
+
+            Toast.makeText(getApplicationContext(), sir.getMessage(), Toast.LENGTH_SHORT).show();
+            String sSplit[] = sir.getStartTime().split(":");
+
+            sHour = Integer.parseInt(sSplit[0]);
+            sMinute=Integer.parseInt(sSplit[1]);
+            String eSplit[] = sir.getEndTime().split(":");
+            eHour=Integer.parseInt(eSplit[0]);
+            eMinute=Integer.parseInt(eSplit[1]);
+
+            startTime.setText(sir.getStartTime());
+            endTime.setText(sir.getEndTime());
+            dayState[0]=sir.getSun();
+            dayState[1]=sir.getMon();
+            dayState[2]=sir.getTue();
+            dayState[3]=sir.getWed();
+            dayState[4]=sir.getThu();
+            dayState[5]=sir.getFri();
+            dayState[6]=sir.getSat();
+
+        } else {
+            Toast.makeText(getApplicationContext(), sir.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+
 
     }
 
@@ -104,12 +142,11 @@ public class SharedParkingTime extends AppCompatActivity {
 
             }
         });
+
+        Toast.makeText(getApplicationContext(), "저장에 성공했습니다.", Toast.LENGTH_SHORT).show();
     }
 
     public void Initialize() {
-
-        initShareData();
-
         startTime = findViewById(R.id.share_time_start);
         endTime = findViewById(R.id.share_time_end);
         allBtn = findViewById(R.id.allday_switch);
@@ -122,10 +159,6 @@ public class SharedParkingTime extends AppCompatActivity {
         dayButton[6] = findViewById(R.id.saturday);
         backBtn = findViewById(R.id.share_time_backBtn);
         saveBtn = findViewById(R.id.time_saveBtn);
-
-        setButtonState();
-
-
     }
 
     void setButtonState() {
@@ -227,7 +260,17 @@ public class SharedParkingTime extends AppCompatActivity {
                         }
                         break;
                     case R.id.time_saveBtn:
-                        sendShareData();
+                        if(eHour<sHour) {
+                            startTime.setText("00:00");
+                            endTime.setText("00:00");
+                            Toast.makeText(getApplicationContext(), "올바른 시간을 선택해 주세요!", Toast.LENGTH_LONG).show();
+                        } else if(eHour==sHour && eMinute<=sMinute) {
+                            startTime.setText("00:00");
+                            endTime.setText("00:00");
+                            Toast.makeText(getApplicationContext(), "올바른 시간을 선택해 주세요!", Toast.LENGTH_LONG).show();
+                        } else {
+                            sendShareData();
+                        }
                         break;
 
 
@@ -275,9 +318,9 @@ public class SharedParkingTime extends AppCompatActivity {
 
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    mHour = hourOfDay;
-                    mMinute = minute;
-                    startTime.setText(String.format("%d시 %d분", mHour, mMinute));
+                    sHour = hourOfDay;
+                    sMinute = minute;
+                    startTime.setText(String.format("%d:%d", sHour, sMinute));
                 }
             };
 
@@ -286,9 +329,9 @@ public class SharedParkingTime extends AppCompatActivity {
             new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    mHour = hourOfDay;
-                    mMinute = minute;
-                    endTime.setText(String.format("%d시 %d분", mHour, mMinute));
+                    eHour = hourOfDay;
+                    eMinute = minute;
+                    endTime.setText(String.format("%d:%d", eHour, eMinute));
                 }
             };
 
@@ -296,10 +339,10 @@ public class SharedParkingTime extends AppCompatActivity {
     protected Dialog onCreateDialog(int id) {
         switch (id) {
             case START_TIME_DIALOG_ID:
-                return new CustomTimePickerDialog(this, mStartTimeSetListener, mHour, mMinute, true);
+                return new CustomTimePickerDialog(this, mStartTimeSetListener, sHour, sMinute, true);
 
             case END_TIME_DIALOG_ID:
-                return new CustomTimePickerDialog(this, mEndTimeSetListener, mHour, mMinute, true);
+                return new CustomTimePickerDialog(this, mEndTimeSetListener, eHour, eMinute, true);
         }
 
         return null;
