@@ -1,137 +1,77 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#fce4ec"
-    android:padding="10dp">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/detail"
-        android:layout_width="fill_parent"
-        android:layout_height="66dp"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/dreamgothic"
-        android:gravity="center_horizontal"
-        android:padding="15dp"
-        android:text="세부 정보"
-        android:textColor="@color/input_register"
-        android:textSize="20sp" />
-    <LinearLayout
+
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/parking_details_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        >
+        android:background="@drawable/toolbar_background"
+        app:contentInsetStart="0dp"
+        tools:ignore="MissingConstraints">
 
-        <ImageView
-        android:id="@+id/de_img"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        tools:srcCompat="@tools:sample/backgrounds/scenic"
-        tools:visibility="visible" />
+        <Button
+            android:id="@+id/btn_back_parking_details"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:background="#00ff0000"
+            android:drawableRight="@drawable/back2"
+            android:gravity="center"
+            android:text="" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/parking_details_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="공유주차장 번호"
-            android:textColor="@color/input_register"
+            android:layout_gravity="center"
+            android:fontFamily="@font/bareun3"
+            android:text="구간42($241019)"
+            android:textColor="@color/white"
             android:textSize="17sp" />
-    </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/parking_details_tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="#C8424E"
+        app:tabIndicatorHeight="3dp"
+        app:tabSelectedTextColor="#C8424E"
+        app:tabTextColor="#757575" />
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="left"
-        android:orientation="vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/de_location"
-            android:layout_width="fill_parent"
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/parking_details_viewpager"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:padding="10dp"
-            android:text="위치정보"
-            android:textColor="@color/input_register"
-            android:textSize="15sp"
-            tools:visibility="visible" />
-
-        <TextView
-            android:id="@+id/de_fee"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:padding="10dp"
-            android:text="주차요금"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            tools:visibility="visible" />
-
-        <TextView
-            android:id="@+id/de_time"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:padding="10dp"
-            android:text="운영시간"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            tools:visibility="visible" />
-
-        <TextView
-            android:id="@+id/de_call"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:padding="10dp"
-            android:text="연락처"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            tools:visibility="visible" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="140dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+            android:layout_weight="1" />
 
         <Button
-            android:id="@+id/de_navi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
-            android:layout_weight="1"
-            android:padding="15dp"
-            android:layout_marginHorizontal="8dp"
-            android:background="@color/colorAccent"
-            android:fontFamily="@font/dreamgothic"
-            android:text="바로 안내"
-            android:textColor="@color/white" />
-
-        <Button
-            android:id="@+id/de_res"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
-            android:layout_weight="1"
-            android:padding="15dp"
-            android:layout_marginHorizontal="8dp"
-            android:background="@drawable/edit_border2"
-            android:fontFamily="@font/dreamgothic"
+            android:id="@+id/btn_reserv"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/edit_border5"
+            android:fontFamily="@font/bareun1"
             android:text="예약하기"
-            android:textColor="@color/input_register_bg" />
-
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
     </LinearLayout>
-</LinearLayout>
 
+</LinearLayout>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
@@ -52,8 +51,8 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:text="SHARE"
-                android:textSize="12dp"
-                android:textColor="@color/control_switch_color_selector" />
+                android:textColor="@color/control_switch_color_selector"
+                android:textSize="12dp" />
 
             <RadioButton
                 android:id="@+id/share_off"
@@ -140,19 +139,22 @@
             android:layout_marginBottom="-67dp"
             android:orientation="vertical" />
 
+
+
         <LinearLayout
             android:id="@+id/preview"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="170dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="0dp"
-            android:background="@color/white"
+            android:layout_margin="5dp"
+            android:background="@drawable/edit_border3"
             android:orientation="vertical"
             android:padding="7dp"
             android:paddingBottom="0dp"
             android:toAlpha="1.0">
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -166,13 +168,13 @@
                     android:layout_marginRight="10dp"
                     android:background="@drawable/toolbar_background"
                     android:fontFamily="@font/bareun3"
-                    android:text="  공유P  "
+                    android:text=" 공유P "
                     android:textColor="@color/white"
                     android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/account_text"
-                    android:layout_width="299dp"
+                    android:layout_width="309dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/bareun3"
                     android:text="구획 15-4-5(#255074)"
@@ -183,33 +185,38 @@
                     android:id="@+id/preview_close"
                     android:layout_width="16dp"
                     android:layout_height="match_parent"
-                    android:layout_gravity="right"
+                    android:layout_gravity="right|center"
                     app:srcCompat="@drawable/more" />
+
             </LinearLayout>
+
+
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="7dp">
+                android:layout_marginTop="7dp"
+                android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/space_img"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    app:srcCompat="@drawable/ap_logo" />
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
+
+
                     <LinearLayout
                         android:layout_width="95dp"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/dreamgothic3"
                         android:orientation="vertical">
+
+
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -231,7 +238,11 @@
                                 android:fontFamily="@font/bareun1"
                                 android:text="주차요금"
                                 android:textSize="14sp" />
+
                         </LinearLayout>
+
+
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -253,7 +264,11 @@
                                 android:fontFamily="@font/bareun1"
                                 android:text="운영시간"
                                 android:textSize="14sp" />
+
                         </LinearLayout>
+
+
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -275,15 +290,22 @@
                                 android:fontFamily="@font/bareun1"
                                 android:text="주소"
                                 android:textSize="14sp" />
+
                         </LinearLayout>
 
                     </LinearLayout>
+
+
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/dreamgothic3"
                         android:orientation="vertical">
+
+
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -301,7 +323,11 @@
                                 android:text="1시간 1200원"
                                 android:textColor="@color/black"
                                 android:textSize="14sp" />
+
                         </LinearLayout>
+
+
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -319,7 +345,11 @@
                                 android:text="09:00~18:00"
                                 android:textColor="@color/black"
                                 android:textSize="14sp" />
+
                         </LinearLayout>
+
+
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -337,20 +367,22 @@
                                 android:text="수원시 영통구 연무동"
                                 android:textColor="@color/black"
                                 android:textSize="14sp" />
+
                         </LinearLayout>
 
-
                     </LinearLayout>
+
                 </LinearLayout>
 
-
             </LinearLayout>
+
+
 
 
             <LinearLayout
                 android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <Button
@@ -381,7 +413,6 @@
 
         </LinearLayout>
 
-
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -390,4 +421,5 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:maxWidth="350dp" />
+
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import com.example.athome.R;
 import com.example.athome.RestRequestHelper;
 import com.example.athome.non_member.nonReserveActivity;
+import com.example.athome.parking_details.ParkingDetailsActivity;
 import com.example.athome.reservation.ReserveActivity;
 import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.ReserveListResult;
@@ -162,10 +163,15 @@ public class SharePlace {
 
         // 미리보기 비활성화 버튼
         preview_close = (ImageView)main.findViewById(R.id.preview_close);
+        // 미리보기 비활성화 버튼
+        preview_close = (ImageView)main.findViewById(R.id.preview_close);
+
         preview_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                main.PreviewInvisible();
+                Intent intent = new Intent(main.getApplicationContext(), ParkingDetailsActivity.class);
+                main.startActivity(intent);
+
             }
         });
 

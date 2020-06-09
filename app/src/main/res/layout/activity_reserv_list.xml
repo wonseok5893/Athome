@@ -1,12 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/reserv_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/reserv_list_toolbar"
@@ -23,8 +26,7 @@
             android:background="#00ff0000"
             android:drawableRight="@drawable/back2"
             android:gravity="center"
-            android:text=""
-             />
+            android:text="" />
 
         <TextView
             android:id="@+id/reserv_list_text"
@@ -34,9 +36,7 @@
             android:fontFamily="@font/bareun3"
             android:text="@string/reserv_list"
             android:textColor="@color/white"
-            android:textSize="17sp"
-            />
-
+            android:textSize="17sp" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -46,16 +46,14 @@
         android:layout_height="45dp"
         android:background="@color/white"
         app:tabGravity="fill"
-        app:tabTextColor="#757575"
         app:tabIndicatorColor="#C8424E"
-        app:tabIndicatorHeight="4dp"
+        app:tabIndicatorHeight="3dp"
         app:tabSelectedTextColor="#C8424E"
-        />
+        app:tabTextColor="#757575" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/reserv_list_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
+        android:layout_height="match_parent" />
 
 </LinearLayout>

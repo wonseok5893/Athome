@@ -1,10 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+
 
 
     <androidx.appcompat.widget.Toolbar
@@ -37,16 +39,22 @@
     </androidx.appcompat.widget.Toolbar>
 
 
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
 
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+
 
 
             <LinearLayout
@@ -62,9 +70,11 @@
                     android:fontFamily="@font/bareun3"
                     android:paddingLeft="20dp"
                     android:paddingTop="20dp"
-                    android:text="주차 정보"
+                    android:text="구획확인"
                     android:textColor="#0026ca"
                     android:textSize="15sp" />
+
+
 
 
                 <LinearLayout
@@ -72,6 +82,8 @@
                     android:layout_height="wrap_content"
                     android:background="#ffffff"
                     android:orientation="vertical">
+
+
 
 
                     <LinearLayout
@@ -104,10 +116,37 @@
 
                     </LinearLayout>
 
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bareun3"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:text="주차정보"
+                    android:textColor="#0026ca"
+                    android:textSize="15sp" />
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#ffffff"
+                    android:orientation="vertical">
+
+
+
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
+                        android:layout_marginTop="10dp"
                         android:orientation="horizontal">
+
+
 
                         <LinearLayout
                             android:id="@+id/reserv_start"
@@ -146,6 +185,7 @@
                                 android:text="00:00"
                                 android:textColor="@color/black"
                                 android:textSize="20sp" />
+
                         </LinearLayout>
 
                         <ImageView
@@ -154,6 +194,9 @@
                             android:layout_height="25dp"
                             android:layout_marginTop="30dp"
                             app:srcCompat="@drawable/next_page" />
+
+
+
 
                         <LinearLayout
                             android:id="@+id/reserv_end"
@@ -192,8 +235,12 @@
                                 android:text="00:00"
                                 android:textColor="@color/black"
                                 android:textSize="20sp" />
+
                         </LinearLayout>
+
                     </LinearLayout>
+
+
 
 
                     <LinearLayout
@@ -220,10 +267,13 @@
                             android:fontFamily="@font/dreamgothic3"
                             android:gravity="right"
                             android:padding="10dp"
+                            android:text="1시간"
                             android:textColor="@color/black"
                             android:textSize="13sp" />
 
                     </LinearLayout>
+
+
 
 
                     <LinearLayout
@@ -270,11 +320,14 @@
                     android:textSize="15sp" />
 
 
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:background="#ffffff"
                     android:orientation="vertical">
+
+
 
 
                     <LinearLayout
@@ -292,6 +345,8 @@
                             android:text="포인트 사용"
                             android:textSize="13sp"
                             android:textStyle="bold" />
+
+
 
 
                         <LinearLayout
@@ -314,6 +369,8 @@
                                 android:textColor="@color/input_register"
                                 android:textColorHint="@color/input_register_hint"
                                 android:textSize="13sp" />
+
+
 
 
                             <LinearLayout
@@ -362,8 +419,6 @@
 
                 </LinearLayout>
 
-
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -373,6 +428,7 @@
                     android:text="결제하기"
                     android:textColor="#0026ca"
                     android:textSize="15sp" />
+
 
 
                 <LinearLayout
@@ -397,8 +453,9 @@
 
                 </LinearLayout>
 
-
             </LinearLayout>
+
+
 
 
             <LinearLayout
@@ -408,6 +465,8 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_border4"
                 android:orientation="vertical">
+
+
 
 
                 <LinearLayout
@@ -441,7 +500,6 @@
 
                 </LinearLayout>
 
-
                 <Button
                     android:id="@+id/btn_next_reserv"
                     android:layout_width="match_parent"
@@ -454,6 +512,9 @@
                     android:textSize="16sp" />
 
             </LinearLayout>
+
         </LinearLayout>
+
     </ScrollView>
+
 </LinearLayout>
