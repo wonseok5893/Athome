@@ -1,19 +1,17 @@
 package com.example.athome.reservation_list;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
-
 import com.example.athome.R;
+import com.example.athome.retrofit.ReservationListResult;
+import com.example.athome.retrofit.ReservationListResult_data;
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.ArrayList;
 
 public class ReservListActivity extends AppCompatActivity {
     private Button btn_back_reserv;
@@ -26,11 +24,14 @@ public class ReservListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserv_list);
 
+        Intent intent = getIntent();
+        ArrayList<ReservationListResult_data> data = intent.getParcelableArrayListExtra("data");
+
         this.InitializeView();
         this.SetListner();
 
         final ViewPager viewPager=(ViewPager)findViewById(R.id.reserv_list_viewpager);
-        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount(),data);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

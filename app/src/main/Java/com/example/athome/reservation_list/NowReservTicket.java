@@ -1,11 +1,13 @@
 package com.example.athome.reservation_list;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.athome.R;
 
@@ -16,6 +18,7 @@ public class NowReservTicket extends Activity {
     private Button btn_reserv_ticket_payment_cancel; //결제취소
     private Button btn_reserv_ticket_time_extension; //시간연장
     private LinearLayout more_parking_linear; //주차장정보
+    private TextView now_reserv_start_date,now_reserv_start_time,now_reserv_end_date,now_reserv_end_time,parking_number,now_reserv_car_number,now_reserv_state_value;
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
@@ -31,6 +34,23 @@ public class NowReservTicket extends Activity {
         btn_reserv_ticket_payment_cancel=(Button)findViewById(R.id. btn_reserv_ticket_payment_cancel);
         btn_reserv_ticket_time_extension=(Button)findViewById(R.id.btn_reserv_ticket_time_extension);
         more_parking_linear=(LinearLayout)findViewById(R.id.more_parking_linear);
+
+        Intent intent = getIntent();
+        now_reserv_start_date = (TextView)findViewById(R.id.now_reserv_start_date);
+        now_reserv_start_time = (TextView)findViewById(R.id.now_reserv_start_time);
+        now_reserv_end_date = (TextView)findViewById(R.id.now_reserv_end_date);
+        now_reserv_end_time = (TextView)findViewById(R.id.now_reserv_end_time);
+        parking_number = (TextView)findViewById(R.id.parking_number);
+        now_reserv_car_number = (TextView)findViewById(R.id.now_reserv_car_number);
+        now_reserv_state_value = (TextView)findViewById(R.id.now_reserv_state_value);
+
+        now_reserv_start_date.setText(intent.getStringExtra("nowReserveStartDate"));
+        now_reserv_start_time.setText(intent.getStringExtra("nowReserveStartTime"));
+        now_reserv_end_date.setText(intent.getStringExtra("nowReserveEndDate"));
+        now_reserv_end_time.setText(intent.getStringExtra("nowReserveEndTime"));
+        parking_number.setText(intent.getStringExtra("nowReserveCarNumber"));
+        now_reserv_car_number.setText(intent.getStringExtra("nowReserveParkingNumber"));
+        now_reserv_state_value.setText(intent.getStringExtra("nowReserveState"));
     }
 
     public void SetListner()

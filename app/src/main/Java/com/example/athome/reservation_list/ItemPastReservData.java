@@ -66,12 +66,12 @@ public class ItemPastReservData {
     }
 
     public ItemPastReservData(String pastReservStartDate,
-            String pastReservEndDate,
-            String pastReservStartTime,
-            String pastReservEndTime,
-            String pastReservCarNumber,
-            String pastReservParkingNumber,
-            String pastReservParkingAddress) {
+                              String pastReservEndDate,
+                              String pastReservStartTime,
+                              String pastReservEndTime,
+                              String pastReservCarNumber,
+                              String pastReservParkingNumber,
+                              String pastReservParkingAddress) {
         this.pastReservEndDate=pastReservEndDate;
         this.pastReservStartTime=pastReservStartTime;
         this.pastReservEndTime=pastReservEndTime;

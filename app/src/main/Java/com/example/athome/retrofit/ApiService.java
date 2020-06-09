@@ -90,6 +90,13 @@ public interface ApiService {
 
     @GET("notices")
     Call<ItemNoticeResult> allNotice(@Query("noticeName") String noticeName);
+
+    //예약정보 받아오기
+    @FormUrlEncoded
+    @POST("user/myReservation")
+    Call<ReservationListResult> getReservation(@Header("x-access-token") String token
+            , @Field("reserve") String reserve);
+
     //==========================관리자===========================================================
     @FormUrlEncoded
     @POST("admin/users")

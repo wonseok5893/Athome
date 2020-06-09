@@ -1,26 +1,80 @@
 package com.example.athome.reservation_list;
 
+import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.example.athome.retrofit.ReservationListResult;
+import com.example.athome.retrofit.ReservationListResult_data;
+
+import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 public class PagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
-
-    public PagerAdapter(FragmentManager fm, int NumOfTabs) {
+    ArrayList<ReservationListResult_data> data;
+    ReservationListResult_data current;
+    ArrayList<ReservationListResult_data> past = new ArrayList<>();
+    public PagerAdapter(FragmentManager fm, int NumOfTabs, ArrayList<ReservationListResult_data> data) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
+        this.data = data;
+        classifyReserv(data);
+    }
+    private void classifyReserv(ArrayList<ReservationListResult_data> data) {
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat sdfNow = new SimpleDateFormat("HH:mm");
+        String nowTime = sdfNow.format(date);
+
+        String end;
+        Date endDate;
+        Date nowDate = null;
+        try {
+            nowDate = sdfNow.parse(nowTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        int size = data.size();
+        for(int i = 0; i < size; i++) {
+            end = data.get(i).getEndTime().substring(11,16);
+
+            try {
+                endDate = sdfNow.parse(end);
+                if(nowDate.getTime() < endDate.getTime())
+                    current = data.get(i);
+                else if(endDate.getTime() <= nowDate.getTime())
+                    past.add(data.get(i));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     @Override
     public Fragment getItem(int position) {
-
+        Bundle bundle;
         switch (position) {
             case 0:
                 NowReservFragmnet tab1 = new NowReservFragmnet();
+                bundle = new Bundle();
+                bundle.putParcelable("current", current);
+                tab1.setArguments(bundle);
                 return tab1;
             case 1:
                 PastReservFragmnet tab2 = new PastReservFragmnet();
+                bundle = new Bundle();
+                bundle.putParcelableArrayList("past",past);
+                tab2.setArguments(bundle);
                 return tab2;
             default:
                 return null;
