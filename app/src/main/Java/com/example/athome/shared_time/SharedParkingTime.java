@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Switch;
@@ -40,6 +41,7 @@ public class SharedParkingTime extends AppCompatActivity {
     private TextView allday, startTime, endTime;
     private Button monBtn, tuesBtn, wenBtn, thurBtn, friBtn, satBtn, sunBtn;
     private Button backBtn;
+    private ImageButton saveBtn;
     private Switch allBtn;
     boolean monState = true;
     boolean tueState = true;
@@ -78,6 +80,7 @@ public class SharedParkingTime extends AppCompatActivity {
         satBtn = findViewById(R.id.saturday);
         sunBtn = findViewById(R.id.sunday);
         backBtn = findViewById(R.id.share_time_backBtn);
+        saveBtn = findViewById(R.id.time_saveBtn);
 
     }
 

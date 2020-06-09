@@ -60,7 +60,6 @@ public class nonReserveActivity extends AppCompatActivity {
     private EditText non_name_id;
     private EditText non_phnum_id;
 
-
     private Calendar c;
     private int smYear;
     private int smMonth;
@@ -153,14 +152,14 @@ public class nonReserveActivity extends AppCompatActivity {
                         finish();
                         overridePendingTransition(R.anim.not_move_activity,R.anim.rightout_activity);
                         break;
-                    case R.id.reserv_start://예약시작날짜와시간설정
+                    case R.id.non_reserv_start://예약시작날짜와시간설정
                         showDialog(START_DATE_DIALOG_ID);
                         break;
-                    case R.id.reserv_end: //예약종료날짜와시간설정
+                    case R.id.non_reserv_end: //예약종료날짜와시간설정
                         showDialog(END_DATE_DIALOG_ID);
                         break;
 
-                    case R.id.btn_next_reserv:
+                    case R.id.btn_next_non_reserv:
                         SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                         String startTimeString = smYear+"-"+(smMonth+1)+"-"+smDay+" "+smHour+":"+smMinute;//"2013-04-08 10:10";
                         String endTimeString = emYear+"-"+(emMonth+1)+"-"+emDay +" "+emHour+":"+emMinute;//"2013-04-08 10:10";
