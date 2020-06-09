@@ -22,8 +22,11 @@ import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.util.MarkerIcons;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import retrofit2.Call;
 
@@ -36,6 +39,8 @@ public class SharePlace {
 
     private boolean activity = false;
 
+    private ArrayList<String> startTimeList = new ArrayList<>();
+    private ArrayList<String> endTimeList = new ArrayList<>();
 
     private String locationId;
     private String userId; // 고유번호
@@ -105,7 +110,8 @@ public class SharePlace {
 
                 Log.d("ResTest",intent.getStringExtra("locationId"));
 
-                ReservationList(intent);
+                    ReservationList(intent);
+                    parseMsg();
 
                 fee.setText(600 + "원/시간");
                 time.setText("1시 ~ 6시");
@@ -170,7 +176,7 @@ public class SharePlace {
         loc = (TextView)main.findViewById(R.id.space_loc);
     }
 
-    void ReservationList(Intent intent) {
+    void ReservationList(Intent intent){
 
 
         ApiService serviceApi = new RestRequestHelper().getApiService();
@@ -197,17 +203,25 @@ public class SharePlace {
             Log.i("junggyu", "예약사항없음 or 실패 으앙!");
         } else {
             int reservCount = reserveResult.getReservationList().size();
-            ArrayList<String> reserveList = new ArrayList<>();
 
             for (int i = 0; i < reservCount; i++) {
                 String s = reserveResult.getReservationList().get(i).getStartTime();
                 String e = reserveResult.getReservationList().get(i).getEndTime();
-                Log.i("junggyu", s + " " + e);
+                startTimeList.add(s);
+                endTimeList.add(e);
             }
         }
     }
 
+    void parseMsg(){
 
+
+        for(int i=0;i<startTimeList.size();i++) {
+
+            Log.d("junggyu", startTimeList.get(i));
+            Log.d("junggyu", endTimeList.get(i));
+        }
+    }
 
 
 

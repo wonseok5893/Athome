@@ -72,8 +72,17 @@ public interface ApiService {
                                      @Field("capstone") String capstone);
 
     @FormUrlEncoded
-    @POST("api/shareinfo")
-    Call<ShareInfoResult> getShareData(@Header("x-access-token") String token);
+    @POST("api/shareInfo")
+    Call<ShareInfoResult> getShareData(@Header("x-access-token") String token,
+                                    @Field("trash")String trash);
+
+    @FormUrlEncoded
+    @POST("api/sendShareInfo")
+    Call<ResponseBody> sendShareData(@Header("x-access-token") String token,
+                                     @Field("days") String days,
+                                     @Field("startTime") String startTime,
+                                     @Field("endTime") String endTime);
+
 
 
     @GET("api/reserveList")

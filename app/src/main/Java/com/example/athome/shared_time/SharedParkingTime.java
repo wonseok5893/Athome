@@ -3,7 +3,9 @@ package com.example.athome.shared_time;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -12,10 +14,26 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.example.athome.RestRequestHelper;
 import com.example.athome.reservation.CustomTimePickerDialog;
 import com.example.athome.R;
+import com.example.athome.retrofit.ApiService;
+import com.example.athome.retrofit.ReserveListResult;
+import com.example.athome.retrofit.ShareInfoResult;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SharedParkingTime extends AppCompatActivity {
+
+    private ShareInfoResult sir;
+
     private TextView allday, startTime, endTime;
     private Button backBtn;
     private ImageButton saveBtn;
@@ -39,7 +57,59 @@ public class SharedParkingTime extends AppCompatActivity {
 
     }
 
+    void initShareData() {
+
+        SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
+        String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
+
+        ApiService serviceApi = new RestRequestHelper().getApiService();
+        final Call<ShareInfoResult> res = serviceApi.getShareData(sharedToken, "");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    sir = res.execute().body();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    void sendShareData() {
+        SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
+        String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
+
+        String days = Arrays.toString(dayState);
+
+        ApiService serviceApi = new RestRequestHelper().getApiService();
+        Call<ResponseBody> res = serviceApi.sendShareData(sharedToken, days, startTime.getText().toString(), endTime.getText().toString());
+
+        res.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+
     public void Initialize() {
+
+        initShareData();
+
         startTime = findViewById(R.id.share_time_start);
         endTime = findViewById(R.id.share_time_end);
         allBtn = findViewById(R.id.allday_switch);
@@ -52,6 +122,28 @@ public class SharedParkingTime extends AppCompatActivity {
         dayButton[6] = findViewById(R.id.saturday);
         backBtn = findViewById(R.id.share_time_backBtn);
         saveBtn = findViewById(R.id.time_saveBtn);
+
+        setButtonState();
+
+
+    }
+
+    void setButtonState() {
+
+        int count = 0;
+
+        while(true) {
+            if(dayState[count]==0) {
+                dayButton[count].setSelected(true);
+            } else {
+                dayButton[count].setSelected(false);
+            }
+
+            count++;
+            if(count==7)
+                break;
+        }
+
     }
 
     public void setListner() {
@@ -74,65 +166,68 @@ public class SharedParkingTime extends AppCompatActivity {
                         // 일요일이 true이면
                         if(dayState[0]==1) {
                             dayState[0]=0;
-                            dayButton[0].setSelected(false);
+                            dayButton[0].setSelected(true);
                         } else {
                             dayState[0]=1;
-                            dayButton[0].setSelected(true);
+                            dayButton[0].setSelected(false);
                         }
                         break;
                     case R.id.monday:
                         if(dayState[1]==1) {
                             dayState[1]=0;
-                            dayButton[1].setSelected(false);
+                            dayButton[1].setSelected(true);
                         } else {
                             dayState[1]=1;
-                            dayButton[1].setSelected(true);
+                            dayButton[1].setSelected(false);
                         }
                         break;
                     case R.id.tuesday:
                         if(dayState[2]==1) {
                             dayState[2]=0;
-                            dayButton[2].setSelected(false);
+                            dayButton[2].setSelected(true);
                         } else {
                             dayState[2]=1;
-                            dayButton[2].setSelected(true);
+                            dayButton[2].setSelected(false);
                         }
                         break;
                     case R.id.wensday:
                         if(dayState[3]==1) {
                             dayState[3]=0;
-                            dayButton[3].setSelected(false);
+                            dayButton[3].setSelected(true);
                         } else {
                             dayState[3]=1;
-                            dayButton[3].setSelected(true);
+                            dayButton[3].setSelected(false);
                         }
                         break;
                     case R.id.thursday:
                         if(dayState[4]==1) {
                             dayState[4]=0;
-                            dayButton[4].setSelected(false);
+                            dayButton[4].setSelected(true);
                         } else {
                             dayState[4]=1;
-                            dayButton[4].setSelected(true);
+                            dayButton[4].setSelected(false);
                         }
                         break;
                     case R.id.friday:
                         if(dayState[5]==1) {
                             dayState[5]=0;
-                            dayButton[5].setSelected(false);
+                            dayButton[5].setSelected(true);
                         } else {
                             dayState[5]=1;
-                            dayButton[5].setSelected(true);
+                            dayButton[5].setSelected(false);
                         }
                         break;
                     case R.id.saturday:
                         if(dayState[6]==1) {
                             dayState[6]=0;
-                            dayButton[6].setSelected(false);
+                            dayButton[6].setSelected(true);
                         } else {
                             dayState[6]=1;
-                            dayButton[6].setSelected(true);
+                            dayButton[6].setSelected(false);
                         }
+                        break;
+                    case R.id.time_saveBtn:
+                        sendShareData();
                         break;
 
 
@@ -140,6 +235,7 @@ public class SharedParkingTime extends AppCompatActivity {
             }
         };
 
+        saveBtn.setOnClickListener(Listener);
 
         backBtn.setOnClickListener(Listener);
         startTime.setOnClickListener(Listener);
@@ -153,8 +249,16 @@ public class SharedParkingTime extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
+                    for(int i=0;i<7;i++) {
+                        dayState[i]=0;
+                        dayButton[i].setSelected(true);
+                    }
                 }
                 else{
+                    for(int i=0;i<7;i++) {
+                        dayState[i]=1;
+                        dayButton[i].setSelected(false);
+                    }
                 }
             }
         });
