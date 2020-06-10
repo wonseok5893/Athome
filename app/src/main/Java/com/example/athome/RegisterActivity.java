@@ -2,12 +2,15 @@ package com.example.athome;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.regex.Pattern;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -50,12 +53,18 @@ public class RegisterActivity extends AppCompatActivity {
                 if (userId.isEmpty() || userPassword.isEmpty() || userCheckPassword.isEmpty() || userName.isEmpty() || userEmail.isEmpty() ||
                         userPhone.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "모든 항목을 기입하십시오.", Toast.LENGTH_SHORT).show();
+                }else if(!Pattern.matches("^[a-zA-Z]*$",userId)){
+                    Toast.makeText(getApplicationContext(), "아이디는 영문자와 숫자로만 가능합니다.", Toast.LENGTH_SHORT).show();
                 }else if(userPassword.length()<8||!userPassword.equals(userCheckPassword)){
                     Toast.makeText(getApplicationContext(), "비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
                 }
                 else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()
                 ) {
                     Toast.makeText(getApplicationContext(), "이메일 형식이 맞지 않습니다.", Toast.LENGTH_SHORT).show();
+                }else if(!Pattern.matches("^[a-zA-Z]*$",userName)&&Pattern.matches("^[가-힣]*$",userName)){
+                    Toast.makeText(getApplicationContext(), "이름 형식이 맞지 않습니다.", Toast.LENGTH_SHORT).show();
+                } else if (userPhone.length()>11||!Pattern.matches("^[0-9]*$",userPhone)) {
+                    Toast.makeText(getApplicationContext(), "전화번호 형식이 맞지 않습니다.", Toast.LENGTH_SHORT).show();
                 } else {
                     User user = new User(userId, userPassword, userName, userEmail, userPhone);
                     // 1. register (w/ created token(init))
@@ -68,8 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
                             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                             startActivity(intent);
-                        }
-                        else{
+                        } else {
                             Toast.makeText(getApplicationContext(), user.getRegisterMessage(), Toast.LENGTH_SHORT).show();
                         }
                     } catch (Exception e) {
