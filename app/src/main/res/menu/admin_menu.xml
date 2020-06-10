@@ -13,7 +13,7 @@
             />
         <item
             android:id="@+id/payment"
-            android:title="결제•충전•적립"
+            android:title="결제•충전"
             android:fontFamily="@font/dreamgothic7"
             />
         <item

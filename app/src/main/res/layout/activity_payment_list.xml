@@ -12,7 +12,7 @@
 
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/reserv_list_toolbar"
+        android:id="@+id/payment_list_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/toolbar_background"
@@ -20,7 +20,7 @@
         tools:ignore="MissingConstraints">
 
         <Button
-            android:id="@+id/btn_back_reserv"
+            android:id="@+id/btn_back_payment_list"
             android:layout_width="35dp"
             android:layout_height="30dp"
             android:background="#00ff0000"
@@ -29,19 +29,20 @@
             android:text="" />
 
         <TextView
-            android:id="@+id/reserv_list_text"
+            android:id="@+id/payment_list_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/bareun3"
-            android:text="@string/reserv_list"
+            android:text="결제·충전"
             android:textColor="@color/white"
             android:textSize="17sp" />
 
     </androidx.appcompat.widget.Toolbar>
 
+
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
+        android:id="@+id/payment_list_tabLayout"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@color/white"
@@ -51,10 +52,43 @@
         app:tabSelectedTextColor="#C8424E"
         app:tabTextColor="#757575" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/top_bottom">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="일시"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:fontFamily="@font/bareun1"
+            android:textSize="16sp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="금액"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:fontFamily="@font/bareun1"
+            android:textSize="16sp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="내역"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:fontFamily="@font/bareun1"
+            android:textSize="16sp"
+            />
+    </LinearLayout>
 
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/reserv_list_viewpager"
+        <androidx.viewpager.widget.ViewPager
+        android:id="@+id/payment_list_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
