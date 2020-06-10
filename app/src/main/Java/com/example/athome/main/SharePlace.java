@@ -15,6 +15,7 @@ import com.example.athome.RestRequestHelper;
 import com.example.athome.non_member.nonReserveActivity;
 import com.example.athome.reservation.ReserveActivity;
 import com.example.athome.retrofit.ApiService;
+import com.example.athome.retrofit.LocationInfoList;
 import com.example.athome.retrofit.ReserveListResult;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.overlay.Marker;
@@ -35,12 +36,11 @@ import retrofit2.Call;
 // 앱 실행시 주차 공간마다 가지고있게하려면 필요, 마커 누를때마다 실시간으로 DB에서 가져오게 하려면 구조 변경
 public class SharePlace {
 
-    private ReserveListResult reserveResult;
+    private LocationInfoList locationInfoList;
+    String locationStartTime;
+    String locationEndTime;
+    ArrayList<Integer> locationDaySet = new ArrayList<>();
 
-    private boolean activity = false;
-
-    private ArrayList<String> startTimeList = new ArrayList<>();
-    private ArrayList<String> endTimeList = new ArrayList<>();
 
     private String locationId;
     private String userId; // 고유번호
@@ -60,6 +60,8 @@ public class SharePlace {
     private Button naviBtn, resBtn;
 
 
+
+
     // 차량등록 후 관리자가 정보 확인한 뒤 승인하면 입력 정보로 공유공간 객체 생성
     public void readSharePlace(String locationId,
                                String userId,
@@ -71,7 +73,6 @@ public class SharePlace {
         // 예약초기화
 //        ReserveInitial();
         PriviewInitialize(main);
-
         this.locationId = locationId;
         this.locationName = locationName;
         this.userId = userId;
@@ -81,11 +82,6 @@ public class SharePlace {
         // 마커 생성후 받아온 좌표값 이용해 마커 위치정보 세팅
         this.myMarker = new Marker();
         this.myMarker.setPosition(new LatLng(this.latitude,this.longitude));
-
-        if(!activity) {
-            myMarker.setIcon(MarkerIcons.BLACK);
-            myMarker.setIconTintColor(Color.GRAY);
-        }
 
         final Intent intent = new Intent(main.getApplicationContext(), ReserveActivity.class);
         final Intent nonuser_intent = new Intent(main.getApplicationContext(), nonReserveActivity.class);
@@ -108,10 +104,8 @@ public class SharePlace {
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
 
+                initLocationInfo(intent);
                 Log.d("ResTest",intent.getStringExtra("locationId"));
-
-                ReservationList(intent);
-                parseMsg();
 
                 fee.setText(600 + "원/시간");
                 time.setText("1시 ~ 6시");
@@ -176,18 +170,16 @@ public class SharePlace {
         loc = (TextView)main.findViewById(R.id.space_loc);
     }
 
-    void ReservationList(Intent intent){
-
+    void initLocationInfo(Intent intent) {
 
         ApiService serviceApi = new RestRequestHelper().getApiService();
-        final Call<ReserveListResult> res = serviceApi.getReserveData(intent.getStringExtra("locationId"));
-        Log.d("ResTest",intent.getStringExtra("locationId"));
+        final Call<LocationInfoList> res = serviceApi.getLocationInfo(locationId);
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    reserveResult = res.execute().body();
+                    locationInfoList = res.execute().body();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -199,114 +191,23 @@ public class SharePlace {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if (reserveResult == null) {
-            Log.i("junggyu", "예약사항없음 or 실패 으앙!");
-        } else {
-            int reservCount = reserveResult.getReservationList().size();
 
-            for (int i = 0; i < reservCount; i++) {
-                String s = reserveResult.getReservationList().get(i).getStartTime();
-                String e = reserveResult.getReservationList().get(i).getEndTime();
-                startTimeList.add(s);
-                endTimeList.add(e);
-            }
-        }
-    }
+        this.locationStartTime = locationInfoList.getLocationInfo().getPossibleStartTime();
+        this.locationEndTime = locationInfoList.getLocationInfo().getPossibleEndTime();
+        this.locationDaySet = (ArrayList<Integer>) locationInfoList.getLocationInfo().getTimeState();
 
+        int timeArray[] = new int[7];
 
-    void parseMsg(){
-        for(int i=0;i<startTimeList.size();i++) {
-
-            Log.d("junggyu", startTimeList.get(i));
-            Log.d("junggyu", endTimeList.get(i));
-
-        }
-    }
-
-
-
-/*
-    void ReserveInitial() {
-
-
-            서버에서 받아와야 할 값
-            1. 몇시부터 몇시까지 공유하는지
-            2. 어느요일에 공유하는지
-
-
-        // 파싱해서 여기다 값 대입해주기
-        this.todayOn = todayOn;
-        this.shareTime = shareTime;
-        this.week = week;
-
-        // 오늘 날짜가 공유하는 테이블인지 확인
-        switch (String.valueOf(doDayOfWeek())) { // 해당 요일의 week의 값이 true이면 activate를 활성화시킴..
-            case "일요일":
-                if (this.week[0])
-                    this.todayOn = true;
-                break;
-            case "월요일":
-                if (this.week[1])
-                    this.todayOn = true;
-                break;
-            case "화요일":
-                if (this.week[2])
-                    this.todayOn = true;
-                break;
-            case "수요일":
-                if (this.week[3])
-                    this.todayOn = true;
-                break;
-            case "목요일":
-                if (this.week[4])
-                    this.todayOn = true;
-                break;
-            case "금요일":
-                if (this.week[5])
-                    this.todayOn = true;
-                break;
-            case "토요일":
-                if (this.week[6])
-                    this.todayOn = true;
-                break;
+        Log.d("junggyu", "시작시간 : " + locationStartTime + ", 종료시간 : " + locationEndTime);
+        for(int i=0;i<locationDaySet.size();i++) {
+            timeArray[i] = locationDaySet.get(i);
         }
 
-        if(this.todayOn) { // todayOnOff가 true이고, 현재 시각에 예약이 없으면
-            this.activity = true;
-        }
+        intent.putExtra("locationStartTime", locationStartTime);
+        intent.putExtra("locationEndTime", locationEndTime);
+        intent.putExtra("locationDaySet", timeArray);
 
-        // 예약현황 참고해서 마커색깔 수정
-        // 예약테이블 받아와서 바에다가 시각적인 정보 게종
 
-    }
-*/
-
-    public boolean getActivity() {
-        return this.activity;
-    }
-
-    private String doDayOfWeek() {
-        Calendar cal = Calendar.getInstance();
-        String strWeek = null;
-
-        int nWeek = cal.get(Calendar.DAY_OF_WEEK);
-        if (nWeek == 1) {
-            strWeek = "일요일";
-        } else if (nWeek == 2) {
-            strWeek = "월요일";
-        } else if (nWeek == 3) {
-            strWeek = "화요일";
-        } else if (nWeek == 4) {
-            strWeek = "수요일";
-        } else if (nWeek == 5) {
-            strWeek = "목요일";
-        } else if (nWeek == 6) {
-            strWeek = "금요일";
-        } else if (nWeek == 7) {
-            strWeek = "토요일";
-        }
-
-        return strWeek;
     }
 
 }

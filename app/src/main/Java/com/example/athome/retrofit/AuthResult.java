@@ -36,5 +36,5 @@ public class AuthResult {
         this.authUser = authUser;
     }
 
-}
 
+}

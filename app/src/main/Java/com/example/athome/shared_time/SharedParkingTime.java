@@ -149,6 +149,8 @@ public class SharedParkingTime extends AppCompatActivity {
     public void Initialize() {
         startTime = findViewById(R.id.share_time_start);
         endTime = findViewById(R.id.share_time_end);
+        startTime.setText("00:00");
+        endTime.setText("00:00");
         allBtn = findViewById(R.id.allday_switch);
         dayButton[0] = findViewById(R.id.sunday);
         dayButton[1] = findViewById(R.id.monday);
@@ -293,14 +295,14 @@ public class SharedParkingTime extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     for(int i=0;i<7;i++) {
-                        dayState[i]=0;
-                        dayButton[i].setSelected(true);
+                        dayState[i]=1;
+                        dayButton[i].setSelected(false);
                     }
                 }
                 else{
                     for(int i=0;i<7;i++) {
-                        dayState[i]=1;
-                        dayButton[i].setSelected(false);
+                        dayState[i]=0;
+                        dayButton[i].setSelected(true);
                     }
                 }
             }

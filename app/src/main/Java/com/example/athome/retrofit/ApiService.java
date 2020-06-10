@@ -83,10 +83,8 @@ public interface ApiService {
                                      @Field("startTime") String startTime,
                                      @Field("endTime") String endTime);
 
-
-
-    @GET("api/reserveList")
-    Call<ReserveListResult> getReserveData(@Query("locationId") String locationId);
+    @GET("api/locationInfo")
+    Call<LocationInfoList> getLocationInfo(@Query("locationId") String locationId);
 
     @GET("notices")
     Call<ItemNoticeResult> allNotice(@Query("noticeName") String noticeName);
