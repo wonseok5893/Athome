@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     NavigationView navigationView;
     private static final int MESSAGE_TIMER_START = 100;
     private TimerHandler timerHandler;
-    private static final int LOGOUT_REQUEST_CODE = 117;
+    private ArrayList<SharePlace> beforeMarker = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -386,6 +386,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         for (SharePlace s : placeList) {
                             s.getMyMarker().setMap(nm);
                         }
+                        if(!beforeMarker.isEmpty() || !(beforeMarker == null)){
+                            for(SharePlace s : beforeMarker)
+                                s.getMyMarker().setMap(null);
+                        }
+                        beforeMarker.clear();
+                        beforeMarker.addAll(placeList);
                     }
 
 
@@ -455,7 +461,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }).start();
         try {
-            Thread.sleep(1000);
+            Thread.sleep(200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -470,7 +476,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             int markerCount = markerResult.getData().size();
 
             ArrayList<SharePlace> placeList = new ArrayList<>();
-
             for (int i = 0; i < markerCount; i++) {
                 SharePlace s = new SharePlace();
                 s.readSharePlace(markerResult.getData().get(i).getId()
@@ -485,9 +490,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             for (SharePlace s : placeList) {
                 s.getMyMarker().setMap(nm);
             }
+            if(!beforeMarker.isEmpty() || !(beforeMarker == null)){
+                for(SharePlace s : beforeMarker)
+                    s.getMyMarker().setMap(null);
+            }
+            beforeMarker.clear();
+            beforeMarker.addAll(placeList);
         }
-
-
     }
 
 

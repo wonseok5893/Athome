@@ -60,8 +60,6 @@ public class SharePlace {
     private Button naviBtn, resBtn;
 
 
-
-
     // 차량등록 후 관리자가 정보 확인한 뒤 승인하면 입력 정보로 공유공간 객체 생성
     public void readSharePlace(String locationId,
                                String userId,
@@ -70,8 +68,6 @@ public class SharePlace {
                                String locationName,
                                final MainActivity main) {
 
-        // 예약초기화
-//        ReserveInitial();
         PriviewInitialize(main);
         this.locationId = locationId;
         this.locationName = locationName;
@@ -110,7 +106,6 @@ public class SharePlace {
                 fee.setText(600 + "원/시간");
                 time.setText("1시 ~ 6시");
                 loc.setText(intent.getStringExtra("locationName"));
-
 
                 if (main.getUser().getUserId() == null) { // 비회원일때
                     loc.setText(nonuser_intent.getStringExtra("locationId"));

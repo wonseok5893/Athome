@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Editable;
@@ -31,13 +32,17 @@ import com.example.athome.account.CarListAdapter;
 import com.example.athome.account.ItemAccountCarData;
 import com.example.athome.reservation.CustomTimePickerDialog;
 import com.example.athome.retrofit.ApiService;
+import com.example.athome.retrofit.ReserveListResult;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import okhttp3.ResponseBody;
@@ -60,6 +65,7 @@ public class ReserveActivity extends AppCompatActivity {
     private TextView all_point_use; //포인트전액사용하기
     private CarListAdapter adapter;
     private ArrayList<ItemAccountCarData> data=new ArrayList<>();
+    private ArrayList<View> ViewList = new ArrayList<>(); //예약 시간 나타나는 창
 
     private Calendar c;
     private int smYear;
@@ -88,6 +94,12 @@ public class ReserveActivity extends AppCompatActivity {
     static final int START_TIME_DIALOG_ID=2;
     static final int END_TIME_DIALOG_ID=3;
     static final String TEXT = "text";
+    private ReserveListResult reserveResult;
+    private ArrayList<String> startTimeList = new ArrayList<>();
+    private ArrayList<String> endTimeList = new ArrayList<>();
+    private int[][] todayReserve = new int[25][6];
+    private int[][] tomorrowReserve = new int[25][6];
+
 
 
     @Override
@@ -95,9 +107,13 @@ public class ReserveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserve);
 
-        this.InitializeView();
-        this.SetListner();
         Intent intent = getIntent();
+        this.InitializeView();
+        ReservationList(intent);
+        parseMsg();
+        makeTimeTable();
+        this.SetListner();
+
         _id = intent.getStringExtra("locationId");
         userId = intent.getStringExtra("userId");
         latitude = intent.getDoubleExtra("latitude",0);
@@ -127,9 +143,201 @@ public class ReserveActivity extends AppCompatActivity {
         });
     }
 
+    private void ReservationList(Intent intent){
 
+
+        ApiService serviceApi = new RestRequestHelper().getApiService();
+        final Call<ReserveListResult> res = serviceApi.getReserveData(intent.getStringExtra("locationId"));
+        Log.d("ResTest",intent.getStringExtra("locationId"));
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    reserveResult = res.execute().body();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if (reserveResult == null) {
+            Log.i("junggyu", "예약사항없음 or 실패 으앙!");
+        } else {
+            int reservCount = reserveResult.getReservationList().size();
+
+            for (int i = 0; i < reservCount; i++) {
+                String s = reserveResult.getReservationList().get(i).getStartTime();
+                String e = reserveResult.getReservationList().get(i).getEndTime();
+                startTimeList.add(s);
+                endTimeList.add(e);
+            }
+        }
+    }
+
+    private void parseMsg() {
+        for (int i = 0; i < startTimeList.size(); i++) {
+
+            // String -> date
+            String StartStr = "";
+            StartStr = startTimeList.get(i);
+            StartStr = StartStr.replace(" GMT+00:00 ", " ");
+            String EndStr = "";
+            EndStr = endTimeList.get(i);
+            EndStr = EndStr.replace(" GMT+00:00 ", " ");
+
+            SimpleDateFormat sdfToDate = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy", Locale.US);
+            Date StartDate = null;
+            Date EndDate = null;
+            try {
+                //date -> String
+                StartDate = sdfToDate.parse(StartStr);
+                EndDate = sdfToDate.parse(EndStr);
+
+                SimpleDateFormat sdfToReserve = new SimpleDateFormat("MM dd HH mm", Locale.US);
+                StartStr = sdfToReserve.format(StartDate);
+                EndStr = sdfToReserve.format(EndDate);
+                String[] StartSplit = StartStr.split(" ");
+                String[] EndSplit = EndStr.split(" ");
+
+                // [25][6]
+                // 0 1 2 3 4 5 ...  24
+                //06 11 14 20 ,, 06 12 14 20
+                //06 11 14 20 ,, 06 11 17 20
+                /*
+                14 00 ㅇㅇㅇㅇㅇㅇ ㅇㅇㅇ
+                14 10 ㅁㅇㅇㅇㅇㅇ ㅇㅇㅇ
+                14 20 ㅁㅁㅇㅇㅇㅇ ㅇㅇㅇ
+                14 30 ㅁㅁㅁㅇㅇㅇ ㅇㅇㅇ
+                14 40 ㅁㅁㅁㅁㅇㅇ ㅇㅇㅇ
+                14 50 ㅁㅁㅁㅁㅁㅇ ㅇㅇㅇ
+                15 00 ㅁㅁㅁㅁㅁㅁ ㅇㅇㅇㅇㅇㅇ
+                14 ㅁㅁㅇㅇㅇㅇ
+                15 ㅇㅇㅇㅇㅇㅇ
+                16 ㅇㅇㅇㅇㅇㅇ
+                17 ㅇㅇㅁㅁㅁㅁ
+                 */
+                int sDay = Integer.parseInt(StartSplit[1]);
+                int sHour = Integer.parseInt(StartSplit[2]);
+                int sMin = Integer.parseInt(StartSplit[3]) / 10;
+                int eDay = Integer.parseInt(EndSplit[1]);
+                int eHour = Integer.parseInt(EndSplit[2]);
+                int eMin = Integer.parseInt(EndSplit[3]) / 10;
+
+
+//                14 ㅁㅁㅇㅇㅇㅇ  o -> [sHour][sMin]
+//                15 ㅇㅇㅇㅇㅇㅇ
+//                16 ㅇㅇㅇㅇㅇㅇ
+//                17 ㅇㅇㅁㅁㅁㅁ o -> [eHour][eMin]
+
+                //예약 타입 테이블 채우는 함수
+                setReserveList(sDay,sHour,sMin,eDay,eHour,eMin);
+
+                Log.d("junggyu", startTimeList.get(i));
+                Log.d("junggyu", endTimeList.get(i));
+                Log.d("junggyu", StartStr);
+                Log.d("junggyu", StartSplit[0]);
+                Log.d("junggyu", StartSplit[1]);
+                Log.d("junggyu", StartSplit[2]);
+                Log.d("junggyu", StartSplit[3]);
+
+                for(int a = 0; a<25 ; a++){
+                    Log.d("junggyu", a+" "+ Arrays.toString(todayReserve[a]));
+                }
+                for(int a = 0; a<25 ; a++){
+                    Log.d("junggyu", a+" "+Arrays.toString(tomorrowReserve[a]));
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+    private void setReserveList(int sDay, int sHour, int sMin, int eDay, int eHour, int eMin){
+        if (sDay == eDay) {
+            if (sDay == todayReserve[0][1]) {
+                for (int j = sHour; j <= eHour; j++) {
+                    int k = 0;
+                    int last = 6;
+                    if (j == sHour)
+                        k = sMin;
+                    if (j == eHour)
+                        last = eMin;
+                    for (; k < last; k++) {
+                        todayReserve[j][k] = 1;
+                    }
+                }
+            } else if (sDay == tomorrowReserve[0][1]) {
+                for (int j = sHour; j <= eHour; j++) {
+                    int k = 0;
+                    int last = 6;
+                    if (j == sHour)
+                        k = sMin;
+                    if (j == eHour)
+                        last = eMin;
+                    for (; k < last; k++) {
+                        tomorrowReserve[j][k] = 1;
+                    }
+                }
+            }
+        } else {
+            if (sDay == todayReserve[0][1]) {
+                for (int j = sHour; j <= 24; j++) {
+                    int k = 0;
+                    if (j == sHour)
+                        k = sMin;
+                    for (; k < 6; k++) {
+                        todayReserve[j][k] = 1;
+                    }
+                }
+                for (int j = 0; j <= eHour; j++) {
+                    int last = 6;
+                    if (j == eHour)
+                        last = eMin;
+                    for (int k = 0; k < last; k++) {
+                        tomorrowReserve[j][k] = 1;
+                    }
+                }
+            }
+        }
+    }
+    private void makeTimeTable(){
+        int count = 0;
+        for(int i = 1 ; i<25; i++){
+            for(int j = 0 ; j< 6; j++){
+                if(todayReserve[i][j] == 1)
+                    ViewList.get(count).setBackgroundColor(Color.RED);
+                count++;
+            }
+        }
+    }
 
     public void InitializeView(){
+
+        Calendar cal = Calendar.getInstance();
+
+        int month = cal.get(Calendar.MONTH) + 1;
+        int date = cal.get(Calendar.DATE);
+        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK); // 1 = 일요일 2 = 월요일 ... 7 = 토요일
+        todayReserve[0][0] = month;
+        todayReserve[0][1] = date;
+        todayReserve[0][2] = dayOfWeek;
+
+        cal.add(Calendar.DATE, 1);
+        month = cal.get(Calendar.MONTH) + 1;
+        date = cal.get(Calendar.DATE);
+        dayOfWeek = cal.get(Calendar.DAY_OF_WEEK); // 1 = 일요일 2 = 월요일 ... 7 = 토요일
+
+        tomorrowReserve[0][0] = month;
+        tomorrowReserve[0][1] = date;
+        tomorrowReserve[0][2] = dayOfWeek;
+
         reserv_start=findViewById(R.id.reserv_start);
         reserv_end=findViewById(R.id.reserv_end);
 
@@ -147,6 +355,18 @@ public class ReserveActivity extends AppCompatActivity {
         parking_time_result=findViewById(R.id.parking_time_result);
         all_point_use=findViewById(R.id.all_point_use);
         all_point_use.setPaintFlags(all_point_use.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG); //밑줄긋기
+
+        View view1 = findViewById(R.id.view1);
+
+        for(int idx_loop=1; idx_loop<145; idx_loop++) {
+            int viewId = getResources().getIdentifier("view"+idx_loop, "id", getPackageName());
+            View viewN = findViewById(viewId);
+            ViewList.add(viewN);
+        }
+
+
+
+
 
         //현재 날짜와 시간 가져오기
         c=Calendar.getInstance();
