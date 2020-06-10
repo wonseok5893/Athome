@@ -35,6 +35,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.athome.GpsTracker;
 import com.example.athome.LoginActivity;
+import com.example.athome.PurposeActivity;
 import com.example.athome.R;
 import com.example.athome.RestRequestHelper;
 import com.example.athome.User;

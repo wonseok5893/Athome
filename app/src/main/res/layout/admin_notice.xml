@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -9,26 +10,28 @@
         android:id="@+id/notice_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fce4ec">
+        android:background="@drawable/toolbar_background"
+        app:contentInsetStart="0dp"
+        tools:ignore="MissingConstraints">
 
         <Button
             android:id="@+id/admin_back"
             android:layout_width="35dp"
             android:layout_height="30dp"
             android:background="#00ff0000"
-            android:drawableRight="@drawable/back"
+            android:drawableRight="@drawable/back2"
+            android:gravity="center"
             android:text="" />
 
         <TextView
-            android:id="@+id/admin_notice"
+            android:id="@+id/admin_notic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:fontFamily="@font/dreamgothic7"
-            android:gravity="center"
+            android:fontFamily="@font/bareun3"
             android:text="관리자용 공지사항"
-            android:textColor="#000000"
-            android:textSize="16sp" />
+            android:textColor="@color/white"
+            android:textSize="17sp" />
 
         <Button
             android:id="@+id/notice_enrollBtn"
@@ -42,24 +45,13 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
->
+
+
 
             <ListView
                 android:id="@+id/admin_notice_listView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-        </LinearLayout>
-    </ScrollView>
-
 
 </LinearLayout>

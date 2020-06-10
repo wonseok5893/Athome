@@ -6,14 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/myparking_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/toolbar_background"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:contentInsetStart="0dp"
         tools:ignore="MissingConstraints">
 
@@ -22,10 +20,9 @@
             android:layout_width="35dp"
             android:layout_height="30dp"
             android:background="#00ff0000"
-            android:drawableRight="@drawable/back"
+            android:drawableRight="@drawable/back2"
             android:gravity="center"
-            android:text=""
-            />
+            android:text="" />
 
         <TextView
             android:id="@+id/myparking_text"
@@ -34,11 +31,12 @@
             android:layout_gravity="center"
             android:fontFamily="@font/bareun3"
             android:text="@string/sharedparking"
-            android:textColor="#000000"
-            android:textSize="17sp"
-         />
+            android:textColor="@color/white"
+            android:textSize="17sp" />
 
     </androidx.appcompat.widget.Toolbar>
+
+
 
     <TextView
         android:id="@+id/explanation_text"

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/reserv_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/purpose_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/toolbar_background"
+        app:contentInsetStart="0dp"
+        tools:ignore="MissingConstraints">
+
+        <Button
+            android:id="@+id/purpose_backBtn"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:background="#00ff0000"
+            android:drawableRight="@drawable/back2"
+            android:gravity="center"
+            android:text=""
+            />
+
+        <TextView
+            android:id="@+id/purpose_list_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/bareun3"
+            android:text="방문목적"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            />
+
+
+    </androidx.appcompat.widget.Toolbar>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bareun3"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:textColor="#0026ca"
+            android:textSize="15sp"
+            android:text="방문목적"
+            />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="방문목적을 작성해 주시면 100포인트를 드립니다!"
+                android:textSize="13sp"
+                android:gravity="left"
+                android:padding="10dp"
+              />
+
+            <CheckBox
+                android:id="@+id/purpose1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="외식" />
+
+            <CheckBox
+                android:id="@+id/purpose2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="쇼핑" />
+
+            <CheckBox
+                android:id="@+id/purpose3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="출장·비즈니스" />
+
+            <CheckBox
+                android:id="@+id/purpose4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="친구·친지방문" />
+
+            <CheckBox
+                android:id="@+id/purpose5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="의료·건강" />
+
+            <CheckBox
+                android:id="@+id/purpose6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="여행·휴가" />
+
+            <CheckBox
+                android:id="@+id/purpose7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="기타"/>
+
+            <EditText
+                android:id="@+id/purpose_other"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                android:padding="5dp"
+                android:hint="방문목적을 작성해주세요."
+                android:gravity="left"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint"
+                android:textSize="13sp"
+                android:inputType="text"
+                android:background="@drawable/edit_border4"/>
+
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <TextView
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/bareun1"
+        android:textSize="12sp"
+        android:text="- ○○시에서는 시 방문목적에 따른 불편사항 및 개선사항을 파악하여 시민과 관광객이 행복한 지속가능한 관광도시 조성을 위해 방문목적을 수집하고 있습니다."/>
+
+    <TextView
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/bareun1"
+        android:textSize="12sp"
+        android:text="- 본 수집은 ○○시 관광정책 수립에 필요한 기초 자료를 마련하는데 목적이 있으며, 응답하신 내용은 통계법 제33조에 의거하여 비밀이 보장되고 연구 목적 이외에는 사용되지 않습니다."/>
+
+
+    <Button
+        android:id="@+id/purpose_save"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/edit_border5"
+        android:fontFamily="@font/bareun1"
+        android:text="선택완료"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+</LinearLayout>
