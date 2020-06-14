@@ -1,5 +1,6 @@
 package com.example.athome.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
@@ -17,6 +18,11 @@ import com.example.athome.reservation.ReserveActivity;
 import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.LocationInfoList;
 import com.example.athome.retrofit.ReserveListResult;
+import com.kakao.kakaonavi.KakaoNaviParams;
+import com.kakao.kakaonavi.KakaoNaviService;
+import com.kakao.kakaonavi.Location;
+import com.kakao.kakaonavi.NaviOptions;
+import com.kakao.kakaonavi.options.CoordType;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
@@ -47,8 +53,7 @@ public class SharePlace {
     private double latitude, longitude; // 좌표
     private String locationName;
     private Marker myMarker; // 마커
-    private String img;
-
+    private Context context;
     // 미리보기 화면
     private Button space_resv;
 
@@ -63,10 +68,11 @@ public class SharePlace {
     // 차량등록 후 관리자가 정보 확인한 뒤 승인하면 입력 정보로 공유공간 객체 생성
     public void readSharePlace(String locationId,
                                String userId,
-                               double latitude,
-                               double longitude,
-                               String locationName,
-                               final MainActivity main) {
+                               final double latitude,
+                               final double longitude,
+                               final String locationName,
+                               final MainActivity main,
+                               final Context context) {
 
         PriviewInitialize(main);
         this.locationId = locationId;
@@ -74,6 +80,7 @@ public class SharePlace {
         this.userId = userId;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.context = context;
 
         // 마커 생성후 받아온 좌표값 이용해 마커 위치정보 세팅
         this.myMarker = new Marker();
@@ -136,6 +143,23 @@ public class SharePlace {
                     });
                 }
                 return true;
+            }
+        });
+
+        naviBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //파라미터 1.도착 장소 (장소 이름, 위도, 경도) (윤지원)
+                Location destination = Location.newBuilder(locationName,longitude,latitude).build();
+
+                //파라미터 2. 세부 옵션 도착지, 1종, 빠른 경로 , 경유지 없음, (윤지원)
+                KakaoNaviParams params = KakaoNaviParams.newBuilder(destination)
+                        .setNaviOptions(NaviOptions.newBuilder()
+                                .setCoordType(CoordType.WGS84)
+                                .build())
+                        .build();
+                //kakao navi 실행 현재 액티비지 (DetailActivity) context , params 입력 (윤지원)
+                KakaoNaviService.getInstance().shareDestination(context, params);
             }
         });
     }
@@ -206,3 +230,4 @@ public class SharePlace {
     }
 
 }
+

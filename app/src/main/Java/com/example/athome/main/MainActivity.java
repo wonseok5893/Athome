@@ -381,6 +381,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     Double.parseDouble(markerResult.getData().get(i).getLatitude()),
                                     Double.parseDouble(markerResult.getData().get(i).getLongitude()),
                                     markerResult.getData().get(i).getLocation(),
+                                    MainActivity.this,
                                     MainActivity.this);
                             placeList.add(s);
                         }
@@ -485,6 +486,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         Double.parseDouble(markerResult.getData().get(i).getLatitude()),
                         Double.parseDouble(markerResult.getData().get(i).getLongitude()),
                         markerResult.getData().get(i).getLocation(),
+                        this,
                         this);
                 placeList.add(s);
             }
@@ -624,4 +626,3 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         preview.startAnimation(slide_down);
     }
 }
-
