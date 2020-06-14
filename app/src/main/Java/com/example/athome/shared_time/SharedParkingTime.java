@@ -355,7 +355,24 @@ public class SharedParkingTime extends AppCompatActivity {
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                     sHour = hourOfDay;
                     sMinute = minute;
-                    startTime.setText(String.format("%d:%d", sHour, sMinute));
+
+                    if((sHour/10)==0) {
+                        if(sMinute==0) {
+                            startTime.setText(String.format("%s:%s", "0"+sHour, "00"));
+                        } else {
+                            startTime.setText(String.format("%s:%s", "0"+sHour, sMinute));
+                        }
+                    } else {
+                        if(sMinute==0) {
+                            startTime.setText(String.format("%s:%s", sHour, "00"));
+                        } else {
+                            startTime.setText(String.format("%s:%s", sHour, sMinute));
+
+                        }
+
+
+                    }
+
                 }
             };
 
@@ -366,7 +383,22 @@ public class SharedParkingTime extends AppCompatActivity {
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                     eHour = hourOfDay;
                     eMinute = minute;
-                    endTime.setText(String.format("%d:%d", eHour, eMinute));
+
+
+                    if((eHour/10)==0) {
+                        if(eMinute==0) {
+                            endTime.setText(String.format("%s:%s", "0"+eHour, "00"));
+                        } else {
+                            endTime.setText(String.format("%s:%s", "0"+eHour, eMinute));
+                        }
+                    } else {
+                        if(eMinute==0) {
+                            endTime.setText(String.format("%s:%s", eHour, "00"));
+                        } else {
+                            endTime.setText(String.format("%s:%s", eHour, eMinute));
+
+                        }
+                    }
                 }
             };
 

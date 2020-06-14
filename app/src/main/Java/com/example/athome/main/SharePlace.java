@@ -89,7 +89,6 @@ public class SharePlace {
         this.longitude = longitude;
         this.parkingInfo = parkingInfo;
         this.context = context;
-
         // 마커 생성후 받아온 좌표값 이용해 마커 위치정보 세팅
         this.myMarker = new Marker();
         this.myMarker.setPosition(new LatLng(this.latitude, this.longitude));
@@ -163,7 +162,7 @@ public class SharePlace {
                                 .build())
                         .build();
                 //kakao navi 실행 현재 액티비지 (DetailActivity) context , params 입력 (윤지원)
-                KakaoNaviService.getInstance().shareDestination(context, params);
+                KakaoNaviService.getInstance().shareDestination(main, params);
             }
         });
     }

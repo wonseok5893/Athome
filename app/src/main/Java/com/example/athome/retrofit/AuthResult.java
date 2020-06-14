@@ -22,8 +22,6 @@ public class AuthResult {
     private Integer todaySharingState;
 
     public Integer getTodaySharingState() {
-        Log.d("junggyu", "찍엇음 : " + todaySharingState);
-
         return todaySharingState;
     }
 

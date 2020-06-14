@@ -88,8 +88,13 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("user/chargePoint")
-    Call<ResponseBody> sendChargePoint(@Header("x-access-token") String token,
-                                               @Field("point") int point);
+    Call<ChargeResult> sendChargePoint(@Header("x-access-token") String token,
+                                       @Field("point") int point);
+
+    @FormUrlEncoded
+    @POST("user/visitPurpose")
+    Call<PurposeResult> sendPurpose(@Field("category") String category,
+                                       @Field("description") String description);
 
     @FormUrlEncoded
     @POST("api/sharingSwitch")

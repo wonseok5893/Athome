@@ -23,7 +23,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -34,9 +33,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import com.example.athome.GpsTracker;
+
 import com.example.athome.LoginActivity;
-import com.example.athome.PurposeActivity;
 import com.example.athome.R;
 import com.example.athome.RestRequestHelper;
 import com.example.athome.User;
@@ -47,8 +45,8 @@ import com.example.athome.admin_notice.AdminNoticeActivity;
 import com.example.athome.admin_enroll.AdminEnrollActivity;
 import com.example.athome.notice.NoticeActivity;
 import com.example.athome.notification.NotificationActivity;
-import com.example.athome.payment_list.PaymentListActivity;
 import com.example.athome.point_charge.PointChargeActivity;
+import com.example.athome.reservation.PurposeActivity;
 import com.example.athome.reservation_list.ReservListActivity;
 import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.MarkerResult;
@@ -560,7 +558,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }).start();
         try {
-            Thread.sleep(300);
+            Thread.sleep(200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -666,8 +664,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(context, "다시 시도해주십시오.", Toast.LENGTH_SHORT).show();
             }
         } else if (id == R.id.payment) {//결제충전내역
-            Intent intent = new Intent(getApplicationContext(), PaymentListActivity.class);
+
+            Intent intent = new Intent(getApplicationContext(), PurposeActivity.class);
             startActivity(intent);
+
+//            Intent intent = new Intent(getApplicationContext(), PaymentListActivity.class);
+//            startActivity(intent);
         } else if (id == R.id.account) {//계정관리
             Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
             intent.putExtra("user", user);
@@ -728,3 +730,4 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         preview.startAnimation(slide_down);
     }
 }
+

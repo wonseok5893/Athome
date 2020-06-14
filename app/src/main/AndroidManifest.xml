@@ -46,7 +46,6 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".notice.NoticeActivity" />
         <activity android:name=".notice.NoticeClicked" />
-        <activity android:name=".PurposeActivity"/>
         <activity android:name=".reservation_list.ReservListActivity" />
         <activity android:name=".payment_list.PaymentListActivity"/>
         <activity android:name=".account.AccountActivity" />
@@ -68,6 +67,7 @@
         <activity android:name=".notification.NotificationActivity"/>
         <activity android:name=".reservation_list.NowReservTicket"/>
         <activity android:name=".point_charge.PointChargeActivity"/>
+        <activity android:name=".reservation.PurposeActivity"/>
         <activity android:name=".setting.SettingParkingLotActivity">
             <intent-filter>
                 <action android:name=".setting.SettingParkingLotActivity" />

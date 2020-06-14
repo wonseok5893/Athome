@@ -56,29 +56,26 @@
             />
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:background="@color/white"
             android:orientation="vertical"
-            android:padding="10dp"
-            android:layout_marginTop="5dp">
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="방문목적을 작성해 주시면 100포인트를 드립니다!"
-                android:textSize="13sp"
                 android:gravity="left"
                 android:padding="10dp"
-              />
+                android:text="방문목적을 작성해 주시면 100포인트를 드립니다!"
+                android:textSize="13sp" />
 
             <CheckBox
                 android:id="@+id/purpose1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
                 android:text="외식" />
 
             <CheckBox
@@ -115,26 +112,24 @@
                 android:id="@+id/purpose7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="기타"/>
+                android:text="기타" />
 
             <EditText
                 android:id="@+id/purpose_other"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="invisible"
-                android:padding="5dp"
-                android:hint="방문목적을 작성해주세요."
+                android:background="@drawable/edit_border4"
                 android:gravity="left"
+                android:hint="방문목적을 작성해주세요."
+                android:inputType="text"
+                android:padding="5dp"
                 android:textColor="@color/input_register"
                 android:textColorHint="@color/input_register_hint"
                 android:textSize="13sp"
-                android:inputType="text"
-                android:background="@drawable/edit_border4"/>
-
+                android:visibility="invisible" />
 
 
         </LinearLayout>
-
 
 
     </LinearLayout>

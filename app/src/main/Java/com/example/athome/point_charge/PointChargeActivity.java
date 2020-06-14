@@ -2,36 +2,26 @@ package com.example.athome.point_charge;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AlertDialog;
+import android.widget.Toast;
 
 import com.example.athome.R;
 import com.example.athome.RestRequestHelper;
-import com.example.athome.account.AccountCarList;
-import com.example.athome.account.AccountCarRegister;
-import com.example.athome.account.AccountCardList;
 import com.example.athome.retrofit.ApiService;
-import com.example.athome.retrofit.MarkerResult;
+import com.example.athome.retrofit.ChargeResult;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 
 public class PointChargeActivity extends Activity {
@@ -41,7 +31,7 @@ public class PointChargeActivity extends Activity {
     private ArrayList<ItemPaymentCardData> data=new ArrayList<>();
     private PaymentCardListAdapter adapter;
     private int chargeMoney=0;
-
+    private ChargeResult cr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +77,9 @@ public class PointChargeActivity extends Activity {
         point_crruent_value=(TextView)findViewById(R.id.point_crruent_value);
         point_crruent_value.setText(intent.getIntExtra("point",0)+"P");
         point_after_charging_value=(TextView)findViewById(R.id.point_after_charging_value);
+        point_after_charging_value.setText((intent.getIntExtra("point",0)+3000)+"P");
         payment_amount_value=(TextView)findViewById(R.id.payment_amount_value);
+        payment_amount_value.setText(3000+"P");
         btn_point_charging=(Button)findViewById(R.id.btn_point_charging);
 
     }
@@ -112,19 +104,39 @@ public class PointChargeActivity extends Activity {
                         String sharedToken = sf.getString("token", "");
 
                         ApiService serviceApi = new RestRequestHelper().getApiService();
-                        final Call<ResponseBody> res = serviceApi.sendChargePoint(sharedToken, chargeMoney);
+                        final Call<ChargeResult> res = serviceApi.sendChargePoint(sharedToken, chargeMoney);
+
 
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
                                 try {
-                                    res.execute().body();
+                                    cr = res.execute().body();
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
                             }
                         }).start();
-                        break;
+
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        if(cr.getResult().equals("success")) {
+                            Toast.makeText(getApplicationContext(), cr.getMessage(), Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(getApplicationContext(), com.example.athome.main.MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                            startActivity(intent);
+                            break;
+                        } else {
+                            Toast.makeText(getApplicationContext(), "충전에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+
                 }
             }
         };
