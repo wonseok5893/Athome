@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -69,7 +70,11 @@ import com.naver.maps.map.util.FusedLocationSource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,
@@ -95,9 +100,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LinearLayout preview;
     private Animation slide_up, slide_down, stay;
     private RadioGroup share_switch;
+
+    public static RadioButton shareOn, shareOff;
+    public static int todayFlag;
+
     NavigationView navigationView;
     private static final int MESSAGE_TIMER_START = 100;
     private TimerHandler timerHandler;
+    private static final int LOGOUT_REQUEST_CODE = 117;
     private ArrayList<SharePlace> beforeMarker = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -114,7 +124,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
 
-
+        //공유 스위치
+        share_switch = findViewById(R.id.share_switch);
+        shareOn = findViewById(R.id.share_on);
+        shareOff = findViewById(R.id.share_off);
 
         /* ****** 아래 토큰 확인하는 if문에서 user = new User() 해주면 오류남 조건이 거짓일 경우 user가 new되지 않기 때문인 것으로 보임.
            oncreate될때 빈 user객체 생성하고 토큰확인하면 유저정보 set해주고, 토큰 없으면 그냥 빈 상태로 놔뒀다고 로그인시 유저정보 set해주는 방향으로 해주는게 좋지 않을까 함*/
@@ -133,7 +146,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 if (user.authenticate(sharedToken)) {
                     Log.d("jiwon","토큰 같음");
                     Toast.makeText(getApplicationContext(), user.getUserId() + " 님 어서오세요!", Toast.LENGTH_LONG).show();
-                } }
+
+                    if(user.getTodaySharingState()==1) {
+                        Log.d("junggyu", "받아온 오늘 값 : " + user.getTodaySharingState());
+                        todayFlag=1;
+                        shareOn.setChecked(true);
+                    } else {
+                        Log.d("junggyu", "받아온 오늘 값 : " + user.getTodaySharingState());
+                        todayFlag=0;
+                        shareOff.setChecked(true);
+                    }
+                }
+            }
         }catch (Exception e){
             editor.remove("token");
             editor.commit();
@@ -192,10 +216,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             else
                 navigationView.inflateMenu(R.menu.admin_menu);
 
-            //공유 스위치
-            share_switch = findViewById(R.id.share_switch);
-
-
+            if(user.getTodaySharingState()==1) {
+                Log.d("junggyu","플래그값 : " + user.getTodaySharingState());
+                todayFlag=1;
+                shareOn.setChecked(true);
+            } else {
+                Log.d("junggyu","플래그값 : " + user.getTodaySharingState());
+                todayFlag=0;
+                shareOff.setChecked(true);
+            }
 
             //알림함 레이아웃
             btn_notification_box.setOnClickListener(new View.OnClickListener() {
@@ -211,6 +240,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), PointChargeActivity.class);
+                    Log.d("junggyu", "지금포인트 : "+ user.getUserPoint());
+                    intent.putExtra("point", user.getUserPoint());
                     startActivity(intent);
                 }
             });
@@ -223,6 +254,70 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             });
         }
+
+        // 이안에 토큰없으면 if문 넣어주기
+        shareOn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    todayFlag=1;
+
+
+                    SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
+                    String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
+
+                    if(sharedToken!=null) {
+                        ApiService serviceApis = new RestRequestHelper().getApiService();
+                        Call<ResponseBody> sendTodayFlag = serviceApis.sendTodayLocationChange(sharedToken, todayFlag);
+
+                        sendTodayFlag.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                            }
+                        });
+                    }
+                    Log.d("junggyu", "공유중" + todayFlag);
+                }
+            }
+        });
+
+        shareOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    todayFlag=0;
+
+                    SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
+                    String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
+
+                    if(sharedToken!=null) {
+                        ApiService serviceApis = new RestRequestHelper().getApiService();
+                        Call<ResponseBody> sendTodayFlag = serviceApis.sendTodayLocationChange(sharedToken, todayFlag);
+
+                        sendTodayFlag.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                            }
+                        });
+                    }
+
+
+                    Log.d("junggyu", "공유 아님" + todayFlag);
+                }
+            }
+        });
 
 
         // 맵 동기화
@@ -563,9 +658,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             intent.putParcelableArrayListExtra("data",data);
             startActivity(intent);
             overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
-        } else if (id == R.id.payment) {//결제충전내역
-            Intent intent = new Intent(getApplicationContext(), PaymentListActivity.class);
-            startActivity(intent);
+        } else if (id == R.id.payment) {//결제충전적립
+            Toast.makeText(getApplicationContext(), "결제,충전,적립", Toast.LENGTH_LONG).show();
         } else if (id == R.id.account) {//계정관리
             Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
             intent.putExtra("user", user);
@@ -626,3 +720,4 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         preview.startAnimation(slide_down);
     }
 }
+

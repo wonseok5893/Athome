@@ -24,6 +24,7 @@ import com.kakao.kakaonavi.Location;
 import com.kakao.kakaonavi.NaviOptions;
 import com.kakao.kakaonavi.options.CoordType;
 import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.overlay.InfoWindow;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.util.MarkerIcons;
@@ -77,6 +78,7 @@ public class SharePlace {
         PriviewInitialize(main);
         this.locationId = locationId;
         this.locationName = locationName;
+        Log.d("test", locationName);
         this.userId = userId;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -88,7 +90,6 @@ public class SharePlace {
 
         final Intent intent = new Intent(main.getApplicationContext(), ReserveActivity.class);
         final Intent nonuser_intent = new Intent(main.getApplicationContext(), nonReserveActivity.class);
-        LatLng position = myMarker.getPosition();
 
         intent.putExtra("locationId", locationId);//_id
         intent.putExtra("locationName",locationName); // 주소
@@ -101,25 +102,21 @@ public class SharePlace {
         nonuser_intent.putExtra("longitude", longitude);
         nonuser_intent.putExtra("userId", userId);
 
-
         // 마커 클릭하면 이벤트 발생
         this.myMarker.setOnClickListener(new Overlay.OnClickListener() {
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
 
                 initLocationInfo(intent);
-                Log.d("ResTest",intent.getStringExtra("locationId"));
 
                 fee.setText(600 + "원/시간");
                 time.setText("1시 ~ 6시");
                 loc.setText(intent.getStringExtra("locationName"));
 
                 if (main.getUser().getUserId() == null) { // 비회원일때
-                    loc.setText(nonuser_intent.getStringExtra("locationId"));
                     LatLng position = myMarker.getPosition();
                     nonuser_intent.putExtra("position", position);
 
-                    Log.d("teststs", nonuser_intent.getStringExtra("locationId"));
                     main.PreviewVisible();
                     space_resv.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -128,12 +125,10 @@ public class SharePlace {
                         }
                     });
                 } else { // 회원일때
-                    loc.setText(intent.getStringExtra("locationId"));
                     LatLng position = myMarker.getPosition();
                     intent.putExtra("position", position);
 
-                    Log.d("teststs", intent.getStringExtra("locationId") + " " +
-                            intent.getStringExtra("userId"));
+                    intent.getStringExtra("userId");
                     main.PreviewVisible();
                     space_resv.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -217,7 +212,6 @@ public class SharePlace {
 
         int timeArray[] = new int[7];
 
-        Log.d("junggyu", "시작시간 : " + locationStartTime + ", 종료시간 : " + locationEndTime);
         for(int i=0;i<locationDaySet.size();i++) {
             timeArray[i] = locationDaySet.get(i);
         }

@@ -133,7 +133,6 @@
                             android:fontFamily="@font/bareun1"
                             android:gravity="right"
                             android:padding="5dp"
-                            android:text="0P"
                             android:textColor="#01579b"
                             android:textSize="17sp" />
 
@@ -144,7 +143,6 @@
                             android:fontFamily="@font/bareun1"
                             android:gravity="right"
                             android:padding="5dp"
-                            android:text="5000P"
                             android:textColor="#01579b"
                             android:textSize="17sp" />
 
@@ -155,7 +153,6 @@
                             android:fontFamily="@font/bareun1"
                             android:gravity="right"
                             android:padding="5dp"
-                            android:text="5000"
                             android:textColor="#01579b"
                             android:textSize="17sp" />
 

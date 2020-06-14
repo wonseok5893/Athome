@@ -16,6 +16,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.athome.RestRequestHelper;
+import com.example.athome.main.MainActivity;
 import com.example.athome.reservation.CustomTimePickerDialog;
 import com.example.athome.R;
 import com.example.athome.retrofit.ApiService;
@@ -24,6 +25,7 @@ import com.example.athome.retrofit.ShareInfoResult;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -59,10 +61,15 @@ public class SharedParkingTime extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sharedparking_time);
+
+
+        Log.d("junggyu", "오늘의 요일값(일,월,화,수,목,금,토) -> 0,1,2,3,4,5,6 : " + doDayOfWeek()+"");
+
         this.Initialize();
         initShareData();
         setButtonState();
         this.setListner();
+
     }
 
     // 해당 화면으로 전환될때 서버에서 시작, 종료시간과 요일별 데이터를 받아옴
@@ -70,8 +77,6 @@ public class SharedParkingTime extends AppCompatActivity {
 
         SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
         String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
-
-        Log.d("junggyu", sharedToken);
 
         ApiService serviceApi = new RestRequestHelper().getApiService();
         final Call<ShareInfoResult> res = serviceApi.getShareData(sharedToken, "");
@@ -118,6 +123,21 @@ public class SharedParkingTime extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), sir.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
+        /*
+        for(int i=0;i<7;i++) {
+            if(i==doDayOfWeek()) {
+                MainActivity.todayFlag = dayState[i];
+                if(MainActivity.todayFlag==1) {
+                    MainActivity.shareOn.setChecked(true);
+                } else {
+                    MainActivity.shareOff.setChecked(true);
+                }
+            }
+        }
+        */
+
+        setTodayFlag();
+
 
 
     }
@@ -142,7 +162,19 @@ public class SharedParkingTime extends AppCompatActivity {
 
             }
         });
-
+/*
+        for(int i=0;i<7;i++) {
+            if(i==doDayOfWeek()) {
+                MainActivity.todayFlag = dayState[i];
+                if(MainActivity.todayFlag==1) {
+                    MainActivity.shareOn.setChecked(true);
+                } else {
+                    MainActivity.shareOff.setChecked(true);
+                }
+            }
+        }
+*/
+        setTodayFlag();
         Toast.makeText(getApplicationContext(), "저장에 성공했습니다.", Toast.LENGTH_SHORT).show();
     }
 
@@ -290,6 +322,7 @@ public class SharedParkingTime extends AppCompatActivity {
             dayButton[i].setOnClickListener(Listener);
         }
 
+        allBtn.setChecked(true);
         allBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -348,5 +381,43 @@ public class SharedParkingTime extends AppCompatActivity {
         }
 
         return null;
+    }
+
+    private int doDayOfWeek() {
+        Calendar cal = Calendar.getInstance();
+        int result = 0;
+
+        int nWeek = cal.get(Calendar.DAY_OF_WEEK);
+        if (nWeek == 1) {
+            result = 0;
+        } else if (nWeek == 2) {
+            result = 1;
+        } else if (nWeek == 3) {
+            result = 2;
+        } else if (nWeek == 4) {
+            result = 3;
+        } else if (nWeek == 5) {
+            result = 4;
+        } else if (nWeek == 6) {
+            result = 5;
+        } else if (nWeek == 7) {
+            result = 6;
+        }
+
+        return result;
+    }
+
+    void setTodayFlag() {
+        for(int i=0;i<7;i++) {
+            if(i==doDayOfWeek()) {
+                MainActivity.todayFlag = dayState[i];
+                if(MainActivity.todayFlag==1) {
+                    MainActivity.shareOn.setChecked(true);
+                } else {
+                    MainActivity.shareOff.setChecked(true);
+                }
+            }
+        }
+
     }
 }

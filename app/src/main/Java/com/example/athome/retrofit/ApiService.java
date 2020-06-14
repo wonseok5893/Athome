@@ -74,7 +74,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("api/shareInfo")
     Call<ShareInfoResult> getShareData(@Header("x-access-token") String token,
-                                    @Field("trash")String trash);
+                                       @Field("trash")String trash);
 
     @FormUrlEncoded
     @POST("api/sendShareInfo")
@@ -86,8 +86,15 @@ public interface ApiService {
     @GET("api/locationInfo")
     Call<LocationInfoList> getLocationInfo(@Query("locationId") String locationId);
 
-    @GET("api/reserveList")
-    Call<ReserveListResult> getReserveData(@Query("locationId") String locationId);
+    @FormUrlEncoded
+    @POST("user/chargePoint")
+    Call<ResponseBody> sendChargePoint(@Header("x-access-token") String token,
+                                               @Field("point") int point);
+
+    @FormUrlEncoded
+    @POST("api/sharingSwitch")
+    Call<ResponseBody> sendTodayLocationChange(@Header("x-access-token") String token,
+                                               @Field("turn") int turn);
 
     @GET("notices")
     Call<ItemNoticeResult> allNotice(@Query("noticeName") String noticeName);
@@ -102,11 +109,11 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("admin/users")
     Call<AllUserResult> getAllUsers(@Header("x-access-token") String token
-                                    , @Field("secret") String secret);
+            , @Field("secret") String secret);
     @FormUrlEncoded
     @POST("admin/unCheckedList")
     Call<AdminEnrollResult> getUncheckedSharedLocation(@Header("x-access-token") String token
-                                    , @Field("secret") String secret);
+            , @Field("secret") String secret);
     @FormUrlEncoded
     @POST("admin/sharedLocation/enroll")
     Call<AdminResult> registerSharedLocation(@Header("x-access-token") String token
@@ -131,6 +138,9 @@ public interface ApiService {
     Call<AdminResult> adminEditPhone(@Header("x-access-token") String token,
                                      @Field("phone") String Phone,
                                      @Field("userId") String userId);
+
+    @GET("api/reserveList")
+    Call<ReserveListResult> getReserveData(@Query("locationId") String locationId);
 
     @FormUrlEncoded
     @POST("admin/editPoint")

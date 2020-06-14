@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,36 +20,76 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.athome.R;
+import com.example.athome.RestRequestHelper;
 import com.example.athome.account.AccountCarList;
 import com.example.athome.account.AccountCarRegister;
 import com.example.athome.account.AccountCardList;
+import com.example.athome.retrofit.ApiService;
+import com.example.athome.retrofit.MarkerResult;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+
 public class PointChargeActivity extends Activity {
     private NumberPicker picker_point;
-    private Button btn_back_point_charge;
-    private TextView payment_method_select;
+    private Button btn_back_point_charge, btn_point_charging;
+    private TextView payment_method_select, payment_amount_value, point_crruent_value, point_after_charging_value;
     private ArrayList<ItemPaymentCardData> data=new ArrayList<>();
     private PaymentCardListAdapter adapter;
+    private int chargeMoney=0;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_point_charge);
-
-        this.InitializeView();
+        final Intent intent = getIntent();
+        this.InitializeView(intent);
         this.SetListner();
         this.Execution();
 
+        picker_point.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+
+                switch (newVal) {
+                    case 0:
+                        chargeMoney = 3000;
+                        break;
+                    case 1:
+                        chargeMoney = 5000;
+                        break;
+                    case 2:
+                        chargeMoney = 10000;
+                        break;
+                    case 3:
+                        chargeMoney = 30000;
+                        break;
+                    case 4:
+                        chargeMoney = 50000;
+                        break;
+                }
+                point_after_charging_value.setText((chargeMoney+intent.getIntExtra("point",0))+"P");
+                payment_amount_value.setText(chargeMoney+"P");
+            }
+        });
+
     }
 
-    public void InitializeView(){
+    public void InitializeView(Intent intent){
         picker_point=(NumberPicker)findViewById(R.id.picker_point);
         btn_back_point_charge=(Button)findViewById(R.id.btn_back_point_charge);
         payment_method_select=(TextView)findViewById(R.id.payment_method_select);
+        point_crruent_value=(TextView)findViewById(R.id.point_crruent_value);
+        point_crruent_value.setText(intent.getIntExtra("point",0)+"P");
+        point_after_charging_value=(TextView)findViewById(R.id.point_after_charging_value);
+        payment_amount_value=(TextView)findViewById(R.id.payment_amount_value);
+        btn_point_charging=(Button)findViewById(R.id.btn_point_charging);
+
     }
 
     public void SetListner()
@@ -62,14 +104,32 @@ public class PointChargeActivity extends Activity {
                         finish();
                         overridePendingTransition(R.anim.not_move_activity,R.anim.rightout_activity);
                         break;
-                    case R.id.payment_method_select: //결제수단 선택
-                            showAlertDialog(PointChargeActivity.this);
+                    case R.id.btn_point_charging: //결제하기
+
+                        Log.d("junggyu", "결제버튼 눌렀음");
+
+                        SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
+                        String sharedToken = sf.getString("token", "");
+
+                        ApiService serviceApi = new RestRequestHelper().getApiService();
+                        final Call<ResponseBody> res = serviceApi.sendChargePoint(sharedToken, chargeMoney);
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    res.execute().body();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
                         break;
                 }
             }
         };
         btn_back_point_charge.setOnClickListener(Listener);
-        payment_method_select.setOnClickListener(Listener);
+        btn_point_charging.setOnClickListener(Listener);
     }
 
     public void Execution(){

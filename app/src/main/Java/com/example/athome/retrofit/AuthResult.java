@@ -1,10 +1,11 @@
 package com.example.athome.retrofit;
 
+import android.util.Log;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class AuthResult {
-
 
     //User에 담을 정보들
     @SerializedName("result")
@@ -16,6 +17,20 @@ public class AuthResult {
     @SerializedName("message")
     @Expose
     private String authMessage;
+    @SerializedName("todaySharingState")
+    @Expose
+    private Integer todaySharingState;
+
+    public Integer getTodaySharingState() {
+        Log.d("junggyu", "찍엇음 : " + todaySharingState);
+
+        return todaySharingState;
+    }
+
+    public void setTodaySharingState(Integer todaySharingState) {
+        this.todaySharingState = todaySharingState;
+    }
+
 
     public String getAuthMessage() {
         return authMessage;

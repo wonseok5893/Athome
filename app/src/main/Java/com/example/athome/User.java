@@ -30,6 +30,7 @@ public class User implements Parcelable {
     private List<AuthReservation> authReservation;
     private Integer userState;
     private String token;
+    private Integer todaySharingState;
     String authMessage;
     String authRes;
     String registerMessage;
@@ -168,6 +169,14 @@ public class User implements Parcelable {
         return authRes;
     }
 
+    public Integer getTodaySharingState() {
+        return todaySharingState;
+    }
+
+    public void setTodaySharingState(Integer todaySharingState) {
+        this.todaySharingState = todaySharingState;
+    }
+
     public String register() {
         ApiService serviceApi = new RestRequestHelper().getApiService();
 
@@ -252,9 +261,12 @@ public class User implements Parcelable {
                         userName = authResult.getAuthUser().getUserName();
                         userCarNumber = authResult.getAuthUser().getUserCarNumber();
                         userState = authResult.getAuthUser().getState();
+                        todaySharingState = authResult.getTodaySharingState();
+
 //                        if(authResult.getAuthUser().getAuthSharedLocation()!=null){
 //                        authSharedLocation = authResult.getAuthUser().getAuthSharedLocation();}
 //                        authReservation.add(authResult.getAuthUser().getAuthReservation());
+
                     }
                 } catch (IOException ie) {
                     ie.printStackTrace();
@@ -274,6 +286,7 @@ public class User implements Parcelable {
             return false;
         }
     }
+
     public void editPassword(String token, String currentPassword, final String newPassword) {
 
         ApiService serviceApi = new RestRequestHelper().getApiService();

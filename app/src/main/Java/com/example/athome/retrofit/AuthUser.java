@@ -1,5 +1,7 @@
 package com.example.athome.retrofit;
 
+import android.util.Log;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -41,6 +43,8 @@ public class AuthUser {
 //    @SerializedName("reservation")
 //    @Expose
 //    private List<AuthReservation> reservation;
+
+
 
     public Integer getState() {
         return state;
@@ -112,4 +116,3 @@ public class AuthUser {
 
 
 }
-
