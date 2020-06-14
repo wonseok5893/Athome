@@ -27,11 +27,10 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     ArrayList<ReservationListResult_data> current = new ArrayList<>();
     ArrayList<ReservationListResult_data> past = new ArrayList<>();
     String sharedToken;
-    public PagerAdapter(FragmentManager fm, int NumOfTabs, ArrayList<ReservationListResult_data> data, String sharedToken) {
+    public PagerAdapter(FragmentManager fm, int NumOfTabs, ArrayList<ReservationListResult_data> data) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
         this.data = data;
-        this.sharedToken = sharedToken;
         classifyReserve(data);
     }
 
@@ -85,7 +84,6 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 PastReservFragmnet tab2 = new PastReservFragmnet();
                 bundle = new Bundle();
                 bundle.putParcelableArrayList("past", past);
-                bundle.putString("sharedToken",sharedToken);
                 tab2.setArguments(bundle);
                 return tab2;
             default:

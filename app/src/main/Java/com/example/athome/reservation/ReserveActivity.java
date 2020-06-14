@@ -155,6 +155,7 @@ public class ReserveActivity extends AppCompatActivity {
 
         ApiService serviceApi = new RestRequestHelper().getApiService();
         final Call<ReserveListResult> res = serviceApi.getReserveData(intent.getStringExtra("locationId"));
+        Log.i("jiwon","locationId : "+intent.getStringExtra("locationId"));
         Log.d("ResTest", intent.getStringExtra("locationId"));
 
         new Thread(new Runnable() {
@@ -174,15 +175,17 @@ public class ReserveActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         if (reserveResult == null) {
-            Log.i("junggyu", "예약사항없음 or 실패 으앙!");
+            Log.i("jiwon", "예약사항없음 or 실패 으앙!");
         } else {
             int reservCount = reserveResult.getReservationList().size();
-
+            Log.i("jiwon","reserveCount"+Integer.toString(reservCount));
             for (int i = 0; i < reservCount; i++) {
                 String s = reserveResult.getReservationList().get(i).getStartTime();
                 String e = reserveResult.getReservationList().get(i).getEndTime();
                 startTimeList.add(s);
                 endTimeList.add(e);
+                Log.i("jiwon",s);
+                Log.i("jiwon",e);
             }
         }
     }
@@ -573,13 +576,13 @@ public class ReserveActivity extends AppCompatActivity {
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int date = cal.get(Calendar.DATE);
-        minDate.set(year, month + 1, date);
+        minDate.set(year, month, date);
 
         cal.add(Calendar.DATE, 1);
         year = cal.get(Calendar.YEAR);
         month = cal.get(Calendar.MONTH);
         date = cal.get(Calendar.DATE);
-        maxDate.set(year, month + 1, date);
+        maxDate.set(year, month, date);
 
         switch (id) {
             case START_DATE_DIALOG_ID:

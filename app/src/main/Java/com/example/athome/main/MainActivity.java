@@ -476,6 +476,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     Double.parseDouble(markerResult.getData().get(i).getLatitude()),
                                     Double.parseDouble(markerResult.getData().get(i).getLongitude()),
                                     markerResult.getData().get(i).getLocation(),
+                                    markerResult.getData().get(i).getParkingInfo(),
                                     MainActivity.this,
                                     MainActivity.this);
                             placeList.add(s);
@@ -581,6 +582,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         Double.parseDouble(markerResult.getData().get(i).getLatitude()),
                         Double.parseDouble(markerResult.getData().get(i).getLongitude()),
                         markerResult.getData().get(i).getLocation(),
+                        markerResult.getData().get(i).getParkingInfo(),
                         this,
                         this);
                 placeList.add(s);
@@ -657,7 +659,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 ArrayList<ReservationListResult_data> data = (ArrayList<ReservationListResult_data>) ReservationListResult.getData();
                 Intent intent = new Intent(getApplicationContext(), ReservListActivity.class);
                 intent.putParcelableArrayListExtra("data", data);
-                intent.putExtra("sharedToken",sharedToken);
                 startActivity(intent);
                 overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
             }

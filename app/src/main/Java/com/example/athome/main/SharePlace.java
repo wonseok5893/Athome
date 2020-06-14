@@ -29,6 +29,8 @@ import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.util.MarkerIcons;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -55,6 +57,7 @@ public class SharePlace {
     private String locationName;
     private Marker myMarker; // 마커
     private Context context;
+    private String parkingInfo;
     // 미리보기 화면
     private Button space_resv;
 
@@ -62,7 +65,8 @@ public class SharePlace {
     // 주차장 마커의 정보 -> 해당 주차장의 시간당 가격, 이용가능 시간, 주소
     private TextView fee, // 요금
             time, // 이용시간
-            loc ; // 위치
+            loc,
+            parkingInfoTxt; // 위치
     private Button naviBtn, resBtn;
 
 
@@ -72,6 +76,7 @@ public class SharePlace {
                                final double latitude,
                                final double longitude,
                                final String locationName,
+                               final String parkingInfo,
                                final MainActivity main,
                                final Context context) {
 
@@ -82,18 +87,19 @@ public class SharePlace {
         this.userId = userId;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.parkingInfo = parkingInfo;
         this.context = context;
 
         // 마커 생성후 받아온 좌표값 이용해 마커 위치정보 세팅
         this.myMarker = new Marker();
-        this.myMarker.setPosition(new LatLng(this.latitude,this.longitude));
+        this.myMarker.setPosition(new LatLng(this.latitude, this.longitude));
 
         final Intent intent = new Intent(main.getApplicationContext(), ReserveActivity.class);
         final Intent nonuser_intent = new Intent(main.getApplicationContext(), nonReserveActivity.class);
 
         intent.putExtra("locationId", locationId);//_id
-        intent.putExtra("locationName",locationName); // 주소
-        intent.putExtra("userId",userId); // UserId
+        intent.putExtra("locationName", locationName); // 주소
+        intent.putExtra("userId", userId); // UserId
         intent.putExtra("latitude", latitude); // 위도
         intent.putExtra("longitude", longitude); // 경도
 
@@ -109,10 +115,10 @@ public class SharePlace {
 
                 initLocationInfo(intent);
 
-                fee.setText(600 + "원/시간");
-                time.setText("1시 ~ 6시");
+                fee.setText("600원/시간");
+                time.setText(locationStartTime+" ~ "+locationEndTime);
                 loc.setText(intent.getStringExtra("locationName"));
-
+                parkingInfoTxt.setText(parkingInfo);
                 if (main.getUser().getUserId() == null) { // 비회원일때
                     loc.setText(nonuser_intent.getStringExtra("locationName"));
                     LatLng position = myMarker.getPosition();
@@ -148,7 +154,7 @@ public class SharePlace {
             @Override
             public void onClick(View v) {
                 //파라미터 1.도착 장소 (장소 이름, 위도, 경도) (윤지원)
-                Location destination = Location.newBuilder(locationName,longitude,latitude).build();
+                Location destination = Location.newBuilder(locationName, longitude, latitude).build();
 
                 //파라미터 2. 세부 옵션 도착지, 1종, 빠른 경로 , 경유지 없음, (윤지원)
                 KakaoNaviParams params = KakaoNaviParams.newBuilder(destination)
@@ -172,7 +178,7 @@ public class SharePlace {
         space_resv = (Button) main.findViewById(R.id.space_resv);
 
         // 미리보기 비활성화 버튼
-        preview_close = (ImageView)main.findViewById(R.id.preview_close);
+        preview_close = (ImageView) main.findViewById(R.id.preview_close);
         preview_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,11 +186,12 @@ public class SharePlace {
             }
         });
 
-        resBtn = (Button)main.findViewById(R.id.space_resv);
-        naviBtn = (Button)main.findViewById(R.id.space_navi);
-        time = (TextView)main.findViewById(R.id.space_time);
-        fee = (TextView)main.findViewById(R.id.space_fee);
-        loc = (TextView)main.findViewById(R.id.space_loc);
+        resBtn = (Button) main.findViewById(R.id.space_resv);
+        naviBtn = (Button) main.findViewById(R.id.space_navi);
+        time = (TextView) main.findViewById(R.id.space_time);
+        fee = (TextView) main.findViewById(R.id.space_fee);
+        loc = (TextView) main.findViewById(R.id.space_loc);
+        parkingInfoTxt = (TextView) main.findViewById(R.id.account_text);
     }
 
     void initLocationInfo(Intent intent) {
@@ -216,7 +223,7 @@ public class SharePlace {
         int timeArray[] = new int[7];
 
         Log.d("junggyu", "시작시간 : " + locationStartTime + ", 종료시간 : " + locationEndTime);
-        for(int i=0;i<locationDaySet.size();i++) {
+        for (int i = 0; i < locationDaySet.size(); i++) {
             timeArray[i] = locationDaySet.get(i);
         }
 

@@ -177,7 +177,7 @@
                     android:layout_width="309dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/bareun3"
-                    android:text="구획 15-4-5(#255074)"
+
                     android:textColor="#000000"
                     android:textSize="17sp" />
 
@@ -342,7 +342,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:fontFamily="@font/bareun1"
-                                android:text="09:00~18:00"
+
                                 android:textColor="@color/black"
                                 android:textSize="14sp" />
 
@@ -364,7 +364,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:fontFamily="@font/bareun1"
-                                android:text="수원시 영통구 연무동"
+
                                 android:textColor="@color/black"
                                 android:textSize="14sp" />
 

@@ -41,17 +41,17 @@ public class PastReservFragmnet extends Fragment {
     private ArrayList<ItemPastReservData> data = null;
     private PastReservListAdapter adapter;
     private requestDeleteResult requestRes;
-    private Context context;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.past_reserv_fragmnet, container, false);
         past_reserv_listVeiw = (ListView) view.findViewById(R.id.past_reserv_listView);
-        context = container.getContext();
+
         final Bundle bundle = getArguments();
         final ArrayList<ReservationListResult_data> past = bundle.getParcelableArrayList("past");
-        final String sharedToken = bundle.getString("String sharedToken = ");
+
         ArrayList<ItemPastReservData> itemList = new ArrayList<>();
         ItemPastReservData temp;
         String StartTime = "";
@@ -102,61 +102,6 @@ public class PastReservFragmnet extends Fragment {
         //리스트 속의 아이템 연결
         adapter = new PastReservListAdapter(getContext(), R.layout.past_reserv_listview_item, data);
         past_reserv_listVeiw.setAdapter(adapter);
-
-        //해당 지난내역 클릭시 삭제
-        past_reserv_listVeiw.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                new AlertDialog.Builder(getContext())
-                        .setTitle("지난내역 삭제")
-                        .setMessage("해당 내역을 삭제하시겠습니까?")
-                        .setPositiveButton("삭제", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                Log.i("jiwon",past.get(position).getId());
-                                Log.i("jiwon",past.get(position).getStartTime());
-                                Log.i("jiwon",past.get(position).getEndTime());
-
-                                ApiService serviceApi = new RestRequestHelper().getApiService();
-                                final Call<requestDeleteResult> res = serviceApi.requestDelete(sharedToken, past.get(position).getId());
-
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            requestRes = res.execute().body();
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }).start();
-                                try {
-                                    Thread.sleep(300);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                if(requestRes != null){
-                                    if(requestRes.getResult().equals("success")){
-                                        Toast.makeText(context, requestRes.getMessage(), Toast.LENGTH_SHORT).show();
-                                        data.remove(position);
-                                        adapter.notifyDataSetChanged();
-                                    }
-                                    else{
-                                        Toast.makeText(context, requestRes.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                }else{
-
-                                }
-
-                            }
-                        })
-                        .setNegativeButton("취소", null)
-                        .show();
-
-                return;
-            }
-        });
 
 
         return view;
