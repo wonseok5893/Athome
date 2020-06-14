@@ -72,12 +72,13 @@ public class ItemPastReservData {
                               String pastReservCarNumber,
                               String pastReservParkingNumber,
                               String pastReservParkingAddress) {
-        this.pastReservEndDate=pastReservEndDate;
-        this.pastReservStartTime=pastReservStartTime;
-        this.pastReservEndTime=pastReservEndTime;
-        this.pastReservCarNumber=pastReservCarNumber;
-        this.pastReservParkingNumber=pastReservParkingNumber;
-        this.pastReservParkingAddress=pastReservParkingAddress;
+        this.pastReservStartDate = pastReservStartDate;
+        this.pastReservEndDate = pastReservEndDate;
+        this.pastReservStartTime = pastReservStartTime;
+        this.pastReservEndTime = pastReservEndTime;
+        this.pastReservCarNumber = pastReservCarNumber;
+        this.pastReservParkingNumber = pastReservParkingNumber;
+        this.pastReservParkingAddress = pastReservParkingAddress;
 
     }
 

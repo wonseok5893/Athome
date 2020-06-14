@@ -105,6 +105,12 @@ public interface ApiService {
     Call<ReservationListResult> getReservation(@Header("x-access-token") String token
             , @Field("reserve") String reserve);
 
+    @FormUrlEncoded
+    @POST("user/deleteReservation")
+    Call<requestDeleteResult> requestDelete(@Header("x-access-token") String token
+            , @Field("_id") String id);
+
+
     //==========================관리자===========================================================
     @FormUrlEncoded
     @POST("admin/users")

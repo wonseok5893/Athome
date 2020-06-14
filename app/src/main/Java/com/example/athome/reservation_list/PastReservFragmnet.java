@@ -1,13 +1,17 @@
 package com.example.athome.reservation_list;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,38 +20,53 @@ import androidx.fragment.app.Fragment;
 
 
 import com.example.athome.R;
+import com.example.athome.RestRequestHelper;
 import com.example.athome.account.AccountCarList;
+import com.example.athome.retrofit.ApiService;
+import com.example.athome.retrofit.MarkerResult;
 import com.example.athome.retrofit.ReservationListResult_data;
+import com.example.athome.retrofit.requestDeleteResult;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import retrofit2.Call;
+
 public class PastReservFragmnet extends Fragment {
     private ListView past_reserv_listVeiw = null;
     private ArrayList<ItemPastReservData> data = null;
-    PastReservListAdapter adapter;
-
+    private PastReservListAdapter adapter;
+    private requestDeleteResult requestRes;
+    private Context context;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.past_reserv_fragmnet, container, false);
         past_reserv_listVeiw = (ListView) view.findViewById(R.id.past_reserv_listView);
-
-        Bundle bundle = getArguments();
-        ArrayList<ReservationListResult_data> past = bundle.getParcelableArrayList("past");
+        context = container.getContext();
+        final Bundle bundle = getArguments();
+        final ArrayList<ReservationListResult_data> past = bundle.getParcelableArrayList("past");
+        final String sharedToken = bundle.getString("String sharedToken = ");
         ArrayList<ItemPastReservData> itemList = new ArrayList<>();
         ItemPastReservData temp;
         String StartTime = "";
         String EndTime = "";
         for (int i = 0; i < past.size(); i++) {
             StartTime = past.get(i).getStartTime();
-            StartTime = StartTime.replace(" GMT+00:00 ", " ");
+            String a = StartTime.substring(0, 20);
+            String b = StartTime.substring(30);
+            StartTime = a + b;
+            
             EndTime = past.get(i).getEndTime();
-            EndTime = EndTime.replace(" GMT+00:00 ", " ");
+            a = EndTime.substring(0, 20);
+            b = EndTime.substring(30);
+            EndTime = a + b;
+            
             SimpleDateFormat sdfToDate = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy", Locale.US);
             final SimpleDateFormat sdfDate = new SimpleDateFormat("yy-MM-dd");
             final SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
@@ -72,13 +91,10 @@ public class PastReservFragmnet extends Fragment {
 
         //서버와 연동해서 값 띄워야함
         data = new ArrayList<>();
-//        //아이템들
-//        ItemPastReservData list1 = new ItemPastReservData("2020-05-04", "2020-05-05", "22:00", "01:01", "13하4355", "구획 73128-4b", "강원도 영월군 중동면");
-//        ItemPastReservData list2 = new ItemPastReservData("2020-08-23", "2020-08-23", "10:30", "12:30", "13하4355", "구획 3322-4a5", "서울특별시 노원구");
 
 
         //리스트에 추가
-        for(int i = 0 ; i<itemList.size();i++){
+        for (int i = 0; i < itemList.size(); i++) {
             data.add(itemList.get(i));
         }
 
@@ -97,8 +113,42 @@ public class PastReservFragmnet extends Fragment {
                         .setPositiveButton("삭제", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                data.remove(position);
-                                adapter.notifyDataSetChanged();
+
+                                Log.i("jiwon",past.get(position).getId());
+                                Log.i("jiwon",past.get(position).getStartTime());
+                                Log.i("jiwon",past.get(position).getEndTime());
+
+                                ApiService serviceApi = new RestRequestHelper().getApiService();
+                                final Call<requestDeleteResult> res = serviceApi.requestDelete(sharedToken, past.get(position).getId());
+
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            requestRes = res.execute().body();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }).start();
+                                try {
+                                    Thread.sleep(300);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                if(requestRes != null){
+                                    if(requestRes.getResult().equals("success")){
+                                        Toast.makeText(context, requestRes.getMessage(), Toast.LENGTH_SHORT).show();
+                                        data.remove(position);
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                    else{
+                                        Toast.makeText(context, requestRes.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }else{
+
+                                }
+
                             }
                         })
                         .setNegativeButton("취소", null)

@@ -40,25 +40,23 @@ public class LoginActivity extends AppCompatActivity {
                     System.out.println(sharedToken);
 
                     if (loginResult.equals("success")) {
-                        if(sharedToken=="") {//저장된 토큰 값 없을시 새로 생성 후 저장
+                        if (sharedToken == "") {//저장된 토큰 값 없을시 새로 생성 후 저장
                             editor.putString("token", user.getToken());
                             editor.commit();
-                        }
-                        else{//저장된 토큰값이 있을시 지우고 새로 생성후 저장
+                        } else {//저장된 토큰값이 있을시 지우고 새로 생성후 저장
                             editor.remove("token");
                             editor.putString("token", user.getToken());
                             editor.commit();
                         }
 
-                        Thread.sleep(1000);
+                        Thread.sleep(300);
 
-                    Intent intent = new Intent(getApplicationContext(), com.example.athome.main.MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
+                        Intent intent = new Intent(getApplicationContext(), com.example.athome.main.MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
 
-                }
-                    else{
-                        Toast.makeText(getApplicationContext(),  "로그인 실패", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
@@ -82,11 +80,11 @@ public class LoginActivity extends AppCompatActivity {
 
         btn_back = (Button) findViewById(R.id.btn_login_cancel);
         btn_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        }
+                                        @Override
+                                        public void onClick(View v) {
+                                            finish();
+                                        }
+                                    }
         );
 
 

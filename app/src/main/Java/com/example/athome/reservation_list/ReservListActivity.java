@@ -26,12 +26,12 @@ public class ReservListActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         ArrayList<ReservationListResult_data> data = intent.getParcelableArrayListExtra("data");
-
+        String sharedToken = intent.getStringExtra("sharedToken");
         this.InitializeView();
         this.SetListner();
 
         final ViewPager viewPager=(ViewPager)findViewById(R.id.reserv_list_viewpager);
-        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount(),data);
+        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount(),data,sharedToken);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

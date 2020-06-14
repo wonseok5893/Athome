@@ -3,6 +3,7 @@ package com.example.athome.reservation_list;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,67 +48,83 @@ public class NowReservFragmnet extends Fragment {
         //아이템들
 
         Bundle bundle = getArguments();
-        final ReservationListResult_data current = (ReservationListResult_data) bundle.getSerializable("current");
+        ArrayList<ReservationListResult_data> current = bundle.getParcelableArrayList("current");
+        ArrayList<ItemNowReservData> itemList = new ArrayList<>();
+        Log.i("jiwon", "now"+current.toString());
+        Log.i("jiwon", "now"+current.size());
+        ItemNowReservData temp;
+        String StartTime = "";
+        String EndTime = "";
         if (current != null) {
-            String StartTime = "";
-            StartTime = current.getStartTime();
-            StartTime = StartTime.replace(" GMT+00:00 ", " ");
-            String EndTime = "";
-            EndTime = current.getEndTime();
-            EndTime = EndTime.replace(" GMT+00:00 ", " ");
-            SimpleDateFormat sdfToDate = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy", Locale.US);
-            final SimpleDateFormat sdfDate = new SimpleDateFormat("yy-MM-dd");
-            final SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
-            try {
-                final Date nowReserveStart = sdfToDate.parse(StartTime);
-                final Date nowReserveEnd = sdfToDate.parse(EndTime);
-                final String nowReserveStartDate = sdfDate.format(nowReserveStart);
-                final String nowReserveEndDate = sdfDate.format(nowReserveEnd);
-                final String nowReserveStartTime = sdfTime.format(nowReserveStart);
-                final String nowReserveEndTime = sdfTime.format(nowReserveEnd);
-                final String nowReserveCarNumber = current.getCarNumber();
-                final String nowReserveParkingNumber = current.getParkingInfo();
-                final String nowReserveState;
-                Date now = new Date();
-                SimpleDateFormat sdfNow = new SimpleDateFormat("HH:mm");
-                String nowTime = sdfNow.format(now);
-                now = sdfNow.parse(nowTime);
-                Date Start = sdfNow.parse(nowReserveStartDate);
+            for (int i = 0; i < current.size(); i++) {
 
-                if (now.getTime() < Start.getTime()) {
-                    nowReserveState = "대기 중";
-                } else {
-                    nowReserveState = "주차 중";
-                }
-                ItemNowReservData list1 = new ItemNowReservData(nowReserveStartDate, nowReserveEndDate, nowReserveStartTime, nowReserveEndTime
-                        , nowReserveCarNumber, nowReserveParkingNumber, nowReserveState);
+                StartTime = current.get(i).getStartTime();
+                String a = StartTime.substring(0,20);
+                String b = StartTime.substring(30);
+                StartTime = a+b;
 
-                //리스트에 추가
-                data.add(list1);
+                EndTime = current.get(i).getEndTime();
+                a = EndTime.substring(0,20);
+                b = EndTime.substring(30);
+                EndTime = a+b;
 
-                //리스트 속의 아이템 연결
-                adapter = new NowReservListAdapter(getContext(), R.layout.now_reserv_listview_item, data);
-                now_reserv_listView.setAdapter(adapter);
+                SimpleDateFormat sdfToDate = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy", Locale.US);
+                final SimpleDateFormat sdfDate = new SimpleDateFormat("yy-MM-dd");
+                final SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
+                try {
+                    final Date nowReserveStart = sdfToDate.parse(StartTime);
+                    final Date nowReserveEnd = sdfToDate.parse(EndTime);
+                    final String nowReserveStartDate = sdfDate.format(nowReserveStart);
+                    final String nowReserveEndDate = sdfDate.format(nowReserveEnd);
+                    final String nowReserveStartTime = sdfTime.format(nowReserveStart);
+                    final String nowReserveEndTime = sdfTime.format(nowReserveEnd);
+                    final String nowReserveCarNumber = current.get(i).getCarNumber();
+                    final String nowReserveParkingNumber = current.get(i).getParkingInfo();
+                    final String nowReserveState;
+                    Date now = new Date();
+                    SimpleDateFormat sdfNow = new SimpleDateFormat("HH:mm");
+                    String nowTime = sdfNow.format(now);
+                    now = sdfNow.parse(nowTime);
+                    Date Start = sdfNow.parse(nowReserveStartTime);
 
-                //아이템 클릭시 작동
-                now_reserv_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent intent = new Intent(getActivity(), NowReservTicket.class);
-                        intent.putExtra("nowReserveStartDate", nowReserveStartDate);
-                        intent.putExtra("nowReserveEndDate", nowReserveEndDate);
-                        intent.putExtra("nowReserveStartTime", nowReserveStartTime);
-                        intent.putExtra("nowReserveEndTime", nowReserveEndTime);
-                        intent.putExtra("nowReserveCarNumber", nowReserveCarNumber);
-                        intent.putExtra("nowReserveParkingNumber", nowReserveParkingNumber);
-                        intent.putExtra("nowReserveState", nowReserveState);
-                        startActivity(intent);
+                    if (now.getTime() < Start.getTime()) {
+                        nowReserveState = "대기 중";
+                    } else {
+                        nowReserveState = "주차 중";
                     }
-                });
-            } catch (ParseException e) {
-                e.printStackTrace();
+                    temp = new ItemNowReservData(nowReserveStartDate, nowReserveEndDate, nowReserveStartTime, nowReserveEndTime
+                            , nowReserveCarNumber, nowReserveParkingNumber, nowReserveState);
+                    itemList.add(temp);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            //리스트에 추가
+            for (int i = 0; i < itemList.size(); i++) {
+                data.add(itemList.get(i));
             }
         }
+
+        //리스트 속의 아이템 연결
+        adapter = new NowReservListAdapter(getContext(), R.layout.now_reserv_listview_item, data);
+        now_reserv_listView.setAdapter(adapter);
+
+        //아이템 클릭시 작동
+        now_reserv_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), NowReservTicket.class);
+                intent.putExtra("nowReserveStartDate", data.get(position).getNowReservStartDate());
+                intent.putExtra("nowReserveEndDate", data.get(position).getNowReservEndDate());
+                intent.putExtra("nowReserveStartTime", data.get(position).getNowReservStartTime());
+                intent.putExtra("nowReserveEndTime", data.get(position).getNowReservEndTime());
+                intent.putExtra("nowReserveCarNumber", data.get(position).getNowReservCarNumber());
+                intent.putExtra("nowReserveParkingNumber", data.get(position).getNowReservParkingNumber());
+                intent.putExtra("nowReserveState", data.get(position).getNowReservState());
+                startActivity(intent);
+            }
+        });
 
         return view;
 

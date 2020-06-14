@@ -113,18 +113,21 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
 
                     }).start();
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(2000);
                     } catch (Exception e) {
                         e.printStackTrace();
-                    }
-                    if (enrollRes.equals("success")) {
-                        Toast.makeText(SharedParkingExplanation.this, enrollMessage, Toast.LENGTH_SHORT).show();
-                        intent = new Intent(SharedParkingExplanation.this, MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                    } else if (enrollRes.equals("fail")) {
-                        Toast.makeText(SharedParkingExplanation.this, enrollMessage, Toast.LENGTH_SHORT).show();
+                    }if(enrollRes != null){
+                        if (enrollRes.equals("success")) {
+                            Toast.makeText(SharedParkingExplanation.this, enrollMessage, Toast.LENGTH_SHORT).show();
+                            intent = new Intent(SharedParkingExplanation.this, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        } else if (enrollRes.equals("fail")) {
+                            Toast.makeText(SharedParkingExplanation.this, enrollMessage, Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        Toast.makeText(SharedParkingExplanation.this, "다시 시도해주십시오.", Toast.LENGTH_SHORT).show();
                     }
                 } else {
 

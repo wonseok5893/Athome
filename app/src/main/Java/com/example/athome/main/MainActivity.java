@@ -453,7 +453,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                     }).start();
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(300);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -559,7 +559,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }).start();
         try {
-            Thread.sleep(200);
+            Thread.sleep(300);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -649,17 +649,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }).start();
 
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            ArrayList<ReservationListResult_data> data = (ArrayList<ReservationListResult_data>) ReservationListResult.getData();
-            Intent intent = new Intent(getApplicationContext(), ReservListActivity.class);
-            intent.putParcelableArrayListExtra("data",data);
+            if(ReservationListResult != null) {
+                ArrayList<ReservationListResult_data> data = (ArrayList<ReservationListResult_data>) ReservationListResult.getData();
+                Intent intent = new Intent(getApplicationContext(), ReservListActivity.class);
+                intent.putParcelableArrayListExtra("data", data);
+                intent.putExtra("sharedToken",sharedToken);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
+            }
+            else{
+                Toast.makeText(context, "다시 시도해주십시오.", Toast.LENGTH_SHORT).show();
+            }
+        } else if (id == R.id.payment) {//결제충전내역
+            Intent intent = new Intent(getApplicationContext(), PaymentListActivity.class);
             startActivity(intent);
-            overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
-        } else if (id == R.id.payment) {//결제충전적립
-            Toast.makeText(getApplicationContext(), "결제,충전,적립", Toast.LENGTH_LONG).show();
         } else if (id == R.id.account) {//계정관리
             Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
             intent.putExtra("user", user);
@@ -720,4 +727,3 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         preview.startAnimation(slide_down);
     }
 }
-

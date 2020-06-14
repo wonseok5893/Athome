@@ -114,9 +114,11 @@ public class SharePlace {
                 loc.setText(intent.getStringExtra("locationName"));
 
                 if (main.getUser().getUserId() == null) { // 비회원일때
+                    loc.setText(nonuser_intent.getStringExtra("locationName"));
                     LatLng position = myMarker.getPosition();
                     nonuser_intent.putExtra("position", position);
 
+                    Log.d("teststs", nonuser_intent.getStringExtra("locationId"));
                     main.PreviewVisible();
                     space_resv.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -125,6 +127,7 @@ public class SharePlace {
                         }
                     });
                 } else { // 회원일때
+                    loc.setText(intent.getStringExtra("locationName"));
                     LatLng position = myMarker.getPosition();
                     intent.putExtra("position", position);
 
@@ -201,7 +204,7 @@ public class SharePlace {
         }).start();
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(300);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -212,6 +215,7 @@ public class SharePlace {
 
         int timeArray[] = new int[7];
 
+        Log.d("junggyu", "시작시간 : " + locationStartTime + ", 종료시간 : " + locationEndTime);
         for(int i=0;i<locationDaySet.size();i++) {
             timeArray[i] = locationDaySet.get(i);
         }

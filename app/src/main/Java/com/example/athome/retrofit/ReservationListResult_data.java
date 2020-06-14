@@ -7,6 +7,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ReservationListResult_data implements Parcelable {
+    @SerializedName("_id")
+    @Expose
+    private String id;
     @SerializedName("startTime")
     @Expose
     private String startTime;
@@ -23,7 +26,9 @@ public class ReservationListResult_data implements Parcelable {
     @Expose
     private String parkingInfo;
 
+
     protected ReservationListResult_data(Parcel in) {
+        id = in.readString();
         startTime = in.readString();
         endTime = in.readString();
         carNumber = in.readString();
@@ -42,6 +47,10 @@ public class ReservationListResult_data implements Parcelable {
             return new ReservationListResult_data[size];
         }
     };
+
+    public String getId() { return id; }
+
+    public void setId(String id) { this.id = id; }
 
     public String getStartTime() {
         return startTime;
@@ -83,6 +92,7 @@ public class ReservationListResult_data implements Parcelable {
         this.parkingInfo = parkingInfo;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -90,6 +100,7 @@ public class ReservationListResult_data implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(startTime);
         dest.writeString(endTime);
         dest.writeString(carNumber);
