@@ -8,25 +8,28 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.athome.R;
 import com.example.athome.main.MainActivity;
 
+
 public class ReserveConfirm extends AppCompatActivity {
     private Button cancelBtn;
     private Button naviBtn;
-    private ImageButton closeBtn;
+    private Button closeBtn;
+    private TextView location,date,phnum,carnum,fee,payment,parking_num;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserve_confirm);
-        naviBtn = (Button)findViewById(R.id.con_navi);
-        //closeBtn = (ImageButton)findViewById(R.id.close_btn);
+        Initialize();
 
-        cancelBtn = (Button)findViewById(R.id.cancelBtn);
+
 
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,4 +74,18 @@ public class ReserveConfirm extends AppCompatActivity {
             }
         });
     }
+
+    public void Initialize(){
+        naviBtn = (Button)findViewById(R.id.con_naviBtn);
+        cancelBtn = (Button)findViewById(R.id.con_cancelBtn);
+        closeBtn=(Button)findViewById(R.id.btn_back_reserv_close);
+        location = (TextView)findViewById(R.id.con_location); //예약장소 주소
+        date = (TextView)findViewById(R.id.con_date); //예약날짜
+        phnum= (TextView)findViewById(R.id.con_phnum); //전화번호
+        carnum= (TextView)findViewById(R.id.con_carnum); //차량번호
+        fee= (TextView)findViewById(R.id.con_fee); //결제요금
+        payment= (TextView)findViewById(R.id.con_payment); //결제방법
+        parking_num = (TextView)findViewById(R.id.con_parkingnum); //주차구역번호
+
+    };
 }
