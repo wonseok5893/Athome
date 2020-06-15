@@ -36,6 +36,7 @@ public class PurposeActivity extends AppCompatActivity {
 
         init();
         setListener();
+
     }
 
     public void init() {
@@ -92,6 +93,18 @@ public class PurposeActivity extends AppCompatActivity {
                                     }
                                 }
                             }).start();
+
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                            if(!ps.getResult().equals("success")) {
+                                Toast.makeText(getApplicationContext(),  ps.getMessage(), Toast.LENGTH_SHORT).show();
+                                break;
+                            }
+
                         }
                     }
 
@@ -111,12 +124,17 @@ public class PurposeActivity extends AppCompatActivity {
                                 }
                             }
                         }).start();
-                    }
 
-                    try {
-                        Thread.sleep(3000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        if(!ps.getResult().equals("success")) {
+                            Toast.makeText(getApplicationContext(), ps.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
                     }
 
                     Log.d("junggyu", count + "개 전송함");

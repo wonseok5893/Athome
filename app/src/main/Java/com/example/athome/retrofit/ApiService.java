@@ -108,7 +108,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("user/visitPurpose")
     Call<PurposeResult> sendPurpose(@Header("x-access-token") String token,
-                                    @Field("reservId") String reservId,
+                                    @Field("_id") String _id,
                                     @Field("category") String category,
                                     @Field("description") String description);
 
