@@ -32,6 +32,7 @@ public class User implements Parcelable {
     private Integer userState;
     private String token;
     private Integer todaySharingState;
+    private LoginResult loginResult;
     String authMessage;
     String authRes;
     String registerMessage;
@@ -234,7 +235,7 @@ public class User implements Parcelable {
     }
 
     //로그인 인증
-    public String login() {
+    public LoginResult login() {
 
         ApiService serviceApi = new RestRequestHelper().getApiService();
         final Call<LoginResult> res = serviceApi.login(userId, userPassword);
@@ -243,8 +244,7 @@ public class User implements Parcelable {
             @Override
             public void run() {
                 try {
-                    LoginResult loginResult = res.execute().body();
-                    loginRes = loginResult.getLoginResult();
+                    loginResult = res.execute().body();
                     token = loginResult.getToken();
 
                 } catch (IOException ie) {
@@ -257,7 +257,7 @@ public class User implements Parcelable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return loginRes;
+        return loginResult;
     }
 
     //토큰 인증

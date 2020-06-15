@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.athome.retrofit.LoginResult;
+
 public class LoginActivity extends AppCompatActivity {
     private Button btn_register, loginButton;
     private Button btn_back;
@@ -32,14 +34,14 @@ public class LoginActivity extends AppCompatActivity {
                 String userPassword = et_pw.getText().toString();
                 User user = new User(userId, userPassword);
                 try {
-                    String loginResult = user.login(); //로그인이 일어나는 부분임
+                    LoginResult loginResult = user.login(); //로그인이 일어나는 부분임
 
                     SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sf.edit();
                     String sharedToken = sf.getString("token", "");//shared파일에서 key="token"가져오기
                     System.out.println(sharedToken);
 
-                    if (loginResult.equals("success")) {
+                    if (loginResult.getLoginResult().equals("success")) {
                         if (sharedToken == "") {//저장된 토큰 값 없을시 새로 생성 후 저장
                             editor.putString("token", user.getToken());
                             editor.commit();
@@ -56,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
 
                     } else {
-                        Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), loginResult.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {

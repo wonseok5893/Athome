@@ -10,6 +10,9 @@ public class LoginResult {
     @SerializedName("token")
     @Expose
     String token;
+    @SerializedName("message")
+    @Expose
+    String message;
 
 
     public String getToken() {
@@ -18,6 +21,9 @@ public class LoginResult {
 
     public String getLoginResult() {
         return loginResult;
+    }
+    public String getMessage() {
+        return message;
     }
 
     public void setLoginResult(String loginResult) {

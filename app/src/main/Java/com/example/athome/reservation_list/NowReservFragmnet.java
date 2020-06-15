@@ -48,7 +48,7 @@ public class NowReservFragmnet extends Fragment {
         //아이템들
 
         Bundle bundle = getArguments();
-        ArrayList<ReservationListResult_data> current = bundle.getParcelableArrayList("current");
+        final ArrayList<ReservationListResult_data> current = bundle.getParcelableArrayList("current");
         ArrayList<ItemNowReservData> itemList = new ArrayList<>();
         Log.i("jiwon", "now"+current.toString());
         Log.i("jiwon", "now"+current.size());
@@ -82,10 +82,12 @@ public class NowReservFragmnet extends Fragment {
                     final String nowReserveParkingNumber = current.get(i).getParkingInfo();
                     final String nowReserveState;
                     Date now = new Date();
-                    SimpleDateFormat sdfNow = new SimpleDateFormat("HH:mm");
+                    SimpleDateFormat sdfNow = new SimpleDateFormat("MM dd HH:mm");
                     String nowTime = sdfNow.format(now);
                     now = sdfNow.parse(nowTime);
-                    Date Start = sdfNow.parse(nowReserveStartTime);
+
+                    String StartTemp = sdfNow.format(nowReserveStart);
+                    Date Start = sdfNow.parse(StartTemp);
 
                     if (now.getTime() < Start.getTime()) {
                         nowReserveState = "대기 중";
