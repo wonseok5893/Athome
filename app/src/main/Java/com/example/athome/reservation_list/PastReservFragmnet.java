@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import com.example.athome.R;
 import com.example.athome.RestRequestHelper;
 import com.example.athome.account.AccountCarList;
+import com.example.athome.reservation.PurposeActivity;
 import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.MarkerResult;
 import com.example.athome.retrofit.ReservationListResult_data;
@@ -102,6 +103,16 @@ public class PastReservFragmnet extends Fragment {
         //리스트 속의 아이템 연결
         adapter = new PastReservListAdapter(getContext(), R.layout.past_reserv_listview_item, data);
         past_reserv_listVeiw.setAdapter(adapter);
+
+        //아이템 클릭시 작동
+        past_reserv_listVeiw.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), PurposeActivity.class);
+                intent.putExtra("reservId", past.get(position).getId());
+                startActivity(intent);
+            }
+        });
 
 
         return view;

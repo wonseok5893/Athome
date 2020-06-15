@@ -21,12 +21,13 @@ import retrofit2.Call;
 
 public class PurposeActivity extends AppCompatActivity {
 
-    CheckBox[] purposeCheck = new CheckBox[7]; // {외식, 쇼핑, 출장/비즈니스, 친구/친지방문, 의료/건강, 여행/휴가, 기타}
-    String[] purpose = {"외식", "쇼핑", "출장/비즈니스", "친구/친지방문", "의료/건강", "여행/휴가", "기타"};
-    Button purpose_save, purpose_backBtn;
-    EditText purpose_other;
-    PurposeResult ps;
-    int count = 0;
+    private CheckBox[] purposeCheck = new CheckBox[7]; // {외식, 쇼핑, 출장/비즈니스, 친구/친지방문, 의료/건강, 여행/휴가, 기타}
+    private String[] purpose = {"외식", "쇼핑", "출장/비즈니스", "친구/친지방문", "의료/건강", "여행/휴가", "기타"};
+    private Button purpose_save, purpose_backBtn;
+    private EditText purpose_other;
+    private PurposeResult ps;
+    private int count = 0;
+    private String reservId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,9 @@ public class PurposeActivity extends AppCompatActivity {
         purpose_save = (Button)findViewById(R.id.purpose_save);
         purpose_backBtn = (Button)findViewById(R.id.purpose_backBtn);
         purpose_other = (EditText)findViewById(R.id.purpose_other);
+
+        Intent intent = getIntent();
+        this.reservId = intent.getStringExtra("reservId");
 
     }
 
@@ -76,7 +80,7 @@ public class PurposeActivity extends AppCompatActivity {
                             count++;
 
                             ApiService serviceApi = new RestRequestHelper().getApiService();
-                            final Call<PurposeResult> res = serviceApi.sendPurpose(sharedToken,purpose[i], "");
+                            final Call<PurposeResult> res = serviceApi.sendPurpose(sharedToken,reservId,purpose[i], "");
 
                             new Thread(new Runnable() {
                                 @Override
@@ -95,7 +99,7 @@ public class PurposeActivity extends AppCompatActivity {
                         count++;
 
                         ApiService serviceApi = new RestRequestHelper().getApiService();
-                        final Call<PurposeResult> res = serviceApi.sendPurpose(sharedToken,purpose[6], purpose_other.getText().toString());
+                        final Call<PurposeResult> res = serviceApi.sendPurpose(sharedToken,reservId,purpose[6], purpose_other.getText().toString());
 
                         new Thread(new Runnable() {
                             @Override
