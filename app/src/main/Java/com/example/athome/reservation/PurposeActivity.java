@@ -1,6 +1,7 @@
 package com.example.athome.reservation;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -66,11 +67,16 @@ public class PurposeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(checkNotNull()) {
 
+                    SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
+                    String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
+
                     for(int i=0;i<6;i++) {
+
                         if(purposeCheck[i].isChecked()) { // 만약에 체크되어 있으면.
                             count++;
+
                             ApiService serviceApi = new RestRequestHelper().getApiService();
-                            final Call<PurposeResult> res = serviceApi.sendPurpose(purpose[i], "x");
+                            final Call<PurposeResult> res = serviceApi.sendPurpose(sharedToken,purpose[i], "");
 
                             new Thread(new Runnable() {
                                 @Override
@@ -87,8 +93,9 @@ public class PurposeActivity extends AppCompatActivity {
 
                     if(purposeCheck[6].isChecked()) {
                         count++;
+
                         ApiService serviceApi = new RestRequestHelper().getApiService();
-                        final Call<PurposeResult> res = serviceApi.sendPurpose(purpose[6],purpose_other.getText().toString());
+                        final Call<PurposeResult> res = serviceApi.sendPurpose(sharedToken,purpose[6], purpose_other.getText().toString());
 
                         new Thread(new Runnable() {
                             @Override
@@ -100,7 +107,6 @@ public class PurposeActivity extends AppCompatActivity {
                                 }
                             }
                         }).start();
-                        // if문 만들어서 성공 실패 토스트
                     }
 
                     try {
@@ -111,7 +117,14 @@ public class PurposeActivity extends AppCompatActivity {
 
                     Log.d("junggyu", count + "개 전송함");
                     count = 0;
-                    Toast.makeText(getApplicationContext(),  "감사합니다.", Toast.LENGTH_SHORT).show();
+
+                    if(sharedToken.equals("")) {
+                        Toast.makeText(getApplicationContext(),  "응답 감사합니다.\n포인트를 얻으시려면 회원가입을 해주세요.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(),  "감사합니다.", Toast.LENGTH_SHORT).show();
+
+                    }
+
 
                     Intent intent = new Intent(getApplicationContext(), com.example.athome.main.MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
