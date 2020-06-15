@@ -4,6 +4,7 @@ package com.example.athome.retrofit;
 import com.example.athome.admin.AdminResult;
 import com.example.athome.admin.AllUserResult;
 import com.example.athome.admin_enroll.AdminEnrollResult;
+import com.example.athome.admin_notice.AdminNoticeResult;
 import com.example.athome.notice.ItemNoticeResult;
 
 import java.util.Date;
@@ -120,6 +121,9 @@ public interface ApiService {
     @GET("notices")
     Call<ItemNoticeResult> allNotice(@Query("noticeName") String noticeName);
 
+    @GET("admin/notices")
+    Call<AdminNoticeResult> adminNotice(@Query("token") String noticeName);
+
     //예약정보 받아오기
     @FormUrlEncoded
     @POST("user/myReservation")
@@ -178,6 +182,10 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("admin/editState")
     Call<AdminResult> adminEditState(@Header("x-access-token") String token, @Field("userId") String userId,@Field("editState") Integer editState);
+
+    @FormUrlEncoded
+    @POST("admin/statistics")
+    Call<StatisticsResult> adminGetStatistics(@Header("x-access-token") String token,@Field("secret") String secret);
 
 
 }

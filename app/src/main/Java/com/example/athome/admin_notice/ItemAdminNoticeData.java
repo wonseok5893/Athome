@@ -6,6 +6,10 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 public class ItemAdminNoticeData {
+
+    @SerializedName("_id")
+    @Expose
+    public String __id;
     @SerializedName("title")
     @Expose
     public String noticeTitle;
@@ -27,6 +31,9 @@ public class ItemAdminNoticeData {
 
     public String getNoticeContext(){
         return noticeContext;
+    }
+    public String get__id() {
+        return __id;
     }
 
     public ItemAdminNoticeData(String noticeTitle, String noticeDate, String noticeContext){

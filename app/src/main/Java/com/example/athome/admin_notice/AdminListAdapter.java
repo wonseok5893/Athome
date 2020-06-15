@@ -16,14 +16,14 @@ import java.util.List;
 
 public class  AdminListAdapter extends BaseAdapter {
     LayoutInflater inflater = null;
-    private ArrayList<ItemAdminNoticeData> data = null;
+    private List<ItemAdminNoticeData> data = null;
     private int layout;
 
     //생성자
     public AdminListAdapter(Context context, int layout, List<ItemAdminNoticeData> data)
     {
         this.inflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.data = (ArrayList<ItemAdminNoticeData>) data;
+        this.data = (List<ItemAdminNoticeData>) data;
         this.layout=layout;
     }
 
