@@ -21,20 +21,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.athome.R;
 import com.example.athome.RestRequestHelper;
 import com.example.athome.account.AccountCarRegister;
 import com.example.athome.account.CarListAdapter;
 import com.example.athome.account.ItemAccountCarData;
 import com.example.athome.main.MainActivity;
-import com.example.athome.reservation.CustomTimePickerDialog;
 import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.ReserveListResult;
-
+import com.example.athome.retrofit.sendReserveResult;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,14 +38,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-
-import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ReserveActivity extends AppCompatActivity {
     private LinearLayout reserv_start;
@@ -63,6 +53,7 @@ public class ReserveActivity extends AppCompatActivity {
     private TextView reserv_end_time_select;
     private TextView parking_car_number_select;
     private TextView parking_time_result;
+    private TextView reserv_payment_amount_value;
     private TextView all_point_use; //포인트전액사용하기
     private CarListAdapter adapter;
     private ArrayList<ItemAccountCarData> data = new ArrayList<>();
@@ -104,6 +95,8 @@ public class ReserveActivity extends AppCompatActivity {
     private String locationStartTime;
     private String locationEndTime;
 
+    private sendReserveResult sendResult;
+    private long calDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,11 +114,11 @@ public class ReserveActivity extends AppCompatActivity {
         locationDaySet = intent.getIntArrayExtra("locationDaySet");
         locationStartTime = intent.getStringExtra("locationStartTime");
         locationEndTime = intent.getStringExtra("locationEndTime");
-
+        parking_number.setText(intent.getStringExtra("parkingInfo"));
         this.InitializeView();
-        ReservationList(intent);
-        parseMsg();
-        makeTimeTable(locationStartTime, locationEndTime);
+        ReservationList(intent); //마커의 예약 정보 받아오기
+        parseMsg(); // 2차원 배열에 예약 정보 초기화
+        makeTimeTable(locationStartTime, locationEndTime); //144개 뷰 예약 허용 시간 외 gray 예약 시간 red 로 표현
         this.SetListner();
 
         reserv_end_time_select.addTextChangedListener(new TextWatcher() {
@@ -155,7 +148,7 @@ public class ReserveActivity extends AppCompatActivity {
 
         ApiService serviceApi = new RestRequestHelper().getApiService();
         final Call<ReserveListResult> res = serviceApi.getReserveData(intent.getStringExtra("locationId"));
-        Log.i("jiwon","locationId : "+intent.getStringExtra("locationId"));
+        Log.i("jiwon", "locationId : " + intent.getStringExtra("locationId"));
         Log.d("ResTest", intent.getStringExtra("locationId"));
 
         new Thread(new Runnable() {
@@ -178,14 +171,14 @@ public class ReserveActivity extends AppCompatActivity {
             Log.i("jiwon", "예약사항없음 or 실패 으앙!");
         } else {
             int reservCount = reserveResult.getReservationList().size();
-            Log.i("jiwon","reserveCount"+Integer.toString(reservCount));
+            Log.i("jiwon", "reserveCount" + Integer.toString(reservCount));
             for (int i = 0; i < reservCount; i++) {
                 String s = reserveResult.getReservationList().get(i).getStartTime();
                 String e = reserveResult.getReservationList().get(i).getEndTime();
                 startTimeList.add(s);
                 endTimeList.add(e);
-                Log.i("jiwon",s);
-                Log.i("jiwon",e);
+                Log.i("jiwon", s);
+                Log.i("jiwon", e);
             }
         }
     }
@@ -227,7 +220,8 @@ public class ReserveActivity extends AppCompatActivity {
                 int eDay = Integer.parseInt(EndSplit[1]);
                 int eHour = Integer.parseInt(EndSplit[2]);
                 int eMin = Integer.parseInt(EndSplit[3]) / 10;
-                Log.i("jiwon", "" + sDay +" "+ sHour +" "+ sMin +" "+ "///" + eDay +" "+ eHour +" "+ eMin);
+                Log.i("jiwon", "" + sDay + " " + sHour + " " + sMin + " " + "///" + eDay + " " + eHour + " " + eMin);
+
                 //예약 타입 테이블 채우는 함수
                 setReserveList(sDay, sHour, sMin, eDay, eHour, eMin);
 
@@ -244,16 +238,16 @@ public class ReserveActivity extends AppCompatActivity {
             }
 
         }
-        for(int i=0; i<25;i++) {
-            Log.i("jiwon", "["+i+"]"+Arrays.toString(todayReserve[i]));
+        for (int i = 0; i < 25; i++) {
+            Log.i("jiwon", "[" + i + "]" + Arrays.toString(todayReserve[i]));
         }
     }
 
     private void setReserveList(int sDay, int sHour, int sMin, int eDay, int eHour, int eMin) {
         if (sDay == eDay) {
-            Log.i("jiwon","if (sDay == eDay) ");
+            Log.i("jiwon", "if (sDay == eDay) ");
             if (sDay == todayReserve[24][1]) {
-                Log.i("jiwon","(sDay == todayReserve[24][1])");
+                Log.i("jiwon", "(sDay == todayReserve[24][1])");
                 for (int j = sHour; j <= eHour; j++) {  // 0 ~ 23 입력 받을건데
                     int k = 0;
                     int last = 6;
@@ -266,7 +260,7 @@ public class ReserveActivity extends AppCompatActivity {
                     }
                 }
             } else if (sDay == tomorrowReserve[24][1]) {
-                Log.i("jiwon","(sDay == tomorrowReserve[24][1])");
+                Log.i("jiwon", "(sDay == tomorrowReserve[24][1])");
                 for (int j = sHour; j <= eHour; j++) {
                     int k = 0;
                     int last = 6;
@@ -379,6 +373,7 @@ public class ReserveActivity extends AppCompatActivity {
         btn_next_reserv = findViewById(R.id.btn_next_reserv);
         parking_car_number_select = findViewById(R.id.parking_car_number_select);
         parking_time_result = findViewById(R.id.parking_time_result);
+        reserv_payment_amount_value = findViewById(R.id.reserv_payment_amount_value);
         all_point_use = findViewById(R.id.all_point_use);
         all_point_use.setPaintFlags(all_point_use.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG); //밑줄긋기
 
@@ -433,40 +428,67 @@ public class ReserveActivity extends AppCompatActivity {
                         showDirectInputAlertDialog(ReserveActivity.this);
                         break;
                     case R.id.btn_next_reserv:
-                        Log.d("junggyu", "버튼이 눌렸습니다.");
+                        if (calDate > 0) {
+                            SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                            String startTimeString = smYear + "-" + (smMonth + 1) + "-" + smDay + " " + smHour + ":" + smMinute;//"2013-04-08 10:10";
+                            String endTimeString = emYear + "-" + (emMonth + 1) + "-" + emDay + " " + emHour + ":" + emMinute;//"2013-04-08 10:10";
+                            try {
+                                startTime = transFormat.parse(startTimeString);
+                                endTime = transFormat.parse(endTimeString);
+                                Log.d("time", startTime.toString());
+                                Log.d("time", endTime.toString());
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
 
-                        SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                        String startTimeString = smYear + "-" + (smMonth + 1) + "-" + smDay + " " + smHour + ":" + smMinute;//"2013-04-08 10:10";
-                        String endTimeString = emYear + "-" + (emMonth + 1) + "-" + emDay + " " + emHour + ":" + emMinute;//"2013-04-08 10:10";
-                        try {
-                            startTime = transFormat.parse(startTimeString);
-                            endTime = transFormat.parse(endTimeString);
-                            Log.d("time", startTime.toString());
-                            Log.d("time", endTime.toString());
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+
+                            String carNumber = parking_car_number_select.getText().toString();
+                            ApiService apiService = new RestRequestHelper().getApiService();
+                            final Call<sendReserveResult> res = apiService.sendReserve(sharedToken, _id, carNumber, startTime, endTime);
+
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        sendResult = res.execute().body();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }).start();
+
+                            try {
+                                Thread.sleep(300);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                            if (sendResult != null) {
+                                if (sendResult.getResult().equals("success")) {
+                                    Toast.makeText(ReserveActivity.this, sendResult.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(ReserveActivity.this, MainActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(intent);
+                                } else {
+                                    reserv_start_date_select.setText("00-00-00");
+                                    reserv_end_date_select.setText("00-00-00");
+                                    reserv_start_time_select.setText("00:00");
+                                    reserv_end_time_select.setText("00:00");
+                                    Toast.makeText(ReserveActivity.this, sendResult.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+
+                            } else {
+                                reserv_start_date_select.setText("00-00-00");
+                                reserv_end_date_select.setText("00-00-00");
+                                reserv_start_time_select.setText("00:00");
+                                reserv_end_time_select.setText("00:00");
+                                Toast.makeText(ReserveActivity.this, "다시 시도해주십시오.", Toast.LENGTH_SHORT);
+                            }
+                        } else {
+                            Toast.makeText(ReserveActivity.this, "시간 설정을 다시 해주십시오.", Toast.LENGTH_SHORT).show();
                         }
-                        String carNumber = parking_car_number_select.getText().toString();
-                        ApiService apiService = new RestRequestHelper().getApiService();
-                        Call<ResponseBody> res = apiService.sendReserve(sharedToken, _id, carNumber, startTime, endTime);
-                        res.enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                Toast.makeText(ReserveActivity.this, "예약 되셨습니다.", Toast.LENGTH_SHORT).show();
-                                Log.d("junggyu", "예약 성공");
-                                Intent intent = new Intent(ReserveActivity.this, MainActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                            }
-
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Toast.makeText(ReserveActivity.this, "다시 시도해주십시오.", Toast.LENGTH_SHORT).show();
-                                Log.d("junggyu", "다시시도");
-
-                            }
-                        });
                         break;
+
                 }
             }
         };
@@ -507,7 +529,8 @@ public class ReserveActivity extends AppCompatActivity {
                 AccountCarRegister accountCarRegister = new AccountCarRegister(ReserveActivity.this);
                 // 다이얼로그 호출
                 //그외 작업
-                accountCarRegister.callFunction();
+                Intent intent = new Intent();
+                accountCarRegister.callFunction(intent);
             }
         });
 
@@ -620,7 +643,7 @@ public class ReserveActivity extends AppCompatActivity {
         startTime = transFormat.parse(startTimeString);
         endTime = transFormat.parse(endTimeString);
 
-        long calDate = endTime.getTime() - startTime.getTime();
+        calDate = endTime.getTime() - startTime.getTime();
 
         // Date.getTime() 은 해당날짜를 기준으로1970년 00:00:00 부터 몇 초가 흘렀는지를 반환해준다.
         // 이제 24*60*60*1000(각 시간값에 따른 차이점) 을 나눠주면 일수가 나온다.
@@ -636,14 +659,14 @@ public class ReserveActivity extends AppCompatActivity {
             if (resultDay == 1) {
                 resultHour += 24;
             }
+            parking_time_result.setText(resultHour + "시간" + resultMin + "분");
+            int pay = resultHour * 600 + resultMin / 10 * 100;
+            reserv_payment_amount_value.setText(Integer.toString(pay));
         } else {
-            resultHour = emHour - smHour;
-            resultMin = emMinute - smMinute;
+            parking_time_result.setText("올바르지 않은 시간 설정");
+            reserv_payment_amount_value.setText("0");
         }
 
-        parking_time_result.setText(resultHour + "시" + resultMin + "분");
-
-        Log.d("두 날짜의 날짜 차이: ", resultHour + "시" + resultMin + "분");
         return 0;
     }
 }

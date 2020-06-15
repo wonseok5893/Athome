@@ -3,6 +3,7 @@ package com.example.athome.account;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -57,7 +58,7 @@ public class AccountActivity extends AppCompatActivity {
         textUserId.setText(user.getUserId());
         textUserPhoneNumber.setText(user.getUserPhone());
         if(user.getUserCarNumber()!=null){
-            textUserCarNumber.setText(user.getUserCarNumber());
+            textUserCarNumber.setText("있음");
         }
         textUserEmail.setText(user.getUserEmail());
 
@@ -116,6 +117,8 @@ public class AccountActivity extends AppCompatActivity {
 
                     case R.id.usercar_linear://클릭시 차량번호 등록,삭제하는 레이아웃으로 이동
                         intent = new Intent(getApplicationContext(), AccountCarList.class);
+                        intent.putStringArrayListExtra("textUserCarNumber",user.getUserCarNumber());
+                        Log.i("jiwon","차 리스트 "+user.getUserCarNumber().toString());
                         startActivity(intent);
                         overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
                         break;

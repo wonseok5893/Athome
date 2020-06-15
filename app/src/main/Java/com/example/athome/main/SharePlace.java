@@ -140,6 +140,7 @@ public class SharePlace {
         intent.putExtra("userId", userId); // UserId
         intent.putExtra("latitude", latitude); // 위도
         intent.putExtra("longitude", longitude); // 경도
+        intent.putExtra(" ",parkingInfo); // 구획 번호
 
         nonuser_intent.putExtra("locationId", locationId);//_id
         nonuser_intent.putExtra("latitude", latitude);

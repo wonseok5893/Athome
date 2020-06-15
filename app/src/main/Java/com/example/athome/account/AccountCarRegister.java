@@ -2,6 +2,7 @@ package com.example.athome.account;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -12,14 +13,14 @@ import com.example.athome.R;
 
 public class AccountCarRegister {
     private Context context;
-
+    private Intent intent;
     public AccountCarRegister(Context context){
         this.context=context;
     }
 
     //호출할 다이얼로그 함수를 정의
-    public void callFunction(){
-
+    public void callFunction(final Intent intent){
+        this.intent = intent;
         //다이얼로그를 정의하기위해 Dialog클래스를 생성
         final Dialog dlg = new Dialog(context);
         // 액티비티의 타이틀바를 숨긴다.
@@ -39,6 +40,7 @@ public class AccountCarRegister {
             public void onClick(View view) {
                 // edittext에 적힌 차량번호를 리스트뷰에뿌려줘야함
                 // 커스텀 다이얼로그를 종료한다.
+                intent.putExtra("carNumber",car_number_edit.getText().toString());
                 dlg.dismiss();
             }
         });

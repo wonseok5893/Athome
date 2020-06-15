@@ -7,6 +7,7 @@ import com.example.athome.admin_enroll.AdminEnrollResult;
 import com.example.athome.notice.ItemNoticeResult;
 
 import java.util.Date;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -29,11 +30,13 @@ public interface ApiService {
                                 @Field("userName") String userName,
                                 @Field("userEmail") String userEmail,
                                 @Field("userPhone") String userPhone);
+
     //사용자 로그인
     @FormUrlEncoded
     @POST("user/login")
     Call<LoginResult> login(@Field("userId") String userId,
                             @Field("userPassword") String userPassword);
+
     //토큰 인증
     @FormUrlEncoded
     @POST("api/auth")
@@ -46,25 +49,41 @@ public interface ApiService {
     Call<EditResult> editPassword(@Header("x-access-token") String token,
                                   @Field("userPassword") String userPassword,
                                   @Field("newUserPassword") String newUserPassword);
+
+    //사용자 차번호 등록
+    @FormUrlEncoded
+    @POST("user/carEnroll")
+    Call<EditCarNumberResult> editCarNumber(@Header("x-access-token") String token,
+                                   @Field("userCarNumber") String userCarNumber);
+
+    //사용자 차번호 삭제
+    @FormUrlEncoded
+    @POST("user/carDelete")
+    Call<EditCarNumberResult> deleteCarNumber(@Header("x-access-token") String token,
+                                   @Field("userCarNumber") String userCarNumber);
+
+
     //사용자 예약 등록
     @FormUrlEncoded
     @POST("api/reservation/enroll")
-    Call<ResponseBody> sendReserve(@Header("x-access-token") String token,
-                                   @Field("_id") String locationId,
-                                   @Field("carNumber") String carNum,
-                                   @Field("startTime") Date startTime,
-                                   @Field("endTime") Date endTime);
+    Call<sendReserveResult> sendReserve(@Header("x-access-token") String token,
+                                        @Field("_id") String locationId,
+                                        @Field("carNumber") String carNum,
+                                        @Field("startTime") Date startTime,
+                                        @Field("endTime") Date endTime);
+
     //사용자 배정자 등록 신청
     @Multipart
     @POST("api/sharedLocation/enroll")
     Call<EnrollResult> postRegister(@Header("x-access-token") String token,
                                     @Part MultipartBody.Part image,
                                     @Part("userBirth") RequestBody userBirth,
-                                    @Part("userCarNumber")  RequestBody userCarNumber,
-                                    @Part("location")  RequestBody location,
-                                    @Part("latitude")  RequestBody latitude,
-                                    @Part("longitude")  RequestBody longitude,
-                                    @Part("parkingInfo")  RequestBody parkingInfo);
+                                    @Part("userCarNumber") RequestBody userCarNumber,
+                                    @Part("location") RequestBody location,
+                                    @Part("latitude") RequestBody latitude,
+                                    @Part("longitude") RequestBody longitude,
+                                    @Part("parkingInfo") RequestBody parkingInfo);
+
     //마커 정보 요청
     @FormUrlEncoded
     @POST("api/allSharedLocation")
@@ -74,7 +93,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("api/shareInfo")
     Call<ShareInfoResult> getShareData(@Header("x-access-token") String token,
-                                       @Field("trash")String trash);
+                                       @Field("trash") String trash);
 
     @FormUrlEncoded
     @POST("api/sendShareInfo")
@@ -94,7 +113,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("user/visitPurpose")
     Call<PurposeResult> sendPurpose(@Field("category") String category,
-                                       @Field("description") String description);
+                                    @Field("description") String description);
 
     @FormUrlEncoded
     @POST("api/sharingSwitch")
@@ -121,19 +140,21 @@ public interface ApiService {
     @POST("admin/users")
     Call<AllUserResult> getAllUsers(@Header("x-access-token") String token
             , @Field("secret") String secret);
+
     @FormUrlEncoded
     @POST("admin/unCheckedList")
     Call<AdminEnrollResult> getUncheckedSharedLocation(@Header("x-access-token") String token
             , @Field("secret") String secret);
+
     @FormUrlEncoded
     @POST("admin/sharedLocation/enroll")
     Call<AdminResult> registerSharedLocation(@Header("x-access-token") String token
-            ,@Field("userId") String userId, @Field("_id") String Id);
+            , @Field("userId") String userId, @Field("_id") String Id);
 
     @FormUrlEncoded
     @POST("admin/enroll/notice")
     Call<EnrollResult> enrollNotice(@Header("x-access-token") String token
-            , @Field("title") String title,@Field("description") String description);
+            , @Field("title") String title, @Field("description") String description);
 
     //비밀번호 변경
     @FormUrlEncoded
@@ -141,7 +162,6 @@ public interface ApiService {
     Call<AdminResult> adminEditPassword(@Header("x-access-token") String token,
                                         @Field("editPassword") String editPassword,
                                         @Field("userId") String userId);
-
 
 
     @FormUrlEncoded
@@ -161,7 +181,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("admin/editState")
-    Call<AdminResult> adminEditState(@Header("x-access-token") String token, @Field("userId") String userId,@Field("editState") Integer editState);
+    Call<AdminResult> adminEditState(@Header("x-access-token") String token, @Field("userId") String userId, @Field("editState") Integer editState);
 
 
 }

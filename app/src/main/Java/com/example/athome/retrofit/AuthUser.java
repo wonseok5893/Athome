@@ -1,7 +1,5 @@
 package com.example.athome.retrofit;
 
-import android.util.Log;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -29,7 +27,7 @@ public class AuthUser {
     private String userPhone;
     @SerializedName("userCarNumber")
     @Expose
-    private String userCarNumber;
+    private List<String> userCarNumber = null;
     @SerializedName("point")
     @Expose
     private Integer point;
@@ -106,11 +104,11 @@ public class AuthUser {
         this.userPhone = userPhone;
     }
 
-    public String getUserCarNumber() {
+    public List<String> getUserCarNumber() {
         return userCarNumber;
     }
 
-    public void setUserCarNumber(String userCarNumber) {
+    public void setUserCarNumber(List<String> userCarNumber) {
         this.userCarNumber = userCarNumber;
     }
 

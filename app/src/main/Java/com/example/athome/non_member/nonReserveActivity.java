@@ -29,10 +29,13 @@ import com.example.athome.RestRequestHelper;
 import com.example.athome.account.AccountCarRegister;
 import com.example.athome.account.CarListAdapter;
 import com.example.athome.account.ItemAccountCarData;
+import com.example.athome.main.MainActivity;
 import com.example.athome.reservation.CustomTimePickerDialog;
 import com.example.athome.reservation.ReserveActivity;
 import com.example.athome.retrofit.ApiService;
+import com.example.athome.retrofit.sendReserveResult;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -87,6 +90,7 @@ public class nonReserveActivity extends AppCompatActivity {
     static final int START_TIME_DIALOG_ID=2;
     static final int END_TIME_DIALOG_ID=3;
     static final String TEXT = "text";
+    private sendReserveResult sendResult;
 
 
     @Override
@@ -175,18 +179,47 @@ public class nonReserveActivity extends AppCompatActivity {
                         String nonName = non_name_id.getText().toString();
                         String nonPhnum = non_phnum_id.getText().toString();
                         ApiService apiService = new RestRequestHelper().getApiService();
-                        Call<ResponseBody> res = apiService.sendReserve(sharedToken, _id, nonCarnum, startTime,endTime);
-                        res.enqueue(new Callback<ResponseBody>() {
+                        final Call<sendReserveResult> res = apiService.sendReserve(sharedToken, _id, nonCarnum, startTime,endTime);
+
+                        new Thread(new Runnable() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                Toast.makeText(nonReserveActivity.this,"예약 되셨습니다.",Toast.LENGTH_SHORT).show();
+                            public void run() {
+                                try {
+                                    sendResult = res.execute().body();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
+
+                        try {
+                            Thread.sleep(300);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        if(sendResult != null) {
+                            if(sendResult.getResult().equals("success")){
+                                Toast.makeText(nonReserveActivity.this, sendResult.getMessage(), Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(nonReserveActivity.this, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
+                            else{
+                                reserv_start_date_select.setText("00-00-00");
+                                reserv_end_date_select.setText("00-00-00");
+                                reserv_start_time_select.setText("00:00");
+                                reserv_end_time_select.setText("00:00");
+                                Toast.makeText(nonReserveActivity.this, sendResult.getMessage(), Toast.LENGTH_SHORT).show();
                             }
 
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Toast.makeText(nonReserveActivity.this,"다시 시도해주십시오.",Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        }else{
+                            reserv_start_date_select.setText("00-00-00");
+                            reserv_end_date_select.setText("00-00-00");
+                            reserv_start_time_select.setText("00:00");
+                            reserv_end_time_select.setText("00:00");
+                            Toast.makeText(nonReserveActivity.this,"다시 시도해주십시오.",Toast.LENGTH_SHORT);
+                        }
                         break;
                 }
             }

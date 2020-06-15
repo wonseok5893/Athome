@@ -13,6 +13,7 @@ import com.example.athome.retrofit.LoginResult;
 import com.example.athome.retrofit.RegisterResult;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -24,7 +25,7 @@ public class User implements Parcelable {
     private String userName;
     private String userEmail;
     private String userPhone;
-    private String userCarNumber;
+    private ArrayList<String> userCarNumber;
     private Integer userPoint;
     private AuthSharedLocation authSharedLocation;
     private List<AuthReservation> authReservation;
@@ -59,17 +60,37 @@ public class User implements Parcelable {
 
     }
 
+
     protected User(Parcel in) {
         userId = in.readString();
         userPassword = in.readString();
         userName = in.readString();
         userEmail = in.readString();
         userPhone = in.readString();
-        userCarNumber = in.readString();
+        userCarNumber = in.createStringArrayList();
+        if (in.readByte() == 0) {
+            userPoint = null;
+        } else {
+            userPoint = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            userState = null;
+        } else {
+            userState = in.readInt();
+        }
+        token = in.readString();
+        if (in.readByte() == 0) {
+            todaySharingState = null;
+        } else {
+            todaySharingState = in.readInt();
+        }
+        authMessage = in.readString();
+        authRes = in.readString();
         registerMessage = in.readString();
         registerRes = in.readString();
         loginRes = in.readString();
-        token = in.readString();
+        editPasswordRes = in.readString();
+        editPasswordMessage = in.readString();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -83,7 +104,6 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
-
 
     public String getEditPasswordRes() {
         return editPasswordRes;
@@ -153,12 +173,8 @@ public class User implements Parcelable {
         this.userPhone = userPhone;
     }
 
-    public String getUserCarNumber() {
+    public ArrayList<String> getUserCarNumber() {
         return userCarNumber;
-    }
-
-    public void setUserCarNumber(String userCarNumber) {
-        this.userCarNumber = userCarNumber;
     }
 
     public Integer getUserState() {
@@ -259,7 +275,7 @@ public class User implements Parcelable {
                         userEmail = authResult.getAuthUser().getUserEmail();
                         userPhone = authResult.getAuthUser().getUserPhone();
                         userName = authResult.getAuthUser().getUserName();
-                        userCarNumber = authResult.getAuthUser().getUserCarNumber();
+                        userCarNumber = (ArrayList<String>) authResult.getAuthUser().getUserCarNumber();
                         userState = authResult.getAuthUser().getState();
                         todaySharingState = authResult.getTodaySharingState();
 
@@ -323,6 +339,7 @@ public class User implements Parcelable {
         return authMessage;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -335,10 +352,32 @@ public class User implements Parcelable {
         dest.writeString(userName);
         dest.writeString(userEmail);
         dest.writeString(userPhone);
-        dest.writeString(userCarNumber);
+        dest.writeStringList(userCarNumber);
+        if (userPoint == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(userPoint);
+        }
+        if (userState == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(userState);
+        }
+        dest.writeString(token);
+        if (todaySharingState == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(todaySharingState);
+        }
+        dest.writeString(authMessage);
+        dest.writeString(authRes);
         dest.writeString(registerMessage);
         dest.writeString(registerRes);
         dest.writeString(loginRes);
-        dest.writeString(token);
+        dest.writeString(editPasswordRes);
+        dest.writeString(editPasswordMessage);
     }
 }
