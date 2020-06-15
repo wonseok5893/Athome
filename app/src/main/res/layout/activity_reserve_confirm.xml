@@ -355,7 +355,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/dreamgothic"
             android:padding="15dp"
-            android:text="바로 안내"
+            android:text="예약확인"
             android:textColor="@color/white"
             android:background="@drawable/edit_border2"/>
 

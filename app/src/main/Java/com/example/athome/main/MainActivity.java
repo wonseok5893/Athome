@@ -36,6 +36,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.athome.LoginActivity;
+import com.example.athome.PurposeStaticsActivity;
 import com.example.athome.R;
 import com.example.athome.RestRequestHelper;
 import com.example.athome.User;
@@ -55,6 +56,7 @@ import com.example.athome.retrofit.MarkerResult;
 import com.example.athome.retrofit.ReservationListResult;
 import com.example.athome.retrofit.ReservationListResult_data;
 
+import com.example.athome.setting.SettingActivity;
 import com.example.athome.shared_parking.MySharedParkingActivity;
 import com.example.athome.shared_time.SharedParkingTime;
 import com.google.android.material.navigation.NavigationView;
@@ -92,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Button enrollBtn;
     private TextView name, id, point;
     private static User user;
-    private Button loginButton, btn_notification_box, btn_point_charge, btn_share_time;
+    private Button loginButton, btn_notification_box, btn_point_charge, btn_share_time, btn_purpose_st;
     private EditText searchEditText; // 웹뷰 띄우는 창
     private Button btn_search;
     private MarkerResult markerResult;
@@ -122,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         slide_down = AnimationUtils.loadAnimation(this, R.anim.slide_down);
         slide_up = AnimationUtils.loadAnimation(this, R.anim.slide_up);
         stay = AnimationUtils.loadAnimation(this, R.anim.stay);
+
 
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
 
@@ -211,6 +214,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             btn_notification_box = (Button) header.findViewById(R.id.btn_notification_box);
             btn_point_charge = (Button) header.findViewById(R.id.btn_point_charge);
             btn_share_time = (Button) header.findViewById(R.id.btn_share_time);
+            btn_purpose_st = (Button) header.findViewById(R.id.btn_purpose_st);
+            btn_purpose_st.setVisibility(View.INVISIBLE);
 
             name.setText(user.getUserName());
             id.setText(user.getUserId());
@@ -238,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             btn_notification_box.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), NoticeActivity.class);
                     startActivity(intent);
                 }
             });
@@ -261,6 +266,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     startActivity(intent);
                 }
             });
+
+            //방문통계
+            if(user.getUserState() != 1){
+                this.btn_purpose_st.setVisibility(View.INVISIBLE);
+
+            }else{
+                this.btn_purpose_st.setVisibility(View.VISIBLE);
+                btn_purpose_st.setOnClickListener(v -> {
+                    Intent intent = new Intent(getApplicationContext(), PurposeStaticsActivity.class);
+                    startActivity(intent);
+                });
+            }
         }
 
         // 이안에 토큰없으면 if문 넣어주기
@@ -701,6 +718,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             startActivity(intent);
             overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
         } else if (id == R.id.setting) {//환경설정
+            Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.admin_notice) {// 공지사항 관리
             Intent intent = new Intent(getApplicationContext(), AdminNoticeActivity.class);
@@ -710,6 +729,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             startActivity(intent);
         } else if (id == R.id.admin_users) { // 사용자 관리
             Intent intent = new Intent(getApplicationContext(), UsersListActivity.class);
+            startActivity(intent);
+        }else if(id==R.id.admin_users) { // 방문목적 확인
+            Intent intent = new Intent(getApplicationContext(), PurposeStaticsActivity.class);
             startActivity(intent);
         }
         mDrawerLayout.closeDrawers();

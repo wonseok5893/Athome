@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -25,6 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".PurposeStaticsActivity"></activity>
         <activity android:name=".shared_time.SharedParkingTime" />
         <activity android:name=".admin_notice.AdminNoticeNew" />
         <activity android:name=".admin.AdminUserClickedReservPastActivity" />
@@ -40,16 +40,17 @@
         <activity android:name=".admin_notice.AdminNoticeClicked" />
         <activity android:name=".admin_notice.ItemAdminNoticeData" />
         <activity android:name=".admin_notice.AdminNoticeActivity" />
-        <activity android:name=".non_member.nonReserveActivity"/>
+        <activity android:name=".non_member.nonReserveActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".admin.UsersListActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".notice.NoticeActivity" />
         <activity android:name=".notice.NoticeClicked" />
         <activity android:name=".reservation_list.ReservListActivity" />
-        <activity android:name=".payment_list.PaymentListActivity"/>
+        <activity android:name=".payment_list.PaymentListActivity" />
         <activity android:name=".account.AccountActivity" />
-        <activity android:name=".reservation.ReserveActivity"
+        <activity
+            android:name=".reservation.ReserveActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".reservation.ReserveConfirm" />
         <activity android:name=".account.AccountChangePassword" />
@@ -60,14 +61,14 @@
         <activity android:name=".shared_parking.EnrollSharedParking" />
         <activity android:name=".shared_parking.SharedParkingExplanation" />
         <activity android:name=".main.WebViewActivity" />
-        <activity android:name=".parking_details.ParkingDetailsActivity"/>
+        <activity android:name=".parking_details.ParkingDetailsActivity" />
         <activity android:name=".account.AccountChangePhone" />
-        <activity android:name=".setting.SettingActivity"/>
-        <activity android:name=".account.AccountChangeEmail"/>
-        <activity android:name=".notification.NotificationActivity"/>
-        <activity android:name=".reservation_list.NowReservTicket"/>
-        <activity android:name=".point_charge.PointChargeActivity"/>
-        <activity android:name=".reservation.PurposeActivity"/>
+        <activity android:name=".setting.SettingActivity" />
+        <activity android:name=".account.AccountChangeEmail" />
+        <activity android:name=".notification.NotificationActivity" />
+        <activity android:name=".reservation_list.NowReservTicket" />
+        <activity android:name=".point_charge.PointChargeActivity" />
+        <activity android:name=".reservation.PurposeActivity" />
         <activity android:name=".setting.SettingParkingLotActivity">
             <intent-filter>
                 <action android:name=".setting.SettingParkingLotActivity" />
@@ -82,7 +83,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
@@ -100,13 +100,11 @@
             </intent-filter>
         </activity>
 
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.athome.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
-
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
