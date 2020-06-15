@@ -1,5 +1,6 @@
 package com.example.athome.main;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,21 +14,24 @@ import androidx.annotation.NonNull;
 
 import com.example.athome.R;
 import com.example.athome.RestRequestHelper;
+import com.example.athome.admin_notice.AdminNoticeActivity;
 import com.example.athome.non_member.nonReserveActivity;
+import com.example.athome.parking_details.ParkingDetailsActivity;
 import com.example.athome.reservation.ReserveActivity;
 import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.LocationInfoList;
-import com.example.athome.retrofit.ReserveListResult;
 import com.kakao.kakaonavi.KakaoNaviParams;
 import com.kakao.kakaonavi.KakaoNaviService;
 import com.kakao.kakaonavi.Location;
 import com.kakao.kakaonavi.NaviOptions;
 import com.kakao.kakaonavi.options.CoordType;
 import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.NaverMap;
+import com.naver.maps.map.overlay.InfoWindow;
 import com.naver.maps.map.overlay.InfoWindow;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
-import com.naver.maps.map.util.MarkerIcons;
+import com.naver.maps.map.overlay.OverlayImage;
 
 import org.w3c.dom.Text;
 
@@ -57,6 +61,11 @@ public class SharePlace {
     private String locationName;
     private Marker myMarker; // 마커
     private Context context;
+    private String img;
+    private InfoWindow infoWindow = new InfoWindow();
+    private View view;
+    private NaverMap nm;
+
     private String parkingInfo;
     // 미리보기 화면
     private Button space_resv;
@@ -68,6 +77,7 @@ public class SharePlace {
             loc,
             parkingInfoTxt; // 위치
     private Button naviBtn, resBtn;
+    private TextView TextView;
 
 
     // 차량등록 후 관리자가 정보 확인한 뒤 승인하면 입력 정보로 공유공간 객체 생성
@@ -78,7 +88,8 @@ public class SharePlace {
                                final String locationName,
                                final String parkingInfo,
                                final MainActivity main,
-                               final Context context) {
+                               final Context context,
+                               NaverMap nm) {
 
         PriviewInitialize(main);
         this.locationId = locationId;
@@ -89,12 +100,40 @@ public class SharePlace {
         this.longitude = longitude;
         this.parkingInfo = parkingInfo;
         this.context = context;
+        this.nm = nm;
+        InfoWindow infoWindow = new InfoWindow();
+        Log.i("jiwon","파킹 인포 받았냐:"+parkingInfo);
+
         // 마커 생성후 받아온 좌표값 이용해 마커 위치정보 세팅
         this.myMarker = new Marker();
-        this.myMarker.setPosition(new LatLng(this.latitude, this.longitude));
+        this.infoWindow.setPosition(new LatLng(this.latitude,this.longitude));
+        this.infoWindow.open(myMarker);
+        this.infoWindow.setAdapter(new InfoWindow.DefaultViewAdapter(context) {
+            @NonNull
+            @Override
+            protected View getContentView(@NonNull InfoWindow infoWindow) {
+                view= View.inflate(context,R.layout.marker_title,null);
+                ((TextView)view.findViewById(R.id.marker_title)).setText("1200원");
+                return view;
+            }
+        });
+       /* this.infoWindow.setAdapter(new InfoWindow.DefaultTextAdapter(context) {
+            @NonNull
+            @Override
+            public CharSequence getText(@NonNull InfoWindow infoWindow) {
+                return "1200원";
+            }
+        });*/
+
+        //this.myMarker.setPosition(new LatLng(this.latitude,this.longitude));
+       // this.myMarker.setPosition(new LatLng(this.latitude,this.longitude));
+
+
+        //this.myMarker.setPosition(new LatLng(this.latitude, this.longitude));
 
         final Intent intent = new Intent(main.getApplicationContext(), ReserveActivity.class);
         final Intent nonuser_intent = new Intent(main.getApplicationContext(), nonReserveActivity.class);
+        LatLng position = infoWindow.getPosition();
 
         intent.putExtra("locationId", locationId);//_id
         intent.putExtra("locationName", locationName); // 주소
@@ -106,9 +145,10 @@ public class SharePlace {
         nonuser_intent.putExtra("latitude", latitude);
         nonuser_intent.putExtra("longitude", longitude);
         nonuser_intent.putExtra("userId", userId);
+        nonuser_intent.putExtra("locationName", locationName); // 주소
 
         // 마커 클릭하면 이벤트 발생
-        this.myMarker.setOnClickListener(new Overlay.OnClickListener() {
+        this.infoWindow.setOnClickListener(new Overlay.OnClickListener() {
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
 
@@ -116,11 +156,11 @@ public class SharePlace {
 
                 fee.setText("600원/시간");
                 time.setText(locationStartTime+" ~ "+locationEndTime);
-                loc.setText(intent.getStringExtra("locationName"));
+                loc.setText(locationName);
                 parkingInfoTxt.setText(parkingInfo);
                 if (main.getUser().getUserId() == null) { // 비회원일때
-                    loc.setText(nonuser_intent.getStringExtra("locationName"));
-                    LatLng position = myMarker.getPosition();
+                    loc.setText(locationName);
+                    LatLng position = infoWindow.getPosition();
                     nonuser_intent.putExtra("position", position);
 
                     Log.d("teststs", nonuser_intent.getStringExtra("locationId"));
@@ -132,8 +172,8 @@ public class SharePlace {
                         }
                     });
                 } else { // 회원일때
-                    loc.setText(intent.getStringExtra("locationName"));
-                    LatLng position = myMarker.getPosition();
+                    loc.setText(locationName);
+                    LatLng position = infoWindow.getPosition();
                     intent.putExtra("position", position);
 
                     intent.getStringExtra("userId");
@@ -145,6 +185,10 @@ public class SharePlace {
                         }
                     });
                 }
+                nm.setOnMapClickListener((coord, point) -> {
+                    main.PreviewInvisible();
+                });
+
                 return true;
             }
         });
@@ -167,8 +211,8 @@ public class SharePlace {
         });
     }
 
-    public Marker getMyMarker() {
-        return this.myMarker;
+    public InfoWindow getMyMarker() {
+        return this.infoWindow;
     }
 
     void PriviewInitialize(final MainActivity main) {
@@ -177,11 +221,12 @@ public class SharePlace {
         space_resv = (Button) main.findViewById(R.id.space_resv);
 
         // 미리보기 비활성화 버튼
-        preview_close = (ImageView) main.findViewById(R.id.preview_close);
+        preview_close = (ImageView)main.findViewById(R.id.preview_close);
         preview_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                main.PreviewInvisible();
+                Intent intent = new Intent(context, ParkingDetailsActivity.class);
+                main.startActivity(intent);
             }
         });
 

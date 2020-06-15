@@ -250,8 +250,8 @@
                                         android:background="@drawable/edit_border4"/>
                                     <View
                                         android:id="@+id/view16"
-                                        android:layout_width="7dp"
-                                        android:layout_height="11dp"
+                                        android:layout_width="8dp"
+                                        android:layout_height="12dp"
                                         android:layout_marginRight="1dp"
                                         android:background="@drawable/edit_border4"/>
                                     <View

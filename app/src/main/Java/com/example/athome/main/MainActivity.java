@@ -1,5 +1,6 @@
 package com.example.athome.main;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -476,7 +477,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     markerResult.getData().get(i).getLocation(),
                                     markerResult.getData().get(i).getParkingInfo(),
                                     MainActivity.this,
-                                    MainActivity.this);
+                                    MainActivity.this,
+                                    nm);
                             placeList.add(s);
                         }
 
@@ -582,7 +584,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         markerResult.getData().get(i).getLocation(),
                         markerResult.getData().get(i).getParkingInfo(),
                         this,
-                        this);
+                        this,
+                        nm);
                 placeList.add(s);
             }
 
