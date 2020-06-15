@@ -103,7 +103,10 @@ public class ReserveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserve);
 
+        this.InitializeView();
+
         Intent intent = getIntent();
+        Log.d("jiwon", "파킹인포 넘어왓나 :"+intent.getStringExtra("parkingInfo"));
 
         _id = intent.getStringExtra("locationId");
         userId = intent.getStringExtra("userId");
@@ -115,7 +118,7 @@ public class ReserveActivity extends AppCompatActivity {
         locationStartTime = intent.getStringExtra("locationStartTime");
         locationEndTime = intent.getStringExtra("locationEndTime");
         parking_number.setText(intent.getStringExtra("parkingInfo"));
-        this.InitializeView();
+
         ReservationList(intent); //마커의 예약 정보 받아오기
         parseMsg(); // 2차원 배열에 예약 정보 초기화
         makeTimeTable(locationStartTime, locationEndTime); //144개 뷰 예약 허용 시간 외 gray 예약 시간 red 로 표현
