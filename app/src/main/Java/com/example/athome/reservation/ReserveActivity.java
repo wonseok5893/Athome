@@ -106,7 +106,6 @@ public class ReserveActivity extends AppCompatActivity {
         this.InitializeView();
 
         Intent intent = getIntent();
-        Log.d("jiwon", "파킹인포 넘어왓나 :"+intent.getStringExtra("parkingInfo"));
 
         _id = intent.getStringExtra("locationId");
         userId = intent.getStringExtra("userId");
@@ -533,7 +532,7 @@ public class ReserveActivity extends AppCompatActivity {
                 // 다이얼로그 호출
                 //그외 작업
                 Intent intent = new Intent();
-                accountCarRegister.callFunction(intent);
+                accountCarRegister.callFunction();
             }
         });
 

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -89,7 +90,7 @@ public class SharePlace {
                                final String parkingInfo,
                                final MainActivity main,
                                final Context context,
-                               NaverMap nm) {
+                               final NaverMap nm) {
 
         PriviewInitialize(main);
         this.locationId = locationId;
@@ -101,7 +102,7 @@ public class SharePlace {
         this.parkingInfo = parkingInfo;
         this.context = context;
         this.nm = nm;
-        InfoWindow infoWindow = new InfoWindow();
+        final InfoWindow infoWindow = new InfoWindow();
         Log.i("jiwon","파킹 인포 받았냐:"+parkingInfo);
 
         // 마커 생성후 받아온 좌표값 이용해 마커 위치정보 세팅
@@ -186,8 +187,11 @@ public class SharePlace {
                         }
                     });
                 }
-                nm.setOnMapClickListener((coord, point) -> {
-                    main.PreviewInvisible();
+                nm.setOnMapClickListener(new NaverMap.OnMapClickListener() {
+                    @Override
+                    public void onMapClick(@NonNull PointF coord, @NonNull LatLng point) {
+                        main.PreviewInvisible();
+                    }
                 });
 
                 return true;
