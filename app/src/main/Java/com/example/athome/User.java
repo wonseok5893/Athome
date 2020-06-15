@@ -177,6 +177,10 @@ public class User implements Parcelable {
         return userCarNumber;
     }
 
+    public void setUserCarNumber(ArrayList<String> userCarNumber) {
+        this.userCarNumber = userCarNumber;
+    }
+
     public Integer getUserState() {
         return userState;
     }

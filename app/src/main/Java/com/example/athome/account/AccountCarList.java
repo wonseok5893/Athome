@@ -17,6 +17,8 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.example.athome.R;
 import com.example.athome.RestRequestHelper;
+import com.example.athome.User;
+import com.example.athome.main.MainActivity;
 import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.EditCarNumberResult;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -36,6 +38,7 @@ public class AccountCarList extends Activity {
     private CarListAdapter adapter;
     private ArrayList<String> userCarNumber = null;
     private EditCarNumberResult editRes;
+    private User user;
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
@@ -88,13 +91,16 @@ public class AccountCarList extends Activity {
                                     }
                                 }).start();
                                 try {
-                                    Thread.sleep(200);
+                                    Thread.sleep(400);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
                                 if (editRes != null) {
                                     if (editRes.getResult().equals("success")) {
                                         Toast.makeText(AccountCarList.this, editRes.getMessage(), Toast.LENGTH_SHORT).show();
+                                        ArrayList<String > carNumber = user.getUserCarNumber();
+                                        carNumber.remove(position);
+                                        user.setUserCarNumber(carNumber);
                                         AccountCarList.this.data.remove(position);
                                         adapter.notifyDataSetChanged();
                                     } else {
@@ -121,8 +127,10 @@ public class AccountCarList extends Activity {
         btn_car_register = (FloatingActionButton) findViewById(R.id.btn_car_register);
         car_listView = (ListView) findViewById(R.id.car_listView);
         data = new ArrayList<>();
-        Intent intent = new Intent();
-        userCarNumber = intent.getStringArrayListExtra("textUserCarNumber");
+        Intent intent = getIntent();
+        user = MainActivity.getUser();
+        userCarNumber = user.getUserCarNumber();
+
     }
 
     public void SetListner() {
@@ -145,6 +153,9 @@ public class AccountCarList extends Activity {
                             @Override
                             public void finish(String result) {
                                 ItemAccountCarData tmp = new ItemAccountCarData(result);
+                                ArrayList<String > carNumber = user.getUserCarNumber();
+                                carNumber.add(result);
+                                user.setUserCarNumber(carNumber);
                                 data.add(tmp);
                                 adapter.notifyDataSetChanged();
                             }
@@ -158,8 +169,8 @@ public class AccountCarList extends Activity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+    protected void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 }

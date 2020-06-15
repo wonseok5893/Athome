@@ -49,7 +49,7 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-        user = getIntent().getParcelableExtra("user");
+        user = MainActivity.getUser();
 
         textUserId = findViewById(R.id.userid_value);
         textUserPhoneNumber = findViewById(R.id.userphone_value);
@@ -117,7 +117,6 @@ public class AccountActivity extends AppCompatActivity {
 
                     case R.id.usercar_linear://클릭시 차량번호 등록,삭제하는 레이아웃으로 이동
                         intent = new Intent(getApplicationContext(), AccountCarList.class);
-                        intent.putStringArrayListExtra("textUserCarNumber",user.getUserCarNumber());
                         Log.i("jiwon","차 리스트 "+user.getUserCarNumber().toString());
                         startActivity(intent);
                         overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);

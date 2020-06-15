@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static NaverMap nm;
     private Button enrollBtn;
     private TextView name, id, point;
-    private User user;
+    private static User user;
     private Button loginButton, btn_notification_box, btn_point_charge, btn_share_time;
     private EditText searchEditText; // 웹뷰 띄우는 창
     private Button btn_search;
@@ -679,7 +679,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             startActivity(intent);
         } else if (id == R.id.account) {//계정관리
             Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
-            intent.putExtra("user", user);
             startActivity(intent);
             overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
         } else if (id == R.id.setting) {//환경설정
@@ -718,7 +717,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    public User getUser() {
+    public static User getUser() {
         return user;
     }
 
