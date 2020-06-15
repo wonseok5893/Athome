@@ -126,7 +126,7 @@
                 android:textColor="@color/input_register"
                 android:textColorHint="@color/input_register_hint"
                 android:textSize="13sp"
-                android:visibility="invisible" />
+                android:visibility="visible" />
 
 
         </LinearLayout>

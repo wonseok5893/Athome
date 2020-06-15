@@ -129,7 +129,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("user/deleteReservation")
     Call<requestDeleteResult> requestDelete(@Header("x-access-token") String token
-            , @Field("_id") String id);
+                                            , @Field("_id") String id);
 
 
     //==========================관리자===========================================================

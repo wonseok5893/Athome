@@ -115,6 +115,7 @@ public class NowReservFragmnet extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), NowReservTicket.class);
+                intent.putExtra("_id",current.get(position).getId());
                 intent.putExtra("nowReserveStartDate", data.get(position).getNowReservStartDate());
                 intent.putExtra("nowReserveEndDate", data.get(position).getNowReservEndDate());
                 intent.putExtra("nowReserveStartTime", data.get(position).getNowReservStartTime());

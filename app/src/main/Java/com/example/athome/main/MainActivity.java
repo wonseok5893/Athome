@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LinearLayout preview;
     private Animation slide_up, slide_down, stay;
     private RadioGroup share_switch;
+    private boolean enrollFlag = false;
 
     public static RadioButton shareOn, shareOff;
     public static int todayFlag;
@@ -392,42 +393,60 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Toast.makeText(context, "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                final Intent intent = new Intent(getApplicationContext(), MySharedParkingActivity.class);
-                Toast.makeText(getApplicationContext(), "주차장 공유 기능이 활성화되었습니다.", Toast.LENGTH_LONG).show();
 
-                nm.setOnMapLongClickListener(new NaverMap.OnMapLongClickListener() {
-                    @Override
-                    public void onMapLongClick(@NonNull PointF point, @NonNull LatLng coord) {
+                if (!enrollFlag) {
+                    enrollFlag = true;
 
-                        Log.d("test", "현재 좌표 : " + coord.latitude + ", " + coord.longitude);
+                    final Intent intent = new Intent(getApplicationContext(), MySharedParkingActivity.class);
+                    Toast.makeText(getApplicationContext(), "주차장 공유 기능이 활성화되었습니다.", Toast.LENGTH_LONG).show();
 
-                        List<Address> list = null;
-                        String locationName = null;
-                        Log.d("test", "실행체크 1번");
+                    nm.setOnMapLongClickListener(new NaverMap.OnMapLongClickListener() {
+                        @Override
+                        public void onMapLongClick(@NonNull PointF point, @NonNull LatLng coord) {
 
-                        try {
-                            list = geocoder.getFromLocation((double) coord.latitude, (double) coord.longitude, 1); // 얻어올 값의 개수
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            Log.e("test", "입출력 오류 - 서버에서 주소변환시 에러발생");
-                        }
-                        if (list != null) {
-                            if (list.size() == 0) {
-                                Log.e("test", "이상한 장소입니다.");
-                                Toast.makeText(MainActivity.this, "위치를 다시 지정해주십시오.", Toast.LENGTH_SHORT).show();
-                                return;
-                            } else {
-                                locationName = list.get(0).getAddressLine(0);
-                                Log.d("test", locationName);
+                            Log.d("test", "현재 좌표 : " + coord.latitude + ", " + coord.longitude);
+
+                            List<Address> list = null;
+                            String locationName = null;
+                            Log.d("test", "실행체크 1번");
+
+                            try {
+                                list = geocoder.getFromLocation((double) coord.latitude, (double) coord.longitude, 1); // 얻어올 값의 개수
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                Log.e("test", "입출력 오류 - 서버에서 주소변환시 에러발생");
                             }
-                        }
+                            if (list != null) {
+                                if (list.size() == 0) {
+                                    Log.e("test", "이상한 장소입니다.");
+                                    Toast.makeText(MainActivity.this, "위치를 다시 지정해주십시오.", Toast.LENGTH_SHORT).show();
+                                    return;
+                                } else {
+                                    locationName = list.get(0).getAddressLine(0);
+                                    Log.d("test", locationName);
+                                }
+                            }
 
-                        intent.putExtra("SelectLocation", new LatLng(coord.latitude, coord.longitude));
-                        intent.putExtra("LocationName", locationName);
-                        intent.putExtra("User", user);
-                        startActivity(intent);
-                    }
-                });
+                            intent.putExtra("SelectLocation", new LatLng(coord.latitude, coord.longitude));
+                            intent.putExtra("LocationName", locationName);
+                            intent.putExtra("User", user);
+                            startActivity(intent);
+                        }
+                    });
+
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "주차장 공유 기능이 비활성화되었습니다.", Toast.LENGTH_LONG).show();
+                    enrollFlag=false;
+
+                    nm.setOnMapLongClickListener(new NaverMap.OnMapLongClickListener() {
+                        @Override
+                        public void onMapLongClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
+
+                        }
+                    });
+                }
+
             }
         });
 
