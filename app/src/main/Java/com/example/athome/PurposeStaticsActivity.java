@@ -33,6 +33,7 @@ public class PurposeStaticsActivity<itemModel> extends AppCompatActivity {
         String sharedToken = sf.getString("token", "");
         ApiService apiService = new RestRequestHelper().getApiService();
         final Call<StatisticsResult> res = apiService.adminGetStatistics(sharedToken,"wonseok");
+
         new Thread(new Runnable() {
             @Override
             public void run() {

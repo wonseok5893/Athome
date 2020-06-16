@@ -776,4 +776,3 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         preview.startAnimation(slide_down);
     }
 }
-

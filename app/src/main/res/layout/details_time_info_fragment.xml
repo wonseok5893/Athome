@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/bareun1"
                     android:padding="10dp"
-                    android:text="09:00~18:00"
+                    android:text="운영안함"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
 
@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/bareun1"
                     android:padding="10dp"
-                    android:text="09:00~18:00"
+                    android:text="운영안함"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
 
@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/bareun1"
                     android:padding="10dp"
-                    android:text="09:00~18:00"
+                    android:text="운영안함"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
 
@@ -136,7 +136,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/bareun1"
                     android:padding="10dp"
-                    android:text="09:00~18:00"
+                    android:text="운영안함"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
 
@@ -164,7 +164,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/bareun1"
                     android:padding="10dp"
-                    android:text="09:00~18:00"
+                    android:text="운영안함"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
 

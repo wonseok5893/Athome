@@ -26,6 +26,7 @@ public class NoticeActivity extends AppCompatActivity {
     private ListView notice_listView = null;
     private List<ItemNoticeData> data=null;
     private ItemNoticeResult itemNoticeResult;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
