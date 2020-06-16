@@ -4,6 +4,7 @@ package com.example.athome.retrofit;
 import com.example.athome.admin.AdminResult;
 import com.example.athome.admin.AllUserResult;
 import com.example.athome.admin_enroll.AdminEnrollResult;
+import com.example.athome.admin_notice.AddNoticeResult;
 import com.example.athome.admin_notice.AdminDeleteNoticeResult;
 import com.example.athome.admin_notice.AdminNoticeResult;
 import com.example.athome.admin_notice.ReviseNoticeResult;
@@ -192,18 +193,25 @@ public interface ApiService {
     Call<AdminNoticeResult> getAdminNotice(@Header("token") String token,
                                            @Field("trash") String trash);
 
+    // 공지사항 삭제
     @FormUrlEncoded
     @POST("admin/deleteNotice")
     Call<AdminDeleteNoticeResult> requestNoticeDelete(@Header("x-access-token") String token
             , @Field("_id") String id);
 
+    // 공지사항 수정
     @FormUrlEncoded
     @POST("admin/reviseNotice")
     Call<ReviseNoticeResult> requestNoticeRevise(@Header("x-access-token") String token
                                                 , @Field("_id") String id
                                                 , @Field("title") String title
-                                                , @Field("date") String reviseDate
                                                 , @Field("context") String context);
+    // 공지사항 추가
+    @FormUrlEncoded
+    @POST("admin/addNotice")
+    Call<AddNoticeResult> requestNoticeAdd(@Header("x-access-token") String token
+            , @Field("title") String title
+            , @Field("context") String context);
 
     @FormUrlEncoded
     @POST("admin/statistics")
