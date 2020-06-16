@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -17,12 +18,15 @@ import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.PurposeResult;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import retrofit2.Call;
 
 public class PurposeActivity extends AppCompatActivity {
 
     private CheckBox[] purposeCheck = new CheckBox[7]; // {외식, 쇼핑, 출장/비즈니스, 친구/친지방문, 의료/건강, 여행/휴가, 기타}
-    private String[] purpose = {"외식", "쇼핑", "출장/비즈니스", "친구/친지방문", "의료/건강", "여행/휴가", "기타"};
+    private String[] purpose = {"외식", "쇼핑", "출장·비즈니스", "친구·친지방문", "의료·건강", "여행·휴가", "기타"};
     private Button purpose_save, purpose_backBtn;
     private EditText purpose_other;
     private PurposeResult ps;
@@ -51,6 +55,16 @@ public class PurposeActivity extends AppCompatActivity {
         purpose_save = (Button)findViewById(R.id.purpose_save);
         purpose_backBtn = (Button)findViewById(R.id.purpose_backBtn);
         purpose_other = (EditText)findViewById(R.id.purpose_other);
+        purposeCheck[6].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    purpose_other.setVisibility(View.VISIBLE);
+                } else {
+                    purpose_other.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
 
         Intent intent = getIntent();
         this.reservId = intent.getStringExtra("reservId");
@@ -75,66 +89,49 @@ public class PurposeActivity extends AppCompatActivity {
                     SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
                     String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
 
-                    for(int i=0;i<6;i++) {
+                    ArrayList<String> purposes = new ArrayList<>();
 
+                    for(int i=0;i<6;i++) {
                         if(purposeCheck[i].isChecked()) { // 만약에 체크되어 있으면.
                             count++;
-
-                            ApiService serviceApi = new RestRequestHelper().getApiService();
-                            final Call<PurposeResult> res = serviceApi.sendPurpose(sharedToken,reservId,purpose[i], "");
-
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        ps = res.execute().body();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }).start();
-
-                            try {
-                                Thread.sleep(500);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-
-                            if(!ps.getResult().equals("success")) {
-                                Toast.makeText(getApplicationContext(),  ps.getMessage(), Toast.LENGTH_SHORT).show();
-                                break;
-                            }
-
+                            purposes.add(purpose[i]);
                         }
                     }
-
                     if(purposeCheck[6].isChecked()) {
                         count++;
+                        purposes.add(purpose[6]);
+                    }
 
-                        ApiService serviceApi = new RestRequestHelper().getApiService();
-                        final Call<PurposeResult> res = serviceApi.sendPurpose(sharedToken,reservId,purpose[6], purpose_other.getText().toString());
+                    String[] temp = purposes.toArray(new String[count]);
+                    String result = Arrays.toString(temp);
+                    result = result.replace("[","");
+                    result = result.replace("]","");
+                    result = result.replace(", ","/");
 
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    ps = res.execute().body();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+                    ApiService serviceApi = new RestRequestHelper().getApiService();
+                    final Call<PurposeResult> res = serviceApi.sendPurpose(sharedToken,reservId, result, purpose_other.getText().toString());
+
+                    Log.d("junggyu", "체크한 것 : " + result);
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                ps = res.execute().body();
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
-                        }).start();
-
-                        try {
-                            Thread.sleep(500);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
                         }
+                    }).start();
 
-                        if(!ps.getResult().equals("success")) {
-                            Toast.makeText(getApplicationContext(), ps.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
+                    if(!ps.getResult().equals("success")) {
+                        Toast.makeText(getApplicationContext(), ps.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
                     Log.d("junggyu", count + "개 전송함");
@@ -146,7 +143,6 @@ public class PurposeActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),  "감사합니다.", Toast.LENGTH_SHORT).show();
 
                     }
-
 
                     Intent intent = new Intent(getApplicationContext(), com.example.athome.main.MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -6,13 +6,12 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 public class ItemAdminNoticeData {
-
-    @SerializedName("_id")
-    @Expose
-    public String __id;
     @SerializedName("title")
     @Expose
     public String noticeTitle;
+    @SerializedName("_id")
+    @Expose
+    private String id;
     @SerializedName("enrollTime")
     @Expose
     public String noticeDate;
@@ -20,6 +19,13 @@ public class ItemAdminNoticeData {
     @Expose
     public String noticeContext;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getNoticeTitle(){
         return noticeTitle;
@@ -31,9 +37,6 @@ public class ItemAdminNoticeData {
 
     public String getNoticeContext(){
         return noticeContext;
-    }
-    public String get__id() {
-        return __id;
     }
 
     public ItemAdminNoticeData(String noticeTitle, String noticeDate, String noticeContext){

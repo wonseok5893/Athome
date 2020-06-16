@@ -4,6 +4,7 @@ package com.example.athome.retrofit;
 import com.example.athome.admin.AdminResult;
 import com.example.athome.admin.AllUserResult;
 import com.example.athome.admin_enroll.AdminEnrollResult;
+import com.example.athome.admin_notice.AdminDeleteNoticeResult;
 import com.example.athome.admin_notice.AdminNoticeResult;
 import com.example.athome.notice.ItemNoticeResult;
 
@@ -121,8 +122,6 @@ public interface ApiService {
     @GET("notices")
     Call<ItemNoticeResult> allNotice(@Query("noticeName") String noticeName);
 
-    @GET("admin/notices")
-    Call<AdminNoticeResult> adminNotice(@Query("token") String noticeName);
 
     //예약정보 받아오기
     @FormUrlEncoded
@@ -134,6 +133,9 @@ public interface ApiService {
     @POST("user/deleteReservation")
     Call<requestDeleteResult> requestDelete(@Header("x-access-token") String token
                                             , @Field("_id") String id);
+
+
+
 
 
     //==========================관리자===========================================================
@@ -182,6 +184,17 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("admin/editState")
     Call<AdminResult> adminEditState(@Header("x-access-token") String token, @Field("userId") String userId,@Field("editState") Integer editState);
+
+    // 관리자 공지사항 받아오기
+    @FormUrlEncoded
+    @POST("admin/notices")
+    Call<AdminNoticeResult> getAdminNotice(@Header("token") String token,
+                                           @Field("trash") String trash);
+
+    @FormUrlEncoded
+    @POST("admin/deleteNotice")
+    Call<AdminDeleteNoticeResult> requestNoticeDelete(@Header("x-access-token") String token
+            , @Field("_id") String id);
 
     @FormUrlEncoded
     @POST("admin/statistics")

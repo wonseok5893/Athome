@@ -5,22 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.athome.R;
 import com.example.athome.RestRequestHelper;
-import com.example.athome.admin_enroll.AdminEnrollResult;
-import com.example.athome.notice.ItemNoticeData;
-import com.example.athome.notice.ItemNoticeResult;
-import com.example.athome.notice.NoticeActivity;
 import com.example.athome.retrofit.ApiService;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -30,24 +25,32 @@ public class AdminNoticeActivity extends AppCompatActivity {
     private Button btn_enroll;
     private ListView admin_notice_listView = null;
     private List<ItemAdminNoticeData> data = null;
-    private AdminNoticeResult adminNoticeResult;
+    private AdminNoticeResult result;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_notice);
 
+        initialize();
+
         SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
         String sharedToken = sf.getString("token", "");
 
         ApiService apiService = new RestRequestHelper().getApiService();
-        final Call<AdminNoticeResult> res = apiService.adminNotice(sharedToken);
+        final Call<AdminNoticeResult> res = apiService.getAdminNotice(sharedToken, "");
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                     adminNoticeResult = res.execute().body();
+                    result = res.execute().body();
+                    data = result.getData();
                 } catch (IOException ie) {
                     ie.printStackTrace();
+                } catch (NullPointerException ne) {
+                    Log.d("junggyu", "값 없음");
+                    ne.printStackTrace();
                 }
             }
         }).start();
@@ -56,25 +59,22 @@ public class AdminNoticeActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(data!= null) {
-            data = adminNoticeResult.getData();
-        }else{
-            Toast.makeText(this, "다시시도 해주세요.", Toast.LENGTH_SHORT).show();
-        }
+
         AdminListAdapter adapter=new AdminListAdapter(this,R.layout.admin_notice_listview_item,data);
         admin_notice_listView.setAdapter(adapter);
 
         admin_notice_listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-                public void onItemClick(AdapterView<?>parent,View view,int position, long id){
-                    Intent intent = new Intent(getApplicationContext(),AdminNoticeClicked.class);
+            public void onItemClick(AdapterView<?>parent,View view,int position, long id){
+                Intent intent = new Intent(getApplicationContext(),AdminNoticeClicked.class);
+                intent.putExtra("id",data.get(position).getId());
+                intent.putExtra("noticeTitle",data.get(position).getNoticeTitle());
+                intent.putExtra("noticeDate",data.get(position).getNoticeDate());
+                intent.putExtra("noticeContext",data.get(position).getNoticeContext());
+                startActivity(intent);
 
-                    intent.putExtra("noticeTitle",data.get(position).getNoticeTitle());
-                    intent.putExtra("noticeDate",data.get(position).getNoticeDate());
-                    intent.putExtra("noticeContext",data.get(position).getNoticeContext());
-                    startActivity(intent);
-
-                }
+            }
         });
+
         btn_enroll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
