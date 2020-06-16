@@ -164,7 +164,6 @@
             android:id="@+id/myinform"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:padding="10dp"
             android:text="예약자 정보"
             android:textColor="@color/black"
@@ -246,7 +245,6 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:padding="10dp"
             android:text="결제정보"
             android:textColor="@color/black"
@@ -355,7 +353,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/dreamgothic"
             android:padding="15dp"
-            android:text="예약확인"
+            android:text="예약취소"
             android:textColor="@color/white"
             android:background="@drawable/edit_border2"/>
 

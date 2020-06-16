@@ -93,6 +93,8 @@ public class nonReserveActivity extends AppCompatActivity {
     private sendReserveResult sendResult;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -297,4 +299,6 @@ public class nonReserveActivity extends AppCompatActivity {
         }
         return null;
     }
+
+
 }

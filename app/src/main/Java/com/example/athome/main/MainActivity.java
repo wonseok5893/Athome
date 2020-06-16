@@ -258,6 +258,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Log.d("junggyu", "지금포인트 : "+ user.getUserPoint());
                     intent.putExtra("point", user.getUserPoint());
                     startActivity(intent);
+
                 }
             });
 
@@ -266,6 +267,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), SharedParkingTime.class);
                     startActivity(intent);
+
                 }
             });
 
@@ -278,6 +280,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 btn_purpose_st.setOnClickListener(v -> {
                     Intent intent = new Intent(getApplicationContext(), PurposeStaticsActivity.class);
                     startActivity(intent);
+
                 });
             }
         }
@@ -715,6 +718,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else if (id == R.id.payment) {//결제충전내역
             Intent intent = new Intent(getApplicationContext(), PaymentListActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
         } else if (id == R.id.account) {//계정관리
             Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
             startActivity(intent);
@@ -722,19 +726,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else if (id == R.id.setting) {//환경설정
             Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
 
         } else if (id == R.id.admin_notice) {// 공지사항 관리
             Intent intent = new Intent(getApplicationContext(), AdminNoticeActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
         } else if (id == R.id.admin_shared_enroll) { //관리자 배정자 등록
             Intent intent = new Intent(getApplicationContext(), AdminEnrollActivity.class);
             startActivity(intent);
         } else if (id == R.id.admin_users) { // 사용자 관리
             Intent intent = new Intent(getApplicationContext(), UsersListActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
         }else if(id==R.id.admin_users) { // 방문목적 확인
             Intent intent = new Intent(getApplicationContext(), PurposeStaticsActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
         }
         mDrawerLayout.closeDrawers();
         return true;

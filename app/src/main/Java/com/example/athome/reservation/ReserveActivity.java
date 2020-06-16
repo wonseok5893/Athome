@@ -515,7 +515,7 @@ public class ReserveActivity extends AppCompatActivity {
                             if (sendResult != null) {
                                 if (sendResult.getResult().equals("success")) {
                                     Toast.makeText(ReserveActivity.this, sendResult.getMessage(), Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(ReserveActivity.this, MainActivity.class);
+                                    Intent intent = new Intent(ReserveActivity.this, ReserveConfirm.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);
                                 } else {
@@ -716,7 +716,7 @@ public class ReserveActivity extends AppCompatActivity {
                 resultHour += 24;
             }
             parking_time_result.setText(resultHour + "시간" + resultMin + "분");
-            pay = resultHour * 600 + resultMin / 10 * 100;
+            pay = resultHour * 1200 + resultMin / 10 * 200;
             if(point == 0){
                 reserv_payment_amount_value.setText(Integer.toString(pay));
             }else{
