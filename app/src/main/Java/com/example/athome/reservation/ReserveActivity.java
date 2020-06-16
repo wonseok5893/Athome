@@ -14,6 +14,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -117,7 +118,12 @@ public class ReserveActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reserve);
 
         this.InitializeView();
-
+        ArrayList<String> userCarNumArr = user.getUserCarNumber();
+        ItemAccountCarData tmp;
+        for(int i = 0 ; i< userCarNumArr.size(); i++){
+            tmp = new ItemAccountCarData(userCarNumArr.get(i));
+            data.add(tmp);
+        }
         Intent intent = getIntent();
         user = MainActivity.getUser();
         _id = intent.getStringExtra("locationId");
@@ -172,15 +178,24 @@ public class ReserveActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 Pattern p = Pattern.compile("(^[0-9]+$)");
                 Matcher m = p.matcher(s.toString());
-
-                if(m.find()){
+                if (m.find()) {
                     point = Integer.parseInt(s.toString());
-                    if (s.toString().equals("0")) {
+                    if (point == 0) {
                         reserv_payment_amount_value.setText(Integer.toString(pay));
                         point_value.setText(user.getUserPoint().toString());
+                    } else if (point > pay) {
+                        reserv_payment_amount_value.setText(Integer.toString(pay));
+                        point_select.setText("");
+                        Toast.makeText(ReserveActivity.this, "point가 결제 금액을 초과하셨습니다.", Toast.LENGTH_SHORT).show();
                     } else {
-                        reserv_payment_amount_value.setText(String.format("(%d) - (%d) = %d", pay, point, pay - point));
-                        point_value.setText(Integer.toString(user.getUserPoint()-point));
+                        Log.i("jiwon", "이용시간 "+parking_time_result.getText().toString());
+                        if (!parking_time_result.getText().toString().equals("올바르지 않은 시간 설정") && !parking_time_result.getText().toString().equals("0")) {//setText("올바르지 않은 시간 설정");
+                            reserv_payment_amount_value.setText(String.format("(%d) - (%d) = %d", pay, point, pay - point));
+                            point_value.setText(Integer.toString(user.getUserPoint() - point));
+                        } else {
+                            reserv_payment_amount_value.setText("0");
+                            point_value.setText(Integer.toString(user.getUserPoint() - point));
+                        }
                     }
                 }else{
                     reserv_payment_amount_value.setText(Integer.toString(pay));
@@ -462,6 +477,9 @@ public class ReserveActivity extends AppCompatActivity {
                         overridePendingTransition(R.anim.not_move_activity, R.anim.rightout_activity);
                         break;
                     case R.id.reserv_start://예약시작날짜와시간설정
+                        point = 0;
+                        point_select.setText(Integer.toString(point));
+                        pay = 0;
                         showDialog(START_DATE_DIALOG_ID);
                         break;
                     case R.id.reserv_end: //예약종료날짜와시간설정
@@ -538,8 +556,17 @@ public class ReserveActivity extends AppCompatActivity {
                         }
                         break;
                     case R.id.all_point_use:
-
-                        point_select.setText(Integer.toString(pay));
+                        Log.i("jiwon", "이용시간 "+parking_time_result.getText().toString());
+                        if (!parking_time_result.getText().toString().equals("올바르지 않은 시간 설정") && !parking_time_result.getText().toString().equals("0")) {
+                            if (user.getUserPoint() > pay) {
+                                point_select.setText(Integer.toString(pay));
+                                point_value.setText(Integer.toString(user.getUserPoint() - pay));
+                            } else {
+                                Toast.makeText(ReserveActivity.this, "point가 부족합니다.", Toast.LENGTH_SHORT).show();
+                            }
+                        } else{
+                            Toast.makeText(ReserveActivity.this, "예약 시간을 설정해주십시오.", Toast.LENGTH_SHORT).show();
+                        }
                         break;
                 }
             }
@@ -590,6 +617,13 @@ public class ReserveActivity extends AppCompatActivity {
         adapter = new CarListAdapter(this, R.layout.reserv_car_select_dialog_item, data);
         reserv_car_select_listView.setAdapter(adapter);
 
+        reserv_car_select_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                parking_car_number_select.setText(data.get(position).getCarNumber());
+            }
+        });
+
 
     }
 
@@ -606,7 +640,7 @@ public class ReserveActivity extends AppCompatActivity {
                     reserv_end_date_select.setText(String.format("00-00-00"));
                     reserv_end_time_select.setText(String.format("00:00"));
                     reserv_payment_amount_value.setText("0");
-
+                    parking_time_result.setText("0");
                 }
             };
 
@@ -686,8 +720,7 @@ public class ReserveActivity extends AppCompatActivity {
     }
 
 
-    int timeCalc() throws ParseException {
-
+    void timeCalc() throws ParseException {
         SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String startTimeString = smYear + "-" + (smMonth + 1) + "-" + smDay + " " + smHour + ":" + smMinute;//"2013-04-08 10:10";
         String endTimeString = emYear + "-" + (emMonth + 1) + "-" + emDay + " " + emHour + ":" + emMinute;//"2013-04-08 10:10";
@@ -698,7 +731,6 @@ public class ReserveActivity extends AppCompatActivity {
 
         startTime = transFormat.parse(startTimeString);
         endTime = transFormat.parse(endTimeString);
-
         calDate = endTime.getTime() - startTime.getTime();
 
         // Date.getTime() 은 해당날짜를 기준으로1970년 00:00:00 부터 몇 초가 흘렀는지를 반환해준다.
@@ -716,10 +748,10 @@ public class ReserveActivity extends AppCompatActivity {
                 resultHour += 24;
             }
             parking_time_result.setText(resultHour + "시간" + resultMin + "분");
-            pay = resultHour * 1200 + resultMin / 10 * 200;
-            if(point == 0){
+            pay = resultHour * 600 + resultMin / 10 * 100;
+            if (point == 0) {
                 reserv_payment_amount_value.setText(Integer.toString(pay));
-            }else{
+            } else {
                 reserv_payment_amount_value.setText(String.format("(%d) - (%d) = %d", pay, point, pay - point));
             }
 
@@ -728,6 +760,6 @@ public class ReserveActivity extends AppCompatActivity {
             reserv_payment_amount_value.setText("0");
         }
 
-        return 0;
+        return;
     }
 }

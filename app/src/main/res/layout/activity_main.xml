@@ -406,7 +406,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/edit_border3"
                     android:fontFamily="@font/bareun3"
-                    android:text="에약하기"
+                    android:text="예약하기"
                     android:textColor="#e41653" />
 
             </LinearLayout>

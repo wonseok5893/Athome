@@ -1,9 +1,9 @@
 package com.example.athome.account;
 
 public class ItemAccountCarData {
-    public String carNumber;
+    private String carNumber;
 
-    public ItemAccountCarData(){}
+    private ItemAccountCarData(){}
 
     public ItemAccountCarData(String carNumber) {
         this.carNumber=carNumber;
