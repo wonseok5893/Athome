@@ -71,7 +71,9 @@ public interface ApiService {
                                         @Field("_id") String locationId,
                                         @Field("carNumber") String carNum,
                                         @Field("startTime") Date startTime,
-                                        @Field("endTime") Date endTime);
+                                        @Field("endTime") Date endTime,
+                                        @Field("point") int point,
+                                        @Field("sum") int sum);
     //사용자 배정자 등록 신청
     @Multipart
     @POST("api/sharedLocation/enroll")

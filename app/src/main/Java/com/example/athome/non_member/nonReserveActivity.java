@@ -181,7 +181,9 @@ public class nonReserveActivity extends AppCompatActivity {
                         String nonName = non_name_id.getText().toString();
                         String nonPhnum = non_phnum_id.getText().toString();
                         ApiService apiService = new RestRequestHelper().getApiService();
-                        final Call<sendReserveResult> res = apiService.sendReserve(sharedToken, _id, nonCarnum, startTime,endTime);
+                        int point = 0;
+                        int pay = 0;
+                        final Call<sendReserveResult> res = apiService.sendReserve(sharedToken, _id, nonCarnum, startTime,endTime,point,pay);
 
                         new Thread(new Runnable() {
                             @Override

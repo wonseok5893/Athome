@@ -491,7 +491,7 @@ public class ReserveActivity extends AppCompatActivity {
                         showDirectInputAlertDialog(ReserveActivity.this);
                         break;
                     case R.id.btn_next_reserv:
-                        if (calDate > 0) {
+                        if (!parking_time_result.getText().toString().equals("올바르지 않은 시간 설정") && !parking_time_result.getText().toString().equals("0")) {
                             SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                             String startTimeString = smYear + "-" + (smMonth + 1) + "-" + smDay + " " + smHour + ":" + smMinute;//"2013-04-08 10:10";
                             String endTimeString = emYear + "-" + (emMonth + 1) + "-" + emDay + " " + emHour + ":" + emMinute;//"2013-04-08 10:10";
@@ -506,8 +506,10 @@ public class ReserveActivity extends AppCompatActivity {
 
 
                             String carNumber = parking_car_number_select.getText().toString();
+
                             ApiService apiService = new RestRequestHelper().getApiService();
-                            final Call<sendReserveResult> res = apiService.sendReserve(sharedToken, _id, carNumber, startTime, endTime);
+                            Log.i("jiwon",Integer.toString(pay)+" point: "+Integer.toString(point));
+                            final Call<sendReserveResult> res = apiService.sendReserve(sharedToken, _id, carNumber, startTime, endTime,point,pay);
 
                             new Thread(new Runnable() {
                                 @Override
