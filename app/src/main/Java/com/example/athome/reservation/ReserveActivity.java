@@ -118,12 +118,7 @@ public class ReserveActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reserve);
 
         this.InitializeView();
-        ArrayList<String> userCarNumArr = user.getUserCarNumber();
-        ItemAccountCarData tmp;
-        for(int i = 0 ; i< userCarNumArr.size(); i++){
-            tmp = new ItemAccountCarData(userCarNumArr.get(i));
-            data.add(tmp);
-        }
+
         Intent intent = getIntent();
         user = MainActivity.getUser();
         _id = intent.getStringExtra("locationId");
@@ -141,6 +136,12 @@ public class ReserveActivity extends AppCompatActivity {
         ReservationList(intent); //마커의 예약 정보 받아오기
         parseMsg(); // 2차원 배열에 예약 정보 초기화
         makeTimeTable(locationStartTime, locationEndTime); //144개 뷰 예약 허용 시간 외 gray 예약 시간 red 로 표현
+        ArrayList<String> userCarNumArr = user.getUserCarNumber();
+        ItemAccountCarData tmp;
+        for(int i = 0 ; i< userCarNumArr.size(); i++){
+            tmp = new ItemAccountCarData(userCarNumArr.get(i));
+            data.add(tmp);
+        }
         this.SetListner();
 
         reserv_end_time_select.addTextChangedListener(new TextWatcher() {
@@ -484,11 +485,6 @@ public class ReserveActivity extends AppCompatActivity {
                         break;
                     case R.id.reserv_end: //예약종료날짜와시간설정
                         showDialog(END_DATE_DIALOG_ID);
-                        try {
-                            timeCalc();
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
                         break;
 
                     case R.id.parking_car_number_select://차량번호 선택, 직접입력
@@ -621,6 +617,7 @@ public class ReserveActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 parking_car_number_select.setText(data.get(position).getCarNumber());
+                dlg.dismiss();
             }
         });
 
@@ -636,6 +633,11 @@ public class ReserveActivity extends AppCompatActivity {
                     smMonth = monthOfYear;
                     smDay = dayOfMonth;
                     showDialog(START_TIME_DIALOG_ID);
+                    try {
+                        timeCalc();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     reserv_start_date_select.setText(String.format("%d-%d-%d", smYear, smMonth + 1, smDay));
                     reserv_end_date_select.setText(String.format("00-00-00"));
                     reserv_end_time_select.setText(String.format("00:00"));
