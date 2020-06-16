@@ -165,13 +165,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                     }
 
+                } else {
+                    editor.remove(sharedToken);
+                    editor.commit();
                 }
             }
         }catch (Exception e){
             editor.remove("token");
             editor.commit();
             Toast.makeText(getApplicationContext(), user.getAuthMessage() + "", Toast.LENGTH_SHORT).show();
-            Log.d("jiwon","토큰 없음");
         }
 
         //상단바 설정
@@ -474,6 +476,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         timerHandler = new TimerHandler();
         timerHandler.sendEmptyMessage(MESSAGE_TIMER_START);
+
     }
 
     private class TimerHandler extends Handler {
@@ -513,6 +516,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         Log.i("jiwon", "실패 3");
                     } else {
                         Log.i("jiwon", "marker성공");
+
                         int markerCount = markerResult.getData().size();
 
                         ArrayList<SharePlace> placeList = new ArrayList<>();
@@ -585,7 +589,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         UiSettings uiSettings = nm.getUiSettings();
         // 지도종류 Basic
         nm.setMapType(NaverMap.MapType.Basic);
-        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(37.5666102, 126.9783881))
+        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(37.2961040833778, 127.03024105236995))
                 .animate(CameraAnimation.Easing);
         nm.moveCamera(cameraUpdate);
 
