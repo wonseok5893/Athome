@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.athome.R;
@@ -22,7 +23,7 @@ public class AdminNoticeClicked extends Activity {
     private Button btn_back_notice_item=null;
     private Button btn_delete,btn_revise;
     private AdminDeleteNoticeResult result;
-    private String id;
+    private String id, title, context, date;
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
@@ -50,6 +51,9 @@ public class AdminNoticeClicked extends Activity {
         btn_delete = findViewById(R.id.admin_deleteBtn);
 
         id = getIntent().getStringExtra("id");
+        title = getIntent().getStringExtra("noticeTitle");
+        date = getIntent().getStringExtra("noticeDate");
+        context = getIntent().getStringExtra("noticeContext");
 
     }
 
@@ -65,6 +69,10 @@ public class AdminNoticeClicked extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),AdminNoticeRevise.class);
+                intent.putExtra("id", id);
+                intent.putExtra("title", title);
+                intent.putExtra("date", date);
+                intent.putExtra("context", context);
                 startActivity(intent);
                 overridePendingTransition(R.anim.not_move_activity,R.anim.rightout_activity);
             }
@@ -92,15 +100,15 @@ public class AdminNoticeClicked extends Activity {
                 }).start();
 
                 try {
-                    Thread.sleep(300);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
                 if(result.getResult().equals("success")) {
-                    // 삭제 성공
+                    Toast.makeText(getApplicationContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
                 } else {
-                    // 삭제 실패
+                    Toast.makeText(getApplicationContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
 

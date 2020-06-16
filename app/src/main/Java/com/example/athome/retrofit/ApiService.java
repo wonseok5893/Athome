@@ -6,6 +6,7 @@ import com.example.athome.admin.AllUserResult;
 import com.example.athome.admin_enroll.AdminEnrollResult;
 import com.example.athome.admin_notice.AdminDeleteNoticeResult;
 import com.example.athome.admin_notice.AdminNoticeResult;
+import com.example.athome.admin_notice.ReviseNoticeResult;
 import com.example.athome.notice.ItemNoticeResult;
 
 import java.util.Date;
@@ -195,6 +196,14 @@ public interface ApiService {
     @POST("admin/deleteNotice")
     Call<AdminDeleteNoticeResult> requestNoticeDelete(@Header("x-access-token") String token
             , @Field("_id") String id);
+
+    @FormUrlEncoded
+    @POST("admin/reviseNotice")
+    Call<ReviseNoticeResult> requestNoticeRevise(@Header("x-access-token") String token
+                                                , @Field("_id") String id
+                                                , @Field("title") String title
+                                                , @Field("date") String reviseDate
+                                                , @Field("context") String context);
 
     @FormUrlEncoded
     @POST("admin/statistics")
