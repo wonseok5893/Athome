@@ -22,6 +22,7 @@ import com.example.athome.R;
 import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.ReserveListResult;
 import com.example.athome.retrofit.ShareInfoResult;
+import com.example.athome.retrofit.sendShareResult;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -37,7 +38,7 @@ public class SharedParkingTime extends AppCompatActivity {
 
     // 처음에 초기값 받아올 부분
     private ShareInfoResult sir;
-
+    private sendShareResult sendRes;
     // 시작시간, 종료시간, 뒤로가기 버튼 , 전부 제어하는 스위치, 저장버튼
     private TextView startTime, endTime;
     private Button backBtn;
@@ -149,31 +150,35 @@ public class SharedParkingTime extends AppCompatActivity {
         String days = Arrays.toString(dayState);
 
         ApiService serviceApi = new RestRequestHelper().getApiService();
-        Call<ResponseBody> res = serviceApi.sendShareData(sharedToken, days, startTime.getText().toString(), endTime.getText().toString());
+        Call<sendShareResult> res = serviceApi.sendShareData(sharedToken, days, startTime.getText().toString(), endTime.getText().toString());
 
-        res.enqueue(new Callback<ResponseBody>() {
+        new Thread(new Runnable() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
-        });
-/*
-        for(int i=0;i<7;i++) {
-            if(i==doDayOfWeek()) {
-                MainActivity.todayFlag = dayState[i];
-                if(MainActivity.todayFlag==1) {
-                    MainActivity.shareOn.setChecked(true);
-                } else {
-                    MainActivity.shareOff.setChecked(true);
+            public void run() {
+                try {
+                    sendRes = res.execute().body();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
+        }).start();
+
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-*/
+
+        if(sendRes != null){
+            if(sendRes.getResult().equals("success")){
+                Toast.makeText(this, sendRes.getMessage(), Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, sendRes.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+        }else{
+            Toast.makeText(this, "다시 시도해주십시오.", Toast.LENGTH_SHORT).show();
+        }
         setTodayFlag();
         Toast.makeText(getApplicationContext(), "저장에 성공했습니다.", Toast.LENGTH_SHORT).show();
     }

@@ -94,7 +94,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("api/sendShareInfo")
-    Call<ResponseBody> sendShareData(@Header("x-access-token") String token,
+    Call<sendShareResult> sendShareData(@Header("x-access-token") String token,
                                      @Field("days") String days,
                                      @Field("startTime") String startTime,
                                      @Field("endTime") String endTime);
