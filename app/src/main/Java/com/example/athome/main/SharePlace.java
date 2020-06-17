@@ -133,7 +133,10 @@ public class SharePlace {
         //this.myMarker.setPosition(new LatLng(this.latitude, this.longitude));
 
         final Intent intent = new Intent(main.getApplicationContext(), ReserveActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         final Intent nonuser_intent = new Intent(main.getApplicationContext(), nonReserveActivity.class);
+        nonuser_intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
         LatLng position = infoWindow.getPosition();
 
         intent.putExtra("locationId", locationId);//_id

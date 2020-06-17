@@ -376,9 +376,10 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
         Cursor cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 null, "_data = '" + filePath + "'", null, null);
 
-        cursor.moveToNext();
+        cursor.moveToFirst();
         int id = cursor.getInt(cursor.getColumnIndex("_id"));
         Uri uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+
 
         return uri;
     }

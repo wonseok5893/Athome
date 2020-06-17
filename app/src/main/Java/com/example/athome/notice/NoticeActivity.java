@@ -49,6 +49,9 @@ public class NoticeActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
         }
+            if(itemNoticeResult != null){
+                data = itemNoticeResult.getData();
+            }
 
 
         notice_listView=(ListView)findViewById(R.id.notice_listView);
@@ -61,7 +64,7 @@ public class NoticeActivity extends AppCompatActivity {
             }
         });
 
-        data = itemNoticeResult.getData();
+
 
         //리스트 속의 아이템 연결
         ItemNoticeListAdaptor adapter=new ItemNoticeListAdaptor(this,R.layout.notice_listview_item,data);

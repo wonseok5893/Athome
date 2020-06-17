@@ -58,7 +58,11 @@ public class AccountActivity extends AppCompatActivity {
         textUserId.setText(user.getUserId());
         textUserPhoneNumber.setText(user.getUserPhone());
         if(user.getUserCarNumber()!=null){
-            textUserCarNumber.setText("있음");
+            if(user.getUserCarNumber().size() != 0) {
+                textUserCarNumber.setText(user.getUserCarNumber().get(0));
+            }else{
+                textUserCarNumber.setText("차량번호를 등록해주세요");
+            }
         }
         textUserEmail.setText(user.getUserEmail());
 

@@ -563,6 +563,38 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onResume() {
         super.onResume();
         timerHandler.sendEmptyMessage(MESSAGE_TIMER_START);
+        SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sf.edit(); //토큰 업데이트 삭제에서 쓸거
+        String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
+        System.out.println(sharedToken);
+        try {
+            Log.d("jiwon","try문 실행");
+            if (sharedToken != "") {
+                //검증
+                Log.d("jiwon","토큰 있긴 함");
+                if (user.authenticate(sharedToken)) {
+                    Log.d("jiwon","토큰 같음");
+                    if(user.getTodaySharingState()!=null) {
+                        if(user.getTodaySharingState()==1) {
+                            Log.d("junggyu", "받아온 오늘 값 : " + user.getTodaySharingState());
+                            todayFlag=1;
+                            shareOn.setChecked(true);
+                        } else {
+                            Log.d("junggyu", "받아온 오늘 값 : " + user.getTodaySharingState());
+                            todayFlag=0;
+                            shareOff.setChecked(true);
+                        }
+                    }
+                } else {
+                    editor.remove(sharedToken);
+                    editor.commit();
+                }
+            }
+        }catch (Exception e){
+            editor.remove("token");
+            editor.commit();
+            Toast.makeText(getApplicationContext(), user.getAuthMessage() + "", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
