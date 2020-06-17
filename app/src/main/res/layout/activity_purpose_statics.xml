@@ -69,21 +69,9 @@
             app:egLegendHeight="40dp"
             app:egShowDecimal="true" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/bareun3"
-            android:paddingLeft="20dp"
-            android:paddingTop="20dp"
-            android:text="원형 차트"
-            android:textColor="#0026ca"
-            android:textSize="15sp" />
 
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/piechart"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+
     </LinearLayout>
 </ScrollView>
 
