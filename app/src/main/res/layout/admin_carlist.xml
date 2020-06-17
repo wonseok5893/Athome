@@ -1,37 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/enroll_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fce4ec">
+        android:gravity="center"
+        android:background="@drawable/toolbar_background"
+        app:contentInsetStart="0dp"
+        android:elevation="3dp"
+        tools:ignore="MissingConstraints">
 
         <Button
             android:id="@+id/admin_back_enroll"
             android:layout_width="35dp"
             android:layout_height="30dp"
             android:background="#00ff0000"
-            android:drawableRight="@drawable/back"
-            android:text="" />
+            android:drawableRight="@drawable/back2"
+            android:gravity="center"
+            android:text=""
+            />
 
         <TextView
             android:id="@+id/admin_enroll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:fontFamily="@font/dreamgothic7"
-            android:gravity="center"
+            android:fontFamily="@font/bareun3"
             android:text="사용자 차량등록 현황"
-            android:textColor="#000000"
-            android:textSize="16sp" />
-
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            />
 
     </androidx.appcompat.widget.Toolbar>
+
+
+
+
+
 
     <ScrollView
         android:id="@+id/scrollView2"

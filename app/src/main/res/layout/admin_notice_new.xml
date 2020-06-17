@@ -2,43 +2,50 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/admin_detail_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fce4ec"
-        android:gravity="center">
+        android:background="@drawable/toolbar_background"
+        app:contentInsetStart="0dp"
+        tools:ignore="MissingConstraints">
 
         <Button
             android:id="@+id/btn_back_new"
-            android:layout_width="50dp"
+            android:layout_width="35dp"
             android:layout_height="30dp"
-            android:layout_gravity="left"
-            android:layout_margin="3dp"
             android:background="#00ff0000"
-            android:drawableTop="@drawable/back"
+            android:drawableRight="@drawable/back2"
+            android:gravity="center"
             android:text="" />
 
+        <TextView
 
-        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/bareun3"
+            android:text="공지사항 작성"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+
+        <ImageButton
             android:id="@+id/notice_new_saveBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:src="@drawable/save3"
+            android:background="#00ff0000"
             android:layout_gravity="right"
-            android:background="#00BCD4"
-
-            android:fontFamily="@font/dreamgothic"
-            android:text="저장"
-            android:layout_marginRight="5dp"
-            android:textColor="@color/white" />
+            android:layout_marginRight="5dp"/>
 
 
     </androidx.appcompat.widget.Toolbar>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"

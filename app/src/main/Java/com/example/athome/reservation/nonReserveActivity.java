@@ -99,6 +99,7 @@ public class nonReserveActivity extends AppCompatActivity {
     private int[] locationDaySet;
     private String locationStartTime;
     private String locationEndTime;
+    private String locationName;
 
     private ArrayList<View> ViewList = new ArrayList<>(); //예약 시간 나타나는 창
     private long calDate;
@@ -143,6 +144,7 @@ public class nonReserveActivity extends AppCompatActivity {
         locationDaySet = intent.getIntArrayExtra("locationDaySet");
         locationStartTime = intent.getStringExtra("locationStartTime");
         locationEndTime = intent.getStringExtra("locationEndTime");
+        locationName = intent.getStringExtra("locationName");
 
         ReservationList(intent); //마커의 예약 정보 받아오기
         parseMsg(); // 2차원 배열에 예약 정보 초기화
@@ -276,6 +278,18 @@ public class nonReserveActivity extends AppCompatActivity {
                                 if (sendResult.getResult().equals("success")) {
                                     Toast.makeText(nonReserveActivity.this, sendResult.getMessage(), Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(nonReserveActivity.this, ReserveConfirm.class);
+
+                                    intent.putExtra("locationName", locationName);
+
+                                    intent.putExtra("reservDate", // 예약기간
+                                            reserv_start_date_select.getText().toString() + " " +
+                                                    reserv_start_time_select.getText().toString() + " ~ " +
+                                                    reserv_end_date_select.getText().toString() + " " +
+                                                    reserv_end_time_select.getText().toString());
+                                    intent.putExtra("phnum", non_phnum_id.getText().toString());
+                                    intent.putExtra("carNum", non_car_id.getText().toString());
+                                    intent.putExtra("payMoney", reserv_payment_amount_value_non.getText().toString());
+
                                     startActivity(intent);
                                 } else {
                                     reserv_start_date_select.setText("00-00-00");
@@ -553,7 +567,7 @@ public class nonReserveActivity extends AppCompatActivity {
     }
 
     private void makeTimeTable(String locationStartTime, String locationEndTime) {
-        if (locationDaySet[todayReserve[24][2]] == 1) {
+        if (locationDaySet[(todayReserve[24][2]-1+7)%7 ] == 1) {
             String[] start = locationStartTime.split(":");
             String[] end = locationEndTime.split(":");
 

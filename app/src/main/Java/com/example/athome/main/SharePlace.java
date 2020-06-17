@@ -28,20 +28,14 @@ import com.kakao.kakaonavi.options.CoordType;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.overlay.InfoWindow;
-import com.naver.maps.map.overlay.InfoWindow;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
-import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.util.MarkerIcons;
 
-import org.w3c.dom.Text;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.Arrays;
 
 import retrofit2.Call;
 
@@ -51,8 +45,8 @@ import retrofit2.Call;
 public class SharePlace {
 
     private LocationInfoList locationInfoList;
-    String locationStartTime;
-    String locationEndTime;
+    private String locationStartTime;
+    private String locationEndTime;
     ArrayList<Integer> locationDaySet = new ArrayList<>();
 
 
@@ -67,6 +61,9 @@ public class SharePlace {
     private View view;
     private NaverMap nm;
 
+    private int[] tArray;
+    private String startTime, endTime;
+
     private String parkingInfo;
     // 미리보기 화면
     private Button space_resv;
@@ -79,7 +76,6 @@ public class SharePlace {
             parkingInfoTxt; // 위치
     private Button naviBtn, resBtn;
     private TextView TextView;
-
 
     // 차량등록 후 관리자가 정보 확인한 뒤 승인하면 입력 정보로 공유공간 객체 생성
     public void readSharePlace(String locationId,
@@ -145,7 +141,7 @@ public class SharePlace {
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
 
-                int [] timeArray = initLocationInfo();
+                int[] timeArray = initLocationInfo();
 
                 intent.putExtra("locationStartTime", locationStartTime);
                 intent.putExtra("locationEndTime", locationEndTime);
@@ -228,6 +224,15 @@ public class SharePlace {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ParkingDetailsActivity.class);
+
+                tArray = initLocationInfo();
+
+                intent.putExtra("timeArray", tArray);
+                intent.putExtra("startTime", startTime);
+                intent.putExtra("endTime", endTime);
+
+                intent.putExtra("parkingInfo", parkingInfo);
+                intent.putExtra("locationName", locationName);
                 main.startActivity(intent);
             }
         });
@@ -265,6 +270,9 @@ public class SharePlace {
         this.locationStartTime = locationInfoList.getLocationInfo().getPossibleStartTime();
         this.locationEndTime = locationInfoList.getLocationInfo().getPossibleEndTime();
         this.locationDaySet = (ArrayList<Integer>) locationInfoList.getLocationInfo().getTimeState();
+
+        startTime = locationInfoList.getLocationInfo().getPossibleStartTime();
+        endTime = locationInfoList.getLocationInfo().getPossibleEndTime();
 
         int timeArray[] = new int[7];
 

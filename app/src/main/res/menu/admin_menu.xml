@@ -37,11 +37,6 @@
             android:fontFamily="@font/dreamgothic7"
             />
         <item
-            android:id="@+id/admin_car_enroll"
-            android:title="관리자 차량 등록"
-            android:fontFamily="@font/dreamgothic7"
-            />
-        <item
             android:id="@+id/admin_users"
             android:title="사용자 관리"
             android:fontFamily="@font/dreamgothic7"

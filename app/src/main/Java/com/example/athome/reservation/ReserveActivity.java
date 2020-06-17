@@ -108,6 +108,7 @@ public class ReserveActivity extends AppCompatActivity {
     private User user;
     private int pay;
     private int point;
+    private String locationName;
 
     private sendReserveResult sendResult;
     private long calDate;
@@ -122,6 +123,7 @@ public class ReserveActivity extends AppCompatActivity {
         Intent intent = getIntent();
         user = MainActivity.getUser();
         _id = intent.getStringExtra("locationId");
+        locationName = intent.getStringExtra("locationName");
         userId = intent.getStringExtra("userId");
         latitude = intent.getDoubleExtra("latitude", 0);
         longitude = intent.getDoubleExtra("longitude", 0);
@@ -361,7 +363,7 @@ public class ReserveActivity extends AppCompatActivity {
     }
 
     private void makeTimeTable(String locationStartTime, String locationEndTime) {
-        if (locationDaySet[todayReserve[24][2]] == 1) {
+        if (locationDaySet[(todayReserve[24][2]-1+7)%7] == 1) {
             String[] start = locationStartTime.split(":");
             String[] end = locationEndTime.split(":");
 
@@ -417,6 +419,9 @@ public class ReserveActivity extends AppCompatActivity {
         todayReserve[24][0] = month;
         todayReserve[24][1] = date;
         todayReserve[24][2] = dayOfWeek;
+        Log.i("jiwon",  "todayReserve 0"+Integer.toString(todayReserve[24][0]));
+        Log.i("jiwon",  "todayReserve 1"+Integer.toString(todayReserve[24][1]));
+        Log.i("jiwon",  "todayReserve 2"+Integer.toString(todayReserve[24][2]));
 
         cal.add(Calendar.DATE, 1);
         month = cal.get(Calendar.MONTH) + 1;
@@ -535,6 +540,18 @@ public class ReserveActivity extends AppCompatActivity {
                                 if (sendResult.getResult().equals("success")) {
                                     Toast.makeText(ReserveActivity.this, sendResult.getMessage(), Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(ReserveActivity.this, ReserveConfirm.class);
+                                    intent.putExtra("locationName", locationName);
+
+                                    intent.putExtra("reservDate", // 예약기간
+                                            reserv_start_date_select.getText().toString() + " " +
+                                            reserv_start_time_select.getText().toString() + " ~ " +
+                                            reserv_end_date_select.getText().toString() + " " +
+                                            reserv_end_time_select.getText().toString());
+
+                                    intent.putExtra("carNum", parking_car_number_select.getText().toString());
+
+                                    intent.putExtra("payMoney", pay+"");
+
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);
                                 } else {

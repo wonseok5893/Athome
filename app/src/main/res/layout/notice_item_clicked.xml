@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/bareun3"
-            android:text="예약하기"
+            android:text="공지사항"
             android:textColor="@color/white"
             android:textSize="17sp" />
 

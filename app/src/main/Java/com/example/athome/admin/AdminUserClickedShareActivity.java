@@ -22,7 +22,8 @@ public class AdminUserClickedShareActivity extends AppCompatActivity {
         setContentView(R.layout.admin_user_clicked_share);
 
         shareListView=(ListView)findViewById(R.id.share_listview);
-        btn_back=(Button) findViewById(R.id.clicked_share_back);
+
+        btn_back=(Button) findViewById(R.id.btn_back_new);
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
