@@ -26,7 +26,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".admin_notice.AdminNoticeRevise"/>
-        <activity android:name=".PurposeStaticsActivity"></activity>
+        <activity android:name=".admin_purpose.PurposeStaticsActivity"></activity>
         <activity android:name=".shared_time.SharedParkingTime" />
         <activity android:name=".admin_notice.AdminNoticeNew" />
         <activity android:name=".admin.AdminUserClickedReservPastActivity" />

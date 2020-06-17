@@ -1,17 +1,23 @@
-package com.example.athome;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.athome.admin_purpose;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.example.athome.R;
+import com.example.athome.RestRequestHelper;
 import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.StatisticsResult;
 
 import org.eazegraph.lib.charts.BarChart;
-import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.BarModel;
 
 import java.io.IOException;
@@ -19,15 +25,19 @@ import java.util.List;
 
 import retrofit2.Call;
 
-public class PurposeStaticsActivity<itemModel> extends AppCompatActivity {
+import static com.gun0912.tedpermission.TedPermissionBase.getSharedPreferences;
+
+public class PurposeBarFragment <itemModel> extends Fragment {
     private List<Integer> data = null;
     private BarChart chart;
-    private Button backBtn;
     private StatisticsResult statisticsResult;
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_purpose_statics);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.purpose_bar_fragment, container, false);
+
+        chart = (BarChart)view.findViewById(R.id.tab1_chart_2);
 
         SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
         String sharedToken = sf.getString("token", "");
@@ -38,7 +48,7 @@ public class PurposeStaticsActivity<itemModel> extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                     statisticsResult = res.execute().body();
+                    statisticsResult = res.execute().body();
                 } catch (IOException ie) {
                     ie.printStackTrace();
                 }
@@ -50,27 +60,8 @@ public class PurposeStaticsActivity<itemModel> extends AppCompatActivity {
             e.printStackTrace();
         }
         data = statisticsResult.getData();
-        initView();
-        setBarChart(chart);
 
 
-    }
-
-    public void initView(){
-
-        chart = (BarChart)findViewById(R.id.tab1_chart_2);
-        backBtn = findViewById(R.id.static_backBtn);
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
-            }
-        });
-    }
-
-    // 막대 차트 설정
-    private void setBarChart(BarChart chart) {
 
         chart.clearChart();
 
@@ -84,6 +75,8 @@ public class PurposeStaticsActivity<itemModel> extends AppCompatActivity {
 
         chart.startAnimation();
 
+
+        return view;
     }
 
 }

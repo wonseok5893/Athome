@@ -1,6 +1,5 @@
 package com.example.athome.main;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -37,29 +36,24 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.athome.LoginActivity;
-import com.example.athome.PurposeStaticsActivity;
+import com.example.athome.admin_purpose.PurposeStaticsActivity;
 import com.example.athome.R;
 import com.example.athome.ReservListNonMemberActivity;
 import com.example.athome.RestRequestHelper;
 import com.example.athome.User;
 import com.example.athome.account.AccountActivity;
 import com.example.athome.admin.UsersListActivity;
-import com.example.athome.admin_enroll.AdminCarlistActivity;
 import com.example.athome.admin_notice.AdminNoticeActivity;
 import com.example.athome.admin_enroll.AdminEnrollActivity;
-import com.example.athome.admin_notice.AdminNoticeResult;
 import com.example.athome.notice.NoticeActivity;
-import com.example.athome.notification.NotificationActivity;
 import com.example.athome.payment_list.PaymentListActivity;
 import com.example.athome.point_charge.PointChargeActivity;
-import com.example.athome.reservation.PurposeActivity;
 import com.example.athome.reservation_list.ReservListActivity;
 import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.MarkerResult;
 import com.example.athome.retrofit.ReservationListResult;
 import com.example.athome.retrofit.ReservationListResult_data;
 
-import com.example.athome.retrofit.StatisticsResult;
 import com.example.athome.setting.SettingActivity;
 import com.example.athome.shared_parking.MySharedParkingActivity;
 import com.example.athome.shared_time.SharedParkingTime;

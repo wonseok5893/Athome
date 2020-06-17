@@ -34,29 +34,29 @@
             />
 
 
-    </androidx.appcompat.widget.Toolbar>v
+    </androidx.appcompat.widget.Toolbar>
 
 
-    <LinearLayout
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/purpose_tablayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="45dp"
+        android:background="@color/white"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="#0031ca"
+        app:tabIndicatorHeight="3dp"
+        app:tabSelectedTextColor="#0031ca"
+        app:tabTextColor="#757575" />
 
-        <org.eazegraph.lib.charts.BarChart
-            android:id="@+id/tab1_chart_2"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="80dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="20dp"
-            android:padding="10dp"
-            app:egBarWidth="20dp"
-            app:egEnableScroll="true"
-            app:egFixedBarWidth="true"
-            app:egLegendHeight="40dp"
-            app:egShowDecimal="true" />
-    </LinearLayout>
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/purpose_list_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+
 
 
 </LinearLayout>
