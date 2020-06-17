@@ -250,11 +250,6 @@
 
                 </LinearLayout>
 
-                <Switch
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textOff="OFF"
-                    android:textOn="공유" />
             </LinearLayout>
         </ScrollView>
 

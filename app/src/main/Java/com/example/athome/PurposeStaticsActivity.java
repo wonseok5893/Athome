@@ -76,9 +76,9 @@ public class PurposeStaticsActivity<itemModel> extends AppCompatActivity {
 
         chart.addBar(new BarModel("외식", data.get(0), 0xFF56B7F1));
         chart.addBar(new BarModel("쇼핑", data.get(1), 0xFF56B7F1));
-        chart.addBar(new BarModel("출장·비즈니스", data.get(2), 0xFF56B7F1));
+        chart.addBar(new BarModel("비즈니스", data.get(2), 0xFF56B7F1));
         chart.addBar(new BarModel("친구·친지방문", data.get(3), 0xFF56B7F1));
-        chart.addBar(new BarModel("의료·건강", data.get(4), 0xFF56B7F1));
+        chart.addBar(new BarModel("의료", data.get(4), 0xFF56B7F1));
         chart.addBar(new BarModel("여행·휴가", data.get(5), 0xFF56B7F1));
         chart.addBar(new BarModel("기타", data.get(6), 0xFF56B7F1));
 
