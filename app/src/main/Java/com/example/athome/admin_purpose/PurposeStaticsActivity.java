@@ -34,7 +34,6 @@ import retrofit2.Call;
 public class PurposeStaticsActivity extends AppCompatActivity {
     private List<Integer> data = null;
     private BarChart chart;
-    private PieChart pieChart;
     private Button backBtn;
     private StatisticsResult statisticsResult;
     @Override
@@ -64,6 +63,7 @@ public class PurposeStaticsActivity extends AppCompatActivity {
         }
         data = statisticsResult.getData();
         initView();
+        setBarChart(chart);
 
 
 
@@ -74,7 +74,6 @@ public class PurposeStaticsActivity extends AppCompatActivity {
     public void initView(){
 
         chart = (BarChart)findViewById(R.id.tab1_chart_2);
-        pieChart = (PieChart)findViewById(R.id.piechart);
         backBtn = findViewById(R.id.static_backBtn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
