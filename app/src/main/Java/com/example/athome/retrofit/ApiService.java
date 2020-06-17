@@ -92,6 +92,12 @@ public interface ApiService {
                                                @Field("sum") int sum,
                                                @Field("deviceToken") String Token);
 
+    //비회원 예약 목록 가져오기
+    @FormUrlEncoded
+    @POST("user/notUser/reservation")
+    Call<nonUserReserveResult> requestReserveList(
+            @Field("phoneNumber") String Phone);
+
     //사용자 배정자 등록 신청
     @Multipart
     @POST("api/sharedLocation/enroll")

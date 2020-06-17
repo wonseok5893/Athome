@@ -42,6 +42,7 @@
         <activity android:name=".admin_notice.AdminNoticeClicked" />
         <activity android:name=".admin_notice.ItemAdminNoticeData" />
         <activity android:name=".admin_notice.AdminNoticeActivity" />
+        <activity android:name=".ReservListNonMemberActivity" />
         <activity android:name=".reservation.nonReserveActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".admin.UsersListActivity" />

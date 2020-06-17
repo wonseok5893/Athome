@@ -39,6 +39,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.athome.LoginActivity;
 import com.example.athome.PurposeStaticsActivity;
 import com.example.athome.R;
+import com.example.athome.ReservListNonMemberActivity;
 import com.example.athome.RestRequestHelper;
 import com.example.athome.User;
 import com.example.athome.account.AccountActivity;
@@ -201,6 +202,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             editor.remove("token");
             editor.commit();
             Toast.makeText(getApplicationContext(), user.getAuthMessage() + "", Toast.LENGTH_SHORT).show();
+            Log.d("jiwon", "토큰 없음");
         }
 
         //상단바 설정
@@ -229,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    intent.putExtra("token",token);
+                    intent.putExtra("token", token);
                     //인텐트 실행
                     startActivity(intent);
                 }
@@ -501,7 +503,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         timerHandler = new TimerHandler();
         timerHandler.sendEmptyMessage(MESSAGE_TIMER_START);
-
     }
 
     private class TimerHandler extends Handler {
@@ -541,7 +542,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         Log.i("jiwon", "실패 3");
                     } else {
                         Log.i("jiwon", "marker성공");
-
                         int markerCount = markerResult.getData().size();
 
                         ArrayList<SharePlace> placeList = new ArrayList<>();
@@ -744,45 +744,61 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);//화면전환시효과
         } else if (id == R.id.reserinfo) {//예약내역
             // 서버에 예약 내역 요청
-            SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
-            String sharedToken = sf.getString("token", "");
+            if(user.getUserName() != null) {
 
-            ApiService serviceApi = new RestRequestHelper().getApiService();
-            final Call<ReservationListResult> res = serviceApi.getReservation(sharedToken, "catstone");
+                SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
+                String sharedToken = sf.getString("token", "");
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        ReservationListResult = res.execute().body();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                ApiService serviceApi = new RestRequestHelper().getApiService();
+                final Call<ReservationListResult> res = serviceApi.getReservation(sharedToken, "catstone");
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            ReservationListResult = res.execute().body();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-            }).start();
+                }).start();
 
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (ReservationListResult != null) {
+                    ArrayList<ReservationListResult_data> data = (ArrayList<ReservationListResult_data>) ReservationListResult.getData();
+                    Intent intent = new Intent(getApplicationContext(), ReservListActivity.class);
+                    intent.putParcelableArrayListExtra("data", data);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
+                } else {
+                    Toast.makeText(context, "다시 시도해주십시오.", Toast.LENGTH_SHORT).show();
+                }
+            } else{
+                Intent intent = new Intent(getApplicationContext(), ReservListNonMemberActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
             }
-            if (ReservationListResult != null) {
-                ArrayList<ReservationListResult_data> data = (ArrayList<ReservationListResult_data>) ReservationListResult.getData();
-                Intent intent = new Intent(getApplicationContext(), ReservListActivity.class);
-                intent.putParcelableArrayListExtra("data", data);
+            
+        } else if (id == R.id.payment) {//결제충전내역
+            if (user.getUserName() != null) {
+                Intent intent = new Intent(getApplicationContext(), PaymentListActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
             } else {
-                Toast.makeText(context, "다시 시도해주십시오.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
             }
-        } else if (id == R.id.payment) {//결제충전내역
-            Intent intent = new Intent(getApplicationContext(), PaymentListActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
         } else if (id == R.id.account) {//계정관리
-            Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
+            if (user.getUserName() != null) {
+                Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
+            } else {
+                Toast.makeText(context, "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
+            }
         } else if (id == R.id.setting) {//환경설정
             Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
             startActivity(intent);
