@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/reserv_list_non_member_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/toolbar_background"
+        app:contentInsetStart="0dp"
+        android:elevation="3dp"
+        tools:ignore="MissingConstraints">
+
+        <Button
+            android:id="@+id/btn_back_reserv_list_non_member"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:background="#00ff0000"
+            android:drawableRight="@drawable/back2"
+            android:gravity="center"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/reserv_list_non_member_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/bareun3"
+            android:text="비회원 내역조회"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp">
+        <EditText
+            android:id="@+id/non_member_phone_edit"
+            android:layout_width="280dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/edit_border4"
+            android:fontFamily="@font/dreamgothic3"
+            android:hint="-없이 휴대폰 번호를 입력하세요"
+            android:inputType="number"
+            android:maxLength="11"
+            android:padding="10dp"
+            android:textColor="@color/input_register"
+            android:textColorHint="@color/input_register_hint"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_non_member_look_up"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/certification_number_border"
+            android:fontFamily="@font/dreamgothic3"
+            android:text="조회"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <ListView
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    </ListView>
+
+
+</LinearLayout>

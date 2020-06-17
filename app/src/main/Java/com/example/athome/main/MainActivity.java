@@ -85,6 +85,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ru.dimorinny.floatingtextbutton.FloatingTextButton;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private DrawerLayout mDrawerLayout;
     private Context context = this;
     private static NaverMap nm;
-    private Button enrollBtn;
+    private FloatingTextButton enrollBtn;
     private TextView name, id, point;
     private static User user;
     private Button loginButton, btn_notification_box, btn_point_charge, btn_share_time, btn_purpose_st;
@@ -434,7 +435,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
 
-        enrollBtn = (Button) findViewById(R.id.enrollBtn);
+        enrollBtn = (FloatingTextButton) findViewById(R.id.enrollBtn);
         enrollBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

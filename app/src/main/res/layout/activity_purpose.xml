@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/toolbar_background"
         app:contentInsetStart="0dp"
+        android:elevation="3dp"
         tools:ignore="MissingConstraints">
 
         <Button
@@ -157,7 +158,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/edit_border5"
-        android:fontFamily="@font/bareun1"
+        android:fontFamily="@font/bareun3"
         android:text="선택완료"
         android:textColor="@color/white"
         android:textSize="16sp" />

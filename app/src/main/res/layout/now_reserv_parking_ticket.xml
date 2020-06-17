@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/toolbar_background"
         app:contentInsetStart="0dp"
+        android:elevation="3dp"
         tools:ignore="MissingConstraints">
 
         <Button

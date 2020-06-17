@@ -13,6 +13,7 @@
         android:gravity="center"
         android:background="@drawable/toolbar_background"
         app:contentInsetStart="0dp"
+        android:elevation="3dp"
         tools:ignore="MissingConstraints">
 
         <Button
@@ -80,12 +81,13 @@
             android:textSize="14sp" />
         <Button
             android:id="@+id/btn_email_change"
-            android:layout_width="150dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:background="@drawable/certification_border"
+            android:background="@drawable/login_btn"
             android:text="@string/change"
-            android:textColor="#100DD4" />
+            android:fontFamily="@font/bareun1"
+            android:textColor="@color/white" />
     </LinearLayout>
 </LinearLayout>

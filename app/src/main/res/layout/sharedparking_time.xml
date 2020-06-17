@@ -13,6 +13,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/toolbar_background"
             app:contentInsetStart="0dp"
+            android:elevation="3dp"
             tools:ignore="MissingConstraints">
 
             <Button
@@ -249,7 +250,11 @@
 
                 </LinearLayout>
 
-
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textOff="OFF"
+                    android:textOn="공유" />
             </LinearLayout>
         </ScrollView>
 

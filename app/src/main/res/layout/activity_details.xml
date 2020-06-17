@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/toolbar_background"
         app:contentInsetStart="0dp"
+        android:elevation="3dp"
         tools:ignore="MissingConstraints">
 
         <Button
@@ -44,9 +45,9 @@
         android:layout_height="45dp"
         android:background="@color/white"
         app:tabGravity="fill"
-        app:tabIndicatorColor="#C8424E"
+        app:tabIndicatorColor="#9acafa"
         app:tabIndicatorHeight="3dp"
-        app:tabSelectedTextColor="#C8424E"
+        app:tabSelectedTextColor="#77B4F8"
         app:tabTextColor="#757575" />
 
 
@@ -67,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@drawable/edit_border5"
-            android:fontFamily="@font/bareun1"
+            android:fontFamily="@font/bareun3"
             android:text="예약하기"
             android:textColor="@color/white"
             android:textSize="16sp" />

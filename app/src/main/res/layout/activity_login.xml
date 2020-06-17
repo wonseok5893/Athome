@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/login_background"
-     >
+    android:background="@drawable/toolbar_background"
+    >
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/login_toolbar"
         android:layout_width="match_parent"
@@ -86,13 +86,13 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/edit_border"
+                android:background="@drawable/edit_back"
                 android:fontFamily="@font/bareun1"
                 android:hint="@string/hint_id"
                 android:inputType="textCapWords"
                 android:padding="10dp"
-                android:textColor="@color/input_register"
-                android:textColorHint="@color/input_register_hint"
+                android:textColor="#616161"
+                android:textColorHint="#9e9e9e"
                 android:textSize="16sp" />
 
             <EditText
@@ -100,13 +100,13 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/edit_border"
+                android:background="@drawable/edit_back"
                 android:fontFamily="@font/bareun1"
                 android:hint="@string/hint_password"
                 android:inputType="textPassword"
                 android:padding="10dp"
-                android:textColor="@color/input_register"
-                android:textColorHint="@color/input_register_hint"
+                android:textColor="#616161"
+                android:textColorHint="#9e9e9e"
                 android:textSize="16sp" />
 
             <Button
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/edit_border2"
+                android:background="@drawable/login"
                 android:fontFamily="@font/dreamgothic7"
                 android:text="@string/btn_login"
                 android:textColor="@color/white" />
@@ -137,7 +137,7 @@
                 android:background="#00ff0000"
                 android:fontFamily="@font/bareun3"
                 android:text="@string/btn_findID"
-                android:textColor="#424242"
+                android:textColor="#f5f5f5"
                 android:textSize="13sp" />
 
             <Button
@@ -148,7 +148,7 @@
                 android:background="#00ff0000"
                 android:fontFamily="@font/bareun3"
                 android:text="@string/separator"
-                android:textColor="#424242"
+                android:textColor="#f5f5f5"
                 android:textSize="13sp" />
 
             <Button
@@ -159,7 +159,7 @@
                 android:background="#00ff0000"
                 android:fontFamily="@font/bareun3"
                 android:text="@string/btn_findpw"
-                android:textColor="#424242"
+                android:textColor="#f5f5f5"
                 android:textSize="13sp" />
 
             <Button
@@ -170,7 +170,7 @@
                 android:background="#00ff0000"
                 android:fontFamily="@font/bareun3"
                 android:text="@string/separator"
-                android:textColor="#424242"
+                android:textColor="#f5f5f5"
                 android:textSize="13sp" />
 
             <Button
@@ -181,10 +181,9 @@
                 android:background="#00ff0000"
                 android:fontFamily="@font/bareun3"
                 android:text="@string/btn_register"
-                android:textColor="#424242"
+                android:textColor="#f5f5f5"
                 android:textSize="13sp" />
         </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
-

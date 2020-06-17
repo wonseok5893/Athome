@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/toolbar_background"
         app:contentInsetStart="0dp"
+        android:elevation="3dp"
         tools:ignore="MissingConstraints">
 
         <Button
@@ -47,9 +48,9 @@
         android:layout_height="45dp"
         android:background="@color/white"
         app:tabGravity="fill"
-        app:tabIndicatorColor="#C8424E"
+        app:tabIndicatorColor="#0031ca"
         app:tabIndicatorHeight="3dp"
-        app:tabSelectedTextColor="#C8424E"
+        app:tabSelectedTextColor="#0031ca"
         app:tabTextColor="#757575" />
 
     <LinearLayout

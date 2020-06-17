@@ -25,4 +25,11 @@
         android:fontWeight="400"
         android:font="@font/circe"/>
 
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="400"
+        android:font="@font/bw"/>
+
+
+
 </font-family>

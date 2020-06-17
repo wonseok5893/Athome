@@ -11,9 +11,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/toolbar_background"
         android:gravity="center"
+        android:elevation="3dp"
         app:contentInsetStart="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
 
         <Button
@@ -171,7 +170,7 @@
                     android:id="@+id/btn_assigner_lookup"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:background="@drawable/edit_border2"
+                    android:background="@drawable/edit_border5"
                     android:fontFamily="@font/dreamgothic7"
                     android:text="@string/btn_check"
                     android:textColor="@color/white" />

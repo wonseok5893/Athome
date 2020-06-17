@@ -33,6 +33,7 @@ import com.naver.maps.map.overlay.InfoWindow;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
+import com.naver.maps.map.util.MarkerIcons;
 
 import org.w3c.dom.Text;
 
@@ -90,7 +91,7 @@ public class SharePlace {
                                final String parkingInfo,
                                final MainActivity main,
                                final Context context,
-                               final NaverMap nm) {
+                               NaverMap nm) {
 
         PriviewInitialize(main);
         this.locationId = locationId;
@@ -107,24 +108,9 @@ public class SharePlace {
 
         // 마커 생성후 받아온 좌표값 이용해 마커 위치정보 세팅
         this.myMarker = new Marker();
-        this.infoWindow.setPosition(new LatLng(this.latitude,this.longitude));
-        this.infoWindow.open(myMarker);
-        this.infoWindow.setAdapter(new InfoWindow.DefaultViewAdapter(context) {
-            @NonNull
-            @Override
-            protected View getContentView(@NonNull InfoWindow infoWindow) {
-                view= View.inflate(context,R.layout.marker_title,null);
-                ((TextView)view.findViewById(R.id.marker_title)).setText("1200원");
-                return view;
-            }
-        });
-       /* this.infoWindow.setAdapter(new InfoWindow.DefaultTextAdapter(context) {
-            @NonNull
-            @Override
-            public CharSequence getText(@NonNull InfoWindow infoWindow) {
-                return "1200원";
-            }
-        });*/
+        this.myMarker.setIcon(MarkerIcons.BLACK);
+        this.myMarker.setIconTintColor(Color.rgb(133, 214, 211));
+        this.myMarker.setPosition(new LatLng(this.latitude,this.longitude));
 
         //this.myMarker.setPosition(new LatLng(this.latitude,this.longitude));
        // this.myMarker.setPosition(new LatLng(this.latitude,this.longitude));
@@ -135,9 +121,9 @@ public class SharePlace {
         final Intent intent = new Intent(main.getApplicationContext(), ReserveActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         final Intent nonuser_intent = new Intent(main.getApplicationContext(), nonReserveActivity.class);
+        LatLng position = myMarker.getPosition();
         nonuser_intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
-        LatLng position = infoWindow.getPosition();
 
         intent.putExtra("locationId", locationId);//_id
         intent.putExtra("locationName", locationName); // 주소
@@ -153,7 +139,7 @@ public class SharePlace {
         nonuser_intent.putExtra("locationName", locationName); // 주소
 
         // 마커 클릭하면 이벤트 발생
-        this.infoWindow.setOnClickListener(new Overlay.OnClickListener() {
+        this.myMarker.setOnClickListener(new Overlay.OnClickListener() {
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
 
@@ -165,7 +151,7 @@ public class SharePlace {
                 parkingInfoTxt.setText(parkingInfo);
                 if (main.getUser().getUserId() == null) { // 비회원일때
                     loc.setText(locationName);
-                    LatLng position = infoWindow.getPosition();
+                    LatLng position = myMarker.getPosition();
                     nonuser_intent.putExtra("position", position);
 
                     Log.d("teststs", nonuser_intent.getStringExtra("locationId"));
@@ -178,7 +164,7 @@ public class SharePlace {
                     });
                 } else { // 회원일때
                     loc.setText(locationName);
-                    LatLng position = infoWindow.getPosition();
+                    LatLng position = myMarker.getPosition();
                     intent.putExtra("position", position);
 
                     intent.getStringExtra("userId");
@@ -219,8 +205,8 @@ public class SharePlace {
         });
     }
 
-    public InfoWindow getMyMarker() {
-        return this.infoWindow;
+    public Marker getMyMarker() {
+        return this.myMarker;
     }
 
     void PriviewInitialize(final MainActivity main) {

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:background="@drawable/before_login_background"
+    android:background="#F5F6FA"
     android:orientation="vertical">
 
     <Button
@@ -13,7 +13,7 @@
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:layout_marginTop="75dp"
-        android:background="@drawable/edit_border2"
+        android:background="@drawable/login_btn"
         android:fontFamily="@font/dreamgothic7"
         android:onClick="loginButtonClicked"
         android:text="로그인하기"

@@ -15,7 +15,7 @@
             android:id="@+id/view"
             android:layout_width="7dp"
             android:layout_height="match_parent"
-            android:background="#e41653" />
+            android:background="#0031ca" />
 
 
         <LinearLayout
