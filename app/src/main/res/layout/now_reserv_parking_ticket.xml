@@ -271,7 +271,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/more_parking_linear"
+                    android:id="@+id/illegal"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:background="@drawable/reserv_line"
@@ -285,16 +285,15 @@
                         android:padding="10dp">
 
                         <TextView
-                            android:id="@+id/textView21"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:fontFamily="@font/bareun1"
-                            android:text="주차장정보"
+                            android:text="부정주차"
                             android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/parking_number"
+                            android:id="@+id/sendillegal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -302,8 +301,9 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/bareun1"
                             android:gravity="right"
-                            android:text="04-15-a03"
-                            android:textColor="@color/black"
+                            android:text="신고하기"
+                            android:textColor="#EA0505"
+                            android:textStyle="bold"
                             android:textSize="14sp" />
 
                         <Button

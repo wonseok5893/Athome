@@ -17,6 +17,8 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.example.athome.R;
 import com.example.athome.RestRequestHelper;
+import com.example.athome.main.MainActivity;
+import com.example.athome.reservation.ReserveConfirm;
 import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.LocationInfoList;
 import com.example.athome.retrofit.requestDeleteResult;
@@ -35,6 +37,7 @@ public class NowReservTicket extends Activity {
     private TextView now_reserv_start_date,now_reserv_start_time,now_reserv_end_date,now_reserv_end_time,parking_number,now_reserv_car_number,now_reserv_state_value;
     private String _id;
     private requestDeleteResult rd;
+    private LinearLayout illegal;
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
@@ -49,7 +52,7 @@ public class NowReservTicket extends Activity {
         btn_back_reserv_ticket=(Button)findViewById(R.id.btn_back_reserv_ticket);
         btn_reserv_ticket_payment_cancel=(Button)findViewById(R.id. btn_reserv_ticket_payment_cancel);
         btn_reserv_ticket_time_extension=(Button)findViewById(R.id.btn_reserv_ticket_time_extension);
-        more_parking_linear=(LinearLayout)findViewById(R.id.more_parking_linear);
+        illegal = (LinearLayout)findViewById(R.id.illegal);
 
         Intent intent = getIntent();
         now_reserv_start_date = (TextView)findViewById(R.id.now_reserv_start_date);
@@ -65,7 +68,6 @@ public class NowReservTicket extends Activity {
         now_reserv_start_time.setText(intent.getStringExtra("nowReserveStartTime"));
         now_reserv_end_date.setText(intent.getStringExtra("nowReserveEndDate"));
         now_reserv_end_time.setText(intent.getStringExtra("nowReserveEndTime"));
-        parking_number.setText(intent.getStringExtra("nowReserveCarNumber"));
         now_reserv_car_number.setText(intent.getStringExtra("nowReserveParkingNumber"));
         now_reserv_state_value.setText(intent.getStringExtra("nowReserveState"));
 
@@ -172,7 +174,24 @@ public class NowReservTicket extends Activity {
                         dialog2.create();
                         dialog2.show();
                         break;
-                    case R.id.more_parking_linear://해당 주차장정보로 넘어가기
+                    case R.id.illegal://해당 주차장정보로 넘어가기
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(NowReservTicket.this);
+                        dialog.setTitle("부정주차 신고하기")
+                                .setMessage("부정주차로 신고하시겠습니까?")
+                                .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(NowReservTicket.this,"신고가 접수되었습니다.",Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .setNeutralButton("아니오", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                });
+                        dialog.create();
+                        dialog.show();
                         break;
 
                 }
@@ -181,6 +200,6 @@ public class NowReservTicket extends Activity {
         btn_back_reserv_ticket.setOnClickListener(Listener);
         btn_reserv_ticket_payment_cancel.setOnClickListener(Listener);
         btn_reserv_ticket_time_extension.setOnClickListener(Listener);
-        more_parking_linear.setOnClickListener(Listener);
+        illegal.setOnClickListener(Listener);
     }
 }
