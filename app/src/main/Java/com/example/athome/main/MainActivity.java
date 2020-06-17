@@ -26,6 +26,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.UiThread;
@@ -61,7 +62,11 @@ import com.example.athome.retrofit.StatisticsResult;
 import com.example.athome.setting.SettingActivity;
 import com.example.athome.shared_parking.MySharedParkingActivity;
 import com.example.athome.shared_time.SharedParkingTime;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraAnimation;
 import com.naver.maps.map.CameraUpdate;
@@ -71,6 +76,7 @@ import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.UiSettings;
 import com.naver.maps.map.util.FusedLocationSource;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -105,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Animation slide_up, slide_down, stay;
     private RadioGroup share_switch;
     private boolean enrollFlag = false;
+    private String token;
 
     public static RadioButton shareOn, shareOff;
     public static int todayFlag;
@@ -120,7 +127,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.i("jiwon","onCreate실행");
+        Log.i("jiwon", "onCreate실행");
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("jiwon", "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        token = task.getResult().getToken();
+
+                        // Log and toast
+                        String msg = getString(R.string.msg_token_fmt, token);
+                        Log.d("jiwon", msg);
+                    }
+                });
+
         preview = (LinearLayout) findViewById(R.id.preview);
         preview.setVisibility(View.INVISIBLE);
         slide_down = AnimationUtils.loadAnimation(this, R.anim.slide_down);
@@ -145,22 +171,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
         System.out.println(sharedToken);
         try {
-            Log.d("jiwon","try문 실행");
+            Log.d("jiwon", "try문 실행");
             if (sharedToken != "") {
                 //검증
-                Log.d("jiwon","토큰 있긴 함");
+                Log.d("jiwon", "토큰 있긴 함");
                 if (user.authenticate(sharedToken)) {
-                    Log.d("jiwon","토큰 같음");
+                    Log.d("jiwon", "토큰 같음");
                     Toast.makeText(getApplicationContext(), user.getUserId() + " 님 어서오세요!", Toast.LENGTH_LONG).show();
 
-                    if(user.getTodaySharingState()!=null) {
-                        if(user.getTodaySharingState()==1) {
+                    if (user.getTodaySharingState() != null) {
+                        if (user.getTodaySharingState() == 1) {
                             Log.d("junggyu", "받아온 오늘 값 : " + user.getTodaySharingState());
-                            todayFlag=1;
+                            todayFlag = 1;
                             shareOn.setChecked(true);
                         } else {
                             Log.d("junggyu", "받아온 오늘 값 : " + user.getTodaySharingState());
-                            todayFlag=0;
+                            todayFlag = 0;
                             shareOff.setChecked(true);
                         }
                     }
@@ -170,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     editor.commit();
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             editor.remove("token");
             editor.commit();
             Toast.makeText(getApplicationContext(), user.getAuthMessage() + "", Toast.LENGTH_SHORT).show();
@@ -193,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         navigationView.setNavigationItemSelectedListener(this);//리스너설정
 
         if (user.getUserId() == null) { // 로그인 되지 않은 경우
-            Log.d("jiwon","비로그인");
+            Log.d("jiwon", "비로그인");
             navigationView.inflateHeaderView(R.layout.before_login_navi_header);
             View header = navigationView.getHeaderView(0);
             loginButton = (Button) header.findViewById(R.id.login_button);
@@ -202,14 +228,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    intent.putExtra("token",token);
                     //인텐트 실행
                     startActivity(intent);
                 }
             });
             navigationView.inflateMenu(R.menu.navi_menu);
-        }
-        else { // 로그인 된경우
-            Log.d("jiwon","로그인");
+        } else { // 로그인 된경우
+            Log.d("jiwon", "로그인");
             navigationView.inflateHeaderView(R.layout.after_login_navi_header);
             View header = navigationView.getHeaderView(0);
             name = (TextView) header.findViewById(R.id.navi_user_name);
@@ -229,18 +255,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             else
                 navigationView.inflateMenu(R.menu.admin_menu);
 
-            if(user.getTodaySharingState()!=null) {
-                if(user.getTodaySharingState()==1) {
-                    Log.d("junggyu","플래그값 : " + user.getTodaySharingState());
-                    todayFlag=1;
+            if (user.getTodaySharingState() != null) {
+                if (user.getTodaySharingState() == 1) {
+                    Log.d("junggyu", "플래그값 : " + user.getTodaySharingState());
+                    todayFlag = 1;
                     shareOn.setChecked(true);
                 } else {
-                    Log.d("junggyu","플래그값 : " + user.getTodaySharingState());
-                    todayFlag=0;
+                    Log.d("junggyu", "플래그값 : " + user.getTodaySharingState());
+                    todayFlag = 0;
                     shareOff.setChecked(true);
                 }
             }
-
 
 
             //알림함 레이아웃
@@ -257,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), PointChargeActivity.class);
-                    Log.d("junggyu", "지금포인트 : "+ user.getUserPoint());
+                    Log.d("junggyu", "지금포인트 : " + user.getUserPoint());
                     intent.putExtra("point", user.getUserPoint());
                     startActivity(intent);
 
@@ -274,10 +299,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             });
 
             //방문통계
-            if(user.getUserState() != 1){
+            if (user.getUserState() != 1) {
                 this.btn_purpose_st.setVisibility(View.INVISIBLE);
 
-            }else{
+            } else {
                 this.btn_purpose_st.setVisibility(View.VISIBLE);
                 btn_purpose_st.setOnClickListener(v -> {
                     Intent intent = new Intent(getApplicationContext(), PurposeStaticsActivity.class);
@@ -291,14 +316,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         shareOn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
-                    todayFlag=1;
+                if (isChecked) {
+                    todayFlag = 1;
 
 
                     SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
                     String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
 
-                    if(sharedToken!=null) {
+                    if (sharedToken != null) {
                         ApiService serviceApis = new RestRequestHelper().getApiService();
                         Call<ResponseBody> sendTodayFlag = serviceApis.sendTodayLocationChange(sharedToken, todayFlag);
 
@@ -322,13 +347,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         shareOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
-                    todayFlag=0;
+                if (isChecked) {
+                    todayFlag = 0;
 
                     SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
                     String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
 
-                    if(sharedToken!=null) {
+                    if (sharedToken != null) {
                         ApiService serviceApis = new RestRequestHelper().getApiService();
                         Call<ResponseBody> sendTodayFlag = serviceApis.sendTodayLocationChange(sharedToken, todayFlag);
 
@@ -458,10 +483,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                     });
 
-                }
-                else {
+                } else {
                     Toast.makeText(getApplicationContext(), "주차장 공유 기능이 비활성화되었습니다.", Toast.LENGTH_LONG).show();
-                    enrollFlag=false;
+                    enrollFlag = false;
 
                     nm.setOnMapLongClickListener(new NaverMap.OnMapLongClickListener() {
                         @Override
@@ -538,8 +562,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         for (SharePlace s : placeList) {
                             s.getMyMarker().setMap(nm);
                         }
-                        if(!beforeMarker.isEmpty() || !(beforeMarker == null)){
-                            for(SharePlace s : beforeMarker)
+                        if (!beforeMarker.isEmpty() || !(beforeMarker == null)) {
+                            for (SharePlace s : beforeMarker)
                                 s.getMyMarker().setMap(null);
                         }
                         beforeMarker.clear();
@@ -568,20 +592,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
         System.out.println(sharedToken);
         try {
-            Log.d("jiwon","try문 실행");
+            Log.d("jiwon", "try문 실행");
             if (sharedToken != "") {
                 //검증
-                Log.d("jiwon","토큰 있긴 함");
+                Log.d("jiwon", "토큰 있긴 함");
                 if (user.authenticate(sharedToken)) {
-                    Log.d("jiwon","토큰 같음");
-                    if(user.getTodaySharingState()!=null) {
-                        if(user.getTodaySharingState()==1) {
+                    Log.d("jiwon", "토큰 같음");
+                    if (user.getTodaySharingState() != null) {
+                        if (user.getTodaySharingState() == 1) {
                             Log.d("junggyu", "받아온 오늘 값 : " + user.getTodaySharingState());
-                            todayFlag=1;
+                            todayFlag = 1;
                             shareOn.setChecked(true);
                         } else {
                             Log.d("junggyu", "받아온 오늘 값 : " + user.getTodaySharingState());
-                            todayFlag=0;
+                            todayFlag = 0;
                             shareOff.setChecked(true);
                         }
                     }
@@ -590,7 +614,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     editor.commit();
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             editor.remove("token");
             editor.commit();
             Toast.makeText(getApplicationContext(), user.getAuthMessage() + "", Toast.LENGTH_SHORT).show();
@@ -677,8 +701,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             for (SharePlace s : placeList) {
                 s.getMyMarker().setMap(nm);
             }
-            if(!beforeMarker.isEmpty() || !(beforeMarker == null)){
-                for(SharePlace s : beforeMarker)
+            if (!beforeMarker.isEmpty() || !(beforeMarker == null)) {
+                for (SharePlace s : beforeMarker)
                     s.getMyMarker().setMap(null);
             }
             beforeMarker.clear();
@@ -741,14 +765,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if(ReservationListResult != null) {
+            if (ReservationListResult != null) {
                 ArrayList<ReservationListResult_data> data = (ArrayList<ReservationListResult_data>) ReservationListResult.getData();
                 Intent intent = new Intent(getApplicationContext(), ReservListActivity.class);
                 intent.putParcelableArrayListExtra("data", data);
                 startActivity(intent);
                 overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
-            }
-            else{
+            } else {
                 Toast.makeText(context, "다시 시도해주십시오.", Toast.LENGTH_SHORT).show();
             }
         } else if (id == R.id.payment) {//결제충전내역
@@ -775,7 +798,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Intent intent = new Intent(getApplicationContext(), UsersListActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);
-        }else if(id==R.id.admin_users) { // 방문목적 확인
+        } else if (id == R.id.admin_users) { // 방문목적 확인
             Intent intent = new Intent(getApplicationContext(), PurposeStaticsActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity);

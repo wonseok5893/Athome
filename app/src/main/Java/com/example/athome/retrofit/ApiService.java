@@ -11,6 +11,7 @@ import com.example.athome.admin_notice.ReviseNoticeResult;
 import com.example.athome.notice.ItemNoticeResult;
 
 import java.util.Date;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -33,11 +34,14 @@ public interface ApiService {
                                 @Field("userName") String userName,
                                 @Field("userEmail") String userEmail,
                                 @Field("userPhone") String userPhone);
+
     //사용자 로그인
     @FormUrlEncoded
     @POST("user/login")
     Call<LoginResult> login(@Field("userId") String userId,
-                            @Field("userPassword") String userPassword);
+                            @Field("userPassword") String userPassword,
+                            @Field("deviceToken") String deviceToken);
+
     //토큰 인증
     @FormUrlEncoded
     @POST("api/auth")
@@ -74,17 +78,19 @@ public interface ApiService {
                                         @Field("endTime") Date endTime,
                                         @Field("point") int point,
                                         @Field("sum") int sum);
+
     //사용자 배정자 등록 신청
     @Multipart
     @POST("api/sharedLocation/enroll")
     Call<EnrollResult> postRegister(@Header("x-access-token") String token,
                                     @Part MultipartBody.Part image,
                                     @Part("userBirth") RequestBody userBirth,
-                                    @Part("userCarNumber")  RequestBody userCarNumber,
-                                    @Part("location")  RequestBody location,
-                                    @Part("latitude")  RequestBody latitude,
-                                    @Part("longitude")  RequestBody longitude,
-                                    @Part("parkingInfo")  RequestBody parkingInfo);
+                                    @Part("userCarNumber") RequestBody userCarNumber,
+                                    @Part("location") RequestBody location,
+                                    @Part("latitude") RequestBody latitude,
+                                    @Part("longitude") RequestBody longitude,
+                                    @Part("parkingInfo") RequestBody parkingInfo);
+
     //마커 정보 요청
     @FormUrlEncoded
     @POST("api/allSharedLocation")
@@ -94,14 +100,14 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("api/shareInfo")
     Call<ShareInfoResult> getShareData(@Header("x-access-token") String token,
-                                       @Field("trash")String trash);
+                                       @Field("trash") String trash);
 
     @FormUrlEncoded
     @POST("api/sendShareInfo")
     Call<sendShareResult> sendShareData(@Header("x-access-token") String token,
-                                     @Field("days") String days,
-                                     @Field("startTime") String startTime,
-                                     @Field("endTime") String endTime);
+                                        @Field("days") String days,
+                                        @Field("startTime") String startTime,
+                                        @Field("endTime") String endTime);
 
     @GET("api/locationInfo")
     Call<LocationInfoList> getLocationInfo(@Query("locationId") String locationId);
@@ -136,10 +142,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("user/deleteReservation")
     Call<requestDeleteResult> requestDelete(@Header("x-access-token") String token
-                                            , @Field("_id") String id);
-
-
-
+            , @Field("_id") String id);
 
 
     //==========================관리자===========================================================
@@ -147,19 +150,21 @@ public interface ApiService {
     @POST("admin/users")
     Call<AllUserResult> getAllUsers(@Header("x-access-token") String token
             , @Field("secret") String secret);
+
     @FormUrlEncoded
     @POST("admin/unCheckedList")
     Call<AdminEnrollResult> getUncheckedSharedLocation(@Header("x-access-token") String token
             , @Field("secret") String secret);
+
     @FormUrlEncoded
     @POST("admin/sharedLocation/enroll")
     Call<AdminResult> registerSharedLocation(@Header("x-access-token") String token
-            ,@Field("userId") String userId, @Field("_id") String Id);
+            , @Field("userId") String userId, @Field("_id") String Id);
 
     @FormUrlEncoded
     @POST("admin/enroll/notice")
     Call<EnrollResult> enrollNotice(@Header("x-access-token") String token
-            , @Field("title") String title,@Field("description") String description);
+            , @Field("title") String title, @Field("description") String description);
 
     //비밀번호 변경
     @FormUrlEncoded
@@ -167,7 +172,6 @@ public interface ApiService {
     Call<AdminResult> adminEditPassword(@Header("x-access-token") String token,
                                         @Field("editPassword") String editPassword,
                                         @Field("userId") String userId);
-
 
 
     @FormUrlEncoded
@@ -187,7 +191,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("admin/editState")
-    Call<AdminResult> adminEditState(@Header("x-access-token") String token, @Field("userId") String userId,@Field("editState") Integer editState);
+    Call<AdminResult> adminEditState(@Header("x-access-token") String token, @Field("userId") String userId, @Field("editState") Integer editState);
 
     // 관리자 공지사항 받아오기
     @FormUrlEncoded
@@ -205,9 +209,10 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("admin/reviseNotice")
     Call<ReviseNoticeResult> requestNoticeRevise(@Header("x-access-token") String token
-                                                , @Field("_id") String id
-                                                , @Field("title") String title
-                                                , @Field("context") String context);
+            , @Field("_id") String id
+            , @Field("title") String title
+            , @Field("context") String context);
+
     // 공지사항 추가
     @FormUrlEncoded
     @POST("admin/addNotice")
@@ -217,7 +222,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("admin/statistics")
-    Call<StatisticsResult> adminGetStatistics(@Header("x-access-token") String token,@Field("secret") String secret);
+    Call<StatisticsResult> adminGetStatistics(@Header("x-access-token") String token, @Field("secret") String secret);
 
 
 }

@@ -199,6 +199,7 @@ public class User implements Parcelable {
     }
 
     public String register() {
+
         ApiService serviceApi = new RestRequestHelper().getApiService();
 
         final Call<RegisterResult> res = serviceApi.signUp(userId, userPassword, userName, userEmail, userPhone); // register (실제 통신이 이루어지는 곳)
@@ -235,10 +236,10 @@ public class User implements Parcelable {
     }
 
     //로그인 인증
-    public LoginResult login() {
+    public LoginResult login(String deviceToken) {
 
         ApiService serviceApi = new RestRequestHelper().getApiService();
-        final Call<LoginResult> res = serviceApi.login(userId, userPassword);
+        final Call<LoginResult> res = serviceApi.login(userId, userPassword,deviceToken);
 
         new Thread(new Runnable() {
             @Override

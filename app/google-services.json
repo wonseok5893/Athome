@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "904791932412",
+    "firebase_url": "https://achaparkingreservation.firebaseio.com",
+    "project_id": "achaparkingreservation",
+    "storage_bucket": "achaparkingreservation.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:904791932412:android:702c08b0baf865d9c84679",
+        "android_client_info": {
+          "package_name": "com.example.athome"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "904791932412-6au80clqlom4ca70jf6s9c3v8ln2u6s6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVc5NJMZlELDc-RvJZzh0ELoPRVoZaJgo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "904791932412-6au80clqlom4ca70jf6s9c3v8ln2u6s6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,13 +2,20 @@ package com.example.athome;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.util.regex.Pattern;
 
@@ -18,9 +25,11 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText sign_id, sign_pw, sign_check_pw, sign_name, sign_email, sign_phone, sign_car_number;
     private Button signUpButton, signUpCancelButton;
 
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
         sign_id = findViewById(R.id.sign_id);
         sign_pw = findViewById(R.id.sign_pw);
         sign_check_pw = findViewById(R.id.sign_check_pw);
@@ -47,7 +56,6 @@ public class RegisterActivity extends AppCompatActivity {
                 String userName = sign_name.getText().toString();
                 String userEmail = sign_email.getText().toString();
                 String userPhone = sign_phone.getText().toString();
-
 
                 //회원가입 Client 검증
                 if (userId.isEmpty() || userPassword.isEmpty() || userCheckPassword.isEmpty() || userName.isEmpty() || userEmail.isEmpty() ||

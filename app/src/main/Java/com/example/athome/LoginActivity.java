@@ -3,6 +3,7 @@ package com.example.athome;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btn_register, loginButton;
     private Button btn_back;
     private EditText et_id, et_pw;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +27,9 @@ public class LoginActivity extends AppCompatActivity {
         et_id = findViewById(R.id.et_id);
         et_pw = findViewById(R.id.et_pw);
         loginButton = findViewById(R.id.loginButton);
-
+        Intent intent = getIntent();
+        token = intent.getStringExtra("token");
+        Log.i("jiwon","LoginActivity : "+token);
         //로그인 버튼 클릭시
         loginButton.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -34,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
                 String userPassword = et_pw.getText().toString();
                 User user = new User(userId, userPassword);
                 try {
-                    LoginResult loginResult = user.login(); //로그인이 일어나는 부분임
+                    LoginResult loginResult = user.login(token); //로그인이 일어나는 부분임
 
                     SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sf.edit();
@@ -76,6 +80,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                intent.putExtra("token",token);
+                Log.i("jiwon","Register로 넘기는 token : "+token);
                 startActivity(intent);
             }
         });
