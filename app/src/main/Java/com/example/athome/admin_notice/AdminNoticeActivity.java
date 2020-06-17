@@ -14,6 +14,7 @@ import android.widget.ListView;
 import com.example.athome.R;
 import com.example.athome.RestRequestHelper;
 import com.example.athome.retrofit.ApiService;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,7 +23,7 @@ import retrofit2.Call;
 
 public class AdminNoticeActivity extends AppCompatActivity {
     private Button btn_back_notice;
-    private Button btn_enroll;
+    private FloatingActionButton btn_enroll;
     private ListView admin_notice_listView = null;
     private List<ItemAdminNoticeData> data = null;
     private AdminNoticeResult result;
@@ -88,7 +89,7 @@ public class AdminNoticeActivity extends AppCompatActivity {
     private void initialize() {
         admin_notice_listView=(ListView)findViewById(R.id.admin_notice_listView);
         btn_back_notice = (Button)findViewById(R.id.admin_back);
-        btn_enroll = (Button)findViewById(R.id.notice_enrollBtn);
+        btn_enroll = (FloatingActionButton)findViewById(R.id.notice_enrollBtn);
         btn_back_notice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

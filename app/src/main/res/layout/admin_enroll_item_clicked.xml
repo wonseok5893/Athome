@@ -209,11 +209,11 @@
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginTop="10dip"
                 android:layout_weight="1"
-                android:background="@color/colorAccent"
+                android:background="@drawable/edit_border3"
                 android:fontFamily="@font/dreamgothic"
                 android:padding="15dp"
                 android:text="수락"
-                android:textColor="@color/white" />
+                android:textColor="#0031ca" />
 
             <Button
                 android:id="@+id/admin_enroll_reject"
@@ -222,11 +222,11 @@
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginTop="10dip"
                 android:layout_weight="1"
-                android:background="@drawable/edit_border2"
+                android:background="@drawable/edit_border3"
                 android:fontFamily="@font/dreamgothic"
                 android:padding="15dp"
                 android:text="보류"
-                android:textColor="@color/input_register_bg" />
+                android:textColor="#d62121" />
 
 
         </LinearLayout>
