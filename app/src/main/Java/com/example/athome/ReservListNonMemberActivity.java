@@ -135,7 +135,7 @@ public class ReservListNonMemberActivity extends AppCompatActivity {
                     final String nowReserveStartTime = sdfTime.format(nowReserveStart);
                     final String nowReserveEndTime = sdfTime.format(nowReserveEnd);
                     final String nowReserveCarNumber = reserveList.get(i).getCarNumber();
-                    final String nowReserveParkingNumber = "이거 보내줘야 해 형 ";
+                    final String nowReserveParkingNumber = reserveList.get(i).getLocation().getParkingInfo();
                     final String nowReserveState;
                     Date now = new Date();
                     SimpleDateFormat sdfNow = new SimpleDateFormat("MM dd HH:mm");

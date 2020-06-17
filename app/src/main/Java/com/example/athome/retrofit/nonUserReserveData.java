@@ -9,7 +9,7 @@ public class nonUserReserveData {
     private String id;
     @SerializedName("location")
     @Expose
-    private String location;
+    private Location location;
     @SerializedName("carNumber")
     @Expose
     private String carNumber;
@@ -37,11 +37,11 @@ public class nonUserReserveData {
         this.id = id;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 
@@ -91,6 +91,33 @@ public class nonUserReserveData {
 
     public void setSum(Integer sum) {
         this.sum = sum;
+    }
+
+    public class Location {
+
+        @SerializedName("_id")
+        @Expose
+        private String id;
+        @SerializedName("parkingInfo")
+        @Expose
+        private String parkingInfo;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getParkingInfo() {
+            return parkingInfo;
+        }
+
+        public void setParkingInfo(String parkingInfo) {
+            this.parkingInfo = parkingInfo;
+        }
+
     }
 
 }

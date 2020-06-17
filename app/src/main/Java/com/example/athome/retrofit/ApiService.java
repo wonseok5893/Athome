@@ -143,6 +143,11 @@ public interface ApiService {
                                     @Field("category") String category,
                                     @Field("description") String description);
 
+    //가까운 주차장 위치 받기
+    @FormUrlEncoded
+    @POST("api/illegal/change")
+    Call<nearParkResult> requestNearPark(@Field("_id") String id);
+
     @FormUrlEncoded
     @POST("api/sharingSwitch")
     Call<ResponseBody> sendTodayLocationChange(@Header("x-access-token") String token,

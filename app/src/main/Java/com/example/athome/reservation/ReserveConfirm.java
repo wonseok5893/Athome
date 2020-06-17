@@ -14,6 +14,11 @@ import android.widget.Toast;
 import com.example.athome.R;
 import com.example.athome.User;
 import com.example.athome.main.MainActivity;
+import com.kakao.kakaonavi.KakaoNaviParams;
+import com.kakao.kakaonavi.KakaoNaviService;
+import com.kakao.kakaonavi.Location;
+import com.kakao.kakaonavi.NaviOptions;
+import com.kakao.kakaonavi.options.CoordType;
 
 
 public class ReserveConfirm extends AppCompatActivity {
@@ -22,6 +27,9 @@ public class ReserveConfirm extends AppCompatActivity {
     private Button closeBtn;
     private TextView location,date,phnum,carnum,fee,payment,parking_num;
     private User user = MainActivity.getUser();
+    private String locationName;
+    private Double longitude;
+    private Double latitude;
 
 
 
@@ -31,7 +39,9 @@ public class ReserveConfirm extends AppCompatActivity {
         setContentView(R.layout.activity_reserve_confirm);
         Initialize();
         Intent intent = getIntent();
-
+        locationName = intent.getStringExtra("locationName");
+        longitude = intent.getDoubleExtra("longitude",0);
+        latitude = intent.getDoubleExtra("latitude",0);
 
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,8 +55,16 @@ public class ReserveConfirm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //바로안내 버튼-> 경로 안내시작코드 수행해야함.
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+                Location destination = Location.newBuilder(locationName, longitude, latitude).build();
+
+                //파라미터 2. 세부 옵션 도착지, 1종, 빠른 경로 , 경유지 없음, (윤지원)
+                KakaoNaviParams params = KakaoNaviParams.newBuilder(destination)
+                        .setNaviOptions(NaviOptions.newBuilder()
+                                .setCoordType(CoordType.WGS84)
+                                .build())
+                        .build();
+                //kakao navi 실행 현재 액티비지 (DetailActivity) context , params 입력 (윤지원)
+                KakaoNaviService.getInstance().shareDestination(ReserveConfirm.this, params);
             }
         });
 
@@ -60,6 +78,7 @@ public class ReserveConfirm extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
                                 Toast.makeText(ReserveConfirm.this,"예약이 취소되었습니다.",Toast.LENGTH_SHORT).show();
                             }
@@ -67,8 +86,7 @@ public class ReserveConfirm extends AppCompatActivity {
                         .setNeutralButton("아니오", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(getApplicationContext(), ReserveConfirm.class);
-                                startActivity(intent);
+
                             }
                         });
                 dialog.create();

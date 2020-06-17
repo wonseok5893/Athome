@@ -88,7 +88,7 @@ public class SharePlace {
                                final Context context,
                                final NaverMap nm) {
 
-        PriviewInitialize(main);
+
         this.locationId = locationId;
         this.locationName = locationName;
         Log.d("test", locationName);
@@ -98,17 +98,45 @@ public class SharePlace {
         this.parkingInfo = parkingInfo;
         this.context = context;
         this.nm = nm;
-        final InfoWindow infoWindow = new InfoWindow();
-        Log.i("jiwon","파킹 인포 받았냐:"+parkingInfo);
+        //PriviewInitialize(main);
+        Log.i("jiwon", "파킹 인포 받았냐:" + parkingInfo);
+// 예약하기 버튼
+        space_resv = (Button) main.findViewById(R.id.space_resv);
 
+        // 미리보기 비활성화 버튼
+        preview_close = (ImageView) main.findViewById(R.id.preview_close);
+        preview_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ParkingDetailsActivity.class);
+
+                tArray = initLocationInfo();
+
+                intent.putExtra("timeArray", tArray);
+                intent.putExtra("startTime", startTime);
+                intent.putExtra("endTime", endTime);
+
+                intent.putExtra("parkingInfo", parkingInfo);
+                intent.putExtra("locationName", locationName);
+                Log.i("jiwon", "SharePlace" + parkingInfo);
+                main.startActivity(intent);
+            }
+        });
+
+        resBtn = (Button) main.findViewById(R.id.space_resv);
+        naviBtn = (Button) main.findViewById(R.id.space_navi);
+        time = (TextView) main.findViewById(R.id.space_time);
+        fee = (TextView) main.findViewById(R.id.space_fee);
+        loc = (TextView) main.findViewById(R.id.space_loc);
+        parkingInfoTxt = (TextView) main.findViewById(R.id.account_text);
         // 마커 생성후 받아온 좌표값 이용해 마커 위치정보 세팅
         this.myMarker = new Marker();
         this.myMarker.setIcon(MarkerIcons.BLACK);
         this.myMarker.setIconTintColor(Color.rgb(133, 214, 211));
-        this.myMarker.setPosition(new LatLng(this.latitude,this.longitude));
+        this.myMarker.setPosition(new LatLng(this.latitude, this.longitude));
 
         //this.myMarker.setPosition(new LatLng(this.latitude,this.longitude));
-       // this.myMarker.setPosition(new LatLng(this.latitude,this.longitude));
+        // this.myMarker.setPosition(new LatLng(this.latitude,this.longitude));
 
 
         //this.myMarker.setPosition(new LatLng(this.latitude, this.longitude));
@@ -125,22 +153,21 @@ public class SharePlace {
         intent.putExtra("userId", userId); // UserId
         intent.putExtra("latitude", latitude); // 위도
         intent.putExtra("longitude", longitude); // 경도
-        intent.putExtra("parkingInfo",parkingInfo); // 구획 번호
+        intent.putExtra("parkingInfo", parkingInfo); // 구획 번호
 
         nonuser_intent.putExtra("locationId", locationId);//_id
         nonuser_intent.putExtra("locationName", locationName); // 주소
         nonuser_intent.putExtra("userId", userId);
         nonuser_intent.putExtra("latitude", latitude);
         nonuser_intent.putExtra("longitude", longitude);
-        nonuser_intent.putExtra("parkingInfo",parkingInfo); // 구획 번호
-
+        nonuser_intent.putExtra("parkingInfo", parkingInfo); // 구획 번호
 
 
         // 마커 클릭하면 이벤트 발생
         this.myMarker.setOnClickListener(new Overlay.OnClickListener() {
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
-
+                Log.i("jiwon", "SharePlace" + parkingInfo);
                 int[] timeArray = initLocationInfo();
 
                 intent.putExtra("locationStartTime", locationStartTime);
@@ -152,7 +179,7 @@ public class SharePlace {
                 nonuser_intent.putExtra("locationDaySet", timeArray);
 
                 fee.setText("600원/시간");
-                time.setText(locationStartTime+" ~ "+locationEndTime);
+                time.setText(locationStartTime + " ~ " + locationEndTime);
                 loc.setText(locationName);
                 parkingInfoTxt.setText(parkingInfo);
                 if (main.getUser().getUserId() == null) { // 비회원일때
@@ -213,37 +240,10 @@ public class SharePlace {
         return this.myMarker;
     }
 
-    void PriviewInitialize(final MainActivity main) {
-
-        // 예약하기 버튼
-        space_resv = (Button) main.findViewById(R.id.space_resv);
-
-        // 미리보기 비활성화 버튼
-        preview_close = (ImageView)main.findViewById(R.id.preview_close);
-        preview_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ParkingDetailsActivity.class);
-
-                tArray = initLocationInfo();
-
-                intent.putExtra("timeArray", tArray);
-                intent.putExtra("startTime", startTime);
-                intent.putExtra("endTime", endTime);
-
-                intent.putExtra("parkingInfo", parkingInfo);
-                intent.putExtra("locationName", locationName);
-                main.startActivity(intent);
-            }
-        });
-
-        resBtn = (Button) main.findViewById(R.id.space_resv);
-        naviBtn = (Button) main.findViewById(R.id.space_navi);
-        time = (TextView) main.findViewById(R.id.space_time);
-        fee = (TextView) main.findViewById(R.id.space_fee);
-        loc = (TextView) main.findViewById(R.id.space_loc);
-        parkingInfoTxt = (TextView) main.findViewById(R.id.account_text);
-    }
+//    void PriviewInitialize(final MainActivity main) {
+//
+//
+//    }
 
     int[] initLocationInfo() {
 

@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/bareun3"
-            android:text="구간42($241019)"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="17sp" />
 

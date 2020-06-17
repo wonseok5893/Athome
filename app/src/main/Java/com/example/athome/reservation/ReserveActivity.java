@@ -499,78 +499,85 @@ public class ReserveActivity extends AppCompatActivity {
                         showDirectInputAlertDialog(ReserveActivity.this);
                         break;
                     case R.id.btn_next_reserv:
-                        if (!parking_time_result.getText().toString().equals("올바르지 않은 시간 설정") && !parking_time_result.getText().toString().equals("0")) {
-                            SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                            String startTimeString = smYear + "-" + (smMonth + 1) + "-" + smDay + " " + smHour + ":" + smMinute;//"2013-04-08 10:10";
-                            String endTimeString = emYear + "-" + (emMonth + 1) + "-" + emDay + " " + emHour + ":" + emMinute;//"2013-04-08 10:10";
-                            try {
-                                startTime = transFormat.parse(startTimeString);
-                                endTime = transFormat.parse(endTimeString);
-                                Log.d("time", startTime.toString());
-                                Log.d("time", endTime.toString());
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
+                        if(!parking_car_number_select.getText().toString().equals("선택하기▼")) {
 
 
-                            String carNumber = parking_car_number_select.getText().toString();
-
-                            ApiService apiService = new RestRequestHelper().getApiService();
-                            Log.i("jiwon",Integer.toString(pay)+" point: "+Integer.toString(point));
-                            final Call<sendReserveResult> res = apiService.sendReserve(sharedToken, _id, carNumber, startTime, endTime,point,pay);
-
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        sendResult = res.execute().body();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
+                            if (!parking_time_result.getText().toString().equals("올바르지 않은 시간 설정") && !parking_time_result.getText().toString().equals("0")) {
+                                SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                                String startTimeString = smYear + "-" + (smMonth + 1) + "-" + smDay + " " + smHour + ":" + smMinute;//"2013-04-08 10:10";
+                                String endTimeString = emYear + "-" + (emMonth + 1) + "-" + emDay + " " + emHour + ":" + emMinute;//"2013-04-08 10:10";
+                                try {
+                                    startTime = transFormat.parse(startTimeString);
+                                    endTime = transFormat.parse(endTimeString);
+                                    Log.d("time", startTime.toString());
+                                    Log.d("time", endTime.toString());
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
                                 }
-                            }).start();
 
-                            try {
-                                Thread.sleep(300);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
 
-                            if (sendResult != null) {
-                                if (sendResult.getResult().equals("success")) {
-                                    Toast.makeText(ReserveActivity.this, sendResult.getMessage(), Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(ReserveActivity.this, ReserveConfirm.class);
-                                    intent.putExtra("locationName", locationName);
+                                String carNumber = parking_car_number_select.getText().toString();
 
-                                    intent.putExtra("reservDate", // 예약기간
-                                            reserv_start_date_select.getText().toString() + " " +
-                                            reserv_start_time_select.getText().toString() + " ~ " +
-                                            reserv_end_date_select.getText().toString() + " " +
-                                            reserv_end_time_select.getText().toString());
+                                ApiService apiService = new RestRequestHelper().getApiService();
+                                Log.i("jiwon", Integer.toString(pay) + " point: " + Integer.toString(point));
+                                final Call<sendReserveResult> res = apiService.sendReserve(sharedToken, _id, carNumber, startTime, endTime, point, pay);
 
-                                    intent.putExtra("carNum", parking_car_number_select.getText().toString());
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            sendResult = res.execute().body();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }).start();
 
-                                    intent.putExtra("payMoney", pay+"");
+                                try {
+                                    Thread.sleep(300);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
 
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    startActivity(intent);
+                                if (sendResult != null) {
+                                    if (sendResult.getResult().equals("success")) {
+                                        Toast.makeText(ReserveActivity.this, sendResult.getMessage(), Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(ReserveActivity.this, ReserveConfirm.class);
+                                        intent.putExtra("locationName", locationName);
+
+                                        intent.putExtra("reservDate", // 예약기간
+                                                reserv_start_date_select.getText().toString() + " " +
+                                                        reserv_start_time_select.getText().toString() + " ~ " +
+                                                        reserv_end_date_select.getText().toString() + " " +
+                                                        reserv_end_time_select.getText().toString());
+
+                                        intent.putExtra("carNum", parking_car_number_select.getText().toString());
+
+                                        intent.putExtra("payMoney", pay + "");
+                                        intent.putExtra("longitude",longitude);
+                                        intent.putExtra("latitude",latitude);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                    } else {
+                                        reserv_start_date_select.setText("00-00-00");
+                                        reserv_end_date_select.setText("00-00-00");
+                                        reserv_start_time_select.setText("00:00");
+                                        reserv_end_time_select.setText("00:00");
+                                        Toast.makeText(ReserveActivity.this, sendResult.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+
                                 } else {
                                     reserv_start_date_select.setText("00-00-00");
                                     reserv_end_date_select.setText("00-00-00");
                                     reserv_start_time_select.setText("00:00");
                                     reserv_end_time_select.setText("00:00");
-                                    Toast.makeText(ReserveActivity.this, sendResult.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ReserveActivity.this, "다시 시도해주십시오.", Toast.LENGTH_SHORT);
                                 }
-
                             } else {
-                                reserv_start_date_select.setText("00-00-00");
-                                reserv_end_date_select.setText("00-00-00");
-                                reserv_start_time_select.setText("00:00");
-                                reserv_end_time_select.setText("00:00");
-                                Toast.makeText(ReserveActivity.this, "다시 시도해주십시오.", Toast.LENGTH_SHORT);
+                                Toast.makeText(ReserveActivity.this, "시간 설정을 다시 해주십시오.", Toast.LENGTH_SHORT).show();
                             }
-                        } else {
-                            Toast.makeText(ReserveActivity.this, "시간 설정을 다시 해주십시오.", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(ReserveActivity.this, "차량을 선택해주세요.", Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case R.id.all_point_use:
@@ -627,8 +634,18 @@ public class ReserveActivity extends AppCompatActivity {
                 AccountCarRegister accountCarRegister = new AccountCarRegister(ReserveActivity.this);
                 // 다이얼로그 호출
                 //그외 작업
-                Intent intent = new Intent();
                 accountCarRegister.callFunction();
+                accountCarRegister.setDialogResult(new AccountCarRegister.OnMyDialogResult() {
+                    @Override
+                    public void finish(String result) {
+                        ItemAccountCarData tmp = new ItemAccountCarData(result);
+                        ArrayList<String > carNumber = user.getUserCarNumber();
+                        carNumber.add(result);
+                        user.setUserCarNumber(carNumber);
+                        data.add(tmp);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
             }
         });
 

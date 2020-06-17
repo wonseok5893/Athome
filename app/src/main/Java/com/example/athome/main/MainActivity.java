@@ -640,7 +640,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         UiSettings uiSettings = nm.getUiSettings();
         // 지도종류 Basic
         nm.setMapType(NaverMap.MapType.Basic);
-        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(37.2961040833778, 127.03024105236995))
+        Intent intent = getIntent();
+        double lgi;
+        double lat;
+        if(intent.getDoubleExtra("latitude",0) == 0){
+        lat = 37.2961040833778;
+        lgi = 127.03024105236995;}
+        else{
+            lat = intent.getDoubleExtra("latitude",0);
+            lgi = intent.getDoubleExtra("longitude",0);
+        }
+        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(lat, lgi))
                 .animate(CameraAnimation.Easing);
         nm.moveCamera(cameraUpdate);
 

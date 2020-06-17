@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -22,6 +23,7 @@ public class ParkingDetailsActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private int[] timeArray;
     private String startTime, endTime, parkingInfo, locationName;
+    private TextView parking_details_text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,7 @@ public class ParkingDetailsActivity extends AppCompatActivity {
         this.InitializeView();
         this.SetListner();
 
+        parking_details_text.setText(parkingInfo);
         final ViewPager viewPager=(ViewPager)findViewById(R.id.parking_details_viewpager);
         final DetailsPagerAdapter adapter = new  DetailsPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount(),
                 timeArray, startTime, endTime, locationName, parkingInfo);
@@ -39,7 +42,7 @@ public class ParkingDetailsActivity extends AppCompatActivity {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
+                //viewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
@@ -75,6 +78,7 @@ public class ParkingDetailsActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("요금정보"));
         tabLayout.addTab(tabLayout.newTab().setText("시간정보"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        parking_details_text = findViewById(R.id.parking_details_text);
     }
 
     public void SetListner()
