@@ -4,25 +4,29 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.athome.R;
 import com.example.athome.RestRequestHelper;
 import com.example.athome.retrofit.ApiService;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 
 import retrofit2.Call;
 
 public class AdminNoticeNew extends AppCompatActivity {
-    private Button btn_back,btn_save;
+    private Button btn_back;
     private EditText title,context;
     AddNoticeResult result;
+    private ImageButton btn_save;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +38,7 @@ public class AdminNoticeNew extends AppCompatActivity {
     }
 
     private void initalize(){
-        btn_save=(Button)findViewById(R.id.notice_new_saveBtn);
+        btn_save=(ImageButton)findViewById(R.id.notice_new_saveBtn);
         btn_back = (Button)findViewById(R.id.btn_back_new);
 
         title = (EditText)findViewById(R.id.admin_notice_newTitle);

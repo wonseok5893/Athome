@@ -15,7 +15,7 @@
         tools:ignore="MissingConstraints">
 
         <Button
-            android:id="@+id/btn_back_new"
+            android:id="@+id/clicked_share_back"
             android:layout_width="35dp"
             android:layout_height="30dp"
             android:background="#00ff0000"
