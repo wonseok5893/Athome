@@ -105,7 +105,6 @@
                             android:fontFamily="@font/dreamgothic3"
                             android:gravity="right"
                             android:padding="10dp"
-                            android:text="#2662504"
                             android:textColor="@color/black"
                             android:textSize="13sp" />
 
@@ -1509,7 +1508,7 @@
                             android:fontFamily="@font/dreamgothic3"
                             android:gravity="right"
                             android:padding="10dp"
-                            android:text="1시간"
+                            android:text="0"
                             android:textColor="@color/black"
                             android:textSize="13sp" />
 
@@ -1690,7 +1689,7 @@
                         android:fontFamily="@font/bareun1"
                         android:gravity="right"
                         android:padding="5dp"
-                        android:text="5000"
+                        android:text="0"
                         android:textColor="#01579b"
                         android:textSize="17sp" />
 

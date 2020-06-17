@@ -133,6 +133,8 @@ public class ReserveActivity extends AppCompatActivity {
         parking_number.setText(intent.getStringExtra("parkingInfo"));
         Log.i("jiwon", user.getUserPoint().toString());
         point_value.setText(user.getUserPoint().toString());
+
+
         ReservationList(intent); //마커의 예약 정보 받아오기
         parseMsg(); // 2차원 배열에 예약 정보 초기화
         makeTimeTable(locationStartTime, locationEndTime); //144개 뷰 예약 허용 시간 외 gray 예약 시간 red 로 표현
@@ -364,9 +366,13 @@ public class ReserveActivity extends AppCompatActivity {
             String[] end = locationEndTime.split(":");
 
             int startH = Integer.parseInt(start[0]);
-            int startM = Integer.parseInt(start[1]);
+            int startM = Integer.parseInt(start[1]) /10;
             int endH = Integer.parseInt(end[0]);
-            int endM = Integer.parseInt(end[1]);
+            int endM = Integer.parseInt(end[1]) /10;
+            Log.i("jiwon","makeTimeTable : "+Integer.toString(startH));
+            Log.i("jiwon","makeTimeTable : "+Integer.toString(startM));
+            Log.i("jiwon","makeTimeTable : "+Integer.toString(endH));
+            Log.i("jiwon","makeTimeTable : "+Integer.toString(endM));
 
             int count = 0;
             for (int i = 0; i < 24; i++) {
@@ -441,9 +447,6 @@ public class ReserveActivity extends AppCompatActivity {
         all_point_use = findViewById(R.id.all_point_use);
         all_point_use.setPaintFlags(all_point_use.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG); //밑줄긋기
         point_select = findViewById(R.id.point_select);
-
-
-        View view1 = findViewById(R.id.view1);
 
         for (int idx_loop = 1; idx_loop < 145; idx_loop++) {
             int viewId = getResources().getIdentifier("view" + idx_loop, "id", getPackageName());

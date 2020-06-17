@@ -15,10 +15,9 @@ import androidx.annotation.NonNull;
 
 import com.example.athome.R;
 import com.example.athome.RestRequestHelper;
-import com.example.athome.admin_notice.AdminNoticeActivity;
-import com.example.athome.non_member.nonReserveActivity;
 import com.example.athome.parking_details.ParkingDetailsActivity;
 import com.example.athome.reservation.ReserveActivity;
+import com.example.athome.reservation.nonReserveActivity;
 import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.LocationInfoList;
 import com.kakao.kakaonavi.KakaoNaviParams;
@@ -91,7 +90,7 @@ public class SharePlace {
                                final String parkingInfo,
                                final MainActivity main,
                                final Context context,
-                               NaverMap nm) {
+                               final NaverMap nm) {
 
         PriviewInitialize(main);
         this.locationId = locationId;
@@ -133,17 +132,28 @@ public class SharePlace {
         intent.putExtra("parkingInfo",parkingInfo); // 구획 번호
 
         nonuser_intent.putExtra("locationId", locationId);//_id
+        nonuser_intent.putExtra("locationName", locationName); // 주소
+        nonuser_intent.putExtra("userId", userId);
         nonuser_intent.putExtra("latitude", latitude);
         nonuser_intent.putExtra("longitude", longitude);
-        nonuser_intent.putExtra("userId", userId);
-        nonuser_intent.putExtra("locationName", locationName); // 주소
+        nonuser_intent.putExtra("parkingInfo",parkingInfo); // 구획 번호
+
+
 
         // 마커 클릭하면 이벤트 발생
         this.myMarker.setOnClickListener(new Overlay.OnClickListener() {
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
 
-                initLocationInfo(intent);
+                int [] timeArray = initLocationInfo();
+
+                intent.putExtra("locationStartTime", locationStartTime);
+                intent.putExtra("locationEndTime", locationEndTime);
+                intent.putExtra("locationDaySet", timeArray);
+
+                nonuser_intent.putExtra("locationStartTime", locationStartTime);
+                nonuser_intent.putExtra("locationEndTime", locationEndTime);
+                nonuser_intent.putExtra("locationDaySet", timeArray);
 
                 fee.setText("600원/시간");
                 time.setText(locationStartTime+" ~ "+locationEndTime);
@@ -154,7 +164,6 @@ public class SharePlace {
                     LatLng position = myMarker.getPosition();
                     nonuser_intent.putExtra("position", position);
 
-                    Log.d("teststs", nonuser_intent.getStringExtra("locationId"));
                     main.PreviewVisible();
                     space_resv.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -167,7 +176,6 @@ public class SharePlace {
                     LatLng position = myMarker.getPosition();
                     intent.putExtra("position", position);
 
-                    intent.getStringExtra("userId");
                     main.PreviewVisible();
                     space_resv.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -232,7 +240,7 @@ public class SharePlace {
         parkingInfoTxt = (TextView) main.findViewById(R.id.account_text);
     }
 
-    void initLocationInfo(Intent intent) {
+    int[] initLocationInfo() {
 
         ApiService serviceApi = new RestRequestHelper().getApiService();
         final Call<LocationInfoList> res = serviceApi.getLocationInfo(locationId);
@@ -264,12 +272,7 @@ public class SharePlace {
         for (int i = 0; i < locationDaySet.size(); i++) {
             timeArray[i] = locationDaySet.get(i);
         }
-
-        intent.putExtra("locationStartTime", locationStartTime);
-        intent.putExtra("locationEndTime", locationEndTime);
-        intent.putExtra("locationDaySet", timeArray);
-
-
+        return timeArray;
     }
 
 }

@@ -79,6 +79,19 @@ public interface ApiService {
                                         @Field("point") int point,
                                         @Field("sum") int sum);
 
+    //비회원 예약 등록
+    @FormUrlEncoded
+    @POST("api/reservation/notUser/enroll")
+    Call<sendReserveResult> sendReserveNonUser(@Header("x-access-token") String token,
+                                               @Field("_id") String locationId,
+                                               @Field("carNumber") String carNum,
+                                               @Field("phoneNumber") String phoneNumber,
+                                               @Field("name") String name,
+                                               @Field("startTime") Date startTime,
+                                               @Field("endTime") Date endTime,
+                                               @Field("sum") int sum,
+                                               @Field("deviceToken") String Token);
+
     //사용자 배정자 등록 신청
     @Multipart
     @POST("api/sharedLocation/enroll")
