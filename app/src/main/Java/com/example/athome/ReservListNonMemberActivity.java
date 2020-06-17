@@ -90,13 +90,17 @@ public class ReservListNonMemberActivity extends AppCompatActivity {
                         setList(reserveList);
                     } else {
                         Toast.makeText(ReservListNonMemberActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
-                        data.clear();
+                        if(data != null) {
+                            data.clear();
+                        }
                         adapter = new NowReservListAdapter(ReservListNonMemberActivity.this, R.layout.now_reserv_listview_item, data);
                         nonUserListView.setAdapter(adapter);
                     }
                 } else {
                     Toast.makeText(ReservListNonMemberActivity.this, "전화번호를 다시 입력해주세요.", Toast.LENGTH_SHORT).show();
-                    data.clear();
+                    if(data != null) {
+                        data.clear();
+                    }
                     adapter = new NowReservListAdapter(ReservListNonMemberActivity.this, R.layout.now_reserv_listview_item, data);
                     nonUserListView.setAdapter(adapter);
                 }
