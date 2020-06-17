@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.athome.R;
+import com.example.athome.User;
 import com.example.athome.main.MainActivity;
 
 
@@ -20,6 +21,7 @@ public class ReserveConfirm extends AppCompatActivity {
     private Button naviBtn;
     private Button closeBtn;
     private TextView location,date,phnum,carnum,fee,payment,parking_num;
+    private User user = MainActivity.getUser();
 
 
 
@@ -28,7 +30,7 @@ public class ReserveConfirm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserve_confirm);
         Initialize();
-
+        Intent intent = getIntent();
 
 
         closeBtn.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +75,17 @@ public class ReserveConfirm extends AppCompatActivity {
                 dialog.show();
             }
         });
+
+       location.setText(intent.getStringExtra("locationName"));
+       date.setText(intent.getStringExtra("reservDate"));
+       if(user.getUserId()==null) {
+           phnum.setText(intent.getStringExtra("phnum"));
+       } else {
+           phnum.setText(user.getUserPhone());
+       }
+       carnum.setText(intent.getStringExtra("carNum"));
+       fee.setText(intent.getStringExtra("payMoney"));
+
     }
 
     public void Initialize(){

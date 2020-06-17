@@ -2,6 +2,7 @@ package com.example.athome.parking_details;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -12,12 +13,15 @@ import com.example.athome.R;
 import com.example.athome.reservation.ReserveActivity;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.Arrays;
+
 public class ParkingDetailsActivity extends AppCompatActivity {
     private Button btn_back_parking_details;
     private Button btn_reserv;
     private ViewPager mViewPager;
     private TabLayout tabLayout;
-
+    private int[] timeArray;
+    private String startTime, endTime, parkingInfo, locationName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +32,8 @@ public class ParkingDetailsActivity extends AppCompatActivity {
         this.SetListner();
 
         final ViewPager viewPager=(ViewPager)findViewById(R.id.parking_details_viewpager);
-        final DetailsPagerAdapter adapter = new  DetailsPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        final DetailsPagerAdapter adapter = new  DetailsPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount(),
+                timeArray, startTime, endTime, locationName, parkingInfo);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -53,6 +58,15 @@ public class ParkingDetailsActivity extends AppCompatActivity {
     }
 
     public void InitializeView() {
+
+        Intent intent = getIntent();
+        timeArray = intent.getIntArrayExtra("timeArray");
+        startTime= intent.getStringExtra("startTime");
+        endTime = intent.getStringExtra("endTime");
+        parkingInfo = intent.getStringExtra("parkingInfo");
+        locationName = intent.getStringExtra("locationName");
+
+
         btn_back_parking_details = (Button) findViewById(R.id.btn_back_parking_details);
         btn_reserv=(Button)findViewById(R.id.btn_reserv);
         mViewPager=(ViewPager)findViewById(R.id.container);
