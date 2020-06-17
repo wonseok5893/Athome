@@ -36,26 +36,56 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/purpose_tablayout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@color/white"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="#0031ca"
-        app:tabIndicatorHeight="3dp"
-        app:tabSelectedTextColor="#0031ca"
-        app:tabTextColor="#757575" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bareun3"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:text="막대 차트"
+            android:textColor="#0026ca"
+            android:textSize="15sp" />
+
+        <org.eazegraph.lib.charts.BarChart
+            android:id="@+id/tab1_chart_2"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="20dp"
+            android:padding="10dp"
+            app:egBarWidth="20dp"
+            app:egEnableScroll="true"
+            app:egFixedBarWidth="true"
+            app:egLegendHeight="40dp"
+            app:egShowDecimal="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bareun3"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:text="원형 차트"
+            android:textColor="#0026ca"
+            android:textSize="15sp" />
 
 
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/purpose_list_viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/piechart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</ScrollView>
 
 
 
