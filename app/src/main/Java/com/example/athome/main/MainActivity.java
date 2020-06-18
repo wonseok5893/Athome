@@ -1,5 +1,6 @@
 package com.example.athome.main;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -46,6 +47,7 @@ import com.example.athome.admin.UsersListActivity;
 import com.example.athome.admin_notice.AdminNoticeActivity;
 import com.example.athome.admin_enroll.AdminEnrollActivity;
 import com.example.athome.notice.NoticeActivity;
+import com.example.athome.notification.NotificationActivity;
 import com.example.athome.payment_list.PaymentListActivity;
 import com.example.athome.point_charge.PointChargeActivity;
 import com.example.athome.reservation_list.ReservListActivity;
@@ -56,6 +58,7 @@ import com.example.athome.retrofit.ReservationListResult_data;
 
 import com.example.athome.setting.SettingActivity;
 import com.example.athome.shared_parking.MySharedParkingActivity;
+import com.example.athome.shared_time.MyParkingActivity;
 import com.example.athome.shared_time.SharedParkingTime;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -269,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             btn_notification_box.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), NoticeActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
                     startActivity(intent);
                 }
             });
@@ -289,7 +292,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             btn_share_time.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), SharedParkingTime.class);
+                    Intent intent = new Intent(getApplicationContext(), MyParkingActivity.class);
                     startActivity(intent);
 
                 }

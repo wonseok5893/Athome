@@ -47,10 +47,12 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".admin.UsersListActivity" />
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".shared_time.MyParkingActivity"/>
         <activity android:name=".notice.NoticeActivity" />
         <activity android:name=".notice.NoticeClicked" />
         <activity android:name=".reservation_list.ReservListActivity" />
         <activity android:name=".payment_list.PaymentListActivity" />
+        <activity android:name=".shared_time.SharedParkingList"/>
         <activity android:name=".account.AccountActivity" />
         <activity
             android:name=".reservation.ReserveActivity"

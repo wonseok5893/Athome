@@ -154,7 +154,7 @@
             android:background="#00ff0000"
             android:drawableTop="@drawable/share_time"
             android:fontFamily="@font/dreamgothic3"
-            android:text="공유 시간"
+            android:text="내주차장"
             android:textSize="11sp" />
 
         <Button

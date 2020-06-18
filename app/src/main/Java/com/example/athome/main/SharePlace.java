@@ -135,11 +135,6 @@ public class SharePlace {
         this.myMarker.setIconTintColor(Color.rgb(133, 214, 211));
         this.myMarker.setPosition(new LatLng(this.latitude, this.longitude));
 
-        //this.myMarker.setPosition(new LatLng(this.latitude,this.longitude));
-        // this.myMarker.setPosition(new LatLng(this.latitude,this.longitude));
-
-
-        //this.myMarker.setPosition(new LatLng(this.latitude, this.longitude));
 
         final Intent intent = new Intent(main.getApplicationContext(), ReserveActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
