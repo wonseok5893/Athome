@@ -46,11 +46,11 @@ public class MyParkingActivity extends AppCompatActivity {
                         finish();
                         overridePendingTransition(R.anim.not_move_activity,R.anim.rightout_activity);
                         break;
-                    case R.id.my_time_manage:
+                    case R.id.my_time_manage: //시간관리
                         Intent intent = new Intent(getApplicationContext(), SharedParkingTime.class);
                         startActivity(intent);
                         break;
-                    case R.id.my_reserve_list:
+                    case R.id.my_reserve_list: //예약 내역
                         Intent intent1 = new Intent(getApplicationContext(), SharedParkingList.class);
                         startActivity(intent1);
 

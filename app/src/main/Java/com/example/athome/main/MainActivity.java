@@ -39,7 +39,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.athome.LoginActivity;
-import com.example.athome.admin_purpose.PurposeStaticsActivity;
+
+import com.example.athome.PurposeStaticsActivity;
 import com.example.athome.R;
 import com.example.athome.ReservListNonMemberActivity;
 import com.example.athome.RestRequestHelper;
@@ -382,6 +383,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                                 if (result.getResult().equals("success")) {
                                                     Toast.makeText(MainActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                                                 } else {
+                                                    shareOn.setChecked(true);
                                                     shareOff.setChecked(false);
                                                     Toast.makeText(MainActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                                                 }
@@ -402,6 +404,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             .setNegativeButton("아니오", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    shareOn.setChecked(true);
                                     shareOff.setChecked(false);
                                     dialog.dismiss();
                                 }

@@ -98,6 +98,12 @@ public interface ApiService {
     Call<nonUserReserveResult> requestReserveList(
             @Field("phoneNumber") String Phone);
 
+    //내 공유 주차장 예약 정보 요청
+    @FormUrlEncoded
+    @POST("user/mySharingParkingLot")
+    Call<myParkingResult> requestParkingReserveList(@Header("x-access-token") String token,
+                                                    @Field("capstone") String capstone);
+
     //사용자 배정자 등록 신청
     @Multipart
     @POST("api/sharedLocation/enroll")
@@ -151,7 +157,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("api/sharingSwitch")
     Call<sendTodayFlagResult> sendTodayLocationChange(@Header("x-access-token") String token,
-                                               @Field("turn") int turn);
+                                                      @Field("turn") int turn);
 
     @GET("notices")
     Call<ItemNoticeResult> allNotice(@Query("noticeName") String noticeName);

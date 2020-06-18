@@ -68,6 +68,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 e.printStackTrace();
             }
         }
+
     }
 
     @Override
