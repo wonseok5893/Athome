@@ -2,6 +2,7 @@ package com.example.athome.main;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PointF;
@@ -31,6 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -56,6 +58,7 @@ import com.example.athome.retrofit.MarkerResult;
 import com.example.athome.retrofit.ReservationListResult;
 import com.example.athome.retrofit.ReservationListResult_data;
 
+import com.example.athome.retrofit.sendTodayFlagResult;
 import com.example.athome.setting.SettingActivity;
 import com.example.athome.shared_parking.MySharedParkingActivity;
 import com.example.athome.shared_time.MyParkingActivity;
@@ -325,17 +328,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                     if (sharedToken != null) {
                         ApiService serviceApis = new RestRequestHelper().getApiService();
-                        Call<ResponseBody> sendTodayFlag = serviceApis.sendTodayLocationChange(sharedToken, todayFlag);
+                        Call<sendTodayFlagResult> sendTodayFlag = serviceApis.sendTodayLocationChange(sharedToken, todayFlag);
 
-                        sendTodayFlag.enqueue(new Callback<ResponseBody>() {
+                        sendTodayFlag.enqueue(new Callback<sendTodayFlagResult>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<sendTodayFlagResult> call, Response<sendTodayFlagResult> response) {
+                                sendTodayFlagResult result = response.body();
+                                if(result.getResult().equals("success")){
+                                    Toast.makeText(MainActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+                                }else{
+                                    shareOn.setChecked(false);
+                                    Toast.makeText(MainActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
 
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                            public void onFailure(Call<sendTodayFlagResult> call, Throwable t) {
+                                shareOn.setChecked(false);
+                                Toast.makeText(MainActivity.this, "다시 시도해주세요.", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -348,27 +359,57 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    todayFlag = 0;
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                    dialog.setCancelable(false)
+                            .setTitle("오늘 공유 주차 off")
+                            .setMessage("오늘 공유 주차를 off하시겠습니까?")
+                            .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    todayFlag = 0;
 
-                    SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
-                    String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
+                                    SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
+                                    String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
 
-                    if (sharedToken != null) {
-                        ApiService serviceApis = new RestRequestHelper().getApiService();
-                        Call<ResponseBody> sendTodayFlag = serviceApis.sendTodayLocationChange(sharedToken, todayFlag);
+                                    if (sharedToken != null) {
+                                        ApiService serviceApis = new RestRequestHelper().getApiService();
+                                        Call<sendTodayFlagResult> sendTodayFlag = serviceApis.sendTodayLocationChange(sharedToken, todayFlag);
 
-                        sendTodayFlag.enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                        sendTodayFlag.enqueue(new Callback<sendTodayFlagResult>() {
+                                            @Override
+                                            public void onResponse(Call<sendTodayFlagResult> call, Response<sendTodayFlagResult> response) {
+                                                sendTodayFlagResult result = response.body();
+                                                if (result.getResult().equals("success")) {
+                                                    Toast.makeText(MainActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    shareOff.setChecked(false);
+                                                    Toast.makeText(MainActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
 
-                            }
+                                            @Override
+                                            public void onFailure(Call<sendTodayFlagResult> call, Throwable t) {
+                                                shareOff.setChecked(false);
+                                                Toast.makeText(MainActivity.this, "다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                    dialog.dismiss();
+                                }
 
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-                            }
-                        });
-                    }
+                            })
+                            .setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    shareOff.setChecked(false);
+                                    dialog.dismiss();
+                                }
+                            });
+                    dialog.create();
+                    dialog.show();
+
+
 
 
                     Log.d("junggyu", "공유 아님" + todayFlag);
@@ -582,9 +623,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        timerHandler.removeMessages(MESSAGE_TIMER_START);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         timerHandler.sendEmptyMessage(MESSAGE_TIMER_START);
+
         SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
         SharedPreferences.Editor editor = sf.edit(); //토큰 업데이트 삭제에서 쓸거
         String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
@@ -856,14 +904,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void PreviewVisible() {
+        timerHandler.sendEmptyMessage(MESSAGE_TIMER_START);
+        timerHandler.removeMessages(MESSAGE_TIMER_START);
         this.preview.setVisibility(View.VISIBLE);
         overridePendingTransition(R.anim.slide_up, R.anim.stay);
         preview.startAnimation(slide_up);
     }
 
     public void PreviewInvisible() {
-        this.preview.setVisibility(View.INVISIBLE);
-        overridePendingTransition(R.anim.stay, R.anim.slide_down);
-        preview.startAnimation(slide_down);
+        timerHandler.removeMessages(MESSAGE_TIMER_START);
+        timerHandler.sendEmptyMessage(MESSAGE_TIMER_START);
+        if(this.preview.getVisibility() == View.VISIBLE) {
+            this.preview.setVisibility(View.INVISIBLE);
+            overridePendingTransition(R.anim.stay, R.anim.slide_down);
+            preview.startAnimation(slide_down);
+        }
     }
 }

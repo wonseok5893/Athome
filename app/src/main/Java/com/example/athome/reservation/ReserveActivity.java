@@ -363,6 +363,18 @@ public class ReserveActivity extends AppCompatActivity {
     }
 
     private void makeTimeTable(String locationStartTime, String locationEndTime) {
+
+        /*
+        0 1 2 3 4 5 6
+        [24][2]
+        일           토
+        1 2 3 4 5 6 7
+        오늘이 금요일  [24][2] = 6
+        locationDayset[5] ?
+        6 - 1 + 7 = 12  5
+           */
+        Log.i("location", locationDaySet[5]+"");
+        Log.i("location",locationDaySet[(todayReserve[24][2]-1+7)%7]+"" );
         if (locationDaySet[(todayReserve[24][2]-1+7)%7] == 1) {
             String[] start = locationStartTime.split(":");
             String[] end = locationEndTime.split(":");
@@ -371,10 +383,6 @@ public class ReserveActivity extends AppCompatActivity {
             int startM = Integer.parseInt(start[1]) /10;
             int endH = Integer.parseInt(end[0]);
             int endM = Integer.parseInt(end[1]) /10;
-            Log.i("jiwon","makeTimeTable : "+Integer.toString(startH));
-            Log.i("jiwon","makeTimeTable : "+Integer.toString(startM));
-            Log.i("jiwon","makeTimeTable : "+Integer.toString(endH));
-            Log.i("jiwon","makeTimeTable : "+Integer.toString(endM));
 
             int count = 0;
             for (int i = 0; i < 24; i++) {

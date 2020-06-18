@@ -150,7 +150,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("api/sharingSwitch")
-    Call<ResponseBody> sendTodayLocationChange(@Header("x-access-token") String token,
+    Call<sendTodayFlagResult> sendTodayLocationChange(@Header("x-access-token") String token,
                                                @Field("turn") int turn);
 
     @GET("notices")

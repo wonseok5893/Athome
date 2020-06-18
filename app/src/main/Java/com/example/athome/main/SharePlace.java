@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -36,6 +37,7 @@ import com.naver.maps.map.util.MarkerIcons;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 
 import retrofit2.Call;
 
@@ -98,8 +100,8 @@ public class SharePlace {
         this.parkingInfo = parkingInfo;
         this.context = context;
         this.nm = nm;
-        //PriviewInitialize(main);
-        Log.i("jiwon", "파킹 인포 받았냐:" + parkingInfo);
+
+
 // 예약하기 버튼
         space_resv = (Button) main.findViewById(R.id.space_resv);
 
@@ -162,19 +164,29 @@ public class SharePlace {
         this.myMarker.setOnClickListener(new Overlay.OnClickListener() {
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
+                myMarker.setIconTintColor(Color.RED);
                 Log.i("jiwon", "SharePlace" + parkingInfo);
                 int[] timeArray = initLocationInfo();
-
+                if(timeArray == null){
+                    return false;
+                }
                 intent.putExtra("locationStartTime", locationStartTime);
                 intent.putExtra("locationEndTime", locationEndTime);
                 intent.putExtra("locationDaySet", timeArray);
+
 
                 nonuser_intent.putExtra("locationStartTime", locationStartTime);
                 nonuser_intent.putExtra("locationEndTime", locationEndTime);
                 nonuser_intent.putExtra("locationDaySet", timeArray);
 
                 fee.setText("600원/시간");
-                time.setText(locationStartTime + " ~ " + locationEndTime);
+                Calendar cal = Calendar.getInstance();
+                int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+                if(timeArray[dayOfWeek-1] == 1) {
+                    time.setText(locationStartTime + " ~ " + locationEndTime);
+                }else{
+                    time.setText("00:00 ~ 00:00" );
+                }
                 loc.setText(locationName);
                 parkingInfoTxt.setText(parkingInfo);
                 if (main.getUser().getUserId() == null) { // 비회원일때
@@ -218,7 +230,8 @@ public class SharePlace {
             public void onClick(View v) {
                 //파라미터 1.도착 장소 (장소 이름, 위도, 경도) (윤지원)
                 Location destination = Location.newBuilder(locationName, longitude, latitude).build();
-
+                Log.i("gps", "longitude"+longitude);
+                Log.i("gps", "latitude"+latitude);
                 //파라미터 2. 세부 옵션 도착지, 1종, 빠른 경로 , 경유지 없음, (윤지원)
                 KakaoNaviParams params = KakaoNaviParams.newBuilder(destination)
                         .setNaviOptions(NaviOptions.newBuilder()
@@ -261,21 +274,31 @@ public class SharePlace {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        if (locationInfoList != null) {
+            if (locationInfoList.getLocationInfo() != null) {
+                this.locationStartTime = locationInfoList.getLocationInfo().getPossibleStartTime();
+                this.locationEndTime = locationInfoList.getLocationInfo().getPossibleEndTime();
+                this.locationDaySet = (ArrayList<Integer>) locationInfoList.getLocationInfo().getTimeState();
 
-        this.locationStartTime = locationInfoList.getLocationInfo().getPossibleStartTime();
-        this.locationEndTime = locationInfoList.getLocationInfo().getPossibleEndTime();
-        this.locationDaySet = (ArrayList<Integer>) locationInfoList.getLocationInfo().getTimeState();
+                startTime = locationInfoList.getLocationInfo().getPossibleStartTime();
+                endTime = locationInfoList.getLocationInfo().getPossibleEndTime();
 
-        startTime = locationInfoList.getLocationInfo().getPossibleStartTime();
-        endTime = locationInfoList.getLocationInfo().getPossibleEndTime();
+                int timeArray[] = new int[7];
 
-        int timeArray[] = new int[7];
-
-        Log.d("junggyu", "시작시간 : " + locationStartTime + ", 종료시간 : " + locationEndTime);
-        for (int i = 0; i < locationDaySet.size(); i++) {
-            timeArray[i] = locationDaySet.get(i);
+                Log.d("junggyu", "시작시간 : " + locationStartTime + ", 종료시간 : " + locationEndTime);
+                for (int i = 0; i < locationDaySet.size(); i++) {
+                    timeArray[i] = locationDaySet.get(i);
+                }
+                return timeArray;
+            } else {
+                return null;
+            }
+        } else {
+            Toast.makeText(context, "다시 눌러주십시오.", Toast.LENGTH_SHORT).show();
+            return null;
         }
-        return timeArray;
+
+
     }
 
 }

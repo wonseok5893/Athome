@@ -139,6 +139,9 @@ public class nonReserveActivity extends AppCompatActivity {
         longitude = intent.getDoubleExtra("longitude", 0);
         parking_number.setText(intent.getStringExtra("parkingInfo"));
 
+        Log.i("gps", "longitude"+longitude);
+        Log.i("gps", "latitude"+latitude);
+
         SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
         sharedToken = sf.getString("token", "");
         locationDaySet = intent.getIntArrayExtra("locationDaySet");
@@ -173,6 +176,27 @@ public class nonReserveActivity extends AppCompatActivity {
     }
 
     public void InitializeView() {
+        Calendar cal = Calendar.getInstance();
+
+        int month = cal.get(Calendar.MONTH) + 1;
+        int date = cal.get(Calendar.DATE);
+        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK); // 1 = 일요일 2 = 월요일 ... 7 = 토요일
+        todayReserve[24][0] = month;
+        todayReserve[24][1] = date;
+        todayReserve[24][2] = dayOfWeek;
+        Log.i("jiwon",  "todayReserve 0"+Integer.toString(todayReserve[24][0]));
+        Log.i("jiwon",  "todayReserve 1"+Integer.toString(todayReserve[24][1]));
+        Log.i("jiwon",  "todayReserve 2"+Integer.toString(todayReserve[24][2]));
+
+        cal.add(Calendar.DATE, 1);
+        month = cal.get(Calendar.MONTH) + 1;
+        date = cal.get(Calendar.DATE);
+        dayOfWeek = cal.get(Calendar.DAY_OF_WEEK); // 1 = 일요일 2 = 월요일 ... 7 = 토요일
+
+        tomorrowReserve[24][0] = month;
+        tomorrowReserve[24][1] = date;
+        tomorrowReserve[24][2] = dayOfWeek;
+
         reserv_start = findViewById(R.id.non_reserv_start);
         reserv_end = findViewById(R.id.non_reserv_end);
 
@@ -567,7 +591,7 @@ public class nonReserveActivity extends AppCompatActivity {
     }
 
     private void makeTimeTable(String locationStartTime, String locationEndTime) {
-        if (locationDaySet[(todayReserve[24][2]-1+7)%7 ] == 1) {
+        if (locationDaySet[(todayReserve[24][2]-1+7)%7] == 1) {
             String[] start = locationStartTime.split(":");
             String[] end = locationEndTime.split(":");
 
