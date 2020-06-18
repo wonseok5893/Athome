@@ -133,7 +133,7 @@
                         android:fontFamily="@font/bareun1"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text="구획번호"
+                        android:text="핸드폰번호"
                         android:textColor="#616161"
                         android:textSize="13sp" />
 
