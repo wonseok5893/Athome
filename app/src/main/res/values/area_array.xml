@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gu">조회할 구를 선택하세요"</string>
+
+    <string-array name="select_gu">
+        <item>구를 선택하세요</item>
+        <item>권선구</item>
+        <item>기흥구</item>
+        <item>단원구</item>
+        <item>덕양구</item>
+        <item>덕양남구</item>
+        <item>덕양북구</item>
+        <item>동안구</item>
+        <item>만안구</item>
+        <item>분당구</item>
+        <item>상록구</item>
+        <item>수정구</item>
+        <item>수지구</item>
+        <item>영통구</item>
+        <item>일산동구</item>
+        <item>일산서구</item>
+        <item>장안구</item>
+        <item>중원구</item>
+        <item>처인구</item>
+        <item>팔달구</item>
+    </string-array>
+
+
+</resources>
