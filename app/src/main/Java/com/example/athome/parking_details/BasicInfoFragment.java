@@ -37,9 +37,10 @@ public class BasicInfoFragment  extends Fragment {
 
     String locationName;
     String parkingInfo;
+    String description;
     InputStream is;
 
-    TextView details_parking_address, details_parking_number;
+    TextView details_parking_address, details_parking_number,text_parking_info;
     ImageView parking_image;
 
     @Nullable
@@ -59,13 +60,16 @@ public class BasicInfoFragment  extends Fragment {
         if(getArguments() != null) {
             locationName = getArguments().getString("locationName");
             parkingInfo = getArguments().getString("parkingInfo");
+            description = getArguments().getString("description");
         }
 
         details_parking_address = (TextView) view.findViewById(R.id.details_parking_address);
         details_parking_number = (TextView) view.findViewById(R.id.details_parking_number);
+        text_parking_info = (TextView) view.findViewById(R.id.text_parking_info);
 
         details_parking_address.setText(locationName);
         details_parking_number.setText(parkingInfo);
+        text_parking_info.setText(description);
 
         return view;
 

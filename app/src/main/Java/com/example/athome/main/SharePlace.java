@@ -54,6 +54,7 @@ public class SharePlace {
     private double latitude, longitude; // 좌표
     private String locationName;
     private Marker myMarker; // 마커
+    private String description;
     private Context context;
     private String img;
     private MainActivity main;
@@ -83,6 +84,7 @@ public class SharePlace {
                                final double longitude,
                                final String locationName,
                                final String parkingInfo,
+                               final String description,
                                final MainActivity main,
                                final Context context,
                                final NaverMap nm) {
@@ -93,6 +95,7 @@ public class SharePlace {
         this.latitude = latitude;
         this.longitude = longitude;
         this.parkingInfo = parkingInfo;
+        this.description = description;
         this.main = main;
         this.context = context;
         this.nm = nm;
@@ -225,7 +228,12 @@ public class SharePlace {
                         DetailIntent.putExtra("locationId", locationId);
                         DetailIntent.putExtra("parkingInfo", parkingInfo);
                         DetailIntent.putExtra("locationName", locationName);
-                        Log.i("jiwon", "SharePlace" + parkingInfo);
+                        if(description != null){
+                            DetailIntent.putExtra("description", description);
+                        }else{
+                            DetailIntent.putExtra("description", "");
+                        }
+                        DetailIntent.putExtra("description", description);
                         main.startActivity(DetailIntent);
                     }
                 });

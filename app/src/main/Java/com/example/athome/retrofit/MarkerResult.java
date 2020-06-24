@@ -47,6 +47,17 @@ public class MarkerResult {
         @SerializedName("parkingInfo")
         @Expose
         private String parkingInfo;
+        @SerializedName("description")
+        @Expose
+        private String description;
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
 
         public String getId() {
             return id;

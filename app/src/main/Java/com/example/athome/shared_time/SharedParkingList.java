@@ -94,7 +94,6 @@ public class SharedParkingList extends AppCompatActivity {
         } else {
             Toast.makeText(this, "정보를 받아 오지 못했습니다.", Toast.LENGTH_SHORT).show();
         }
-        Log.i("share",data.get(1).getEndTime());
     }
 
 

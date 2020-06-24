@@ -122,7 +122,8 @@ public interface ApiService {
                                     @Part("location") RequestBody location,
                                     @Part("latitude") RequestBody latitude,
                                     @Part("longitude") RequestBody longitude,
-                                    @Part("parkingInfo") RequestBody parkingInfo);
+                                    @Part("parkingInfo") RequestBody parkingInfo,
+                                    @Part("description") RequestBody description);
 
     //마커 정보 요청
     @FormUrlEncoded

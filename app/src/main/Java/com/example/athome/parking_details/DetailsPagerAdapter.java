@@ -17,11 +17,11 @@ public class DetailsPagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
 
     private int[] timeArray;
-    private String startTime, endTime, parkingInfo, locationName;
+    private String startTime, endTime, parkingInfo, locationName,description;
     private String uri;
 
     public DetailsPagerAdapter(FragmentManager fm, int NumOfTabs,
-                               int[] timeArray, String startTime, String endTime, String locationName, String parkingINfo, String uri) {
+                               int[] timeArray, String startTime, String endTime, String locationName, String parkingINfo, String uri, String description) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
         this.timeArray = timeArray;
@@ -30,6 +30,7 @@ public class DetailsPagerAdapter extends FragmentStatePagerAdapter {
         this.locationName = locationName;
         this.parkingInfo = parkingINfo;
         this.uri = uri;
+        this.description = description;
     }
 
     @Override
@@ -43,7 +44,7 @@ public class DetailsPagerAdapter extends FragmentStatePagerAdapter {
                 bundle.putString("locationName", locationName); // Key, Value
                 bundle.putString("parkingInfo", parkingInfo); // Key, Value
                 bundle.putString("uri",this.uri);
-                Log.i("jiwon",uri);
+                bundle.putString("description",description);
                 tab1.setArguments(bundle);
                 return tab1;
             case 1:

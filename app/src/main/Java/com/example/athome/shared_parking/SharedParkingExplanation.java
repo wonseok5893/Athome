@@ -54,7 +54,7 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
     private Button btn_back_parking_info;
     private Button btn_select_photo;
     private Button btn_assigner_lookup;
-    private EditText parking_info_name_value;
+    private EditText parking_info_name_value,parking_info_explanation_value;
     private Boolean isPermission = true;
     private File tempFile;
     String enrollRes, enrollMessage;
@@ -70,6 +70,7 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
         imageView = (ImageView) findViewById(R.id.parking_info_img_value);
         btn_select_photo = (Button) findViewById(R.id.btn_select_photo);
         parking_info_name_value = (EditText) findViewById(R.id.parking_info_name_value);
+        parking_info_explanation_value = (EditText) findViewById(R.id.parking_info_explanation_value);
 
         // 확인 버튼 누르면 서버로 배정자 정보 전달
         btn_assigner_lookup = (Button) findViewById(R.id.btn_assigner_lookup);
@@ -88,6 +89,11 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
                     RequestBody latitude = RequestBody.create(MediaType.parse("text/plain"), Double.toString(SelectLocation.latitude));
                     RequestBody longitude = RequestBody.create(MediaType.parse("text/plain"), Double.toString(SelectLocation.longitude));
                     RequestBody parkingInfo = RequestBody.create(MediaType.parse("text/plain"), parking_info_name_value.getText().toString());
+                    String explanation = parking_info_explanation_value.getEditableText().toString();
+                    if(explanation == null){
+                        explanation = "";
+                    }
+                    RequestBody description = RequestBody.create(MediaType.parse("text/plain"), explanation);
 
                     final String locName = intent.getStringExtra("locationName");
 
@@ -95,7 +101,7 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
                     String sharedToken = sf.getString("token", "");
 
                     ApiService serviceApi = new RestRequestHelper().getApiService();
-                    final Call<EnrollResult> res = serviceApi.postRegister(sharedToken, image, userBirth, userCarNumber, location, latitude, longitude, parkingInfo);
+                    final Call<EnrollResult> res = serviceApi.postRegister(sharedToken, image, userBirth, userCarNumber, location, latitude, longitude, parkingInfo,description);
 
                     new Thread(new Runnable() {
                         @Override

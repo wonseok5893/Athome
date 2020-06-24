@@ -592,6 +592,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     Double.parseDouble(markerResult.getData().get(i).getLongitude()),
                                     markerResult.getData().get(i).getLocation(),
                                     markerResult.getData().get(i).getParkingInfo(),
+                                    markerResult.getData().get(i).getDescription(),
                                     MainActivity.this,
                                     MainActivity.this,
                                     nm);
@@ -725,7 +726,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }).start();
         try {
-            Thread.sleep(200);
+            Thread.sleep(300);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -744,6 +745,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         Double.parseDouble(markerResult.getData().get(i).getLongitude()),
                         markerResult.getData().get(i).getLocation(),
                         markerResult.getData().get(i).getParkingInfo(),
+                        markerResult.getData().get(i).getDescription(),
                         this,
                         this,
                         nm);

@@ -49,6 +49,7 @@ public class NowReservTicket extends Activity {
     private int[] timeArray = new int[7];
     private Double latitude;
     private Double longitude;
+    private String description;
 
 
     @Override
@@ -227,6 +228,7 @@ public class NowReservTicket extends Activity {
                                                                 locationName = nearRes.getLocation();
                                                                 latitude = Double.parseDouble(nearRes.getLatitude());
                                                                 longitude = Double.parseDouble(nearRes.getLongitude());
+                                                                description = nearRes.getDescription();
                                                             } else {
                                                                 Toast.makeText(NowReservTicket.this, nearRes.getMessage(), Toast.LENGTH_LONG).show();
                                                             }
@@ -320,6 +322,7 @@ public class NowReservTicket extends Activity {
                                                         intent.putExtra("locationName", locationName);
                                                         intent.putExtra("longitude",longitude);
                                                         intent.putExtra("latitude",latitude);
+                                                        intent.putExtra("description",description);
                                                         startActivity(intent);
                                                     }
                                                 })

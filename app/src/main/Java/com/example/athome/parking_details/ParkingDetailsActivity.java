@@ -39,7 +39,7 @@ public class ParkingDetailsActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabLayout tabLayout;
     private int[] timeArray;
-    private String startTime, endTime, parkingInfo, locationName;
+    private String startTime, endTime, parkingInfo, locationName,description;
     private TextView parking_details_text;
     private String locationId;
     private double longitude;
@@ -89,7 +89,7 @@ public class ParkingDetailsActivity extends AppCompatActivity {
         parking_details_text.setText(parkingInfo);
         final ViewPager viewPager = (ViewPager) findViewById(R.id.parking_details_viewpager);
         final DetailsPagerAdapter adapter = new DetailsPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount(),
-                timeArray, startTime, endTime, locationName, parkingInfo, uri);
+                timeArray, startTime, endTime, locationName, parkingInfo, uri, description);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -145,6 +145,7 @@ public class ParkingDetailsActivity extends AppCompatActivity {
         locationName = intent.getStringExtra("locationName");
         longitude = intent.getDoubleExtra("longitude", 0);
         latitude = intent.getDoubleExtra("latitude", 0);
+        description = intent.getStringExtra("description");
 
         btn_back_parking_details = (Button) findViewById(R.id.btn_back_parking_details);
         btn_reserv = (Button) findViewById(R.id.btn_reserv);
