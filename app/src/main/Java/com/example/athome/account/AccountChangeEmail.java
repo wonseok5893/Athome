@@ -1,17 +1,12 @@
 package com.example.athome.account;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.athome.R;
-import com.example.athome.User;
-import com.example.athome.main.MainActivity;
 
 public class AccountChangeEmail extends Activity {
     private Button btn_back_change_email;

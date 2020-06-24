@@ -13,7 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.athome.R;
-import com.example.athome.User;
+import com.example.athome.main.User;
 import com.example.athome.main.MainActivity;
 
 public class AccountActivity extends AppCompatActivity {

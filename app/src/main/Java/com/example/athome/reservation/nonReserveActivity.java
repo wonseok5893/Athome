@@ -24,8 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.athome.R;
-import com.example.athome.RestRequestHelper;
-import com.example.athome.main.MainActivity;
+import com.example.athome.retrofit.RestRequestHelper;
 import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.ReserveListResult;
 import com.example.athome.retrofit.sendReserveResult;

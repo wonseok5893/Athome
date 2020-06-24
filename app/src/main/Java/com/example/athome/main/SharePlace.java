@@ -1,6 +1,5 @@
 package com.example.athome.main;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,10 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 
 import com.example.athome.R;
-import com.example.athome.RestRequestHelper;
+import com.example.athome.retrofit.RestRequestHelper;
 import com.example.athome.parking_details.ParkingDetailsActivity;
 import com.example.athome.reservation.ReserveActivity;
 import com.example.athome.reservation.nonReserveActivity;
@@ -28,15 +28,12 @@ import com.kakao.kakaonavi.NaviOptions;
 import com.kakao.kakaonavi.options.CoordType;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.NaverMap;
-import com.naver.maps.map.overlay.InfoWindow;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.util.MarkerIcons;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 
 import retrofit2.Call;
@@ -59,11 +56,11 @@ public class SharePlace {
     private Marker myMarker; // 마커
     private Context context;
     private String img;
-    private InfoWindow infoWindow = new InfoWindow();
+    private MainActivity main;
+
     private View view;
     private NaverMap nm;
 
-    private int[] tArray;
     private String startTime, endTime;
 
     private String parkingInfo;
@@ -77,7 +74,7 @@ public class SharePlace {
             loc,
             parkingInfoTxt; // 위치
     private Button naviBtn, resBtn;
-    private TextView TextView;
+    private TextView numTextView;
 
     // 차량등록 후 관리자가 정보 확인한 뒤 승인하면 입력 정보로 공유공간 객체 생성
     public void readSharePlace(String locationId,
@@ -90,40 +87,27 @@ public class SharePlace {
                                final Context context,
                                final NaverMap nm) {
 
-
         this.locationId = locationId;
         this.locationName = locationName;
-        Log.d("test", locationName);
         this.userId = userId;
         this.latitude = latitude;
         this.longitude = longitude;
         this.parkingInfo = parkingInfo;
+        this.main = main;
         this.context = context;
         this.nm = nm;
 
 
-// 예약하기 버튼
+
+        // 예약하기 버튼
         space_resv = (Button) main.findViewById(R.id.space_resv);
 
         // 미리보기 비활성화 버튼
         preview_close = (ImageView) main.findViewById(R.id.preview_close);
-        preview_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ParkingDetailsActivity.class);
+        numTextView = (TextView) main.findViewById(R.id.account_text);
 
-                tArray = initLocationInfo();
 
-                intent.putExtra("timeArray", tArray);
-                intent.putExtra("startTime", startTime);
-                intent.putExtra("endTime", endTime);
 
-                intent.putExtra("parkingInfo", parkingInfo);
-                intent.putExtra("locationName", locationName);
-                Log.i("jiwon", "SharePlace" + parkingInfo);
-                main.startActivity(intent);
-            }
-        });
 
         resBtn = (Button) main.findViewById(R.id.space_resv);
         naviBtn = (Button) main.findViewById(R.id.space_navi);
@@ -140,8 +124,8 @@ public class SharePlace {
 
         final Intent intent = new Intent(main.getApplicationContext(), ReserveActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
         final Intent nonuser_intent = new Intent(main.getApplicationContext(), nonReserveActivity.class);
-        LatLng position = myMarker.getPosition();
         nonuser_intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
 
@@ -151,6 +135,8 @@ public class SharePlace {
         intent.putExtra("latitude", latitude); // 위도
         intent.putExtra("longitude", longitude); // 경도
         intent.putExtra("parkingInfo", parkingInfo); // 구획 번호
+
+
 
         nonuser_intent.putExtra("locationId", locationId);//_id
         nonuser_intent.putExtra("locationName", locationName); // 주소
@@ -164,10 +150,14 @@ public class SharePlace {
         this.myMarker.setOnClickListener(new Overlay.OnClickListener() {
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
+                for (SharePlace s : main.getPlaceList()) {
+                    s.getMyMarker().setIconTintColor(Color.rgb(133, 214, 211));
+                }
+
                 myMarker.setIconTintColor(Color.RED);
                 Log.i("jiwon", "SharePlace" + parkingInfo);
                 int[] timeArray = initLocationInfo();
-                if(timeArray == null){
+                if (timeArray == null) {
                     return false;
                 }
                 intent.putExtra("locationStartTime", locationStartTime);
@@ -180,17 +170,17 @@ public class SharePlace {
                 nonuser_intent.putExtra("locationDaySet", timeArray);
 
                 fee.setText("600원/시간");
+
                 Calendar cal = Calendar.getInstance();
                 int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-                if(timeArray[dayOfWeek-1] == 1) {
+                if (timeArray[dayOfWeek - 1] == 1) {
                     time.setText(locationStartTime + " ~ " + locationEndTime);
-                }else{
-                    time.setText("00:00 ~ 00:00" );
+                } else {
+                    time.setText("00:00 ~ 00:00");
                 }
                 loc.setText(locationName);
                 parkingInfoTxt.setText(parkingInfo);
                 if (main.getUser().getUserId() == null) { // 비회원일때
-                    loc.setText(locationName);
                     LatLng position = myMarker.getPosition();
                     nonuser_intent.putExtra("position", position);
 
@@ -198,18 +188,19 @@ public class SharePlace {
                     space_resv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            main.PreviewInvisible();
                             main.startActivity(nonuser_intent);
                         }
                     });
                 } else { // 회원일때
-                    loc.setText(locationName);
                     LatLng position = myMarker.getPosition();
-                    intent.putExtra("position", position);
+                    //intent.putExtra("position", position);
 
                     main.PreviewVisible();
                     space_resv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            main.PreviewInvisible();
                             main.startActivity(intent);
                         }
                     });
@@ -218,6 +209,24 @@ public class SharePlace {
                     @Override
                     public void onMapClick(@NonNull PointF coord, @NonNull LatLng point) {
                         main.PreviewInvisible();
+                    }
+                });
+
+                preview_close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent DetailIntent =  new Intent(context, ParkingDetailsActivity.class);
+                        // 주차장번호 가져오기
+                        int[] detailArray = initLocationInfo();
+
+                        DetailIntent.putExtra("timeArray", detailArray);
+                        DetailIntent.putExtra("startTime", startTime);
+                        DetailIntent.putExtra("endTime", endTime);
+                        DetailIntent.putExtra("locationId", locationId);
+                        DetailIntent.putExtra("parkingInfo", parkingInfo);
+                        DetailIntent.putExtra("locationName", locationName);
+                        Log.i("jiwon", "SharePlace" + parkingInfo);
+                        main.startActivity(DetailIntent);
                     }
                 });
 
@@ -230,8 +239,8 @@ public class SharePlace {
             public void onClick(View v) {
                 //파라미터 1.도착 장소 (장소 이름, 위도, 경도) (윤지원)
                 Location destination = Location.newBuilder(locationName, longitude, latitude).build();
-                Log.i("gps", "longitude"+longitude);
-                Log.i("gps", "latitude"+latitude);
+                Log.i("gps", "longitude" + longitude);
+                Log.i("gps", "latitude" + latitude);
                 //파라미터 2. 세부 옵션 도착지, 1종, 빠른 경로 , 경유지 없음, (윤지원)
                 KakaoNaviParams params = KakaoNaviParams.newBuilder(destination)
                         .setNaviOptions(NaviOptions.newBuilder()
@@ -247,11 +256,6 @@ public class SharePlace {
     public Marker getMyMarker() {
         return this.myMarker;
     }
-
-//    void PriviewInitialize(final MainActivity main) {
-//
-//
-//    }
 
     int[] initLocationInfo() {
 
@@ -297,9 +301,6 @@ public class SharePlace {
             Toast.makeText(context, "다시 눌러주십시오.", Toast.LENGTH_SHORT).show();
             return null;
         }
-
-
     }
-
 }
 

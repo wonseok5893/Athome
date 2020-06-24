@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.athome.R;
-import com.example.athome.User;
+import com.example.athome.main.User;
 import com.example.athome.main.MainActivity;
 import com.kakao.kakaonavi.KakaoNaviParams;
 import com.kakao.kakaonavi.KakaoNaviService;
@@ -48,6 +48,7 @@ public class ReserveConfirm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });
@@ -122,4 +123,11 @@ public class ReserveConfirm extends AppCompatActivity {
         parking_num = (TextView)findViewById(R.id.con_parkingnum); //주차구역번호
 
     };
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
 }

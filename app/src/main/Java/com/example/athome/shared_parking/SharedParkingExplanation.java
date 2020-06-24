@@ -1,7 +1,6 @@
 package com.example.athome.shared_parking;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,7 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import com.example.athome.R;
-import com.example.athome.RestRequestHelper;
+import com.example.athome.retrofit.RestRequestHelper;
 import com.example.athome.main.MainActivity;
 import com.example.athome.retrofit.ApiService;
 import com.gun0912.tedpermission.PermissionListener;
@@ -172,8 +171,6 @@ public class SharedParkingExplanation extends AppCompatActivity implements View.
                 startActivityForResult(intent, PICK_FROM_CAMERA);
             }
         }
-
-
     }
 
     //앨범에서 이미지 가져오기

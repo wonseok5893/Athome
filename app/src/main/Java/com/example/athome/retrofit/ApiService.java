@@ -9,6 +9,7 @@ import com.example.athome.admin_notice.AdminDeleteNoticeResult;
 import com.example.athome.admin_notice.AdminNoticeResult;
 import com.example.athome.admin_notice.ReviseNoticeResult;
 import com.example.athome.notice.ItemNoticeResult;
+import com.example.athome.reservation_list.ParkingDetail;
 
 import java.util.Date;
 
@@ -24,6 +25,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Query;
+import retrofit2.http.Streaming;
 
 public interface ApiService {
     //사용자 회원가입
@@ -104,6 +106,12 @@ public interface ApiService {
     Call<myParkingResult> requestParkingReserveList(@Header("x-access-token") String token,
                                                     @Field("capstone") String capstone);
 
+    //주차장 상세보기할 정보들 가져오기
+    @FormUrlEncoded
+    @POST("user/mySharingParkingLot")
+    Call<ParkingDetail> requestParkingDetail(@Header("x-access-token") String token,
+                                      @Field("parkNum") String parkNum);
+
     //사용자 배정자 등록 신청
     @Multipart
     @POST("api/sharedLocation/enroll")
@@ -173,6 +181,10 @@ public interface ApiService {
     @POST("user/deleteReservation")
     Call<requestDeleteResult> requestDelete(@Header("x-access-token") String token
             , @Field("_id") String id);
+
+    @FormUrlEncoded
+    @POST("user/getSharedImage")
+    Call<getShareImageResult> fetchCaptcha(@Field("_id") String locationId);
 
 
     //==========================관리자===========================================================
@@ -252,7 +264,6 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("admin/statistics")
-    Call<StatisticsResult> adminGetStatistics(@Header("x-access-token") String token, @Field("secret") String secret);
-
+    Call<StatisticsResult> adminGetStatistics(@Header("x-access-token") String token, @Field("region") String region);
 
 }

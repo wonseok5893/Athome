@@ -7,7 +7,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.athome.R;
-import com.example.athome.User;
+import com.example.athome.main.User;
 import com.naver.maps.geometry.LatLng;
 
 

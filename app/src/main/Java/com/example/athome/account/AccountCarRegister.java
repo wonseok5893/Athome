@@ -2,7 +2,6 @@ package com.example.athome.account;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.View;
 import android.view.Window;
@@ -11,8 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.athome.R;
-import com.example.athome.RestRequestHelper;
-import com.example.athome.main.MainActivity;
+import com.example.athome.retrofit.RestRequestHelper;
 import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.EditCarNumberResult;
 

@@ -9,18 +9,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.athome.R;
-import com.example.athome.RestRequestHelper;
-import com.example.athome.main.MainActivity;
-import com.example.athome.reservation.ReserveConfirm;
-import com.example.athome.retrofit.ApiService;
+import com.example.athome.parking_details.ParkingDetailsActivity;
+import com.example.athome.reservation.ReserveActivity;
 import com.example.athome.retrofit.LocationInfoList;
+import com.example.athome.retrofit.RestRequestHelper;
+import com.example.athome.main.MainActivity;
+import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.nearParkResult;
 import com.example.athome.retrofit.requestDeleteResult;
 
@@ -40,8 +40,16 @@ public class NowReservTicket extends Activity {
     private requestDeleteResult rd;
     private LinearLayout illegal;
     private nearParkResult nearRes;
+    private String nearId;
+    private String parkingInfo;
+    private String locationName;
+    private LocationInfoList locationRes;
+    private String locationStartTime;
+    private String locationEndTime;
+    private int[] timeArray = new int[7];
     private Double latitude;
     private Double longitude;
+
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
@@ -67,7 +75,7 @@ public class NowReservTicket extends Activity {
         now_reserv_car_number = (TextView) findViewById(R.id.now_reserv_car_number);
         now_reserv_state_value = (TextView) findViewById(R.id.now_reserv_state_value);
         _id = intent.getStringExtra("_id");
-
+        Log.i("jiwon", _id);
 
         now_reserv_start_date.setText(intent.getStringExtra("nowReserveStartDate"));
         now_reserv_start_time.setText(intent.getStringExtra("nowReserveStartTime"));
@@ -191,7 +199,7 @@ public class NowReservTicket extends Activity {
                                                 .setPositiveButton("예", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
-                                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                                        Intent intent = new Intent(getApplicationContext(), ParkingDetailsActivity.class);
                                                         ApiService serviceApi = new RestRequestHelper().getApiService();
                                                         final Call<nearParkResult> res = serviceApi.requestNearPark(_id);
 
@@ -212,25 +220,26 @@ public class NowReservTicket extends Activity {
                                                             e.printStackTrace();
                                                         }
 
-                                                        if(nearRes != null){
-                                                            if(nearRes.getResult().equals("success")){
-                                                                latitude = nearRes.getLatitude();
-                                                                longitude = nearRes.getLongitude();
-                                                                intent.putExtra("latitude", latitude);
-                                                                intent.putExtra("longitude", longitude);
-                                                            }
-                                                            else{
+                                                        if (nearRes != null) {
+                                                            if (nearRes.getResult().equals("success")) {
+                                                                nearId = nearRes.getId();
+                                                                parkingInfo = nearRes.getParkingInfo();
+                                                                locationName = nearRes.getLocation();
+                                                                latitude = Double.parseDouble(nearRes.getLatitude());
+                                                                longitude = Double.parseDouble(nearRes.getLongitude());
+                                                            } else {
                                                                 Toast.makeText(NowReservTicket.this, nearRes.getMessage(), Toast.LENGTH_LONG).show();
                                                             }
-                                                        }else{
+                                                        } else {
                                                             Toast.makeText(NowReservTicket.this, "통신에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                                                         }
+
                                                         try {
                                                             Thread.sleep(500);
                                                         } catch (InterruptedException e) {
                                                             e.printStackTrace();
                                                         }
-                                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
 
                                                         SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
                                                         String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
@@ -254,62 +263,109 @@ public class NowReservTicket extends Activity {
                                                         } catch (InterruptedException e) {
                                                             e.printStackTrace();
                                                         }
+                                                        if (rd != null) {
 
-                                                        if (rd.getResult().equals("success")) { // 삭제 성공시
-                                                            Toast.makeText(getApplicationContext(), rd.getMessage(), Toast.LENGTH_SHORT).show();
+                                                            if (rd.getResult().equals("success")) { // 삭제 성공시
+                                                                Toast.makeText(getApplicationContext(), rd.getMessage(), Toast.LENGTH_SHORT).show();
 
-                                                        } else { // 삭제 실패시
-                                                            Toast.makeText(getApplicationContext(), rd.getMessage(), Toast.LENGTH_SHORT).show();
+                                                            } else { // 삭제 실패시
+                                                                Toast.makeText(getApplicationContext(), rd.getMessage(), Toast.LENGTH_SHORT).show();
 
+                                                            }
+                                                        } else {
+                                                            Toast.makeText(getApplicationContext(), "서버와 통신하지 못했습니다.", Toast.LENGTH_SHORT).show();
                                                         }
 
-                                                        startActivity(intent);
+                                                        final Call<LocationInfoList> resss = serviceApi.getLocationInfo(nearId);
 
+                                                        new Thread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                try {
+                                                                    locationRes = resss.execute().body();
+                                                                } catch (IOException e) {
+                                                                    e.printStackTrace();
+                                                                }
+                                                            }
+                                                        }).start();
+
+                                                        try {
+                                                            Thread.sleep(500);
+                                                        } catch (InterruptedException e) {
+                                                            e.printStackTrace();
+                                                        }
+
+                                                        if (locationRes != null) {
+                                                            if (locationRes.getLocationInfo() != null) {
+                                                                locationStartTime = locationRes.getLocationInfo().getPossibleStartTime();
+                                                                locationEndTime = locationRes.getLocationInfo().getPossibleEndTime();
+                                                                ArrayList<Integer> locationDaySet = (ArrayList<Integer>) locationRes.getLocationInfo().getTimeState();
+
+                                                                for (int i = 0; i < locationDaySet.size(); i++) {
+                                                                    timeArray[i] = locationDaySet.get(i);
+                                                                }
+
+                                                            } else {
+                                                                Toast.makeText(NowReservTicket.this, "주차 공간이 없습니다.", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        } else {
+                                                            Toast.makeText(NowReservTicket.this, "서버와 통신이 되지 않았습니다.", Toast.LENGTH_SHORT).show();
+                                                        }
+
+                                                        intent.putExtra("timeArray", timeArray);
+                                                        intent.putExtra("startTime", locationStartTime);
+                                                        intent.putExtra("endTime", locationEndTime);
+                                                        intent.putExtra("locationId", nearId);
+                                                        intent.putExtra("parkingInfo", parkingInfo);
+                                                        intent.putExtra("locationName", locationName);
+                                                        intent.putExtra("longitude",longitude);
+                                                        intent.putExtra("latitude",latitude);
+                                                        startActivity(intent);
                                                     }
                                                 })
                                                 .setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-
-                                                SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
-                                                String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
-
-                                                ApiService serviceApi = new RestRequestHelper().getApiService();
-                                                final Call<requestDeleteResult> res = serviceApi.requestDelete(sharedToken, _id);
-
-                                                new Thread(new Runnable() {
                                                     @Override
-                                                    public void run() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+
+                                                        SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
+                                                        String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
+
+                                                        ApiService serviceApi = new RestRequestHelper().getApiService();
+                                                        final Call<requestDeleteResult> res = serviceApi.requestDelete(sharedToken, _id);
+
+                                                        new Thread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                try {
+                                                                    rd = res.execute().body();
+                                                                } catch (IOException e) {
+                                                                    e.printStackTrace();
+                                                                }
+                                                            }
+                                                        }).start();
+
                                                         try {
-                                                            rd = res.execute().body();
-                                                        } catch (IOException e) {
+                                                            Thread.sleep(500);
+                                                        } catch (InterruptedException e) {
                                                             e.printStackTrace();
                                                         }
+
+                                                        if (rd.getResult().equals("success")) { // 삭제 성공시
+                                                            Toast.makeText(getApplicationContext(), rd.getMessage(), Toast.LENGTH_LONG).show();
+                                                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                            startActivity(intent);
+
+                                                        } else { // 삭제 실패시
+                                                            Toast.makeText(getApplicationContext(), rd.getMessage(), Toast.LENGTH_LONG).show();
+                                                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                            startActivity(intent);
+                                                        }
+
+
                                                     }
-                                                }).start();
-
-                                                try {
-                                                    Thread.sleep(500);
-                                                } catch (InterruptedException e) {
-                                                    e.printStackTrace();
-                                                }
-
-                                                if (rd.getResult().equals("success")) { // 삭제 성공시
-                                                    Toast.makeText(getApplicationContext(), rd.getMessage(), Toast.LENGTH_LONG).show();
-                                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                    startActivity(intent);
-
-                                                } else { // 삭제 실패시
-                                                    Toast.makeText(getApplicationContext(), rd.getMessage(), Toast.LENGTH_LONG).show();
-                                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                    startActivity(intent);
-                                                }
-
-
-                                            }
-                                        });
+                                                });
                                         dialog2.create();
                                         dialog2.show();
                                     }

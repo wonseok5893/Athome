@@ -1,5 +1,6 @@
 package com.example.athome.parking_details;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -17,9 +18,10 @@ public class DetailsPagerAdapter extends FragmentStatePagerAdapter {
 
     private int[] timeArray;
     private String startTime, endTime, parkingInfo, locationName;
+    private String uri;
 
     public DetailsPagerAdapter(FragmentManager fm, int NumOfTabs,
-                               int[] timeArray, String startTime, String endTime, String locationName, String parkingINfo) {
+                               int[] timeArray, String startTime, String endTime, String locationName, String parkingINfo, String uri) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
         this.timeArray = timeArray;
@@ -27,6 +29,7 @@ public class DetailsPagerAdapter extends FragmentStatePagerAdapter {
         this.endTime = endTime;
         this.locationName = locationName;
         this.parkingInfo = parkingINfo;
+        this.uri = uri;
     }
 
     @Override
@@ -39,6 +42,8 @@ public class DetailsPagerAdapter extends FragmentStatePagerAdapter {
                 Bundle bundle = new Bundle();
                 bundle.putString("locationName", locationName); // Key, Value
                 bundle.putString("parkingInfo", parkingInfo); // Key, Value
+                bundle.putString("uri",this.uri);
+                Log.i("jiwon",uri);
                 tab1.setArguments(bundle);
                 return tab1;
             case 1:

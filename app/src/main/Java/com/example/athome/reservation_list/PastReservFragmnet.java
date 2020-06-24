@@ -1,41 +1,28 @@
 package com.example.athome.reservation_list;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 
 import com.example.athome.R;
-import com.example.athome.RestRequestHelper;
-import com.example.athome.account.AccountCarList;
 import com.example.athome.reservation.PurposeActivity;
-import com.example.athome.retrofit.ApiService;
-import com.example.athome.retrofit.MarkerResult;
 import com.example.athome.retrofit.ReservationListResult_data;
 import com.example.athome.retrofit.requestDeleteResult;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-
-import retrofit2.Call;
 
 public class PastReservFragmnet extends Fragment {
     private ListView past_reserv_listVeiw = null;

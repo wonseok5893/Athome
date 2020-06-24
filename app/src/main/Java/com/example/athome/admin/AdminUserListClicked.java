@@ -14,9 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.athome.R;
-import com.example.athome.RestRequestHelper;
+import com.example.athome.retrofit.RestRequestHelper;
 import com.example.athome.retrofit.ApiService;
-import com.example.athome.retrofit.EditResult;
 
 import retrofit2.Call;
 

@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.athome.R;
-import com.example.athome.User;
+import com.example.athome.main.User;
 import com.example.athome.main.MainActivity;
 
 public class AccountChangePassword extends Activity {

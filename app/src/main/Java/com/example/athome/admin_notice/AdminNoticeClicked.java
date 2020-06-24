@@ -11,12 +11,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import androidx.lifecycle.HasDefaultViewModelProviderFactory;
-
 import com.example.athome.R;
-import com.example.athome.RestRequestHelper;
+import com.example.athome.retrofit.RestRequestHelper;
 import com.example.athome.retrofit.ApiService;
-import com.example.athome.retrofit.LocationInfoList;
 
 import java.io.IOException;
 

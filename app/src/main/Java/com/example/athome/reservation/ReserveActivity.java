@@ -27,8 +27,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.athome.R;
-import com.example.athome.RestRequestHelper;
-import com.example.athome.User;
+import com.example.athome.retrofit.RestRequestHelper;
+import com.example.athome.main.User;
 import com.example.athome.account.AccountCarRegister;
 import com.example.athome.account.CarListAdapter;
 import com.example.athome.account.ItemAccountCarData;
@@ -133,8 +133,9 @@ public class ReserveActivity extends AppCompatActivity {
         locationStartTime = intent.getStringExtra("locationStartTime");
         locationEndTime = intent.getStringExtra("locationEndTime");
         parking_number.setText(intent.getStringExtra("parkingInfo"));
-        Log.i("jiwon", user.getUserPoint().toString());
         point_value.setText(user.getUserPoint().toString());
+
+
 
 
         ReservationList(intent); //마커의 예약 정보 받아오기
@@ -364,17 +365,6 @@ public class ReserveActivity extends AppCompatActivity {
 
     private void makeTimeTable(String locationStartTime, String locationEndTime) {
 
-        /*
-        0 1 2 3 4 5 6
-        [24][2]
-        일           토
-        1 2 3 4 5 6 7
-        오늘이 금요일  [24][2] = 6
-        locationDayset[5] ?
-        6 - 1 + 7 = 12  5
-           */
-        Log.i("location", locationDaySet[5]+"");
-        Log.i("location",locationDaySet[(todayReserve[24][2]-1+7)%7]+"" );
         if (locationDaySet[(todayReserve[24][2]-1+7)%7] == 1) {
             String[] start = locationStartTime.split(":");
             String[] end = locationEndTime.split(":");
@@ -427,9 +417,9 @@ public class ReserveActivity extends AppCompatActivity {
         todayReserve[24][0] = month;
         todayReserve[24][1] = date;
         todayReserve[24][2] = dayOfWeek;
-        Log.i("jiwon",  "todayReserve 0"+Integer.toString(todayReserve[24][0]));
-        Log.i("jiwon",  "todayReserve 1"+Integer.toString(todayReserve[24][1]));
-        Log.i("jiwon",  "todayReserve 2"+Integer.toString(todayReserve[24][2]));
+        Log.i("jiwon",  "todayReserve 0 "+Integer.toString(todayReserve[24][0]));
+        Log.i("jiwon",  "todayReserve 1 "+Integer.toString(todayReserve[24][1]));
+        Log.i("jiwon",  "todayReserve 2 "+Integer.toString(todayReserve[24][2]));
 
         cal.add(Calendar.DATE, 1);
         month = cal.get(Calendar.MONTH) + 1;

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.athome.main.User;
 import com.example.athome.retrofit.LoginResult;
 
 public class LoginActivity extends AppCompatActivity {

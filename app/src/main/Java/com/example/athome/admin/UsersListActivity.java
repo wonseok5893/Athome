@@ -14,7 +14,7 @@ import android.widget.SearchView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.athome.R;
-import com.example.athome.RestRequestHelper;
+import com.example.athome.retrofit.RestRequestHelper;
 import com.example.athome.retrofit.ApiService;
 
 import java.io.IOException;

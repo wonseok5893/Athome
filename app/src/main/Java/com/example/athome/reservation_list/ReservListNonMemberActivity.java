@@ -1,6 +1,5 @@
-package com.example.athome;
+package com.example.athome.reservation_list;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -12,16 +11,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.athome.reservation_list.ItemNowReservData;
-import com.example.athome.reservation_list.NowReservListAdapter;
-import com.example.athome.reservation_list.NowReservTicket;
+import com.example.athome.R;
 import com.example.athome.retrofit.ApiService;
-import com.example.athome.retrofit.MarkerResult;
+import com.example.athome.retrofit.RestRequestHelper;
 import com.example.athome.retrofit.nonUserReserveData;
 import com.example.athome.retrofit.nonUserReserveResult;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

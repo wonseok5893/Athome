@@ -1,4 +1,4 @@
-package com.example.athome;
+package com.example.athome.retrofit;
 
 
 import com.example.athome.retrofit.ApiService;

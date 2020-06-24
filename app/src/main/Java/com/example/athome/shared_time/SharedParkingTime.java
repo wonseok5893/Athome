@@ -15,24 +15,19 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.athome.RestRequestHelper;
+import com.example.athome.retrofit.RestRequestHelper;
 import com.example.athome.main.MainActivity;
 import com.example.athome.reservation.CustomTimePickerDialog;
 import com.example.athome.R;
 import com.example.athome.retrofit.ApiService;
-import com.example.athome.retrofit.ReserveListResult;
 import com.example.athome.retrofit.ShareInfoResult;
 import com.example.athome.retrofit.sendShareResult;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class SharedParkingTime extends AppCompatActivity {
 

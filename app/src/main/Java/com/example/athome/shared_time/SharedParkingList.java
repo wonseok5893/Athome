@@ -11,11 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.athome.R;
-import com.example.athome.RestRequestHelper;
-import com.example.athome.payment_list.PayListPagerAdapter;
+import com.example.athome.retrofit.RestRequestHelper;
 import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.myParkingResult;
-import com.example.athome.retrofit.sendTodayFlagResult;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;

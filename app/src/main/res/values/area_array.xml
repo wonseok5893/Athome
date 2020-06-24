@@ -4,6 +4,7 @@
 
     <string-array name="select_gu">
         <item>구를 선택하세요</item>
+        <item>전체</item>
         <item>권선구</item>
         <item>기흥구</item>
         <item>단원구</item>

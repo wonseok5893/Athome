@@ -1,4 +1,4 @@
-package com.example.athome;
+package com.example.athome.main;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -11,6 +11,7 @@ import com.example.athome.retrofit.AuthSharedLocation;
 import com.example.athome.retrofit.EditResult;
 import com.example.athome.retrofit.LoginResult;
 import com.example.athome.retrofit.RegisterResult;
+import com.example.athome.retrofit.RestRequestHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,7 +29,6 @@ public class User implements Parcelable {
     private ArrayList<String> userCarNumber;
     private Integer userPoint;
     private AuthSharedLocation authSharedLocation;
-    private List<AuthReservation> authReservation;
     private Integer userState;
     private String token;
     private Integer todaySharingState;
@@ -254,7 +254,7 @@ public class User implements Parcelable {
             }
         }).start();
         try {
-            Thread.sleep(1000);
+            Thread.sleep(500);
         } catch (Exception e) {
             e.printStackTrace();
         }

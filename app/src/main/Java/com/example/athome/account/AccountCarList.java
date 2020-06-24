@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -16,8 +15,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.athome.R;
-import com.example.athome.RestRequestHelper;
-import com.example.athome.User;
+import com.example.athome.retrofit.RestRequestHelper;
+import com.example.athome.main.User;
 import com.example.athome.main.MainActivity;
 import com.example.athome.retrofit.ApiService;
 import com.example.athome.retrofit.EditCarNumberResult;

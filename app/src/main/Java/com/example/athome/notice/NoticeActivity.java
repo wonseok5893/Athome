@@ -10,13 +10,11 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.athome.R;
-import com.example.athome.RestRequestHelper;
-import com.example.athome.admin.AllUserResult;
+import com.example.athome.retrofit.RestRequestHelper;
 
 import com.example.athome.retrofit.ApiService;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;

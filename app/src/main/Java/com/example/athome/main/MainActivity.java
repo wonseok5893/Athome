@@ -1,6 +1,5 @@
 package com.example.athome.main;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -42,9 +41,8 @@ import com.example.athome.LoginActivity;
 
 import com.example.athome.PurposeStaticsActivity;
 import com.example.athome.R;
-import com.example.athome.ReservListNonMemberActivity;
-import com.example.athome.RestRequestHelper;
-import com.example.athome.User;
+import com.example.athome.reservation_list.ReservListNonMemberActivity;
+import com.example.athome.retrofit.RestRequestHelper;
 import com.example.athome.account.AccountActivity;
 import com.example.athome.admin.UsersListActivity;
 import com.example.athome.admin_notice.AdminNoticeActivity;
@@ -63,7 +61,6 @@ import com.example.athome.retrofit.sendTodayFlagResult;
 import com.example.athome.setting.SettingActivity;
 import com.example.athome.shared_parking.MySharedParkingActivity;
 import com.example.athome.shared_time.MyParkingActivity;
-import com.example.athome.shared_time.SharedParkingTime;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
@@ -83,7 +80,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -119,10 +115,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static RadioButton shareOn, shareOff;
     public static int todayFlag;
 
-    NavigationView navigationView;
+    private NavigationView navigationView;
     private static final int MESSAGE_TIMER_START = 100;
     private TimerHandler timerHandler;
-    private static final int LOGOUT_REQUEST_CODE = 117;
+    private ArrayList<SharePlace> placeList = new ArrayList<>();
     private ArrayList<SharePlace> beforeMarker = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -323,7 +319,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 if (isChecked) {
                     todayFlag = 1;
 
-
                     SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
                     String sharedToken = sf.getString("token", "");// data/data/shared_prefs/token파일에서 key="token"가져오기
 
@@ -338,6 +333,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 if(result.getResult().equals("success")){
                                     Toast.makeText(MainActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                                 }else{
+                                    if(user.getUserName() != null) {
+                                        shareOff.setChecked(true);
+                                    }else {
+                                        shareOff.setChecked(false);
+                                    }
                                     shareOn.setChecked(false);
                                     Toast.makeText(MainActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
@@ -346,6 +346,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                             @Override
                             public void onFailure(Call<sendTodayFlagResult> call, Throwable t) {
+                                if(user.getUserName() != null) {
+                                    shareOff.setChecked(true);
+                                }else {
+                                    shareOff.setChecked(false);
+                                }
                                 shareOn.setChecked(false);
                                 Toast.makeText(MainActivity.this, "다시 시도해주세요.", Toast.LENGTH_SHORT).show();
                             }
@@ -383,7 +388,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                                 if (result.getResult().equals("success")) {
                                                     Toast.makeText(MainActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                                                 } else {
-                                                    shareOn.setChecked(true);
+                                                    if(user.getUserName() != null) {
+                                                        shareOn.setChecked(true);
+                                                    }else {
+                                                        shareOn.setChecked(false);
+                                                    }
                                                     shareOff.setChecked(false);
                                                     Toast.makeText(MainActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                                                 }
@@ -404,18 +413,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             .setNegativeButton("아니오", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    shareOn.setChecked(true);
+                                    if(user.getUserName() != null) {
+                                        shareOn.setChecked(true);
+                                    }else {
+                                        shareOn.setChecked(false);
+                                    }
                                     shareOff.setChecked(false);
                                     dialog.dismiss();
                                 }
                             });
                     dialog.create();
                     dialog.show();
-
-
-
-
-                    Log.d("junggyu", "공유 아님" + todayFlag);
                 }
             }
         });
@@ -453,19 +461,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     list = geocoder.getFromLocationName(searchEditText.getText().toString(), 10); // 읽을 개수
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Log.e("test", "입출력 오류 - 서버에서 주소변환시 에러발생");
+
                 }
 
                 if (list != null) {
                     if (list.size() == 0) {
-                        Log.e("test", "주소없음");
                         Toast.makeText(getApplicationContext(), "주소를 찾을 수 없습니다.", Toast.LENGTH_LONG).show();
                     } else {
-
-                        for (Address l : list) {
-                            Log.e("test", list.get(0).toString());
-                        }
-
                         double lat = list.get(0).getLatitude();
                         double longti = list.get(0).getLongitude();
 
@@ -497,26 +499,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         @Override
                         public void onMapLongClick(@NonNull PointF point, @NonNull LatLng coord) {
 
-                            Log.d("test", "현재 좌표 : " + coord.latitude + ", " + coord.longitude);
+
 
                             List<Address> list = null;
                             String locationName = null;
-                            Log.d("test", "실행체크 1번");
+
 
                             try {
                                 list = geocoder.getFromLocation((double) coord.latitude, (double) coord.longitude, 1); // 얻어올 값의 개수
                             } catch (IOException e) {
                                 e.printStackTrace();
-                                Log.e("test", "입출력 오류 - 서버에서 주소변환시 에러발생");
+
                             }
                             if (list != null) {
                                 if (list.size() == 0) {
-                                    Log.e("test", "이상한 장소입니다.");
+
                                     Toast.makeText(MainActivity.this, "위치를 다시 지정해주십시오.", Toast.LENGTH_SHORT).show();
                                     return;
                                 } else {
                                     locationName = list.get(0).getAddressLine(0);
-                                    Log.d("test", locationName);
+
                                 }
                             }
 
@@ -547,13 +549,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private class TimerHandler extends Handler {
-        int count = 0;
+
 
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MESSAGE_TIMER_START:
-                    Log.d("jiwon", "timer : " + count++);
                     SharedPreferences sf = getSharedPreferences("token", MODE_PRIVATE);
                     String sharedToken = sf.getString("token", "");
 
@@ -576,16 +577,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         e.printStackTrace();
                     }
                     if (markerResult == null) {
-                        Log.i("jiwon", "실패 1");
                     } else if (markerResult.getData() == null) {
-                        Log.i("jiwon", "실패 2");
                     } else if (markerResult.getData().size() == 0) {
-                        Log.i("jiwon", "실패 3");
                     } else {
-                        Log.i("jiwon", "marker성공");
                         int markerCount = markerResult.getData().size();
 
-                        ArrayList<SharePlace> placeList = new ArrayList<>();
+
 
                         for (int i = 0; i < markerCount; i++) {
                             SharePlace s = new SharePlace();
@@ -733,13 +730,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             e.printStackTrace();
         }
         if (markerResult == null) {
-            Log.i("jiwon", "실패 1");
         } else if (markerResult.getData() == null) {
-            Log.i("jiwon", "실패 2");
         } else if (markerResult.getData().size() == 0) {
-            Log.i("jiwon", "실패 3");
         } else {
-            Log.i("jiwon", "성공");
             int markerCount = markerResult.getData().size();
 
             ArrayList<SharePlace> placeList = new ArrayList<>();
@@ -891,11 +884,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case SEARCH_ADDRESS_ACTIVITY:
 
                 if (resultCode == 1) {
-
                     String data = intent.getExtras().getString("data");
                     if (data != null)
                         searchEditText.setText(data);
-
                 }
                 break;
         }
@@ -905,6 +896,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static User getUser() {
         return user;
     }
+
+    public ArrayList<SharePlace> getPlaceList() {return placeList;}
 
     public void PreviewVisible() {
         timerHandler.sendEmptyMessage(MESSAGE_TIMER_START);
