@@ -1,6 +1,7 @@
 package com.example.athome.shared_time;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.SharedPreferences;
@@ -59,7 +60,7 @@ public class SharedParkingTime extends AppCompatActivity {
         setContentView(R.layout.sharedparking_time);
 
 
-        Log.d("junggyu", "오늘의 요일값(일,월,화,수,목,금,토) -> 0,1,2,3,4,5,6 : " + doDayOfWeek()+"");
+        Log.d("junggyu", "오늘의 요일값(일,월,화,수,목,금,토) -> 0,1,2,3,4,5,6 : " + doDayOfWeek() + "");
 
         this.Initialize();
         initShareData();
@@ -94,26 +95,26 @@ public class SharedParkingTime extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if(sir.getResult().equals("success")) {
+        if (sir.getResult().equals("success")) {
 
             Toast.makeText(getApplicationContext(), sir.getMessage(), Toast.LENGTH_SHORT).show();
             String sSplit[] = sir.getStartTime().split(":");
 
             sHour = Integer.parseInt(sSplit[0]);
-            sMinute=Integer.parseInt(sSplit[1]);
+            sMinute = Integer.parseInt(sSplit[1]);
             String eSplit[] = sir.getEndTime().split(":");
-            eHour=Integer.parseInt(eSplit[0]);
-            eMinute=Integer.parseInt(eSplit[1]);
+            eHour = Integer.parseInt(eSplit[0]);
+            eMinute = Integer.parseInt(eSplit[1]);
 
             startTime.setText(sir.getStartTime());
             endTime.setText(sir.getEndTime());
-            dayState[0]=sir.getSun();
-            dayState[1]=sir.getMon();
-            dayState[2]=sir.getTue();
-            dayState[3]=sir.getWed();
-            dayState[4]=sir.getThu();
-            dayState[5]=sir.getFri();
-            dayState[6]=sir.getSat();
+            dayState[0] = sir.getSun();
+            dayState[1] = sir.getMon();
+            dayState[2] = sir.getTue();
+            dayState[3] = sir.getWed();
+            dayState[4] = sir.getThu();
+            dayState[5] = sir.getFri();
+            dayState[6] = sir.getSat();
 
         } else {
             Toast.makeText(getApplicationContext(), sir.getMessage(), Toast.LENGTH_SHORT).show();
@@ -131,9 +132,8 @@ public class SharedParkingTime extends AppCompatActivity {
             }
         }
         */
-
-        setTodayFlag();
-
+        if (sir.getResult().equals("success"))
+            setTodayFlag();
 
 
     }
@@ -164,14 +164,14 @@ public class SharedParkingTime extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if(sendRes != null){
-            if(sendRes.getResult().equals("success")){
+        if (sendRes != null) {
+            if (sendRes.getResult().equals("success")) {
                 Toast.makeText(this, sendRes.getMessage(), Toast.LENGTH_SHORT).show();
-            }else{
+            } else {
                 Toast.makeText(this, sendRes.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
-        }else{
+        } else {
             Toast.makeText(this, "다시 시도해주십시오.", Toast.LENGTH_SHORT).show();
         }
         setTodayFlag();
@@ -199,15 +199,15 @@ public class SharedParkingTime extends AppCompatActivity {
 
         int count = 0;
 
-        while(true) {
-            if(dayState[count]==0) {
+        while (true) {
+            if (dayState[count] == 0) {
                 dayButton[count].setSelected(true);
             } else {
                 dayButton[count].setSelected(false);
             }
 
             count++;
-            if(count==7)
+            if (count == 7)
                 break;
         }
 
@@ -231,74 +231,74 @@ public class SharedParkingTime extends AppCompatActivity {
                         break;
                     case R.id.sunday:
                         // 일요일이 true이면
-                        if(dayState[0]==1) {
-                            dayState[0]=0;
+                        if (dayState[0] == 1) {
+                            dayState[0] = 0;
                             dayButton[0].setSelected(true);
                         } else {
-                            dayState[0]=1;
+                            dayState[0] = 1;
                             dayButton[0].setSelected(false);
                         }
                         break;
                     case R.id.monday:
-                        if(dayState[1]==1) {
-                            dayState[1]=0;
+                        if (dayState[1] == 1) {
+                            dayState[1] = 0;
                             dayButton[1].setSelected(true);
                         } else {
-                            dayState[1]=1;
+                            dayState[1] = 1;
                             dayButton[1].setSelected(false);
                         }
                         break;
                     case R.id.tuesday:
-                        if(dayState[2]==1) {
-                            dayState[2]=0;
+                        if (dayState[2] == 1) {
+                            dayState[2] = 0;
                             dayButton[2].setSelected(true);
                         } else {
-                            dayState[2]=1;
+                            dayState[2] = 1;
                             dayButton[2].setSelected(false);
                         }
                         break;
                     case R.id.wensday:
-                        if(dayState[3]==1) {
-                            dayState[3]=0;
+                        if (dayState[3] == 1) {
+                            dayState[3] = 0;
                             dayButton[3].setSelected(true);
                         } else {
-                            dayState[3]=1;
+                            dayState[3] = 1;
                             dayButton[3].setSelected(false);
                         }
                         break;
                     case R.id.thursday:
-                        if(dayState[4]==1) {
-                            dayState[4]=0;
+                        if (dayState[4] == 1) {
+                            dayState[4] = 0;
                             dayButton[4].setSelected(true);
                         } else {
-                            dayState[4]=1;
+                            dayState[4] = 1;
                             dayButton[4].setSelected(false);
                         }
                         break;
                     case R.id.friday:
-                        if(dayState[5]==1) {
-                            dayState[5]=0;
+                        if (dayState[5] == 1) {
+                            dayState[5] = 0;
                             dayButton[5].setSelected(true);
                         } else {
-                            dayState[5]=1;
+                            dayState[5] = 1;
                             dayButton[5].setSelected(false);
                         }
                         break;
                     case R.id.saturday:
-                        if(dayState[6]==1) {
-                            dayState[6]=0;
+                        if (dayState[6] == 1) {
+                            dayState[6] = 0;
                             dayButton[6].setSelected(true);
                         } else {
-                            dayState[6]=1;
+                            dayState[6] = 1;
                             dayButton[6].setSelected(false);
                         }
                         break;
                     case R.id.time_saveBtn:
-                        if(eHour<sHour) {
+                        if (eHour < sHour) {
                             startTime.setText("00:00");
                             endTime.setText("00:00");
                             Toast.makeText(getApplicationContext(), "올바른 시간을 선택해 주세요!", Toast.LENGTH_LONG).show();
-                        } else if(eHour==sHour && eMinute<=sMinute) {
+                        } else if (eHour == sHour && eMinute <= sMinute) {
                             startTime.setText("00:00");
                             endTime.setText("00:00");
                             Toast.makeText(getApplicationContext(), "올바른 시간을 선택해 주세요!", Toast.LENGTH_LONG).show();
@@ -318,7 +318,7 @@ public class SharedParkingTime extends AppCompatActivity {
         startTime.setOnClickListener(Listener);
         endTime.setOnClickListener(Listener);
 
-        for(int i=0;i<7;i++) {
+        for (int i = 0; i < 7; i++) {
             dayButton[i].setOnClickListener(Listener);
         }
 
@@ -326,15 +326,14 @@ public class SharedParkingTime extends AppCompatActivity {
         allBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    for(int i=0;i<7;i++) {
-                        dayState[i]=1;
+                if (isChecked) {
+                    for (int i = 0; i < 7; i++) {
+                        dayState[i] = 1;
                         dayButton[i].setSelected(false);
                     }
-                }
-                else{
-                    for(int i=0;i<7;i++) {
-                        dayState[i]=0;
+                } else {
+                    for (int i = 0; i < 7; i++) {
+                        dayState[i] = 0;
                         dayButton[i].setSelected(true);
                     }
                 }
@@ -356,14 +355,14 @@ public class SharedParkingTime extends AppCompatActivity {
                     sHour = hourOfDay;
                     sMinute = minute;
 
-                    if((sHour/10)==0) {
-                        if(sMinute==0) {
-                            startTime.setText(String.format("%s:%s", "0"+sHour, "00"));
+                    if ((sHour / 10) == 0) {
+                        if (sMinute == 0) {
+                            startTime.setText(String.format("%s:%s", "0" + sHour, "00"));
                         } else {
-                            startTime.setText(String.format("%s:%s", "0"+sHour, sMinute));
+                            startTime.setText(String.format("%s:%s", "0" + sHour, sMinute));
                         }
                     } else {
-                        if(sMinute==0) {
+                        if (sMinute == 0) {
                             startTime.setText(String.format("%s:%s", sHour, "00"));
                         } else {
                             startTime.setText(String.format("%s:%s", sHour, sMinute));
@@ -385,14 +384,14 @@ public class SharedParkingTime extends AppCompatActivity {
                     eMinute = minute;
 
 
-                    if((eHour/10)==0) {
-                        if(eMinute==0) {
-                            endTime.setText(String.format("%s:%s", "0"+eHour, "00"));
+                    if ((eHour / 10) == 0) {
+                        if (eMinute == 0) {
+                            endTime.setText(String.format("%s:%s", "0" + eHour, "00"));
                         } else {
-                            endTime.setText(String.format("%s:%s", "0"+eHour, eMinute));
+                            endTime.setText(String.format("%s:%s", "0" + eHour, eMinute));
                         }
                     } else {
-                        if(eMinute==0) {
+                        if (eMinute == 0) {
                             endTime.setText(String.format("%s:%s", eHour, "00"));
                         } else {
                             endTime.setText(String.format("%s:%s", eHour, eMinute));
@@ -440,10 +439,10 @@ public class SharedParkingTime extends AppCompatActivity {
     }
 
     void setTodayFlag() {
-        for(int i=0;i<7;i++) {
-            if(i==doDayOfWeek()) {
+        for (int i = 0; i < 7; i++) {
+            if (i == doDayOfWeek()) {
                 MainActivity.todayFlag = dayState[i];
-                if(MainActivity.todayFlag==1) {
+                if (MainActivity.todayFlag == 1) {
                     MainActivity.shareOn.setChecked(true);
                 } else {
                     MainActivity.shareOff.setChecked(true);

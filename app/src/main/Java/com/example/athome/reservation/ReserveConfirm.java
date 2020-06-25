@@ -56,19 +56,18 @@ public class ReserveConfirm extends AppCompatActivity {
         naviBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //바로안내 버튼-> 경로 안내시작코드 수행해야함.
+                Location destination = Location.newBuilder(locationName,longitude,latitude).build();
 
-                Location destination = Location.newBuilder(locationName, longitude, latitude).build();
-                Log.i("gps", "longitude"+longitude);
-                Log.i("gps", "latitude"+latitude);
                 //파라미터 2. 세부 옵션 도착지, 1종, 빠른 경로 , 경유지 없음, (윤지원)
                 KakaoNaviParams params = KakaoNaviParams.newBuilder(destination)
                         .setNaviOptions(NaviOptions.newBuilder()
-                                .setCoordType(CoordType.KATEC)
+                                .setCoordType(CoordType.WGS84)
                                 .build())
                         .build();
                 //kakao navi 실행 현재 액티비지 (DetailActivity) context , params 입력 (윤지원)
                 KakaoNaviService.getInstance().shareDestination(ReserveConfirm.this, params);
+
+
             }
         });
 

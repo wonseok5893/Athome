@@ -21,7 +21,7 @@ public class ItemNowReservData {
         this.nowReservCarNumber = nowReservCarNumber;
         this.nowReservParkingNumber = nowReservParkingNumber;
         this.nowReservState = nowReservState;
-        this.nowReservLocation =nowReservLocation ;
+        this.nowReservLocation =nowReservLocation;
     }
 
     public String getNowReservStartDate() {

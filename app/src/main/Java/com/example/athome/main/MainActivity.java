@@ -334,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     Toast.makeText(MainActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                                 }else{
                                     if(user.getUserName() != null) {
-                                        shareOff.setChecked(true);
+                                        shareOff.setChecked(false);
                                     }else {
                                         shareOff.setChecked(false);
                                     }
@@ -389,7 +389,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                                     Toast.makeText(MainActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                                                 } else {
                                                     if(user.getUserName() != null) {
-                                                        shareOn.setChecked(true);
+                                                        shareOn.setChecked(false);
                                                     }else {
                                                         shareOn.setChecked(false);
                                                     }
