@@ -265,7 +265,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_weight="1"
                         android:fontFamily="@font/dreamgothic3"
-                        android:text="구획 04-15-a03은 서진주택 건물 앞에 위치해 있습니다. 길목이 다소 협소하니 주의하면서 주차하시길 바랍니다."
+                        android:text="길목이 다소 협소하니 주의하면서 주차하시길 바랍니다."
                         android:textColor="#d50000"
                         android:textSize="14sp" />
                 </LinearLayout>

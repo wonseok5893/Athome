@@ -36,6 +36,7 @@ public class NowReservTicket extends Activity {
     private LinearLayout more_parking_linear; //주차장정보
     final int[] selectdItem = {0};
     private TextView now_reserv_start_date, now_reserv_start_time, now_reserv_end_date, now_reserv_end_time, parking_number, now_reserv_car_number, now_reserv_state_value;
+    private TextView reserv_ticket_parking_number,reserv_ticket_address;
     private String _id;
     private requestDeleteResult rd;
     private LinearLayout illegal;
@@ -75,16 +76,19 @@ public class NowReservTicket extends Activity {
         parking_number = (TextView) findViewById(R.id.parking_number);
         now_reserv_car_number = (TextView) findViewById(R.id.now_reserv_car_number);
         now_reserv_state_value = (TextView) findViewById(R.id.now_reserv_state_value);
+        reserv_ticket_parking_number = findViewById(R.id.reserv_ticket_parking_number);
+        reserv_ticket_address = findViewById(R.id.reserv_ticket_address);
         _id = intent.getStringExtra("_id");
-        Log.i("jiwon", _id);
+
 
         now_reserv_start_date.setText(intent.getStringExtra("nowReserveStartDate"));
         now_reserv_start_time.setText(intent.getStringExtra("nowReserveStartTime"));
         now_reserv_end_date.setText(intent.getStringExtra("nowReserveEndDate"));
         now_reserv_end_time.setText(intent.getStringExtra("nowReserveEndTime"));
-        now_reserv_car_number.setText(intent.getStringExtra("nowReserveParkingNumber"));
+        now_reserv_car_number.setText(intent.getStringExtra("nowReserveCarNumber"));
+        reserv_ticket_address.setText(intent.getStringExtra("nowReserveLocation"));
         now_reserv_state_value.setText(intent.getStringExtra("nowReserveState"));
-
+        reserv_ticket_parking_number.setText(intent.getStringExtra("nowReserveParkingNumber"));
     }
 
     public void SetListner() {

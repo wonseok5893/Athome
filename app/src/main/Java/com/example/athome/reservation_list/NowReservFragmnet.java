@@ -80,6 +80,7 @@ public class NowReservFragmnet extends Fragment {
                     final String nowReserveEndTime = sdfTime.format(nowReserveEnd);
                     final String nowReserveCarNumber = current.get(i).getCarNumber();
                     final String nowReserveParkingNumber = current.get(i).getParkingInfo();
+                    final String nowReserveLocation = current.get(i).getLocation();
                     final String nowReserveState;
                     Date now = new Date();
                     SimpleDateFormat sdfNow = new SimpleDateFormat("MM dd HH:mm");
@@ -95,7 +96,7 @@ public class NowReservFragmnet extends Fragment {
                         nowReserveState = "주차 중";
                     }
                     temp = new ItemNowReservData(nowReserveStartDate, nowReserveEndDate, nowReserveStartTime, nowReserveEndTime
-                            , nowReserveCarNumber, nowReserveParkingNumber, nowReserveState);
+                            , nowReserveCarNumber, nowReserveParkingNumber, nowReserveState,nowReserveLocation);
                     itemList.add(temp);
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -125,6 +126,7 @@ public class NowReservFragmnet extends Fragment {
                 intent.putExtra("nowReserveCarNumber", data.get(position).getNowReservCarNumber());
                 intent.putExtra("nowReserveParkingNumber", data.get(position).getNowReservParkingNumber());
                 intent.putExtra("nowReserveState", data.get(position).getNowReservState());
+                intent.putExtra("nowReserveLocation",data.get(position).getNowReservLocation());
                 startActivity(intent);
             }
         });

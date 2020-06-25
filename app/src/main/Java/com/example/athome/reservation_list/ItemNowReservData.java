@@ -9,10 +9,11 @@ public class ItemNowReservData {
     public String nowReservCarNumber;
     public String nowReservParkingNumber;
     public String nowReservState;
+    public String nowReservLocation;
     // public String nowReservParkingAddress;
 
 
-    public ItemNowReservData(String nowReservStartDate, String nowReservEndDate, String nowReservStartTime, String nowReservEndTime, String nowReservCarNumber, String nowReservParkingNumber, String nowReservState) {
+    public ItemNowReservData(String nowReservStartDate, String nowReservEndDate, String nowReservStartTime, String nowReservEndTime, String nowReservCarNumber, String nowReservParkingNumber, String nowReservState, String nowReservLocation) {
         this.nowReservStartDate = nowReservStartDate;
         this.nowReservEndDate = nowReservEndDate;
         this.nowReservStartTime = nowReservStartTime;
@@ -20,6 +21,7 @@ public class ItemNowReservData {
         this.nowReservCarNumber = nowReservCarNumber;
         this.nowReservParkingNumber = nowReservParkingNumber;
         this.nowReservState = nowReservState;
+        this.nowReservLocation =nowReservLocation ;
     }
 
     public String getNowReservStartDate() {
@@ -76,5 +78,13 @@ public class ItemNowReservData {
 
     public void setNowReservState(String nowReservState) {
         this.nowReservState = nowReservState;
+    }
+
+    public String getNowReservLocation() {
+        return nowReservLocation;
+    }
+
+    public void setNowReservLocation(String nowReservLocation) {
+        this.nowReservLocation = nowReservLocation;
     }
 }

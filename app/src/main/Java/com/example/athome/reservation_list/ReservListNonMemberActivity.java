@@ -151,7 +151,7 @@ public class ReservListNonMemberActivity extends AppCompatActivity {
                         nowReserveState = "주차 중";
                     }
                     tmp = new ItemNowReservData(nowReserveStartDate, nowReserveEndDate, nowReserveStartTime, nowReserveEndTime
-                            , nowReserveCarNumber, nowReserveParkingNumber, nowReserveState);
+                            , nowReserveCarNumber, nowReserveParkingNumber, nowReserveState,"");
                     data.add(tmp);
                 } catch (ParseException e) {
                     e.printStackTrace();
